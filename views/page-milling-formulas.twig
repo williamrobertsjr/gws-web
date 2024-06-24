@@ -1,0 +1,200 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<section id="milling-formulas-header" class="page-header bg-black px-4">
+    <div class="md:container mx-auto flex flex-col justify-center px-4 lg:px-10" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
+        <h1 class="text-4xl md:text-7xl uppercase font-black">{{post.title}}</h1>
+        <p>Calculators for common milling operations</p>
+    </div>
+</section>
+
+<section id="calculators" class="animate__animated animate__fadeInDown px-4">
+    <div class="md:container flex justify-evenly flex-col lg:flex-row lg:flex-wrap gap-y-10 mx-auto">
+        <div id="sfm-calc" class="formula-row basic-shadow w-full lg:w-5/12">
+            <h2>SFM</h2>
+            <p>Surface Feet per Minute</p>
+            <div class="calc-row gap-y-6 mb-4">
+                <div class="inputs">
+                    <div>
+                        <label for="sfm-rpm">RPM</label>
+                        <input name="sfm-rpm" type="number" id="sfm-rpm">
+                    </div>
+                    <div>
+                        <label for="sfm-dia">Diameter</label>
+                        <input name="sfm-dia" type="number" id="sfm-dia">
+                    </div>
+                </div>
+                <div class="calc-results">
+                    <div><button class="calc-btn btn light-blue hvr-sweep-to-right">Calculate</button></div>
+                    <div id="sfm-result" class="result-div"></div>
+                </div>
+            </div>
+            <p class="formula">Formula: RPM ÷ 3.82 x Dia = SFM</p>
+        </div>
+
+        <div id="rpm-calc" class="formula-row basic-shadow w-full lg:w-5/12">
+            <h2>RPM</h2>
+            <p>Revolutions per Minute</p>
+
+            <div class="calc-row gap-y-6 mb-4">
+                <div class="inputs">
+                    <div>
+                        <label for="rpm-sfm">SFM</label>
+                        <input name="rpm-sfm" id="rpm-sfm" type="number">
+                    </div>
+                    <div>
+                        <label for="rpm-dia">Diameter</label>
+                        <input name="rpm-dia" id="rpm-dia" type="number">
+                    </div>
+                </div>
+                <div class="calc-results">
+                    <button class="calc-btn btn light-blue hvr-sweep-to-right">Calculate</button>
+                    <div id="rpm-result" class="result-div"></div>
+                </div>
+            </div>
+            <p class="formula">Formula: SFM x 3.82 ÷ Dia = RPM</p>
+        </div>
+
+        <div id="ipm-calc" class="formula-row basic-shadow w-full lg:w-5/12">
+            <h2>IPM</h2>
+            <p>Inches per Minute</p>
+
+            <div class="calc-row gap-y-6 mb-4">
+                <div class="inputs">
+                    <div>
+                        <label for="ipm-rpm">RPM</label>
+                        <input name="ipm-rpm" id="ipm-rpm" type="number">
+                    </div>
+                    <div>
+                        <label for="ipm-ipt">IPT</label>
+                        <input name="ipm-ipt" id="ipm-ipt" type="number">
+                    </div>
+                    <div>
+                        <label for="ipm-flutes">Flutes</label>
+                        <input name="ipm-flutes" id="ipm-flutes" type="number">
+                    </div>
+                </div>
+                <div class="calc-results">
+                    <button class="calc-btn btn light-blue hvr-sweep-to-right">Calculate</button>
+                    <div id="ipm-result" class="result-div"></div>
+                </div>
+            </div>
+            <p class="formula">Formula: RPM x IPT x #FL = IPM</p>
+        </div>
+
+        <div id="ipt-calc" class="formula-row basic-shadow w-full lg:w-5/12">
+            <h2>IPT</h2>
+            <p>Inch per Tooth, Chipload</p>
+
+            <div class="calc-row gap-y-6 mb-4">
+                <div class="inputs">
+                    <div>
+                        <label for="ipt-ipm">IPM</label>
+                        <input name="ipt-ipm" id="ipt-ipm" type="number">
+                    </div>
+                    <div>
+                        <label for="ipt-rpm">RPM</label>
+                        <input name="ipt-rpm" id="ipt-rpm" type="number">
+                    </div>
+                    <div>
+                        <label for="ipt-flutes">Flutes</label>
+                        <input name="ipt-flutes" id="ipt-flutes" type="number">
+                    </div>
+                </div>
+                <div class="calc-results">
+                    <button class="calc-btn btn light-blue hvr-sweep-to-right">Calculate</button>
+                    <div id="ipt-result" class="result-div"></div>
+                </div>
+            </div>
+            <p class="formula">Formula: IPM ÷ RPM ÷ #FL = IPT</p>
+        </div>
+
+        <div id="ipr-calc" class="formula-row basic-shadow w-full lg:w-5/12">
+            <h2>IPR/FR</h2>
+            <p>Inch (Feed) per Revolution</p>
+
+            <div class="calc-row gap-y-6 mb-4">
+                <div class="inputs">
+                    <div>
+                        <label for="ipr-ipm">IPM</label>
+                        <input name="ipr-ipm" id="ipr-ipm" type="number">
+                    </div>
+                    <div>
+                        <label for="ipr-rpm">RPM</label>
+                        <input name="ipr-rpm" id="ipr-rpm" type="number">
+                    </div>
+                </div>
+                <div class="calc-results">
+                    <button class="calc-btn btn light-blue hvr-sweep-to-right">Calculate</button>
+                    <div id="ipr-result" class="result-div"></div>
+                </div>
+            </div>
+            <p class="formula">Formula: IPM ÷ RPM = IPR (FR)</p>
+        </div>
+
+        <div id="mr-calc" class="formula-row basic-shadow w-full lg:w-5/12">
+            <h2>MR</h2>
+            <p>Metal Removal | Cubic Inches per Minute</p>
+
+            <div class="calc-row gap-y-6 mb-4">
+                <div class="inputs">
+                    <div>
+                        <label for="mr-adc">ADC</label>
+                        <input name="mr-adc" id="mr-adc" type="number">
+                    </div>
+                    <div>
+                        <label for="mr-rdc">RDC</label>
+                        <input name="mr-rdc" id="mr-rdc" type="number">
+                    </div>
+                    <div>
+                        <label for="mr-ipm">IPM</label>
+                        <input name="mr-ipm" id="mr-ipm" type="number">
+                    </div>
+                </div>
+                <div class="calc-results">
+                    <button class="calc-btn btn light-blue hvr-sweep-to-right">Calculate</button>
+                    <div id="mr-result" class="result-div"></div>
+                </div>
+            </div>
+            <p class="formula">Formula: ADC x RDC x IPM = MR</p>
+        </div>
+
+        <div id="hp-calc" class="formula-row basic-shadow w-full lg:w-5/12">
+            <h2>HP</h2>
+            <p>Horsepower Required</p>
+
+            <div class="calc-row gap-y-6 mb-4">
+                <div class="inputs">
+                    <div>
+                        <label for="hp-ipm">IPM</label>
+                        <input name="hp-ipm" id="hp-ipm" type="number">
+                    </div>
+                    <div>
+                        <label for="hp-rdc">RDC</label>
+                        <input name="hp-rdc" id="hp-rdc" type="number">
+                    </div>
+                    <div>
+                        <label for="hp-adc">ADC</label>
+                        <input name="hp-adc" id="hp-adc" type="number">
+                    </div>
+                    <div>
+                        <label for="hp-pc">PC</label>
+                        <input name="hp-pc" id="hp-pc" type="number">
+                    </div>
+                </div>
+                <div class="calc-results">
+                    <button class="calc-btn btn light-blue hvr-sweep-to-right">Calculate</button>
+                    <div id="hp-result" class="result-div"></div>
+                </div>
+            </div>
+            <p class="formula">Formula: IPM x RDC x ADC x PC = HP</p>
+        </div>
+
+    </div>
+</section>
+
+<script src="/wp-content/themes/gws-web/js/milling-calculators.js"></script>
+
+
+{% endblock %}

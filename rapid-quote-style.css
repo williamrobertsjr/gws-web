@@ -1,0 +1,14 @@
+/* #partsForm {
+    border: 3px solid pink;
+} */
+
+#rq-table {
+    background-color: var(--white);
+}
+
+#rq-table td {
+    font-size: .9rem;
+}
+#rq-table_info {
+    color: var(--white);
+}

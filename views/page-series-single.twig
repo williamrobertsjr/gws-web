@@ -1,0 +1,168 @@
+
+{% extends 'base.twig' %}
+
+{% block title %}{{page_title}}{% endblock %}
+
+
+{% block content %}
+
+
+<section id="series-header" class="min-h-screen flex flex-col justify-center items-center bg-diagonal px-4">
+    <div class="container flex flex-col-reverse md:flex-row justify-between mx-auto">
+        <div class="md:w-6/12">
+            <div class="flex flex-col gap-y-2">
+                <h3>{{series_data.brand}}</h3>
+                {% if series_data.family == 'Armory' %}
+                    <h1 class="text-4xl md:text-6xl font-black uppercase text-pale-blue">{{series_data.series}}</h1> 
+                {% else %}
+                    <h1 class="text-4xl md:text-6xl font-black uppercase text-pale-blue">Series {{series_data.series}}</h1> 
+                {% endif %}
+
+                <h3>{{series_data.table_description}}</h3>
+                {% if series_data.family == 'Armory' %}
+                    <h3 class="text-lg md:text-xl font-bold">{{series_data.series_description}}</h3>
+                {% else %}
+                    <h3 class="text-lg md:text-xl font-bold">{{series_data.subtitle|title}}</h3>    
+                {% endif %}
+                
+                <div class="my-5 lg:w-6/12">
+                    <img src="/wp-content/themes/gws-web/images/brands/brand_{{series_data.family|lower}}_white.png" alt="">
+                </div>
+            </div>
+
+            <div class="series-overview my-16">
+                <h3 class="text-lg font-bold text-pale-blue pb-4">Overview</h3>
+                {# Splitting the context variable into an array #}
+                {% set overview = series_data.desc_bullets|split('@') %} 
+                <ul>
+                    {# Display each value in the list #}
+                    {% for value in overview %}
+                        <li><i class="fa-solid fa-plus pe-3"></i>{{ value }}</li> 
+                    {% endfor %}
+                    {% if series_data.speed_feed_page  is not null %}
+                        <li><i class="fa-solid fa-plus pe-3"></i><a class="text-pale-blue underline uppercase"  href="/wp-content/themes/gws-web/speed_and_feed/{{series_data.series}}_sf.pdf" target="_blank">View Speed and Feed</a></li> 
+                    {% endif %}
+                    {% if series_data.family == 'Armory' %}
+                        {% set series_parts = series_data.series|split(' ') %}
+                        {% set number_part = series_parts[1] %}
+                            <li><i class="fa-solid fa-plus pe-3"></i><a class="text-pale-blue underline uppercase" href="/product/?part={{number_part}}" >View Product Data</a></li>
+                    {% endif %}
+                    
+                </ul>
+            </div>
+
+            <div class="series-features flex flex-wrap justify-between gap-x-5">
+                <div class="features lg:w-6/12">
+                    <h3 class="text-lg font-bold text-pale-blue pb-4">Features</h3>
+                    {# Split the context variable into an array #}
+                    {% set features = series_data.feat_icons|trim|split(', ') %}
+                    <div class="icons flex flex-wrap gap-5 pb-8">
+                        {# Display each value in the list #}
+                        {% if features is not empty %}
+                            {% for value in features if value%}
+                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="applications w-full lg:w-5/12">
+                    <h3 class="text-lg font-bold text-pale-blue pb-4">Applications</h3>
+                    {# Split the context variable into an array #}
+                    {% set applications = series_data.app_icons|trim|split(', ') %}
+                    <div class="icons flex flex-wrap gap-5">
+                        {# Display each value in the list #}
+                        {% if applications is not empty %}
+                            {% for value in applications if value %}
+                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="work-materials w-full">
+                    <h3 class="text-lg font-bold text-pale-blue pb-4">Work Materials</h3>
+                    {# Split the context variable into an object #}
+                    {% set materials = {
+                        'p1': series_data.p1,
+                        'p2': series_data.p2,
+                        'p3': series_data.p3,
+                        'm1': series_data.m1,
+                        'm2': series_data.m2,
+                        'k1': series_data.k1,
+                        'k2': series_data.k2,
+                        'n1': series_data.n1,
+                        'n2': series_data.n2,
+                        's1': series_data.s1,
+                        's2': series_data.s2,
+                        'h1': series_data.h1,
+                        'h2': series_data.h2
+                    } %}
+                    <div class="icons flex flex-wrap gap-5">
+                        {# Display each value in the list #}
+                        {% for key, item in materials %}
+                            {% if item is not null %}
+                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="md:w-5/12 mb-6">
+            <div class="gallery-container mx-auto">
+            {% if series_data.family == 'Armory' %}
+                <img class="mx-auto series-image" src="/wp-content/themes/gws-web/images/catolog_images/{{series_data.series|lower|replace({' ': '_'})}}_catalog.png" alt="{{series_data.series|lower}} tool image">
+            {% else %}
+                <img class="mx-auto series-image" src="/wp-content/themes/gws-web/images/catolog_images/{{ series_data.series }}_catalog.png" alt="{{series_data.series}} tool image">
+            {% endif %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+{% if series_data.family != 'ARMORY' %}
+<section id="series-data-series" class="px-4 py-20">
+    <div class="container mx-auto">
+        <h2 class="text-5xl md:text-6xl uppercase font-black text-light-blue mb-20">Series Data</h2>
+        <div id="series-data-table">
+            {# {% for product in products %}
+                <p class="text-black">{{product.part}}</p>
+            {% endfor %} #}
+
+    
+
+            {% include 'product-table.twig' %}
+   
+        </div>
+    </div>
+
+</section>
+{% endif %}
+
+<section id="series-related-series" class="px-4 py-20">
+
+    <div class="container mx-auto">
+        <h2 class="text-4xl md:text-6xl uppercase font-black text-white mb-20">Related Series</h2>
+
+        <div id="related-series-tiles">
+
+            {% include 'series-tiles.twig' with {'series_list': family_series} %}
+
+        </div>
+    </div>
+
+</section>
+
+<section>
+	<div class="bg-diagonal">
+    	{% include "./templates/perfect-tool-two.php" %}
+	</div>
+</section>
+
+<script src="/wp-content/themes/gws-web/product-helpers.js" defer></script>
+
+{% endblock %}
+

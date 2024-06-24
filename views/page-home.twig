@@ -1,0 +1,239 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+<section id="home-hero" class="flex flex-col justify-center items-center relative">
+
+    <div>
+        <h2 class="text-center hero-tagline">Custom Comes</h2>
+        <h2 class="text-center hero-tagline-big">Standard</h2>
+    </div>
+
+    <div id="hero-links" class="flex justify-center">
+        <div class="flex md:flex-row flex-col justify-between md:justify-evenly items-center gap-y-4 w-full w-full lg:w-8/12 xl:w-6/12">
+            <h3 class="hero-link me-5"><a href="/all-series">Products</a></h3>
+            <h3 class="hero-link me-5"><a href="/industries">Industries</a></h3>
+            <h3 class="hero-link me-5"><a href="/tool-filter">Tool Filter</a></h3>
+            <h3 class="hero-link me-5"><a href="/who-we-are">About</a></h3>
+        </div>
+    
+    </div>
+
+</section>
+
+<section id="whats-new" class="ps-4 sm:ps-20 py-36">
+    
+    <div>
+        <h2 class="text-4xl sm:text-6xl">What's New</h2>
+        <p class="text-xl font-light pt-8">News, case studies, and more from GWS Tool Group</p>
+    </div>
+
+    <div class="mt-20">
+        <div class="swiper">
+            <div class="swiper-wrapper pb-4">
+                {# Blog Roll Here #}
+                {% for post in posts %} 
+                    <div class="me-4 p-5 card swiper-slide box-shadow relative" style="background-image:url('{{post.thumbnail()}}'); background-position: center;">
+                            <a href="{{post.link}}" class="absolute h-full w-full"></a>
+                            <div>
+                                <p class="category">{{ post.category() }}</p> 
+                            </div>
+                            <div>
+                                <h3 class="title mb-2">{{ post.title }}</h3>
+                                {% if post.category() == 'Case Study' %}
+                                <p class="excerpt mb-3">{{post.meta('cs_excerpt')|custom_excerpt(20)}}</p>
+                                {% else %}
+                                <p class="excerpt mb-3">{{ post.content|custom_excerpt(20) }}</p> 
+                                {% endif %}
+                                
+                                <button class="btn pale-blue"><a href="{{post.link}}">Read More<i class="fa-solid fa-arrow-right-long mx-3"></i></a></button>
+                            </div>
+                        </div>
+                {% endfor %}
+                <div class="me-4 p-5 card min-w-fit">
+                    <button class="btn light-blue"><a class="px-4" href="/gws-blog">See All Posts</a></button>
+                </div>
+            </div>
+            <div class="swiper-scrollbar"></div>
+        </div>
+        <div class="swiper-controls flex gap-x-6 mt-10">
+                <i class="text-4xl font-bold text-pale-blue fa-solid fa-arrow-left-long prevEl"></i>
+                <i class="text-4xl font-bold text-pale-blue fa-solid fa-arrow-right-long nextEl"></i>
+        </div>
+    </div>
+
+</section>
+
+
+
+<section id="glance" class="pt-40">
+    <div class="container mx-auto flex flex-col lg:flex-row px-8 md:px-10">
+    
+        <div class="w-full lg:w-6/12 pb-20 xl:pb-60">
+            <h2 class="text-5xl md:text-6xl  font-black leading-none mb-0">At A</h2>
+            <h2 class="text-6xl md:text-9xl leading-none font-black text-outline">Gl<span class="text-outline">a</span>nce</h2>
+            <div class="glance-feature mt-20 md:mt-28">
+                <h3>2014</h3>
+                <p>GWS Tool Group Foundation</p>
+                <p class="divider text-3xl mt-14">//////////////////////////////////////////////////</p>
+            </div>
+            <div class="glance-feature">
+                <h3>12</h3>
+                <p>North American<br>manufacturing facilities</p>
+                <p class="divider mt-14">//////////////////////////////////////////////////</p>
+            </div>
+            <div class="glance-feature">
+                <h3>30,000+</h3>
+                <p>Standard cutting tools offered</p>
+                <p class="divider mt-14">//////////////////////////////////////////////////</p>
+            </div>
+            <div class="glance-feature">
+                <h3>250,000+</h3>
+                <p>Custom cutting tools offered</p>
+                <p class="divider mt-14">//////////////////////////////////////////////////</p>
+            </div>
+            <div class="glance-feature">
+                <h3>Tavares, FL</h3>
+                <p>GWS Headquarters</p>
+            </div>
+            <div class="mt-20 md:mt-32">
+                <p class="text-xl">Read more about</p>
+                <h3 class="text-5xl font-extrabold text-pale-blue">GWS Tool Group</h3>
+                <button class="btn white-outline mt-12 hvr-float"><a href="/who-we-are">About Us <i class="fa-solid fa-arrow-right ms-3 rotate-45"></i></a></button>
+            </div>
+        </div>
+    
+        <div id="collage-col" class="xl:w-6/12 flex flex-col mx-auto gap-y-6">
+            <div class="ps-6 flex items-center"><img src="/wp-content/uploads/2023/12/3fl-1-32-end-mill-polished.jpg" alt=""></div>
+            <div class="pe-6 flex items-center"><img src="/wp-content/uploads/2024/01/Coating_MI-2-scaled.jpg" alt=""></div>
+            <div class="ps-6 flex items-center"><img src="/wp-content/uploads/2024/02/home_collage.jpg" alt=""></div>
+            <div class="pe-6 flex items-center"><img src="/wp-content/uploads/2024/02/whirler_cage_fx7.jpg" alt=""></div>
+        </div>
+
+    </div>
+</section>
+
+<section id="home-services" class="">
+    <div class="container mx-auto pt-40 sm:pt-60 xl:pt-80">
+        <div class="text-center w-10/12 mx-auto">
+            <h2 class="text-xl sm:text-2xl font-extrabold text-pale-blue tracking-wide">Services</h2>
+            <p class="text-2xl sm:text-3xl font-light my-10">We provide a full spectrum of top-quality tooling and manufacturing services all designed to enhance your manufacturing processes and elevate your production capabilities.</p>
+        </div>
+        <div class="flex flex-col lg:flex-row container xl:px-20 mx-auto">
+            <div class="w-full xl:w-6/12 px-4 md:px-10">
+            
+                <div class="services-card custom-tools">
+                    <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
+                        <div class="content">
+                            <h3>Custom Comes Standard</h3>
+                            <p>Off-the-shelf solutions can only go so far, often falling short of industry-specific needs. Our mantra, <em>Custom Comes Standard</em>, empowers manufacturers to break through constraints, enhance efficiency, and achieve precision.</p>
+                            <p>In a world where innovation and optimization are crucial, custom tools elevate manufacturing to new heights, delivering tailor-made solutions for industry excellence.</p>
+                        </div>
+                        <div>
+                            <button class="btn white-outline"><a href="/custom-quote">Design Your Tool <i class="fa-solid fa-pencil ms-3"></i> </a></button>
+                        </div>
+                        
+                    </div>
+                    <div class="card-content flex flex-col">
+                        <h3>Custom Tools</h3>
+                        <p>Precision crafted, tailored for your needs.</p>
+                    </div>
+                </div>
+                <div class="services-card sales-rep">
+                    <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
+                        <div class="content">
+                            <h3>Get The Help You Need</h3>
+                            <p>Our sales team are experts in helping you find the tools you need for your application. Not sure what you need? Our team can help you find solutions that match your goals.</p>
+                            <p>Use our sales map to find which representative works with customers in your area.</p>
+                        </div>
+                        <div>
+                            <button class="btn white-outline"><a href="/sales-team-map/">Find Your Rep <i class="fa-solid fa-user ms-3"></i> </a></button>
+                        </div>
+                        
+                    </div>
+                    <div class="card-content">
+                        <h3 class="title">Find a Sales Rep</h3>
+                        <p>Connect with a member of our team.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full xl:w-6/12 px-4 md:px-10 lg:pt-28">
+                <div class="services-card reconditioning ">
+                    <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
+                        <div class="content">
+                            <h3>Why Regrind?</h3>
+                            <p>Regrinding old tools holds a pivotal role in sustainable manufacturing practices. It's not just about extending the lifespan of tools; it's a testament to resourcefulness and cost-effectiveness.</p>
+                            <p> In an era where sustainability and efficiency are paramount, regrinding old tools is both a practical necessity and a responsible choice.</p>
+                        </div>
+                        <div>
+                            <button class="btn white-outline"><a href="/tool-reconditioning">Regrind Your Tool <i class="fa-solid fa-rotate-right ms-3"></i> </a></button>
+                        </div>
+                        
+                    </div>
+                    <div class="card-content">
+                        <h3>Reconditioning</h3>
+                        <p>Get extended life from your used tools.</p>
+                    </div>  
+                </div>
+                <div class="services-card find-distributor">
+                    <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
+                        <div class="content">
+                            <h3>Our Tools Near You</h3>
+                            <p>Our network of distributors ensure that GWS products are always close at hand. </p>
+                            <p>Using our distributor map matches you with the right distributor who understands your unique requirements and shares your passion for quality.</p>
+                        </div>
+                        <div>
+                            <button class="btn white-outline"><a href="/distributor-search">Find a Distributor <i class="fa-solid fa-magnifying-glass-location ms-3"></i> </a></button>
+                        </div>
+                        
+                    </div>
+                    <div class="card-content">
+                        <h3>Find A Distributor</h3>
+                        <p>See where our tools our sold near you.</p>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<section id="home-cta" class="">
+    <div class="container mx-auto flex flex-col justify-center align-center">
+        <div class="heading text-center">
+            <h2 class="text-6xl font-black text-pale-blue">Find Your</h2>
+            <h2 class="text-7xl font-black text-pale-blue"><span class="text-outline">Perfect</span> Tool</h2>
+            <p class="text-pale-blue mt-10 text-2xl">///////////////////////////////////////</p>
+        </div>
+
+        <div class="button-row flex flex-col xl:flex-row justify-evenly gap-y-20">
+            <a class="w-full xl:w-4/12 flex justify-center" href="/rapid-quote">
+                <div class="button-div rapid-quote hvr-float flex flex-col justify-end ps-8 pb-8">
+                    <h2 class="text-white text-3xl font-black mb-2">Rapid Quote</h2>
+                    <p class="w-10/12 md:w-7/12">Search inventory and get prices on all our standard products. </p>
+                </div>
+            </a>
+            <a href="/custom-quote" class="w-full xl:w-4/12  flex justify-center">
+                <div class="button-div custom-tools hvr-float flex flex-col justify-end ps-8 pb-8">
+                    <div class="mt-auto">
+                        <h2 class="text-white text-3xl font-black mb-2">Custom Tools</h2>
+                        <p class="w-10/12 md:w-7/12">Need a custom solution? Send us the parameters for a custom quote.</p>
+                    </div> 
+                </div>
+            </a>
+            <a href="/ask-customer-service" class="w-full xl:w-4/12  flex justify-center">
+                <div class="button-div ask-gws hvr-float flex flex-col justify-end ps-8 pb-8">
+                    <h2 class="text-white text-3xl font-black mb-2">Ask GWS</h2>
+                    <p class="w-10/12 md:w-7/12">Connect with an engineer or customer service member.</p>
+                </div>
+            </a>
+        </div>  
+
+    </div>
+</section>
+
+
+<script src="/wp-content/themes/gws-web/helpers.js" defer></script>
+<script src="/wp-content/themes/gws-web/swiper.js" defer></script>
+
+{% endblock %}

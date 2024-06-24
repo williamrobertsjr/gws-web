@@ -1,0 +1,27 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<section id="distributor-search-header" class="page-header bg-black">
+    <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background" style="background: url('{{post.thumbnail.src}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
+        <h1 class="md:text-7xl uppercase font-black text-white">{{post.title}}</h1>
+    </div>
+</section>
+
+<section class="py-52">
+
+    <div class="md:container mx-auto">
+        <div class="w-10/12 mx-auto">
+            {{post.content}}
+        </div>
+        
+    </div>
+
+</section>
+
+<section>
+    <div class="bg-diagonal">{% include "./templates/perfect-tool-two.php" %}</div>
+</section>
+
+
+{% endblock %}

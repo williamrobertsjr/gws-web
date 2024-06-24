@@ -1,5 +1,20 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	Sorry, we couldn't find what you're looking for.
+
+<section id="error-page" class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+	<div class="md:w-5/12">
+		<h1 class="text-5xl text-pale-blue font-bold">Page Not Found</h1>
+		<h1 class="text-2xl mt-3">Sorry we can't find what you're looking for.</h1>
+		<button class="btn dark-blue mb-6 mt-10 inline-block" onclick="history.back()">Go Back</button>
+		<button class="btn light-blue inline-block"><a href="/ask-customer-service">Ask Customer Service</a></button>
+	
+	</div>
+	<div class="md:6/12 flex mx-auto justify-center items-center">
+		<img src="/wp-content/uploads/2024/02/404_image.jpg" alt="">
+	</div>
+	
+</section>
+
+
 {% endblock %}

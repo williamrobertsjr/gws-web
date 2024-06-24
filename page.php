@@ -1,3 +1,4 @@
+
 <?php
 /**
  * The template for displaying all pages.
@@ -22,7 +23,18 @@
  */
 
 $context = Timber::context();
-
 $timber_post     = Timber::get_post();
+$context['search_form'] = do_shortcode('[searchwp_form id=1]');
 $context['post'] = $timber_post;
-Timber::render( array( 'page-' . $timber_post->post_name . '.twig', 'page.twig' ), $context );
+
+
+// Check if this is the password reset confirmation page
+if ( isset( $_GET['checkemail'] ) && $_GET['checkemail'] === 'confirm' ) {
+    // Render the custom page-checkemail.twig template
+    Timber::render( 'page-checkemail.twig', $context );
+} else {
+    // Render other page templates as usual
+    $context['search_form'] = do_shortcode('[searchwp_form id=1]');
+    $context['post'] = $timber_post;
+    Timber::render( array( 'page-' . $timber_post->post_name . '.twig', 'page.twig' ), $context);
+}

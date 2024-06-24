@@ -17,7 +17,14 @@ $context          = Timber::context();
 $context['posts'] = Timber::get_posts();
 $context['foo']   = 'bar';
 $templates        = array( 'index.twig' );
-if ( is_home() ) {
+if ( is_front_page() ) {
 	array_unshift( $templates, 'front-page.twig', 'home.twig' );
 }
+// ...
+
+// Debugging statement to log the templates being used
+error_log( print_r( $templates, true ) );
+
+// Render the templates
 Timber::render( $templates, $context );
+

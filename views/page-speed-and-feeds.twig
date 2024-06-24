@@ -1,0 +1,19 @@
+{% extends "base.twig" %}
+{% block content %}
+
+<section class="page-header bg-black">
+    <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
+        <h1 class="text-7xl font-black text-white uppercase">{{post.title}}</h1>
+    </div>
+</section>
+
+<section class="page-content py-48 container mx-auto">
+    <div class="flex flex-wrap">
+    {% for series in series_list %}
+        <div class="w-4/12 px-8"><a class="text-white underline" href="/wp-content/themes/gws-web/speed_and_feed/{{series.series}}_sf.pdf">Series {{series.series}} {{series.family}}</a></div>
+    {% endfor %}
+    </div>
+
+</section>
+
+{% endblock content %}

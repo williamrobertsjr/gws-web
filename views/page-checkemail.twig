@@ -1,0 +1,14 @@
+{# Customize the password reset confirmation page #}
+
+{# Remove WordPress logo #}
+{# <img src="{{ wp_login_logo() }}" alt="{{ bloginfo('name') }}"> #}
+
+{# Add your own logo #}
+<img src="{{ get_stylesheet_directory_uri() }}/path/to/your/logo.png" alt="Your Logo">
+
+{# Apply custom CSS #}
+<style>
+    body {
+        background: #000;
+    }
+</style>
