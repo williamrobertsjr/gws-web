@@ -1,0 +1,101 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<section id="who-we-are-header" class="bg-black px-4 lg:px-0">
+    <div class="flex flex-col md:flex-row justify-end relative">
+        <div class="absolute z-10 animate__animated animate__fadeInLeft">
+            <h1 class="text-4xl md:text-7xl font-black uppercase">{{post.title}}</h1>
+        </div>
+       <div class="w-full md:w-9/12 flex flex-col justify-center px-4 md:px-8 hero-background animate__animated animate__fadeInDown" style="background-image: url('/wp-content/uploads/2024/02/illinois-shop-floor-edited.jpg'); background-position: center; background-size: cover;"></div>
+    </div>
+</section>
+
+<section class="page-content container mx-auto px-4">
+
+    <div id="about-gws" class="my-10">
+        <h2 class="text-white text-4xl md:text-5xl font-black uppercase mb-10">About GWS</h2>
+        <p class="md:text-lg mb-4">GWS Tool Group is a North American company that specializes in making custom, standard, and modified standard cutting tools. While we have the resources and capabilities of large companies in our industry, we maintain a small and service-focused approach.</p>
+        <p class="md:text-lg mb-4">We've achieved this by consistently investing in our organization and acquiring leading specialty manufacturers. These acquired companies, like GW Schultz Tool, CGI Tool, and others, now work together under the GWS Tool Group umbrella, combining their expertise to serve our customers effectively.</p>
+        <p class="md:text-lg mb-4">Our "Custom Comes Standard" philosophy reflects how we provide value to the market. We're known for being a one-stop shop for customized tooling needs, designing and manufacturing these tools in our various factories. What sets us apart is our ability to tailor our capacity to meet the unique requirements of our customers and their preferred partners. We encourage everyone to think creatively because with GWS, the possibilities are virtually limitless.</p>
+    </div>
+
+    <div id="about-careers" class="my-20 md:my-36  flex lg:flex-row flex-col relative">
+
+        <div class="w-full lg:w-6/12 left-col flex flex-col justify-center ps-8 animate__animated animate__fadeInDown" style="background-image: url('/wp-content/uploads/2024/02/about_careers.jpg'); background-position: center; background-size: cover; background-color: rgba(0,0,0,.5); background-blend-mode: darken;"></div>
+        <div class="lg:w-6/12 flex flex-col mt-10">
+            <div class="lg:absolute lg:w-7/12">
+                <h2 class="text-white text-5xl font-black uppercase mb-10">Careers</h2>
+                <p class="text-lg mb-4">GWS Tool Group offers a wide range of career opportunities. We are a North American-based, vtertically integrated, manufacturer of highly engineered custom, standard, and modified standard cutting tools, primarily servicing aerospace and defense, power generation, automotive, and medical sectors. We have facilities in the following locations:</p>
+            </div>
+            <div id="about-careers-locations" class="flex flex-col gap-y-6 lg:absolute xl:w-6/12 px-4">
+                <div class="flex gap-x-10">
+                    <div class="w-full md:w-6/12">
+                        <ul>
+                            <li>Tavares, Florida</li>
+                            <li>Grand Rapids, Michigan</li>
+                            <li>Phoenix, Arizona</li>
+                            <li>South Beloit, Illinois</li>
+                            <li>Arden, North Carolina</li>
+                            <li>Batavia, Illinois</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-6/12">
+                        <ul>
+                            <li>Welland, Ontario, Canada</li>
+                            <li>Edmonton, Alberta, Canada</li>
+                            <li>Vista, California</li>
+                            <li>Menomonee Falls, Wisconsin</li>
+                            <li>Nashville, Tennessee</li>
+                            <li>Hartland, Wisconsin</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="w-full flex flex-col gap-y-6">
+                    <a class="text-2xl text-white font-bold underline" href="/careers">Learn More About Careers At GWS</a>
+                    <div><button class="btn light-blue"><a href="https://recruiting.paylocity.com/recruiting/jobs/All/233a647f-2d43-482d-a189-29407cb9055a/GWS-Tool-LLC?location=All%20Locations&department=All%20Departments">View Open Positions</a></button></div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="management-policy" class="mt-36">
+        <h2 class="text-white text-5xl font-black uppercase mb-10">Management Policy</h2>
+        <div>
+            <p class="text-lg">GWS Tool Group is committed to providing customer, employee, and stakeholder value and satisfaction while ensuring our workers’ safety and the protection of the environment where we work and live. <br><br> GWS Tool Group is committed to achieving this by:</p>
+            <ul class="my-10">
+                <li>Complying with all applicable laws and regulatory requirements</li>
+                <li>Setting objectives and targets, reviewing and continually improving management systems</li>
+                <li>Promoting worker’s engagement</li>
+                <li>Creating a safe and friendly work environment for all stakeholders</li>
+            </ul>
+        </div>
+         <div class="flex flex-col gap-y-8">
+            <h3 class="text-white text-2xl font-black uppercase">Environmental Health and Safety Policy</h3>
+            <p class="mb-4 text-lg">This policy applies to all Operational Environmental, Health and Safety EHS) activities. This includes all internal operations as well as external services that GWS Tool Group provides to the market, such as sales and service. To achieve this, we have an environmental and climate change strategy which includes the efficient use of energy, natural resources, recycling, and recovery of materials, and work to prevent pollution and other environmental harm.</p>
+            <div>
+                <h4 class="font-bold text-lg">Health and Safety</h4>
+                <p>GWS will strive to provide healthy and safe workplaces. We will continue to reduce injuries and illness while involving our employees in health and well-being activities.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg">Legal Compliance</h4>
+                <p>GWS will continue to take a systematic approach to comply with or exceed applicable environmental, health and safety legal and other requirements.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg">Continual Improvement</h4>
+                <p>Environmental, health and safety issues are fully integrated into GWS’ operations and we will achieve continual improvement through promoting active, courageous, and visible EHS leadership while developing a strong EHS culture. Objectives and Targets will be incorporated in local EHS plans and will be monitored to ensure they are implemented through completion.</p>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="bg-diagonal">
+        {% include "./templates/perfect-tool-two.php" %}
+    </div>
+</section>
+
+{% endblock %}

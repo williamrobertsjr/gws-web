@@ -1,0 +1,37 @@
+{% if templateName == 'page-product.twig' %}
+    {% set tableCols = product_data.data_fields|split(',') %}
+    {% set series = product_data.series %}
+    {% set toolType = product_data.tool_type %}
+{% else %}
+    {% set tableCols = series_data.data_fields|split(',') %}
+    {% set series = series_data.series %}
+    {% set toolType = series_data.tool_type %}
+{% endif %}
+
+<table id="product-table" class="stripe row-border cell-border hover {{toolType}} {{series}}">        
+    <thead>
+        <tr>
+            <th>Part</th>
+            
+            
+            
+            {% for col in tableCols %}
+                <th class="{{col}}">{{col}}</th>
+            {% endfor %}
+            <th>Stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr>
+                <td><a class="table-link text-sm text-dark-blue font-bold" href="/product?part={{product.part}}">{{product.part}}</a></td>
+                {% for col in tableCols %}
+                    <td class="text-sm {{col}}">{{ attribute(product, col)|default('-') ?: '-' }}</td>
+                {% endfor %}
+                <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td>
+            </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+

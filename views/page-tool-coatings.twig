@@ -1,0 +1,121 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+{# <section id="page-hero" class="page-header bg-black">
+    <div id="page-featured-hero" class="container mx-auto flex flex-col justify-center animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail.src}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
+        <div class="ps-8">
+            <h1 class="text-6xl text-white uppercase font-extrabold w-10/12">{{post.title}}</h1>
+        </div>
+    </div>
+</section> #}
+{% include "page-header.twig" %}
+
+<section id="tool-coatings" class="main-content container mx-auto my-40 px-4">
+    <h2 class="text-3xl md:text-4xl font-black text-pale-blue mb-4">Availble Coatings</h2>
+    <p class="text-xl md:text-2xl">Our in-house coating facility provides fast turnaround on coated tools, extending your tool life and improving performance. Browse our available coatings below.</p>
+
+    
+    <div class="flex flex-wrap justify-between gap-y-10 mt-20">
+    
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/CRN.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">CrN - Chromium Nitride</h3>
+                <p>Ideal for non-ferrous applications like aluminum or copper. Adds wear resistance via increased hardness (1800 HV) and lubricity for extended performance and tool life.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/TiN.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">TiN - Titanium Nitride</h3>
+                <p>General purpose coating with good adhesion add lubricity and wear resistance. Maximum service temperature of 500 degrees C and hardness of 2000 HV. Ideally suited for HSS taps, drills and end mill.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/TiCN.png" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">TiCN - Titanium Carbon Nitride</h3>
+                <p>Performance coating ideally suited for HSS tools, including taps, drills and end mills. Higher hardness versus TiN at 2700HV and improved coefficient of friction of 0.3.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/TiAlN.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">TiAlN - Titanium Aluminum Nitride</h3>
+                <p>Ideal for non-ferrous applications like aluminum or copper. Adds wear resistance via increased hardness (1800 HV) and lubricity for extended performance and tool life.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/AlTiN.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">AlTiN - Aluminum Titanium Nitride</h3>
+                <p>Performance coating with high hardness and high oxidation temperature of 800 degrees C. Ideally suited for high speed machining operations using air or MQL coolant. Increased aluminum in coating enhances heat resistance and lubricity at elevated temperatures.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/NF1.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">NF1 - PVD</h3>
+                <p>This Zirconium-based coating is designed for high performance aluminum machining applications to extend tool life by increasing wear resistance and reducing BUE via an ultra-smooth coating finish.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/FX5.png" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">FX5 - PVD</h3>
+                <p>AlTiN-based PVD nanolayer coating with high hardness (35 Gpa) and a maximum service temperature of 1000 degrees C. Ideal for holemaking and drilling operations where coolant supply is not always optimal at the cutting edge.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/FX1.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">FX1 - PVD</h3>
+                <p>High performance nano composite coating with extreme high hardness and high heat resistance. For high performance milling operations in alloyed steels, hardened steels and Nickel Alloys.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/FX2.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">FX2 - PVD</h3>
+                <p>High performance nano composite coating with high abrasion and heat resistance. High coating thickness possible. Especially for hobbing and forming tools.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/FX3.png" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">FX3 - PVD</h3>
+                <p>An AlCrN-based nano composite coating that combine titanium to create a layered coating with high hardness (3000 HV) and heat resistance (800 degrees C). Performs well in wet or dry machining operations and ideal for alloyed steels, stainless steels and titanium alloys.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/FX7.jpeg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">FX7 - PVD</h3>
+                <p>A high performance coating for stainless steels, hardened steels and titanium. High maximum operating temperature of 1100 degrees C and refined coating thickness ensures minimal edge rounding.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/DLC.jpg" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">DLC - Diamond-like Carbon (CVD Diamond)</h3>
+                <p>DLC is a PVD coating that offers a unique combination of high hardness and low friction coefficient with the hardness similar to diamond and the lubricity of graphite. Suited for non-ferrous materials and extends tool life versus uncoated tools by 3-5X.</p>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-y-6 justify-between coating-row w-full md:w-6/12 px-4">
+            <div class="w-full lg:w-2/12"><img src="/wp-content/uploads/2024/01/NF5.png" alt=""></div>
+            <div class="w-full lg:w-9/12">
+                <h3 class="text-2xl font-bold text-pale-blue">NF5 - CVD</h3>
+                <p>Ultra-fine layered NF5 coating with sub-micron grain size for enhanced performance in non-ferrous materials including aluminum, graphite and carbon fiber reinforced plastics (CFRP).</p>
+            </div>
+        </div>
+     
+     
+    
+    </div>
+    
+
+</section>
+
+
+{% endblock %}

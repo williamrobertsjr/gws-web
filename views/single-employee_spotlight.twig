@@ -1,0 +1,41 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+	<section id="single-hero">
+
+		<div id="blog-featured-hero" class="container mx-auto flex flex-col justify-end" style="background: url('{{post.meta('header_image').url}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
+			<div class="ps-8 pb-12">
+				<p class="single-cat text-pale-blue font-extrabold pb-7">{{post.category()}}</p>
+				<h1 class="single-title text-white font-extrabold w-10/12">{{post.title}}</h1>
+        <p>{{post.meta('employee_title')}} // {{post.meta('employee_location')}}</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="post-content">
+    
+		<div class="container mx-auto flex justify-between">
+			<div class="w-8/12">
+				{{post.content}}
+			</div>
+			<div class="w-3/12 flex flex-col gap-y-6">
+				{% for item in post.meta('employee_images') %}
+					{% if item.image is defined and item.image %}
+						<img src="{{ item.image.url }}" alt="{{ item.image.alt|default('') }}">
+					{% else %}
+						<p>Image not found or not defined</p>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+
+	</div>
+
+</section>
+
+<section class="py-20 bg-diagonal">
+    {% include "./templates/perfect-tool-two.php" %}
+</section>
+
+{% endblock %}
