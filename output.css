@@ -2571,6 +2571,11 @@ video {
   padding-bottom: 6rem;
 }
 
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .py-32 {
   padding-top: 8rem;
   padding-bottom: 8rem;
@@ -3484,7 +3489,7 @@ li {
 }
 
 .hdr-logo img {
-  max-width: 150px;
+  max-width: 130px;
 }
 
 .btn {
@@ -3540,6 +3545,10 @@ li {
 
 .page-content {
   padding: 10rem 0;
+}
+
+#searchwp-form-1 {
+  margin: auto;
 }
 
 form.searchwp-form input.swp-input--search {
@@ -3726,10 +3735,10 @@ h3.hero-link {
   min-height: 70vh !important;
 }
 
-/* .sub-menu-col-right {
-  border-top: 3px solid var(--pale-blue)!important;
-  padding-top: 25px!important;
-} */
+a.mega-menu-link {
+  display: flex !important;
+  align-items: center;
+}
 
 #announcement-banner {
   background-color: var(--black);

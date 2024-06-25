@@ -28,13 +28,32 @@
 						</h1>
 						<div class="md:flex items-center hidden">
 							<div class="flex items-center">
-								<button class="btn dark-blue me-2 "><a href="/tool-filter">Tool Filter</a></button>
+								{# <button class="btn dark-blue me-2 "><a href="/tool-filter">Tool Filter</a></button>
 								{% if user %}
 									<button class="btn light-blue me-2"><a href="/dashboard">My Dashboard</a></button>
 									<button class="btn black me-6"><a href="/wp-login.php?action=logout">Log Out</a></button>
 								{% else %}
 									<button class="btn light-blue me-6"><a href="/sign-in">Login</a></button>
-								{% endif %}
+								{% endif %} #}
+								<div class="flex h-full">
+									<button class="btn dark-blue me-2 "><a href="/rapid-quote">Rapid Quote</a></button>
+									<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
+									<div class="ask-gws-btn-div relative">
+										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
+										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden">
+											{# <p class="ask-close">x</p> #}
+											<p>How Can We Help?</p>
+											<div class="flex flex-col gap-y-2">
+												<a href="/ask-an-engineer" class="btn dark-blue">Ask an Engineer</a>
+												<a href="/ask-customer-service" class="btn light-blue">Customer Service</a>
+											</div>
+
+										</div>
+									</div>
+									
+								</div>
+
+
 								<div class="flex flex-col items-center">
 									{{ function('do_shortcode', '[searchwp_form id=1]') }}
 								</div>
@@ -45,23 +64,10 @@
 						</div>
 					</div>
 
-					<div class="bottom-header py-6 flex justify-between">
-						<div class="flex h-full">
-							<button class="btn dark-blue me-2 "><a href="/rapid-quote">Rapid Quote</a></button>
-							<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
-							<div class="ask-gws-btn-div relative">
-								<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
-								<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden">
-									{# <p class="ask-close">x</p> #}
-									<p>How Can We Help?</p>
-									<div class="flex flex-col gap-y-2">
-										<a href="/ask-an-engineer" class="btn dark-blue">Ask an Engineer</a>
-										<a href="/ask-customer-service" class="btn light-blue">Customer Service</a>
-									</div>
-
-								</div>
-							</div>
-							
+					<div class="bottom-header py-3 flex justify-between">
+						<div class="flex flex-col md:flex-row gap-x-4 items-center">
+							<a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
+							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a>
 						</div>
 						{# Integrate Max Mega Menu with Theme if plugin is delete the menu will need a lot of work #}
 						<nav id="nav-main" class="nav-main" role="navigation">

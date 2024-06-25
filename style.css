@@ -122,7 +122,7 @@ li {
 }
 
 .hdr-logo img {
-  max-width: 150px;
+  max-width: 130px;
 }
 
 .btn {
@@ -330,10 +330,10 @@ h3.hero-link {
 .mega-menu-megamenu > ul.mega-sub-menu {
   min-height: 70vh !important;
 }
-/* .sub-menu-col-right {
-  border-top: 3px solid var(--pale-blue)!important;
-  padding-top: 25px!important;
-} */
+a.mega-menu-link {
+  display: flex !important;
+  align-items: center;
+}
 
 #announcement-banner {
   background-color: var(--black);
