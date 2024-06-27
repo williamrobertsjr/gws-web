@@ -751,6 +751,10 @@ video {
   z-index: 10;
 }
 
+.z-20 {
+  z-index: 20;
+}
+
 .float-right {
   float: right;
 }
@@ -3608,7 +3612,7 @@ h2.products-menu-header:hover {
 }
 
 .products-tool-type-col h2.products-menu-header {
-  font-size: 3rem !important;
+  font-size: 2.5rem !important;
   font-weight: 900 !important;
   margin-bottom: 0;
 }
@@ -3653,11 +3657,10 @@ h2.products-menu-header:hover {
   display: none !important;
 }
 
-/*Temporarily hide this until we get all brands posted*/
-
+/* Temporarily hide this until we get all brands posted
 #mega-menu-20-0 {
   display: none !important;
-}
+} */
 
 #ask-gws-popover {
   position: absolute;
@@ -3911,6 +3914,7 @@ div#gform_confirmation_wrapper_5 {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
+  min-height: 750px;
 }
 
 .header-transparent {
@@ -5841,6 +5845,10 @@ main.swp-rp-main {
     margin-right: auto;
   }
 
+  .sm\:mb-0 {
+    margin-bottom: 0px;
+  }
+
   .sm\:aspect-\[2\/1\] {
     aspect-ratio: 2/1;
   }
@@ -5851,6 +5859,14 @@ main.swp-rp-main {
 
   .sm\:max-w-sm {
     max-width: 24rem;
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:justify-between {
+    justify-content: space-between;
   }
 
   .sm\:py-32 {

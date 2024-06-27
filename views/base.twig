@@ -17,12 +17,28 @@
 		<header class="header px-4 md:px-10 py-4 header-transparent">
 			{% block header %}
 				<div class="wrapper">
-					<div class="top-top-header flex justify-end gap-x-3">
-						<a href="/tool-filter" class="text-sm hover:underline">Tool Filter</a>
-						<a href="/dashboard" class="text-sm hover:underline">My Dashboard</a>
-						<a href="/wp-login.php?action=logout" class="text-sm hover:underline">Log Out</a>
+					<div class="top-top-header flex flex-col sm:flex-row justify-between gap-x-3 mb-3">
+						<div class="flex gap-x-4 mb-3 sm:mb-0 items-center justify-between">
+							<a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
+					
+							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a>
+						</div>
+						<div class="flex gap-x-4 items-center justify-between ">
+							<a href="/tool-filter" class="text-sm hover:underline">Tool Filter</a>
+							<p>|</p>
+							{% if user %}
+								<a href="/dashboard" class="text-sm hover:underline">My Dashboard</a>
+								<p>|</p>
+								<a href="/wp-login.php?action=logout" class="text-sm hover:underline">Log Out</a>
+							{% else %}
+								<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
+							{% endif %}
+						</div>
+						
+						
+						
 					</div>
-					<div class="top-header flex justify-between">
+					<div class="top-header flex justify-center sm:justify-between">
 						<h1 class="hdr-logo" role="banner">
 							<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt=""></a>
 						</h1>
@@ -36,11 +52,11 @@
 									<button class="btn light-blue me-6"><a href="/sign-in">Login</a></button>
 								{% endif %} #}
 								<div class="flex h-full">
-									<button class="btn dark-blue me-2 "><a href="/rapid-quote">Rapid Quote</a></button>
+									<button class="btn dark-blue me-2"><a href="/rapid-quote">Rapid Quote</a></button>
 									<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
 									<div class="ask-gws-btn-div relative">
 										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
-										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden">
+										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
 											{# <p class="ask-close">x</p> #}
 											<p>How Can We Help?</p>
 											<div class="flex flex-col gap-y-2">
@@ -53,36 +69,22 @@
 									
 								</div>
 
-
 								<div class="flex flex-col items-center">
 									{{ function('do_shortcode', '[searchwp_form id=1]') }}
 								</div>
-								
-								{# {{ function('get_search_form') }} #}
-								{# <i class="fa-solid fa-magnifying-glass menu-search"></i> #}
 							</div>
 						</div>
 					</div>
 
-					<div class="bottom-header py-3 flex justify-between">
+					<div class="bottom-header py-3 flex justify-center sm:justify-between">
 						<div class="flex flex-col md:flex-row gap-x-4 items-center">
-							<a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
-							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a>
+							{# <a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
+							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a> #}
 						</div>
 						{# Integrate Max Mega Menu with Theme if plugin is delete the menu will need a lot of work #}
 						<nav id="nav-main" class="nav-main" role="navigation">
 							{{ my_menu|raw }}
 						</nav>
-						{# <nav id="nav-main" class="nav-main flex items-center" role="navigation">
-							{{ max_mega_menu|raw }}
-						</nav> #}
-
-						{# <nav id="nav-main" class="nav-main flex items-center" role="navigation">
-							{% include "menu.twig" with {'items': menu.get_items} %}
-						</nav><!-- #nav --> #}
-						{# {{ max_mega_menu|raw }} #}
-
-
 					</div>
 					
 				</div>
