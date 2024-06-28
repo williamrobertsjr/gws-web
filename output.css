@@ -3665,13 +3665,13 @@ h2.products-menu-header:hover {
 #ask-gws-popover {
   position: absolute;
   background: var(--black);
-  min-width: 250px;
+  min-width: 500px;
+  top: 0;
   padding: 30px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   top: 40px;
-  left: 0px;
+  right: 8px;
   box-shadow: 10px 5px 10px 1px rgba(0, 0, 0, 0.25);
   transition: all 0.5s ease-in 0.2s;
 }

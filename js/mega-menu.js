@@ -35,14 +35,19 @@ const threadingRight = document.querySelector('.menu-right-links.threading')
 const insertsRight = document.querySelector('.menu-right-links.inserts')
 
 let menuRightImg = document.querySelector('.menu-right-img').style
+let menuRightCustomImg = document.querySelector('.menu-right-custom-img').style
 let menuRightImgDefault = "url('/wp-content/uploads/2024/01/all_tools_menu_menu.jpg')";
+let menuRightCustomImgDefault = "url('/wp-content/uploads/2024/06/custom_specialty_menu.jpg')"
 const millingImg = "url('/wp-content/uploads/2024/01/milling_menu.jpg')"
 const specialtyImg = "url('/wp-content/uploads/2024/01/specialty_menu.jpg')"
 const holemakingImg = "url('/wp-content/uploads/2024/01/holemaking_menu.jpg')"
 const threadingImg = "url('/wp-content/uploads/2024/01/threading_menu.jpg')"
 const insertsImg = "url('/wp-content/uploads/2024/01/inserts_menu.jpg')"
+const customSpecialtyImg = "url('/wp-content/uploads/2024/06/custom_specialty_menu.jpg')"
+
 
 menuRightImg.backgroundImage = menuRightImgDefault
+menuRightCustomImg.backgroundImage = menuRightCustomImgDefault
 
 // Hide all menu right subtype links to start
 menuRightLinks.forEach(link => {
@@ -85,8 +90,7 @@ for (const btn of productsButtons) {
         } else if (heading.classList.contains('customSpecialty')) {
             console.log('worked')
             linkToShow = customSpecialtyLinks;
-            menuRightToShow = insertsRight;
-            menuRightImg.backgroundImage  = insertsImg
+            menuRightCustomImg.backgroundImage  = customSpecialtyImg
         } else {
             return
         }
@@ -95,10 +99,13 @@ for (const btn of productsButtons) {
        if (linkToShow && !linkToShow.classList.contains('hide-menu')) {
             // If shown, hide it and remove the classes
             linkToShow.classList.add('hide-menu');
-            menuRightToShow.classList.add('hide-menu');
+            if(menuRightToShow) {
+                menuRightToShow.classList.add('hide-menu');
+            }
             icon.classList.remove('rotate-45', 'text-pale-blue');
             heading.classList.remove('text-pale-blue');
             menuRightImg.backgroundImage  = menuRightImgDefault
+            menuRightCustomImg.backgroundImage = menuRightCustomImgDefault
             
         } else {
             // menuRightImg.backgroundImage  = menuRightImgDefault
@@ -121,7 +128,9 @@ for (const btn of productsButtons) {
             // Then, show the clicked link and add the classes
             if (linkToShow) {
                 linkToShow.classList.remove('hide-menu');
-                menuRightToShow.classList.remove('hide-menu');
+                if(menuRightToShow) {
+                    menuRightToShow.classList.remove('hide-menu');
+                }
                 icon.classList.add('rotate-45', 'text-pale-blue');
                 heading.classList.add('text-pale-blue');
             }

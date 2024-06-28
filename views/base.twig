@@ -17,12 +17,12 @@
 		<header class="header px-4 md:px-10 py-4 header-transparent">
 			{% block header %}
 				<div class="wrapper">
-					<div class="top-top-header flex flex-col sm:flex-row justify-between gap-x-3 mb-3">
-						<div class="flex gap-x-4 mb-3 sm:mb-0 items-center justify-between">
+					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-3 mb-3">
+						{# <div class="flex gap-x-4 mb-3 sm:mb-0 items-center justify-between">
 							<a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
 					
 							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a>
-						</div>
+						</div> #}
 						<div class="flex gap-x-4 items-center justify-between ">
 							<a href="/tool-filter" class="text-sm hover:underline">Tool Filter</a>
 							<p>|</p>
@@ -58,10 +58,17 @@
 										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
 										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
 											{# <p class="ask-close">x</p> #}
-											<p>How Can We Help?</p>
+											<p class="w-full text-center">How Can We Help?</p>
 											<div class="flex flex-col gap-y-2">
-												<a href="/ask-an-engineer" class="btn dark-blue">Ask an Engineer</a>
-												<a href="/ask-customer-service" class="btn light-blue">Customer Service</a>
+												<div class="flex gap-x-4">
+													<a href="/ask-an-engineer" class="btn dark-blue w-full">Ask an Engineer</a>
+													<a href="/ask-customer-service" class="btn light-blue w-full">Customer Service</a>
+												</div>
+												<div class="flex gap-x-4">
+													<a href="tel:18774978665" class="btn dark-blue w-full">Call GWS</a>
+													<a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full">Email GWS</a>
+												</div>
+												
 											</div>
 
 										</div>
