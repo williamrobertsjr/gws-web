@@ -751,6 +751,10 @@ video {
   z-index: 10;
 }
 
+.z-20 {
+  z-index: 20;
+}
+
 .float-right {
   float: right;
 }
@@ -2323,11 +2327,6 @@ video {
   background-color: rgb(34 34 34 / var(--tw-bg-opacity));
 }
 
-.bg-dark-blue {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 50 98 / var(--tw-bg-opacity));
-}
-
 .bg-dark-gray {
   --tw-bg-opacity: 1;
   background-color: rgb(51 51 51 / var(--tw-bg-opacity));
@@ -2574,6 +2573,11 @@ video {
 .py-24 {
   padding-top: 6rem;
   padding-bottom: 6rem;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .py-32 {
@@ -3489,7 +3493,7 @@ li {
 }
 
 .hdr-logo img {
-  max-width: 150px;
+  max-width: 130px;
 }
 
 .btn {
@@ -3545,6 +3549,10 @@ li {
 
 .page-content {
   padding: 10rem 0;
+}
+
+#searchwp-form-1 {
+  margin: auto;
 }
 
 form.searchwp-form input.swp-input--search {
@@ -3604,7 +3612,7 @@ h2.products-menu-header:hover {
 }
 
 .products-tool-type-col h2.products-menu-header {
-  font-size: 3rem !important;
+  font-size: 2.5rem !important;
   font-weight: 900 !important;
   margin-bottom: 0;
 }
@@ -3649,22 +3657,21 @@ h2.products-menu-header:hover {
   display: none !important;
 }
 
-/*Temporarily hide this until we get all brands posted*/
-
+/* Temporarily hide this until we get all brands posted
 #mega-menu-20-0 {
   display: none !important;
-}
+} */
 
 #ask-gws-popover {
   position: absolute;
   background: var(--black);
-  min-width: 250px;
+  min-width: 500px;
+  top: 0;
   padding: 30px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   top: 40px;
-  left: 0px;
+  right: 8px;
   box-shadow: 10px 5px 10px 1px rgba(0, 0, 0, 0.25);
   transition: all 0.5s ease-in 0.2s;
 }
@@ -3731,13 +3738,13 @@ h3.hero-link {
   min-height: 70vh !important;
 }
 
-/* .sub-menu-col-right {
-  border-top: 3px solid var(--pale-blue)!important;
-  padding-top: 25px!important;
-} */
+a.mega-menu-link {
+  display: flex !important;
+  align-items: center;
+}
 
 #announcement-banner {
-  /* background-color: var(--black); */
+  background-color: var(--black);
 }
 
 /*****************************/
@@ -3907,10 +3914,11 @@ div#gform_confirmation_wrapper_5 {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
+  min-height: 750px;
 }
 
 .header-transparent {
-  background-color: transparent;
+  /* background-color: transparent; */
   position: absolute;
   width: 100%;
   z-index: 10;
@@ -5767,6 +5775,10 @@ main.swp-rp-main {
   color: rgb(247 247 247 / var(--tw-text-opacity));
 }
 
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
 .hover\:shadow-xl:hover {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
@@ -5833,6 +5845,10 @@ main.swp-rp-main {
     margin-right: auto;
   }
 
+  .sm\:mb-0 {
+    margin-bottom: 0px;
+  }
+
   .sm\:aspect-\[2\/1\] {
     aspect-ratio: 2/1;
   }
@@ -5843,6 +5859,14 @@ main.swp-rp-main {
 
   .sm\:max-w-sm {
     max-width: 24rem;
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:justify-between {
+    justify-content: space-between;
   }
 
   .sm\:py-32 {

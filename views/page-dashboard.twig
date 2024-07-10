@@ -42,42 +42,40 @@
         </div>
         <div id="dashboard-news" class="flex flex-col w-full lg:w-8/12">
             <div class="flex flex-col p-8 h-full">
-            <div class="flex justify-between">
-                <p class="text-sm uppercase text-pale-blue font-bold">News</p>
-                <div>
-                    {% if userRole == '55%' %}
-                        <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx">PRICE LIST 06/20/2024</a></button>
-                    {% elseif userRole == '52.5%' %}
-                        <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx">PRICE LIST 06/20/2024</a></button>
-                    {% elseif userRole == '50%' %}
-                        <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx">PRICE LIST 06/20/2024</a></button>     
-                    {% else %}
-                        {# <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
-                    {% endif %}
-                    {# <button><a href="#"></a></button> #}
+                <div class="flex justify-between">
+                    <p class="text-sm uppercase text-pale-blue font-bold">News</p>
+                    <div>
+                        {% if userRole == '55%' %}
+                            <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx">Price List 06/20/24</a></button>
+                        {% elseif userRole == '52.5%' %}
+                            <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx">Price List 06/20/24</a></button>
+                        {% elseif userRole == '50%' %}
+                            <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx">Price List 06/20/24</a></button>     
+                        {% else %}
+                            {# <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
+                        {% endif %}
+                        {# <button><a href="#"></a></button> #}
+                    </div>
                 </div>
-            </div>
                 
                 <div class="flex flex-col gap-y-6 md:flex-row justify-between mt-8 gap-x-4">
                     {% for item in post.meta('dashboard_news') %}
-                    {% if loop.index == 1 %}
-                        {% if userRole == '55%' %}
-                            <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                        {% elseif userRole == '52.5%' %}
-                            <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                        {% elseif userRole == '50%' %}
-                            <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>    
+                        {% if loop.index == 1 %}
+                            {% if userRole == '55%' %}
+                                <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                            {% elseif userRole == '52.5%' %}
+                                <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                            {% elseif userRole == '50%' %}
+                                <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
+                            {% else %}
+                                <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_LIST_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                            {% endif %}
                         {% else %}
-                            <a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_LIST_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                            <a href="{{item.news_link}}"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
                         {% endif %}
-                        
-                    {% else %}
-                         <a href="{{item.news_link}}"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                    {% endif %}
-                    
-                       
                     {% endfor %}
                 </div>
+
             </div>
         </div>
         </div>
@@ -128,11 +126,11 @@
                 {% else %}
                     <div class="flex flex-col gap-y-2 mt-8">
                         {% if userRole == '55%' %}
-                            <a class="text-white" href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx">PRICE LIST 06/2024</a>
+                            <a class="text-white" href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx">5/1/24 New Price List</a>
                         {% elseif userRole == '52.5%' %}
-                            <a class="text-white" href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx">PRICE LIST 06/2024</a>
+                            <a class="text-white" href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx">5/1/24 New Price List</a>
                         {% elseif userRole == '50%' %}
-                            <a class="text-white" href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx">PRICE LIST 06/2024</a>     
+                            <a class="text-white" href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx">5/1/24 New Price List</a>     
                         {% else %}
                             {# <button class="btn light-blue"><a href="https://www.gwstoolgroup.com/docs/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
                         {% endif %}

@@ -69,7 +69,7 @@ function add_series_query_var($vars) {
 add_filter('query_vars', 'add_series_query_var');
 
 // Function to modify permalink structure for sub type custom post types
-function subtype_permalink_structure($post_link, $post, $leavename) {
+function tooltype_permalink_structure($post_link, $post, $leavename) {
     if (strpos($post_link, '%tool_type%') === FALSE) return $post_link;
 
     // Get taxonomy terms
@@ -82,7 +82,7 @@ function subtype_permalink_structure($post_link, $post, $leavename) {
 
     return str_replace('%tool_type%', $taxonomy_slug, $post_link);
 }
-add_filter('post_type_link', 'subtype_permalink_structure', 1, 3);
+add_filter('post_type_link', 'tooltype_permalink_structure', 1, 3);
 
 
 
@@ -198,7 +198,7 @@ add_action('wp_logout', 'custom_logout_redirect');
 // // Redirect password reset request to a custom page
 // function custom_password_reset_redirect($url) {
 //     // Change 'custom-page' to the slug of your custom page
-//     return home_url('https://staging.gwstoolgroup.com');
+//     return home_url('https://www.gwstoolgroup.com');
 // }
 // add_filter('lostpassword_url', 'custom_password_reset_redirect');
 
