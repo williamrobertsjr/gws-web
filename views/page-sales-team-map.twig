@@ -4,7 +4,7 @@
 
 <section id="distributor-search-header" class="page-header bg-black">
     <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background" style="background: url('{{post.thumbnail.src}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
-        <h1 class="md:text-7xl uppercase font-black text-white">{{post.title}}</h1>
+        <h1 class="text-3xl md:text-7xl uppercase font-black text-white">{{post.title}}</h1>
     </div>
 </section>
 
@@ -15,6 +15,68 @@
             {{post.content}}
         </div>
         
+    </div>
+
+    <div class="md:container mx-auto mt-20">
+        <div class="w-10/12 mx-auto">
+            <div class="flex flex-col">
+                <h3 class="text-3xl text-pale-blue font-semibold uppercase">Midwest Region</h3>
+                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
+                    {% for member in post.meta('midwest') %}
+                        <div class="w-full md:w-6/12 xl:w-3/12 px-4">
+                            <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
+                                <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
+                                <p class="text-white italic">{{member.title}}</p>
+                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="flex flex-col">
+                <h3 class="text-3xl text-pale-blue font-semibold uppercase">Northeast Region</h3>
+                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
+                    {% for member in post.meta('northeast') %}
+                        <div class="w-full md:w-6/12 xl:w-3/12 px-4">
+                            <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
+                                <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
+                                <p class="text-white italic">{{member.title}}</p>
+                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <h3 class="text-3xl text-pale-blue font-semibold uppercase">Southeast Region</h3>
+                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
+                    {% for member in post.meta('southeast') %}
+                        <div class="w-full md:w-6/12 xl:w-3/12 px-4">
+                            <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
+                                <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
+                                <p class="text-white italic">{{member.title}}</p>
+                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <h3 class="text-3xl text-pale-blue font-semibold uppercase">West Region</h3>
+                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
+                    {% for member in post.meta('west') %}
+                        <div class="w-full md:w-6/12 xl:w-3/12 px-4">
+                            <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
+                                <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
+                                <p class="text-white italic">{{member.title}}</p>
+                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>   
     </div>
 
 </section>
