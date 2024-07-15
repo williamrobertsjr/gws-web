@@ -10,8 +10,8 @@
 
 <section class="py-52">
 
-    <div class="md:container mx-auto">
-        <div class="w-10/12 mx-auto">
+    <div class="md:container">
+        <div class="hidden md:block w-10/12">
             {{post.content}}
         </div>
         
@@ -26,8 +26,9 @@
                         <div class="w-full md:w-6/12 xl:w-3/12 px-4">
                             <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
                                 <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
-                                <p class="text-white italic">{{member.title}}</p>
-                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white italic mb-2">{{member.title}}</p>
+                                <p class="text-white">{{member.states}}</p>
+                                <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
                                 <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
                         </div>
                     {% endfor %}
@@ -41,8 +42,9 @@
                         <div class="w-full md:w-6/12 xl:w-3/12 px-4">
                             <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
                                 <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
-                                <p class="text-white italic">{{member.title}}</p>
-                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white italic mb-2">{{member.title}}</p>
+                                <p class="text-white">{{member.states}}</p>
+                                <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
                                 <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
                         </div>
                     {% endfor %}
@@ -55,8 +57,9 @@
                         <div class="w-full md:w-6/12 xl:w-3/12 px-4">
                             <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
                                 <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
-                                <p class="text-white italic">{{member.title}}</p>
-                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white italic mb-2">{{member.title}}</p>
+                                <p class="text-white">{{member.states}}</p>
+                                <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
                                 <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
                         </div>
                     {% endfor %}
@@ -69,8 +72,9 @@
                         <div class="w-full md:w-6/12 xl:w-3/12 px-4">
                             <img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3">
                                 <p class="text-white text-xl font-semibold underline">{{member.name}}</p>
-                                <p class="text-white italic">{{member.title}}</p>
-                                <p class="text-white text-sm italic"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
+                                <p class="text-white italic mb-2">{{member.title}}</p>
+                                <p class="text-white">{{member.states}}</p>
+                                <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
                                 <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
                         </div>
                     {% endfor %}

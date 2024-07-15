@@ -122,7 +122,7 @@ li {
 }
 
 .hdr-logo img {
-  max-width: 150px;
+  max-width: 130px;
 }
 
 .btn {
@@ -171,6 +171,9 @@ li {
 .page-content {
   padding: 10rem 0;
 }
+#searchwp-form-1 {
+ margin: auto;
+}
 form.searchwp-form input.swp-input--search {
   background-size: 15px auto !important;
   padding: 7px 10px !important;
@@ -217,7 +220,7 @@ h2.products-menu-header:hover {
 }
 
 .products-tool-type-col h2.products-menu-header {
-  font-size: 3rem !important;
+  font-size: 2.5rem !important;
   font-weight: 900 !important;
   margin-bottom: 0;
 }
@@ -255,20 +258,20 @@ h2.products-menu-header:hover {
 .hide-menu {
   display: none !important;
 }
-/*Temporarily hide this until we get all brands posted*/
+/* Temporarily hide this until we get all brands posted
 #mega-menu-20-0 {
   display: none !important;
-}
+} */
 #ask-gws-popover {
   position: absolute;
   background: var(--black);
-  min-width: 250px;
+  min-width: 500px;
+  top: 0;
   padding: 30px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   top: 40px;
-  left: 0px;
+  right: 8px;
   box-shadow: 10px 5px 10px 1px rgba(0, 0, 0, 0.25);
   transition: all 0.5s ease-in 0.2s;
 }
@@ -327,13 +330,13 @@ h3.hero-link {
 .mega-menu-megamenu > ul.mega-sub-menu {
   min-height: 70vh !important;
 }
-/* .sub-menu-col-right {
-  border-top: 3px solid var(--pale-blue)!important;
-  padding-top: 25px!important;
-} */
+a.mega-menu-link {
+  display: flex !important;
+  align-items: center;
+}
 
 #announcement-banner {
-  /* background-color: var(--black); */
+  background-color: var(--black);
 }
 
 /*****************************/
@@ -471,9 +474,10 @@ div#gform_confirmation_wrapper_5 {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
+  min-height: 750px;
 }
 .header-transparent {
-  background-color: transparent;
+  /* background-color: transparent; */
   position: absolute;
   width: 100%;
   z-index: 10;

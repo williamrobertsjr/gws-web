@@ -12,7 +12,6 @@ for (const link of megaMenuLinks) {
 // Remove black background when clicking outside the menu
 document.addEventListener('click', function(event) {
     let isClickInsideMenu = megaMenu.contains(event.target);
-
     if (!isClickInsideMenu) {
         headerTransparent.classList.remove('bg-black');
     }
@@ -25,7 +24,8 @@ const specialtyLinks = document.querySelector('#mega-menu-item-133117');
 const holemakingLinks = document.querySelector('#mega-menu-item-133116');
 const threadingLinks = document.querySelector('#mega-menu-item-133118');
 const insertsLinks = document.querySelector('#mega-menu-item-133119');
-const allLinks = [millingLinks, specialtyLinks, holemakingLinks, threadingLinks, insertsLinks];
+const customSpecialtyLinks = document.querySelector('#mega-menu-item-134115');
+const allLinks = [millingLinks, specialtyLinks, holemakingLinks, threadingLinks, insertsLinks, customSpecialtyLinks];
 
 const menuRightLinks = document.querySelectorAll('.menu-right-links');
 const millingRight = document.querySelector('.menu-right-links.milling')
@@ -35,14 +35,19 @@ const threadingRight = document.querySelector('.menu-right-links.threading')
 const insertsRight = document.querySelector('.menu-right-links.inserts')
 
 let menuRightImg = document.querySelector('.menu-right-img').style
+let menuRightCustomImg = document.querySelector('.menu-right-custom-img').style
 let menuRightImgDefault = "url('/wp-content/uploads/2024/01/all_tools_menu_menu.jpg')";
+let menuRightCustomImgDefault = "url('/wp-content/uploads/2024/06/custom_specialty_menu.jpg')"
 const millingImg = "url('/wp-content/uploads/2024/01/milling_menu.jpg')"
 const specialtyImg = "url('/wp-content/uploads/2024/01/specialty_menu.jpg')"
 const holemakingImg = "url('/wp-content/uploads/2024/01/holemaking_menu.jpg')"
 const threadingImg = "url('/wp-content/uploads/2024/01/threading_menu.jpg')"
 const insertsImg = "url('/wp-content/uploads/2024/01/inserts_menu.jpg')"
+const customSpecialtyImg = "url('/wp-content/uploads/2024/06/custom_specialty_menu.jpg')"
+
 
 menuRightImg.backgroundImage = menuRightImgDefault
+menuRightCustomImg.backgroundImage = menuRightCustomImgDefault
 
 // Hide all menu right subtype links to start
 menuRightLinks.forEach(link => {
@@ -57,31 +62,35 @@ for (const btn of productsButtons) {
     btn.addEventListener('click', function(event) {
         let heading = btn.firstChild.nextSibling;
         let icon = heading.firstChild.nextSibling;
-
+        console.log(heading)
         // Determine which link should be shown based on the heading text
         let linkToShow;
         let menuRightToShow
         let rightImgToShow
-        if (heading.innerHTML.includes('Milling')) {
+        if (heading.classList.contains('standardMilling')) {
             linkToShow = millingLinks;
             menuRightToShow = millingRight
             menuRightImg.backgroundImage = millingImg
-        } else if (heading.innerHTML.includes('Specialty')) {
+        } else if (heading.classList.contains('standardSpecialty')) {
             linkToShow = specialtyLinks;
             menuRightToShow = specialtyRight
             menuRightImg.backgroundImage  = specialtyImg
-        } else if (heading.innerHTML.includes('Holemaking')) {
+        } else if (heading.classList.contains('standardHolemaking')) {
             linkToShow = holemakingLinks;
             menuRightToShow = holemakingRight;
             menuRightImg.backgroundImage  = holemakingImg
-        } else if (heading.innerHTML.includes('Threading')) {
+        } else if (heading.classList.contains('standardThreading')) {
             linkToShow = threadingLinks;
             menuRightToShow = threadingRight;
             menuRightImg.backgroundImage  = threadingImg
-        } else if (heading.innerHTML.includes('Inserts')) {
+        } else if (heading.classList.contains('standardInserts')) {
             linkToShow = insertsLinks;
             menuRightToShow = insertsRight;
             menuRightImg.backgroundImage  = insertsImg
+        } else if (heading.classList.contains('customSpecialty')) {
+            console.log('worked')
+            linkToShow = customSpecialtyLinks;
+            menuRightCustomImg.backgroundImage  = customSpecialtyImg
         } else {
             return
         }
@@ -90,10 +99,13 @@ for (const btn of productsButtons) {
        if (linkToShow && !linkToShow.classList.contains('hide-menu')) {
             // If shown, hide it and remove the classes
             linkToShow.classList.add('hide-menu');
-            menuRightToShow.classList.add('hide-menu');
+            if(menuRightToShow) {
+                menuRightToShow.classList.add('hide-menu');
+            }
             icon.classList.remove('rotate-45', 'text-pale-blue');
             heading.classList.remove('text-pale-blue');
             menuRightImg.backgroundImage  = menuRightImgDefault
+            menuRightCustomImg.backgroundImage = menuRightCustomImgDefault
             
         } else {
             // menuRightImg.backgroundImage  = menuRightImgDefault
@@ -116,7 +128,9 @@ for (const btn of productsButtons) {
             // Then, show the clicked link and add the classes
             if (linkToShow) {
                 linkToShow.classList.remove('hide-menu');
-                menuRightToShow.classList.remove('hide-menu');
+                if(menuRightToShow) {
+                    menuRightToShow.classList.remove('hide-menu');
+                }
                 icon.classList.add('rotate-45', 'text-pale-blue');
                 heading.classList.add('text-pale-blue');
             }
@@ -125,3 +139,45 @@ for (const btn of productsButtons) {
 }
 
 
+const toolCategories = {
+    "Milling": {
+        "Standard": {
+            links: document.querySelector('#mega-menu-item-133115'),
+            rightLinks: "" ,
+            img: ""
+        },
+        "Custom": {}
+    },
+    "Holemaking": {
+        "Standard": {
+            links: "",
+            rightLinks: "" ,
+            img: ""
+        },
+        "Custom": {}
+    },
+    "Specialty": {
+        "Standard": {
+            links: "",
+            rightLinks: "" ,
+            img: ""
+        },
+        "Custom": {}
+    },
+    "Inserts": {
+        "Standard": {
+            links: "",
+            rightLinks: "" ,
+            img: ""
+        },
+        "Custom": {}
+    },
+    "Threading": {
+        "Standard": {
+            links: "",
+            rightLinks: "" ,
+            img: ""
+        },
+        "Custom": {}
+    }
+}
