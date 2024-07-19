@@ -5,6 +5,11 @@
 <section id="distributor-search-header" class="page-header bg-black">
     <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background" style="background: url('{{post.thumbnail.src}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
         <h1 class="text-3xl md:text-7xl uppercase font-black text-white">{{post.title}}</h1>
+        <p class="text-2xl mb-6">Use the map to find your GWS sales representative or search for your region below.</p>
+        <div class="flex gap-x-4 w-5/12">
+            <a href="tel:18774978665" class="btn dark-blue w-full text-center">Call GWS</a>
+            <a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full text-center">Email GWS</a>
+        </div>
     </div>
 </section>
 
@@ -16,7 +21,7 @@
         </div>
         
     </div>
-
+    
     <div class="md:container mx-auto mt-20">
         <div class="w-10/12 mx-auto">
             <div class="flex flex-col">
@@ -29,7 +34,7 @@
                                 <p class="text-white italic mb-2">{{member.title}}</p>
                                 <p class="text-white">{{member.states}}</p>
                                 <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
-                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                                {% if user %}<p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p>{% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -45,7 +50,7 @@
                                 <p class="text-white italic mb-2">{{member.title}}</p>
                                 <p class="text-white">{{member.states}}</p>
                                 <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
-                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                                {% if user %}<p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p>{% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -60,7 +65,7 @@
                                 <p class="text-white italic mb-2">{{member.title}}</p>
                                 <p class="text-white">{{member.states}}</p>
                                 <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
-                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                                {% if user %}<p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p>{% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -75,7 +80,7 @@
                                 <p class="text-white italic mb-2">{{member.title}}</p>
                                 <p class="text-white">{{member.states}}</p>
                                 <p class="text-white text-sm"><a href="mailto:{{member.email}}">{{member.email}}</a></p>
-                                <p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p> 
+                                {% if user %}<p class="text-white text-sm"><a href="tel:{{member.phone_number}}">{{member.phone_number}}</a></p>{% endif %} 
                         </div>
                     {% endfor %}
                 </div>

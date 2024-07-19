@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("The 'partsInput' field is not found in the form data");
     }
 
-    fetch("https://dev.gwstoolgroup.com/wp-json/rapid-quote/v1/submit-quote", {
+    fetch("https://www.gwstoolgroup.com/wp-json/rapid-quote/v1/submit-quote", {
       method: "POST",
       body: data,
     })
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
               '<a class="' +
               part.FAMILY +
               ' font-bold text-dark-blue"' +
-              'href="https://staging.gwstoolgroup.com/product/?part=' +
+              'href="/product/?part=' +
               part.PN +
               ' "' +
               'target="_blank">' +
@@ -381,7 +381,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if the email was sent successfully
         if (data.message === "Email sent successfully.") {
             // Redirect to the thank you page
-            window.location.href = 'https://staging.gwstoolgroup.com/rapid-quote-success';
+            window.location.href = '/rapid-quote-success';
         } else {
             // Handle the case where the email wasn't sent successfully
             console.error("Email sending failed:", data.error);
@@ -416,7 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if the email was sent successfully
         if (data.message === "Email sent successfully.") {
             // Redirect to the thank you page
-            window.location.href = 'https://staging.gwstoolgroup.com/test-tools-success';
+            window.location.href = '/test-tools-success';
         } else {
             // Handle the case where the email wasn't sent successfully
             console.error("Email sending failed:", data.error);
