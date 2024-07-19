@@ -183,6 +183,10 @@ form.searchwp-form input.swp-input--search {
   color: var(--white);
   border-radius: 3px !important;
 }
+/* removes x button in search bar */
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
 .menu-item:hover {
   color: var(--pale-blue);
 }
