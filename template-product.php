@@ -15,7 +15,8 @@ if (isset($_GET['part'])) {
          FROM `master_product_data` p
          LEFT JOIN `master_series_data` s on p.series = s.series
          LEFT JOIN `rapid_quote` r on r.PN = p.part
-         WHERE part = ?");
+         WHERE part = ?
+         AND web = 'Y'");
     $stmt->bind_param("s", $part);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -24,6 +25,9 @@ if (isset($_GET['part'])) {
         $product_data = $result->fetch_assoc();
     } else {
         $product_data = null;
+        status_header(404);
+        wp_redirect(home_url('404'));
+        exit();
     }
     $series_id = $product_data['series'];
 
