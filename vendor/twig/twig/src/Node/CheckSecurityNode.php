@@ -58,8 +58,12 @@ class CheckSecurityNode extends Node
             ->indent()
             ->write(!$tags ? "[],\n" : "['".implode("', '", array_keys($tags))."'],\n")
             ->write(!$filters ? "[],\n" : "['".implode("', '", array_keys($filters))."'],\n")
+<<<<<<< HEAD
             ->write(!$functions ? "[],\n" : "['".implode("', '", array_keys($functions))."'],\n")
             ->write("\$this->source\n")
+=======
+            ->write(!$functions ? "[]\n" : "['".implode("', '", array_keys($functions))."']\n")
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             ->outdent()
             ->write(");\n")
             ->outdent()

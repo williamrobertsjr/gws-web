@@ -117,7 +117,11 @@ class PostQuery extends ArrayObject implements PostCollectionInterface, JsonSeri
      *
      * @param array $prefs Optional. Custom preferences. Default `array()`.
      *
+<<<<<<< HEAD
      * @return Pagination object
+=======
+     * @return \Timber\Pagination object
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function pagination($prefs = [])
     {

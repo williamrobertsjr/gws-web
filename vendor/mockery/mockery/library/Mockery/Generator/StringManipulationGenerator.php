@@ -4,15 +4,24 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+<<<<<<< HEAD
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
+=======
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link      https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
  */
 
 namespace Mockery\Generator;
 
+<<<<<<< HEAD
 use Mockery\Generator\StringManipulation\Pass\AvoidMethodClashPass;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
+=======
+use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
 use Mockery\Generator\StringManipulation\Pass\ClassPass;
 use Mockery\Generator\StringManipulation\Pass\ConstantsPass;
@@ -25,6 +34,7 @@ use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPa
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
 use Mockery\Generator\StringManipulation\Pass\TraitPass;
+<<<<<<< HEAD
 use function file_get_contents;
 
 class StringManipulationGenerator implements Generator
@@ -74,6 +84,14 @@ class StringManipulationGenerator implements Generator
 
         return new MockDefinition($namedConfig, $code);
     }
+=======
+use Mockery\Generator\StringManipulation\Pass\AvoidMethodClashPass;
+use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
+
+class StringManipulationGenerator implements Generator
+{
+    protected $passes = array();
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
     /**
      * Creates a new StringManipulationGenerator with the default passes
@@ -99,4 +117,31 @@ class StringManipulationGenerator implements Generator
             new ClassAttributesPass(),
         ]);
     }
+<<<<<<< HEAD
+=======
+
+    public function __construct(array $passes)
+    {
+        $this->passes = $passes;
+    }
+
+    public function generate(MockConfiguration $config)
+    {
+        $code = file_get_contents(__DIR__ . '/../Mock.php');
+        $className = $config->getName() ?: $config->generateName();
+
+        $namedConfig = $config->rename($className);
+
+        foreach ($this->passes as $pass) {
+            $code = $pass->apply($code, $namedConfig);
+        }
+
+        return new MockDefinition($namedConfig, $code);
+    }
+
+    public function addPass(Pass $pass)
+    {
+        $this->passes[] = $pass;
+    }
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 }

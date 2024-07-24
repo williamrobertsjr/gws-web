@@ -9,6 +9,11 @@
  */
 namespace PHPUnit\TextUI\XmlConfiguration;
 
+<<<<<<< HEAD
+=======
+use function array_key_exists;
+use function sprintf;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use function version_compare;
 
 /**
@@ -45,6 +50,18 @@ final class MigrationBuilder
      */
     public function build(string $fromVersion): array
     {
+<<<<<<< HEAD
+=======
+        if (!array_key_exists($fromVersion, self::AVAILABLE_MIGRATIONS)) {
+            throw new MigrationBuilderException(
+                sprintf(
+                    'Migration from schema version %s is not supported',
+                    $fromVersion,
+                ),
+            );
+        }
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $stack = [];
 
         foreach (self::AVAILABLE_MIGRATIONS as $version => $migrations) {

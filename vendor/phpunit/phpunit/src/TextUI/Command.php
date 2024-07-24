@@ -16,7 +16,10 @@ use function array_keys;
 use function assert;
 use function class_exists;
 use function copy;
+<<<<<<< HEAD
 use function explode;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use function extension_loaded;
 use function fgets;
 use function file_get_contents;
@@ -61,7 +64,10 @@ use PHPUnit\Util\XmlTestListRenderer;
 use ReflectionClass;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\StaticAnalysis\CacheWarmer;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use SebastianBergmann\Timer\Timer;
 use Throwable;
 
@@ -600,6 +606,7 @@ class Command
     {
         $this->printVersionString();
 
+<<<<<<< HEAD
         $latestVersion           = file_get_contents('https://phar.phpunit.de/latest-version-of/phpunit');
         $latestCompatibleVersion = file_get_contents('https://phar.phpunit.de/latest-version-of/phpunit-' . explode('.', Version::series())[0]);
 
@@ -625,6 +632,19 @@ class Command
                 'The latest version is PHPUnit %s.' . PHP_EOL,
                 $latestVersion,
             );
+=======
+        $latestVersion = file_get_contents('https://phar.phpunit.de/latest-version-of/phpunit');
+        $isOutdated    = version_compare($latestVersion, Version::id(), '>');
+
+        if ($isOutdated) {
+            printf(
+                'You are not using the latest version of PHPUnit.' . PHP_EOL .
+                'The latest version is PHPUnit %s.' . PHP_EOL,
+                $latestVersion,
+            );
+        } else {
+            print 'You are using the latest version of PHPUnit.' . PHP_EOL;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         }
 
         exit(TestRunner::SUCCESS_EXIT);
@@ -705,7 +725,11 @@ class Command
 
     /**
      * @throws \PHPUnit\Framework\Exception
+<<<<<<< HEAD
      * @throws XmlConfiguration\Exception
+=======
+     * @throws \PHPUnit\TextUI\XmlConfiguration\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function handleListSuites(bool $exit): int
     {
@@ -738,7 +762,11 @@ class Command
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function handleListTests(TestSuite $suite, bool $exit): int
     {
@@ -765,7 +793,11 @@ class Command
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function handleListTestsXml(TestSuite $suite, string $target, bool $exit): int
     {
@@ -856,6 +888,7 @@ class Command
     {
         $this->printVersionString();
 
+<<<<<<< HEAD
         $result = (new SchemaDetector)->detect($filename);
 
         if (!$result->detected()) {
@@ -866,6 +899,9 @@ class Command
 
         /** @psalm-suppress MissingThrowsDocblock */
         if ($result->version() === Version::series()) {
+=======
+        if (!(new SchemaDetector)->detect($filename)->detected()) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             print $filename . ' does not need to be migrated.' . PHP_EOL;
 
             exit(TestRunner::EXCEPTION_EXIT);

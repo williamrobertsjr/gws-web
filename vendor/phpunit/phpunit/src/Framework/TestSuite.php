@@ -44,7 +44,10 @@ use PHPUnit\Util\Test as TestUtil;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+<<<<<<< HEAD
 use SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Throwable;
 
 /**
@@ -594,6 +597,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
     /**
      * Runs the tests and collects their result in a TestResult.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws CodeCoverageException
@@ -601,6 +605,15 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
      * @throws Warning
      */
     public function run(?TestResult $result = null): TestResult
+=======
+     * @throws \PHPUnit\Framework\CodeCoverageException
+     * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+     * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Warning
+     */
+    public function run(TestResult $result = null): TestResult
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if ($result === null) {
             $result = $this->createResult();

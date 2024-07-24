@@ -2,7 +2,11 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
+<<<<<<< HEAD
 use PhpParser\PhpVersion;
+=======
+use PhpParser\Lexer\Emulative;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /*
  * In PHP 8.1, "readonly(" was special cased in the lexer in order to support functions with
@@ -20,8 +24,13 @@ class ReadonlyFunctionTokenEmulator extends KeywordEmulator {
         return \T_READONLY;
     }
 
+<<<<<<< HEAD
     public function getPhpVersion(): PhpVersion {
         return PhpVersion::fromComponents(8, 2);
+=======
+    public function getPhpVersion(): string {
+        return Emulative::PHP_8_2;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     }
 
     public function reverseEmulate(string $code, array $tokens): array {

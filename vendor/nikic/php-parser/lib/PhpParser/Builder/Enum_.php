@@ -9,6 +9,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
+<<<<<<< HEAD
 class Enum_ extends Declaration {
     protected string $name;
     protected ?Identifier $scalarType = null;
@@ -24,6 +25,22 @@ class Enum_ extends Declaration {
     protected array $methods = [];
     /** @var list<Node\AttributeGroup> */
     protected array $attributeGroups = [];
+=======
+class Enum_ extends Declaration
+{
+    protected $name;
+    protected $scalarType = null;
+
+    protected $implements = [];
+
+    protected $uses = [];
+    protected $enumCases = [];
+    protected $constants = [];
+    protected $methods = [];
+
+    /** @var Node\AttributeGroup[] */
+    protected $attributeGroups = [];
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
     /**
      * Creates an enum builder.
@@ -37,7 +54,11 @@ class Enum_ extends Declaration {
     /**
      * Sets the scalar type.
      *
+<<<<<<< HEAD
      * @param string|Identifier $scalarType
+=======
+     * @param string|Identifier $type
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @return $this
      */
@@ -72,6 +93,7 @@ class Enum_ extends Declaration {
     public function addStmt($stmt) {
         $stmt = BuilderHelpers::normalizeNode($stmt);
 
+<<<<<<< HEAD
         if ($stmt instanceof Stmt\EnumCase) {
             $this->enumCases[] = $stmt;
         } elseif ($stmt instanceof Stmt\ClassMethod) {
@@ -84,6 +106,22 @@ class Enum_ extends Declaration {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 
+=======
+        $targets = [
+            Stmt\TraitUse::class    => &$this->uses,
+            Stmt\EnumCase::class    => &$this->enumCases,
+            Stmt\ClassConst::class  => &$this->constants,
+            Stmt\ClassMethod::class => &$this->methods,
+        ];
+
+        $class = \get_class($stmt);
+        if (!isset($targets[$class])) {
+            throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
+        }
+
+        $targets[$class][] = $stmt;
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         return $this;
     }
 
@@ -105,7 +143,11 @@ class Enum_ extends Declaration {
      *
      * @return Stmt\Enum_ The built enum node
      */
+<<<<<<< HEAD
     public function getNode(): PhpParser\Node {
+=======
+    public function getNode() : PhpParser\Node {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         return new Stmt\Enum_($this->name, [
             'scalarType' => $this->scalarType,
             'implements' => $this->implements,

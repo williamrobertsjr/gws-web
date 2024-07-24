@@ -19,5 +19,9 @@ interface Test extends Countable
     /**
      * Runs a test and collects its result in a TestResult instance.
      */
+<<<<<<< HEAD
     public function run(?TestResult $result = null): TestResult;
+=======
+    public function run(TestResult $result = null): TestResult;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 }

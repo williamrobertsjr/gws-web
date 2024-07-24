@@ -29,7 +29,11 @@ class CoAuthorsPlusUser extends User
     protected function init($coauthor = false)
     {
         /**
+<<<<<<< HEAD
          * @var stdclass $coauthor
+=======
+         * @var stdClass $coauthor
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         parent::init($coauthor);
 

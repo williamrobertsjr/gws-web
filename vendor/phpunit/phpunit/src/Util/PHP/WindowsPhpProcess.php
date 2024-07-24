@@ -20,7 +20,11 @@ use PHPUnit\Framework\Exception;
  */
 final class WindowsPhpProcess extends DefaultPhpProcess
 {
+<<<<<<< HEAD
     public function getCommand(array $settings, ?string $file = null): string
+=======
+    public function getCommand(array $settings, string $file = null): string
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if (PHP_MAJOR_VERSION < 8) {
             return '"' . parent::getCommand($settings, $file) . '"';

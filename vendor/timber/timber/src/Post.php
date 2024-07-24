@@ -3,6 +3,10 @@
 namespace Timber;
 
 use SimpleXMLElement;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Factory\PostFactory;
 use Timber\Factory\UserFactory;
 use WP_Post;
@@ -173,7 +177,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * (i.e. Timber\Post or a subclass).
      *
      * @internal
+<<<<<<< HEAD
      * @return Post
+=======
+     * @return \Timber\Post
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function build(WP_Post $wp_post): self
     {
@@ -194,7 +202,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
          * @since 2.0.0
          * @see   Timber::init()
          * @param array        $data An array of post data to import.
+<<<<<<< HEAD
          * @param Post $post The Timber post instance.
+=======
+         * @param \Timber\Post $post The Timber post instance.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $data = \apply_filters('timber/post/import_data', $data, $post);
 
@@ -284,7 +296,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * @api
      * @since 2.0.0
      *
+<<<<<<< HEAD
      * @return Post The post instance.
+=======
+     * @return \Timber\Post The post instance.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function setup()
     {
@@ -323,7 +339,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * @api
      * @since 2.0.0
      *
+<<<<<<< HEAD
      * @return Post The post instance.
+=======
+     * @return \Timber\Post The post instance.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function teardown()
     {
@@ -424,7 +444,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * content, it will use that to mark where to pull through.
      *
      * @api
+<<<<<<< HEAD
      * @see PostExcerpt
+=======
+     * @see \Timber\PostExcerpt
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @param array $options {
      *     An array of configuration options for generating the excerpt. Default empty.
@@ -446,7 +470,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * <h2>{{ post.title }}</h2>
      * <div>{{ post.excerpt({ words: 100, read_more: 'Keep reading' }) }}</div>
      * ```
+<<<<<<< HEAD
      * @return PostExcerpt
+=======
+     * @return \Timber\PostExcerpt
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function excerpt(array $options = [])
     {
@@ -467,7 +495,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      *
      * @api
      * @deprecated 2.0.0, use `{{ post.excerpt }}` instead.
+<<<<<<< HEAD
      * @see PostExcerpt
+=======
+     * @see \Timber\PostExcerpt
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @example
      * ```twig
      * {# Use default excerpt #}
@@ -479,7 +511,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * {# Additionally restrict the length to 50 words #}
      * <p>{{ post.excerpt.length(50).read_more('Continue Reading') }}</p>
      * ```
+<<<<<<< HEAD
      * @return PostExcerpt
+=======
+     * @return \Timber\PostExcerpt
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function preview()
     {
@@ -720,13 +756,22 @@ class Post extends CoreEntity implements DatedInterface, Setupable
          *
          * This filter is used by the ACF Integration.
          *
+<<<<<<< HEAD
+=======
+         * @todo Add example
+         *
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          * @see   \Timber\Post::field_object()
          * @since 1.6.0
          *
          * @param mixed        $value      The value.
          * @param int|null     $post_id    The post ID.
          * @param string       $field_name The ACF field name.
+<<<<<<< HEAD
          * @param Post $post       The post object.
+=======
+         * @param \Timber\Post $post       The post object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $value = \apply_filters('timber/post/meta_object_field', null, $this->ID, $field_name, $this);
         $value = $this->convert($value);
@@ -912,6 +957,7 @@ class Post extends CoreEntity implements DatedInterface, Setupable
          *
          * This filter is used by the CoAuthorsPlus integration.
          *
+<<<<<<< HEAD
          * @example
          * ```
          * add_filter( 'timber/post/authors', function( $author, $post ) {
@@ -922,12 +968,19 @@ class Post extends CoreEntity implements DatedInterface, Setupable
          *     return $authors;
          * } );
          * ```
+=======
+         * @todo  Add example
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          *
          * @see   \Timber\Post::authors()
          * @since 1.1.4
          *
          * @param array        $authors An array of User objects. Default: User object for `post_author`.
+<<<<<<< HEAD
          * @param Post $post    The post object.
+=======
+         * @param \Timber\Post $post    The post object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         return \apply_filters('timber/post/authors', [$this->author()], $this);
     }
@@ -968,7 +1021,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * If multiple categories are set, it will return just the first one.
      *
      * @api
+<<<<<<< HEAD
      * @return Term|null
+=======
+     * @return \Timber\Term|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function category()
     {
@@ -994,6 +1051,7 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      *     {% endfor %}
      * {% endif %}
      * ```
+<<<<<<< HEAD
      * @param string|array $args _optional_ An array of arguments for the `get_children` function or a string/non-indexed array to use as the post type(s).
      * @return PostCollectionInterface
      */
@@ -1042,6 +1100,25 @@ class Post extends CoreEntity implements DatedInterface, Setupable
         $args = \apply_filters('timber/post/children_args', $args, $this);
 
         return $this->factory()->from(\get_children($args));
+=======
+     * @param string|array $post_type _optional_ use to find children of a particular post type (attachment vs. page for example). You might want to restrict to certain types of children in case other stuff gets all mucked in there. You can use 'parent' to use the parent's post type or you can pass an array of post types.
+     * @return \Timber\PostCollectionInterface
+     */
+    public function children($post_type = 'any')
+    {
+        if ($post_type === 'parent') {
+            $post_type = $this->post_type;
+        }
+        if (\is_array($post_type)) {
+            $post_type = \implode('&post_type[]=', $post_type);
+        }
+        $query = 'post_parent=' . $this->ID . '&post_type[]=' . $post_type . '&posts_per_page=-1&orderby=menu_order title&order=ASC&post_status[]=publish';
+        if ($this->post_status === 'publish') {
+            $query .= '&post_status[]=inherit';
+        }
+
+        return $this->factory()->from(\get_children($query));
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     }
 
     /**
@@ -1060,7 +1137,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      *                             special purposes. Might be set to 'liveblog' or other, depending
      *                             on what’s stored in your comments table.
      * @param string $status       Could be 'pending', etc.
+<<<<<<< HEAD
      * @see CommentThread for an example with nested comments
+=======
+     * @see \Timber\CommentThread for an example with nested comments
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @return bool|\Timber\CommentThread
      *
      * @example
@@ -1172,7 +1253,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
                  * ```
                  *
                  * @param string       $form Form output. Default WordPress password form output generated by `get_the_password_form()`.
+<<<<<<< HEAD
                  * @param Post $post The post object.
+=======
+                 * @param \Timber\Post $post The post object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                  */
                 return \apply_filters('timber/post/content/password_form', \get_the_password_form($this->ID), $this);
             }
@@ -1559,7 +1644,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * ```html
      * This post is from <span>Recipes</span>
      * ```
+<<<<<<< HEAD
      * @return PostType
+=======
+     * @return \Timber\PostType
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function type()
     {
@@ -1705,11 +1794,19 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * Using simple links to the next an previous page.
      * ```twig
      * {% if post.pagination.next is not empty %}
+<<<<<<< HEAD
      *     <a href="{{ post.pagination.next.link|esc_url }}">Go to next page</a>
      * {% endif %}
      *
      * {% if post.pagination.prev is not empty %}
      *     <a href="{{ post.pagination.prev.link|esc_url }}">Go to previous page</a>
+=======
+     *     <a href="{{ post.pagination.next.link|e('esc_url') }}">Go to next page</a>
+     * {% endif %}
+     *
+     * {% if post.pagination.prev is not empty %}
+     *     <a href="{{ post.pagination.prev.link|e('esc_url') }}">Go to previous page</a>
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * {% endif %}
      * ```
      * Using a pagination for all pages.
@@ -1722,7 +1819,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      *                    {% if page.current %}
      *                        <span aria-current="page">Page {{ page.title }}</span>
      *                    {% else %}
+<<<<<<< HEAD
      *                        <a href="{{ page.link|esc_ur }}">Page {{ page.title }}</a>
+=======
+     *                        <a href="{{ page.link|e('esc_url') }}">Page {{ page.title }}</a>
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *                    {% endif %}
      *                </li>
      *            {% endfor %}
@@ -1890,7 +1991,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * ```twig
      * <img src="{{ post.thumbnail.src }}" />
      * ```
+<<<<<<< HEAD
      * @return Image|null of your thumbnail
+=======
+     * @return \Timber\Image|null of your thumbnail
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function thumbnail()
     {
@@ -1973,7 +2078,11 @@ class Post extends CoreEntity implements DatedInterface, Setupable
      * Get a PostFactory instance for internal usage
      *
      * @internal
+<<<<<<< HEAD
      * @return PostFactory
+=======
+     * @return \Timber\Factory\PostFactory
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function factory()
     {

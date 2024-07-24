@@ -27,7 +27,10 @@ use PHPUnit\Util\Printer;
 use PHPUnit\Util\Test as TestUtil;
 use ReflectionClass;
 use ReflectionException;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Throwable;
 
 /**
@@ -152,7 +155,11 @@ final class XmlResultPrinter extends Printer implements TestListener
     /**
      * A test ended.
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function endTest(Test $test, float $time): void
     {
@@ -216,7 +223,11 @@ final class XmlResultPrinter extends Printer implements TestListener
             $testNode->appendChild($testDoubleNode);
         }
 
+<<<<<<< HEAD
         $inlineAnnotations = TestUtil::getInlineAnnotations(get_class($test), $test->getName(false));
+=======
+        $inlineAnnotations = \PHPUnit\Util\Test::getInlineAnnotations(get_class($test), $test->getName(false));
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
         if (isset($inlineAnnotations['given'], $inlineAnnotations['when'], $inlineAnnotations['then'])) {
             $testNode->setAttribute('given', $inlineAnnotations['given']['value']);

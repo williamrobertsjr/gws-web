@@ -9,8 +9,14 @@ namespace PhpParser\Node;
  * Examples: Names in property declarations are formatted as variables. Names in static property
  * lookups are also formatted as variables.
  */
+<<<<<<< HEAD
 class VarLikeIdentifier extends Identifier {
     public function getType(): string {
+=======
+class VarLikeIdentifier extends Identifier
+{
+    public function getType() : string {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         return 'VarLikeIdentifier';
     }
 }

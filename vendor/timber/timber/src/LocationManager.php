@@ -13,7 +13,12 @@ class LocationManager
         //priority: user locations, caller (but not theme), child theme, parent theme, caller, open_basedir
         $locs = [];
         $locs = \array_merge_recursive($locs, self::get_locations_user());
+<<<<<<< HEAD
         $locs = \array_merge_recursive($locs, self::get_locations_caller($caller, true));
+=======
+        $locs = \array_merge_recursive($locs, self::get_locations_caller($caller));
+        //remove themes from caller
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $locs = \array_merge_recursive($locs, self::get_locations_theme());
         $locs = \array_merge_recursive($locs, self::get_locations_caller($caller));
         $locs = \array_merge_recursive($locs, self::get_locations_open_basedir());
@@ -25,6 +30,7 @@ class LocationManager
         }, $locs);
 
         /**
+<<<<<<< HEAD
          * Filters the filesystem paths to search for Twig templates.
          *
          * @example
@@ -42,11 +48,26 @@ class LocationManager
          * @since 0.20.10
          *
          * @param array $locs An array of filesystem paths to search for Twig templates.
+=======
+         * Filters …
+         *
+         * @todo Add summary, description, example, parameter description
+         *
+         * @since 0.20.10
+         *
+         * @param array $locs
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $locs = \apply_filters('timber/locations', $locs);
 
         /**
+<<<<<<< HEAD
          * Filters the filesystem paths to search for Twig templates.
+=======
+         * Filters …
+         *
+         * @todo Add summary
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          *
          * @deprecated 2.0.0, use `timber/locations`
          */
@@ -187,14 +208,21 @@ class LocationManager
 
     /**
      * @param bool|string   $caller the calling directory
+<<<<<<< HEAD
      * @param bool          $skip_parent whether to skip the parent theme
      * @return array
      */
     protected static function get_locations_caller($caller = false, bool $skip_parent = false)
+=======
+     * @return array
+     */
+    protected static function get_locations_caller($caller = false)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         $locs = [];
         if ($caller && \is_string($caller)) {
             $caller = \realpath($caller);
+<<<<<<< HEAD
             $parent_theme = \get_template_directory();
             $parent_slug = \basename($parent_theme);
 
@@ -202,6 +230,8 @@ class LocationManager
                 return $locs;
             }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             if (\is_dir($caller)) {
                 $locs[Loader::MAIN_NAMESPACE][] = $caller;
             }

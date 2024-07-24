@@ -11,8 +11,11 @@ namespace PHPUnit\Framework\Constraint;
 
 use function count;
 
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
@@ -81,7 +84,11 @@ abstract class UnaryOperator extends Operator
      *
      * @param mixed $other evaluated value or object
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function failureDescription($other): string
     {

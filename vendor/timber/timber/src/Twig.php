@@ -6,6 +6,10 @@ use DateInterval;
 use DateTime;
 use DateTimeInterface;
 use Exception;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Factory\PostFactory;
 use Timber\Factory\TermFactory;
 use Twig\Environment;
@@ -29,8 +33,13 @@ class Twig
 
         \add_filter('timber/twig', [$self, 'add_timber_functions']);
         \add_filter('timber/twig', [$self, 'add_timber_filters']);
+<<<<<<< HEAD
         \add_filter('timber/twig', [$self, 'add_timber_escaper_filters']);
         \add_filter('timber/twig', [$self, 'add_timber_escapers']);
+=======
+        \add_filter('timber/twig', [$self, 'add_timber_escapers']);
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         \add_filter('timber/loader/twig', [$self, 'set_defaults']);
     }
 
@@ -246,9 +255,15 @@ class Twig
     /**
      * Adds Timber-specific functions to Twig.
      *
+<<<<<<< HEAD
      * @param Environment $twig The Twig Environment.
      *
      * @return Environment
+=======
+     * @param \Twig\Environment $twig The Twig Environment.
+     *
+     * @return \Twig\Environment
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function add_timber_functions($twig)
     {
@@ -428,6 +443,7 @@ class Twig
     }
 
     /**
+<<<<<<< HEAD
      * Get Timber default filters
      *
      * @return array Default Timber filters
@@ -496,6 +512,13 @@ class Twig
      * @param Environment $twig The Twig Environment.
      *
      * @return Environment
+=======
+     * Adds filters to Twig.
+     *
+     * @param \Twig\Environment $twig The Twig Environment.
+     *
+     * @return \Twig\Environment
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function add_timber_filters($twig)
     {
@@ -512,6 +535,7 @@ class Twig
         return $twig;
     }
 
+<<<<<<< HEAD
     public function add_timber_escaper_filters($twig)
     {
         foreach ($this->get_timber_escaper_filters() as $name => $function) {
@@ -534,6 +558,13 @@ class Twig
      *
      * @param Environment $twig The Twig Environment.
      * @return Environment
+=======
+    /**
+     * Adds escapers.
+     *
+     * @param \Twig\Environment $twig The Twig Environment.
+     * @return \Twig\Environment
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function add_timber_escapers($twig)
     {
@@ -572,9 +603,15 @@ class Twig
      * @since 2.0.0
      *
      * @throws \Twig\Error\RuntimeError
+<<<<<<< HEAD
      * @param Environment $twig Twig Environment.
      *
      * @return Environment
+=======
+     * @param \Twig\Environment $twig Twig Environment.
+     *
+     * @return \Twig\Environment
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function set_defaults(Environment $twig)
     {
@@ -600,7 +637,11 @@ class Twig
      *
      * @throws Exception
      *
+<<<<<<< HEAD
      * @param Environment         $env      Twig Environment.
+=======
+     * @param \Twig\Environment         $env      Twig Environment.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @param null|string|int|DateTime $date     A date.
      * @param null|string               $format   Optional. PHP date format. Will return the
      *                                            current date as a DateTimeImmutable object by

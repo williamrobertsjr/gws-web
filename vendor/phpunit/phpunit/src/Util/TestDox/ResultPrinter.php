@@ -13,7 +13,10 @@ use function get_class;
 use function in_array;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\ErrorTestCase;
+<<<<<<< HEAD
 use PHPUnit\Framework\Exception;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
@@ -22,7 +25,10 @@ use PHPUnit\Framework\WarningTestCase;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\TextUI\ResultPrinter as ResultPrinterInterface;
 use PHPUnit\Util\Printer;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Throwable;
 
 /**
@@ -103,7 +109,11 @@ abstract class ResultPrinter extends Printer implements ResultPrinterInterface
     /**
      * @param resource $out
      *
+<<<<<<< HEAD
      * @throws Exception
+=======
+     * @throws \PHPUnit\Framework\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function __construct($out = null, array $groups = [], array $excludeGroups = [])
     {
@@ -222,7 +232,11 @@ abstract class ResultPrinter extends Printer implements ResultPrinterInterface
     /**
      * A test started.
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function startTest(Test $test): void
     {

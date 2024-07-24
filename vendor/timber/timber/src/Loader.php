@@ -176,6 +176,7 @@ class Loader
 
             $template = $twig->load($file);
             $output = $template->render($data);
+<<<<<<< HEAD
 
             /**
              * Filters $output before it is cached.
@@ -187,6 +188,8 @@ class Loader
              * @param string $file
              */
             $output = \apply_filters('timber/output/pre-cache', $output, $data, $file);
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         }
 
         if (false !== $output && false !== $expires && null !== $key) {
@@ -256,7 +259,11 @@ class Loader
     }
 
     /**
+<<<<<<< HEAD
      * @return FilesystemLoader
+=======
+     * @return \Twig\Loader\FilesystemLoader
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function get_loader()
     {
@@ -319,7 +326,11 @@ class Loader
     }
 
     /**
+<<<<<<< HEAD
      * @return Environment
+=======
+     * @return \Twig\Environment
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function get_twig()
     {
@@ -443,7 +454,11 @@ class Loader
 
             $environment_options['cache'] = $twig_cache_loc;
         }
+<<<<<<< HEAD
         $twig = new Environment($this->get_loader(), $environment_options);
+=======
+        $twig = new \Twig\Environment($this->get_loader(), $environment_options);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
         if (WP_DEBUG) {
             $twig->addExtension(new \Twig\Extension\DebugExtension());
@@ -474,7 +489,11 @@ class Loader
          *
          * @since 0.20.10
          *
+<<<<<<< HEAD
          * @param Environment $twig The Twig environment you can add functionality to.
+=======
+         * @param \Twig\Environment $twig The Twig environment you can add functionality to.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $twig = \apply_filters('timber/loader/twig', $twig);
 
@@ -513,7 +532,11 @@ class Loader
          * </a>
          * ```
          *
+<<<<<<< HEAD
          * @param Environment $twig The Twig environment.
+=======
+         * @param \Twig\Environment $twig The Twig environment.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $twig = \apply_filters('timber/twig', $twig);
 
@@ -639,12 +662,21 @@ class Loader
     }
 
     /**
+<<<<<<< HEAD
      * @return CacheExtension\Extension
      */
     private function _get_cache_extension()
     {
         $key_generator = new Cache\KeyGenerator();
         $cache_provider = new Cache\WPObjectCacheAdapter($this);
+=======
+     * @return \Twig\CacheExtension\Extension
+     */
+    private function _get_cache_extension()
+    {
+        $key_generator = new \Timber\Cache\KeyGenerator();
+        $cache_provider = new \Timber\Cache\WPObjectCacheAdapter($this);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $cache_lifetime = \apply_filters('timber/cache/extension/lifetime', 0);
         $cache_strategy = new CacheExtension\CacheStrategy\GenerationalCacheStrategy(
             $cache_provider,
@@ -668,6 +700,7 @@ class Loader
         $value = false;
         $trans_key = \substr($group . '_' . $key, 0, self::TRANS_KEY_LEN);
 
+<<<<<<< HEAD
         /**
          * Filters the transient key used for caching.
          *
@@ -687,6 +720,8 @@ class Loader
          */
         $trans_key = \apply_filters('timber/cache/transient_key', $trans_key, $key, $group, $cache_mode);
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         if (self::CACHE_TRANSIENT === $cache_mode) {
             $value = \get_transient($trans_key);
         } elseif (self::CACHE_SITE_TRANSIENT === $cache_mode) {
@@ -715,6 +750,7 @@ class Loader
         $cache_mode = $this->_get_cache_mode($cache_mode);
         $trans_key = \substr($group . '_' . $key, 0, self::TRANS_KEY_LEN);
 
+<<<<<<< HEAD
         /**
          * Filters the transient key used for caching.
          *
@@ -734,6 +770,8 @@ class Loader
          */
         $trans_key = \apply_filters('timber/cache/transient_key', $trans_key, $key, $group, $cache_mode);
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         if (self::CACHE_TRANSIENT === $cache_mode) {
             \set_transient($trans_key, $value, $expires);
         } elseif (self::CACHE_SITE_TRANSIENT === $cache_mode) {

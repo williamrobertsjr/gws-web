@@ -122,7 +122,11 @@ final class TestRunner extends BaseTestRunner
      */
     private $timer;
 
+<<<<<<< HEAD
     public function __construct(?TestSuiteLoader $loader = null, ?CodeCoverageFilter $filter = null)
+=======
+    public function __construct(TestSuiteLoader $loader = null, CodeCoverageFilter $filter = null)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if ($filter === null) {
             $filter = new CodeCoverageFilter;
@@ -135,8 +139,13 @@ final class TestRunner extends BaseTestRunner
 
     /**
      * @throws \PHPUnit\Runner\Exception
+<<<<<<< HEAD
      * @throws Exception
      * @throws XmlConfiguration\Exception
+=======
+     * @throws \PHPUnit\TextUI\XmlConfiguration\Exception
+     * @throws Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function run(TestSuite $suite, array $arguments = [], array $warnings = [], bool $exit = true): TestResult
     {
@@ -864,8 +873,13 @@ final class TestRunner extends BaseTestRunner
     }
 
     /**
+<<<<<<< HEAD
      * @throws Exception
      * @throws XmlConfiguration\Exception
+=======
+     * @throws \PHPUnit\TextUI\XmlConfiguration\Exception
+     * @throws Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function handleConfiguration(array &$arguments): void
     {
@@ -1006,7 +1020,11 @@ final class TestRunner extends BaseTestRunner
                 $arguments['excludeGroups'] = array_diff($groupConfiguration->exclude()->asArrayOfStrings(), $groupCliArgs);
             }
 
+<<<<<<< HEAD
             if (!isset($arguments['noExtensions'])) {
+=======
+            if (!isset($this->arguments['noExtensions'])) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 $extensionHandler = new ExtensionHandler;
 
                 foreach ($arguments['configurationObject']->extensions() as $extension) {

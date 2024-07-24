@@ -116,7 +116,11 @@ class Pagination
                 'class' => 'page-numbers prev',
             ];
         }
+<<<<<<< HEAD
         if ($this->current < 2) {
+=======
+        if ($paged < 2) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             $this->prev = '';
         }
         if ($this->total === (float) 0) {

@@ -9,12 +9,19 @@
  */
 namespace PHPUnit\TextUI\XmlConfiguration;
 
+<<<<<<< HEAD
 use PHPUnit\Exception;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use RuntimeException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
+<<<<<<< HEAD
 final class MigrationBuilderException extends RuntimeException implements Exception
+=======
+final class MigrationBuilderException extends RuntimeException implements \PHPUnit\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 {
 }

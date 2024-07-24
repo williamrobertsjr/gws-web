@@ -17,19 +17,28 @@ use function method_exists;
 use function preg_split;
 use function trim;
 use PHPUnit\Framework\AssertionFailedError;
+<<<<<<< HEAD
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Reorderable;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestFailure;
+=======
+use PHPUnit\Framework\Reorderable;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\PhptTestCase;
 use PHPUnit\TextUI\DefaultResultPrinter;
+<<<<<<< HEAD
 use PHPUnit\Util\Filter;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Throwable;
 
 /**
@@ -86,7 +95,11 @@ class TestDoxPrinter extends DefaultResultPrinter
      * @param null|resource|string $out
      * @param int|string           $numberOfColumns
      *
+<<<<<<< HEAD
      * @throws Exception
+=======
+     * @throws \PHPUnit\Framework\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function __construct($out = null, bool $verbose = false, string $colors = self::COLOR_DEFAULT, bool $debug = false, $numberOfColumns = 80, bool $reverse = false)
     {
@@ -111,7 +124,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function endTest(Test $test, float $time): void
     {
@@ -131,7 +148,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function addError(Test $test, Throwable $t, float $time): void
     {
@@ -139,7 +160,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function addWarning(Test $test, Warning $e, float $time): void
     {
@@ -147,7 +172,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
@@ -155,7 +184,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function addIncompleteTest(Test $test, Throwable $t, float $time): void
     {
@@ -163,7 +196,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function addRiskyTest(Test $test, Throwable $t, float $time): void
     {
@@ -171,7 +208,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function addSkippedTest(Test $test, Throwable $t, float $time): void
     {
@@ -189,7 +230,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function registerTestResult(Test $test, ?Throwable $t, int $status, float $time, bool $verbose): void
     {
@@ -343,7 +388,11 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     protected function formatThrowable(Throwable $t, ?int $status = null): string
     {
+<<<<<<< HEAD
         $message = trim(TestFailure::exceptionToString($t));
+=======
+        $message = trim(\PHPUnit\Framework\TestFailure::exceptionToString($t));
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
         if ($message) {
             $message .= PHP_EOL . PHP_EOL . $this->formatStacktrace($t);
@@ -356,7 +405,11 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     protected function formatStacktrace(Throwable $t): string
     {
+<<<<<<< HEAD
         return Filter::getFilteredStacktrace($t);
+=======
+        return \PHPUnit\Util\Filter::getFilteredStacktrace($t);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     }
 
     protected function formatTestResultMessage(Throwable $t, array $result, string $prefix = '│'): string

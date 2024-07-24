@@ -10,6 +10,10 @@ use Timber\Image;
 use Timber\PathHelper;
 use Timber\Post;
 use Timber\PostArrayObject;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\PostQuery;
 use WP_Post;
 use WP_Query;
@@ -179,6 +183,7 @@ class PostFactory
         $mimes['webp'] = 'image/webp';
         $check = \wp_check_filetype(PathHelper::basename($src), $mimes);
 
+<<<<<<< HEAD
         /**
          * Filters the list of image extensions that will be used to determine if an attachment is an image.
          *
@@ -188,6 +193,8 @@ class PostFactory
          * @param array $extensions An array of image extensions.
          * @since 2.0.0
          */
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $extensions = \apply_filters('timber/post/image_extensions', [
             'jpg',
             'jpeg',

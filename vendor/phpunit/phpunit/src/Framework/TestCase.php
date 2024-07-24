@@ -98,16 +98,22 @@ use PHPUnit\Util\Exception as UtilException;
 use PHPUnit\Util\GlobalState;
 use PHPUnit\Util\PHP\AbstractPhpProcess;
 use PHPUnit\Util\Test as TestUtil;
+<<<<<<< HEAD
 use Prophecy\Exception\Doubler\ClassNotFoundException;
 use Prophecy\Exception\Doubler\DoubleException;
 use Prophecy\Exception\Doubler\InterfaceNotFoundException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Prophecy\Exception\Prediction\PredictionException;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
 use ReflectionClass;
 use ReflectionException;
+<<<<<<< HEAD
 use SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use SebastianBergmann\Comparator\Comparator;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 use SebastianBergmann\Diff\Differ;
@@ -116,7 +122,10 @@ use SebastianBergmann\GlobalState\ExcludeList;
 use SebastianBergmann\GlobalState\Restorer;
 use SebastianBergmann\GlobalState\Snapshot;
 use SebastianBergmann\ObjectEnumerator\Enumerator;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use SebastianBergmann\Template\Template;
 use SoapClient;
 use Throwable;
@@ -318,7 +327,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     private $snapshot;
 
     /**
+<<<<<<< HEAD
      * @var Prophet
+=======
+     * @var \Prophecy\Prophet
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private $prophet;
 
@@ -550,8 +563,13 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * Returns a string representation of the test case.
      *
+<<<<<<< HEAD
      * @throws Exception
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function toString(): string
     {
@@ -812,12 +830,21 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      * If no TestResult object is passed a new one will be created.
      *
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+<<<<<<< HEAD
      * @throws CodeCoverageException
      * @throws InvalidArgumentException
      * @throws UnintentionallyCoveredCodeException
      * @throws UtilException
      */
     public function run(?TestResult $result = null): TestResult
+=======
+     * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws CodeCoverageException
+     * @throws UtilException
+     */
+    public function run(TestResult $result = null): TestResult
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if ($result === null) {
             $result = $this->createResult();
@@ -1028,7 +1055,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
@@ -1044,7 +1075,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * Returns the size of the test.
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
@@ -1057,7 +1092,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
@@ -1067,7 +1106,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
@@ -1077,7 +1120,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
@@ -1087,7 +1134,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
@@ -2038,9 +2089,15 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws ClassNotFoundException
      * @throws DoubleException
      * @throws InterfaceNotFoundException
+=======
+     * @throws \Prophecy\Exception\Doubler\ClassNotFoundException
+     * @throws \Prophecy\Exception\Doubler\DoubleException
+     * @throws \Prophecy\Exception\Doubler\InterfaceNotFoundException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @psalm-param class-string|null $classOrInterface
      *
@@ -2190,8 +2247,13 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             }
 
             if (isset($passed[$dependencyTarget])) {
+<<<<<<< HEAD
                 if ($passed[$dependencyTarget]['size'] != TestUtil::UNKNOWN &&
                     $this->getSize() != TestUtil::UNKNOWN &&
+=======
+                if ($passed[$dependencyTarget]['size'] != \PHPUnit\Util\Test::UNKNOWN &&
+                    $this->getSize() != \PHPUnit\Util\Test::UNKNOWN &&
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                     $passed[$dependencyTarget]['size'] > $this->getSize()) {
                     $this->result->addError(
                         $this,
@@ -2337,7 +2399,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws RiskyTestError
      */
     private function restoreGlobalState(): void
@@ -2433,7 +2499,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws RiskyTestError
      */
     private function compareGlobalStateSnapshots(Snapshot $before, Snapshot $after): void
@@ -2515,7 +2585,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * @throws \SebastianBergmann\ObjectEnumerator\InvalidArgumentException
      * @throws \SebastianBergmann\ObjectReflector\InvalidArgumentException
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function registerMockObjectsFromTestArguments(array $testArguments, array &$visited = []): void
     {

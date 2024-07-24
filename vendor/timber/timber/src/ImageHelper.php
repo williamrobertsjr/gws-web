@@ -2,7 +2,10 @@
 
 namespace Timber;
 
+<<<<<<< HEAD
 use InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Image\Operation;
 
 /**
@@ -30,10 +33,13 @@ class ImageHelper
 
     public static $home_url;
 
+<<<<<<< HEAD
     protected const ALLOWED_PROTOCOLS = ['file', 'http', 'https'];
 
     protected const WINDOWS_LOCAL_FILENAME_REGEX = '/^[a-z]:(?:[\\\\\/]?(?:[\w\s!#()-]+|[\.]{1,2})+)*[\\\\\/]?/i';
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     /**
      * Inits the object.
      */
@@ -145,11 +151,14 @@ class ImageHelper
             //doesn't have .gif, bail
             return false;
         }
+<<<<<<< HEAD
 
         if (!ImageHelper::is_protocol_allowed($file)) {
             throw new InvalidArgumentException('The output file scheme is not supported.');
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         // Its a gif so test
         if (!($fh = @\fopen($file, 'rb'))) {
             return false;
@@ -179,6 +188,7 @@ class ImageHelper
      */
     public static function is_svg($file_path)
     {
+<<<<<<< HEAD
         if ('' === $file_path) {
             return false;
         }
@@ -188,6 +198,9 @@ class ImageHelper
         }
 
         if (!\file_exists($file_path)) {
+=======
+        if ('' === $file_path || !\file_exists($file_path)) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             return false;
         }
 
@@ -320,7 +333,11 @@ class ImageHelper
     {
         if (\wp_attachment_is_image($post_id)) {
             $attachment = Timber::get_post($post_id);
+<<<<<<< HEAD
             /** @var Attachment $attachment */
+=======
+            /** @var \Timber\Attachment $attachment */
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             if ($file_loc = $attachment->file_loc()) {
                 ImageHelper::delete_generated_files($file_loc);
             }
@@ -411,6 +428,7 @@ class ImageHelper
         $file = \parse_url($file);
         $path_parts = PathHelper::pathinfo($file['path']);
         $basename = \md5($filename);
+<<<<<<< HEAD
 
         /**
          * Filters basename for sideloaded files.
@@ -428,6 +446,8 @@ class ImageHelper
          */
         $basename = \apply_filters('timber/sideload_image/basename', $basename, $path_parts);
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $ext = 'jpg';
         if (isset($path_parts['extension'])) {
             $ext = $path_parts['extension'];
@@ -449,10 +469,13 @@ class ImageHelper
      */
     public static function sideload_image($file)
     {
+<<<<<<< HEAD
         if (!ImageHelper::is_protocol_allowed($file)) {
             throw new InvalidArgumentException('The output file scheme is not supported.');
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         /**
          * Adds a filter to change the upload folder temporarily.
          *
@@ -466,7 +489,10 @@ class ImageHelper
         \add_filter('upload_dir', [__CLASS__, 'set_sideload_image_upload_dir']);
 
         $loc = self::get_sideloaded_file_loc($file);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         if (\file_exists($loc)) {
             $url = URLHelper::file_system_to_url($loc);
 
@@ -480,8 +506,13 @@ class ImageHelper
         }
         $tmp = \download_url($file);
         \preg_match('/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches);
+<<<<<<< HEAD
 
         $file_array = [];
+=======
+        $file_array = [];
+        $file_array['name'] = PathHelper::basename($matches[0]);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $file_array['tmp_name'] = $tmp;
         // If error storing temporarily, do not use
         if (\is_wp_error($tmp)) {
@@ -556,6 +587,7 @@ class ImageHelper
      * The image is expected to be either part of a theme, plugin, or an upload.
      *
      * @param  string $url A URL (absolute or relative) pointing to an image.
+<<<<<<< HEAD
      * @return array<string, mixed> An array (see keys in code below).
      */
     public static function analyze_url(string $url): array
@@ -613,6 +645,28 @@ class ImageHelper
             'basename' => '',
         ];
 
+=======
+     * @return array       An array (see keys in code below).
+     */
+    public static function analyze_url($url)
+    {
+        $result = [
+            'url' => $url,
+            // the initial url
+            'absolute' => URLHelper::is_absolute($url),
+            // is the url absolute or relative (to home_url)
+            'base' => 0,
+            // is the image in uploads dir, or in content dir (theme or plugin)
+            'subdir' => '',
+            // the path between base (uploads or content) and file
+            'filename' => '',
+            // the filename, without extension
+            'extension' => '',
+            // the file extension
+            'basename' => '',
+            // full file name
+        ];
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $upload_dir = \wp_upload_dir();
         $tmp = $url;
         if (\str_starts_with($tmp, ABSPATH) || \str_starts_with($tmp, '/srv/www/')) {
@@ -642,9 +696,14 @@ class ImageHelper
         $parts = PathHelper::pathinfo($tmp);
         $result['subdir'] = ($parts['dirname'] === '/') ? '' : $parts['dirname'];
         $result['filename'] = $parts['filename'];
+<<<<<<< HEAD
         $result['extension'] = (isset($parts['extension']) ? \strtolower($parts['extension']) : '');
         $result['basename'] = $parts['basename'];
 
+=======
+        $result['extension'] = \strtolower($parts['extension']);
+        $result['basename'] = $parts['basename'];
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         return $result;
     }
 
@@ -654,6 +713,7 @@ class ImageHelper
      * @param string  $src A URL (http://example.org/wp-content/themes/twentysixteen/images/home.jpg).
      * @return string Full path to the file in question.
      */
+<<<<<<< HEAD
     public static function theme_url_to_dir(string $src): string
     {
         /**
@@ -700,6 +760,18 @@ class ImageHelper
             return $_path;
         }
         return $path;
+=======
+    public static function theme_url_to_dir($src)
+    {
+        $site_root = \trailingslashit(\get_theme_root_uri()) . \get_stylesheet();
+        $tmp = \str_replace($site_root, '', $src);
+        //$tmp = trailingslashit(get_theme_root()).get_stylesheet().$tmp;
+        $tmp = \get_stylesheet_directory() . $tmp;
+        if (\realpath($tmp)) {
+            return \realpath($tmp);
+        }
+        return $tmp;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     }
 
     /**
@@ -829,10 +901,13 @@ class ImageHelper
             return '';
         }
 
+<<<<<<< HEAD
         if (!ImageHelper::is_protocol_allowed($src)) {
             throw new InvalidArgumentException('The output file scheme is not supported.');
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $allow_fs_write = \apply_filters('timber/allow_fs_write', true);
 
         if ($allow_fs_write === false) {
@@ -913,8 +988,13 @@ class ImageHelper
         }
     }
 
+<<<<<<< HEAD
     //-- the below methods are just used for
     // unit testing the URL generation code --//
+=======
+    // -- the below methods are just used for unit testing the URL generation code
+    //
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     /**
      * @internal
      */
@@ -976,6 +1056,7 @@ class ImageHelper
         );
         return $new_path;
     }
+<<<<<<< HEAD
 
     /**
      * Checks if the protocol of the given filename is allowed.
@@ -1008,4 +1089,6 @@ class ImageHelper
 
         return \in_array($protocol, self::ALLOWED_PROTOCOLS, true);
     }
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 }

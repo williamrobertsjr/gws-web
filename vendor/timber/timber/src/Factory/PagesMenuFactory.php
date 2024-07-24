@@ -15,7 +15,11 @@ class PagesMenuFactory
      *
      * @param array $args Optional. Args for get_pages().
      *
+<<<<<<< HEAD
      * @return CoreInterface
+=======
+     * @return \Timber\CoreInterface
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function from_pages(array $args = [])
     {

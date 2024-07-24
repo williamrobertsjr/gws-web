@@ -3,6 +3,10 @@
 namespace Timber;
 
 use Timber\Factory\TermFactory;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use WP_Term;
 
 /**
@@ -81,7 +85,11 @@ class Term extends CoreEntity
      * @internal
      *
      * @param WP_Term      $wp_term The vanilla WordPress term object to build from.
+<<<<<<< HEAD
      * @return Term
+=======
+     * @return \Timber\Term
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function build(WP_Term $wp_term): self
     {
@@ -205,6 +213,10 @@ class Term extends CoreEntity
         return false;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     /* Public methods
     ===================== */
 
@@ -341,7 +353,11 @@ class Term extends CoreEntity
          * @since 0.21.9
          *
          * @param string       $link The link.
+<<<<<<< HEAD
          * @param Term $term The term object.
+=======
+         * @param \Timber\Term $term The term object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $link = \apply_filters('timber/term/link', $link, $this);
 
@@ -399,6 +415,7 @@ class Term extends CoreEntity
         /**
          * Filters the relative link (path) to a term archive page.
          *
+<<<<<<< HEAD
          * ```
          * add_filter( 'timber/term/path', function( $rel, $term ) {
          *     if ( $term->slug === 'news' ) {
@@ -408,12 +425,19 @@ class Term extends CoreEntity
          *     return $rel;
          * }, 10, 2 );
          * ```
+=======
+         * @todo Add example
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          *
          * @see   \Timber\Term::path()
          * @since 0.21.9
          *
          * @param string       $rel  The relative link.
+<<<<<<< HEAD
          * @param Term $term The term object.
+=======
+         * @param \Timber\Term $term The term object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $rel = \apply_filters('timber/term/path', $rel, $this);
 
@@ -501,7 +525,11 @@ class Term extends CoreEntity
      *                                   specify the class, use Class Maps.
      * @see https://timber.github.io/docs/v2/guides/posts/
      * @see https://timber.github.io/docs/v2/guides/class-maps/
+<<<<<<< HEAD
      * @return PostQuery
+=======
+     * @return \Timber\PostQuery
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function posts($query = [], $post_type_or_class = null)
     {

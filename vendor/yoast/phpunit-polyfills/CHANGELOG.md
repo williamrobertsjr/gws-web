@@ -9,6 +9,7 @@ This projects adheres to [Keep a CHANGELOG](http://keepachangelog.com/) and uses
 
 _Nothing yet._
 
+<<<<<<< HEAD
 ## [1.1.1] - 2024-04-05
 
 ### Added
@@ -20,6 +21,8 @@ _Nothing yet._
 [#161]: https://github.com/Yoast/PHPUnit-Polyfills/pull/161
 
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 ## [1.1.0] - 2023-08-19
 
 ### Added
@@ -177,8 +180,12 @@ As of version 2.15.0 of the `shivammathur/setup-php` action for GitHub Actions, 
 Initial release.
 
 
+<<<<<<< HEAD
 [Unreleased]: https://github.com/Yoast/PHPUnit-Polyfills/compare/1.x...HEAD
 [1.1.1]: https://github.com/Yoast/PHPUnit-Polyfills/compare/1.1.0...1.1.1
+=======
+[Unreleased]: https://github.com/Yoast/PHPUnit-Polyfills/compare/main...HEAD
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 [1.1.0]: https://github.com/Yoast/PHPUnit-Polyfills/compare/1.0.5...1.1.0
 [1.0.5]: https://github.com/Yoast/PHPUnit-Polyfills/compare/1.0.4...1.0.5
 [1.0.4]: https://github.com/Yoast/PHPUnit-Polyfills/compare/1.0.3...1.0.4

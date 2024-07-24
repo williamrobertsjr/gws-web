@@ -38,7 +38,10 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestFailure;
 use PHPUnit\Framework\TestResult;
 use SebastianBergmann\Environment\Runtime;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -176,7 +179,11 @@ abstract class AbstractPhpProcess
     /**
      * Runs a single test in a separate PHP process.
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function runTestJob(string $job, Test $test, TestResult $result, string $processResultFile): void
     {
@@ -202,7 +209,11 @@ abstract class AbstractPhpProcess
     /**
      * Returns the command based into the configurations.
      */
+<<<<<<< HEAD
     public function getCommand(array $settings, ?string $file = null): string
+=======
+    public function getCommand(array $settings, string $file = null): string
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         $command = $this->runtime->getBinary();
 
@@ -269,7 +280,11 @@ abstract class AbstractPhpProcess
     /**
      * Processes the TestResult object from an isolated process.
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function processChildResult(Test $test, TestResult $result, string $stdout, string $stderr): void
     {

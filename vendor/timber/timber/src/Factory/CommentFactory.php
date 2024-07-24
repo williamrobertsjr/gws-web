@@ -4,6 +4,10 @@ namespace Timber\Factory;
 
 use InvalidArgumentException;
 use Timber\Comment;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\CoreInterface;
 use WP_Comment;
 use WP_Comment_Query;
@@ -71,6 +75,7 @@ class CommentFactory
 
     protected function get_comment_class(WP_Comment $comment): string
     {
+<<<<<<< HEAD
         /**
          * Filters the class(es) used for comments linked to different post types.
          *
@@ -96,6 +101,9 @@ class CommentFactory
          *                        the post type and the value the name of the class to use for the comments
          *                        of this post type or a callback that determines the class to use.
          */
+=======
+        // Get the user-configured Class Map
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $map = \apply_filters('timber/comment/classmap', []);
 
         $type = \get_post_type($comment->comment_post_ID);

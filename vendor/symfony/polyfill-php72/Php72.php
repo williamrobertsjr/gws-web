@@ -141,7 +141,10 @@ final class Php72
 
         if ('\\' === \DIRECTORY_SEPARATOR) {
             $stat = @fstat($stream);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             // Check if formatted mode is S_IFCHR
             return $stat ? 0020000 === ($stat['mode'] & 0170000) : false;
         }

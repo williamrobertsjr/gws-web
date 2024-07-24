@@ -28,7 +28,11 @@ final class ExpectationFailedException extends AssertionFailedError
      */
     protected $comparisonFailure;
 
+<<<<<<< HEAD
     public function __construct(string $message, ?ComparisonFailure $comparisonFailure = null, ?Exception $previous = null)
+=======
+    public function __construct(string $message, ComparisonFailure $comparisonFailure = null, Exception $previous = null)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         $this->comparisonFailure = $comparisonFailure;
 

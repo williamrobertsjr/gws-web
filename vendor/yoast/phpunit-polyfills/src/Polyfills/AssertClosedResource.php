@@ -2,8 +2,12 @@
 
 namespace Yoast\PHPUnitPolyfills\Polyfills;
 
+<<<<<<< HEAD
 use PHPUnit\SebastianBergmann\Exporter\Exporter as Exporter_In_Phar_Old;
 use PHPUnitPHAR\SebastianBergmann\Exporter\Exporter as Exporter_In_Phar;
+=======
+use PHPUnit\SebastianBergmann\Exporter\Exporter as Exporter_In_Phar;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use SebastianBergmann\Exporter\Exporter;
 use Yoast\PHPUnitPolyfills\Helpers\ResourceHelper;
 
@@ -26,7 +30,11 @@ trait AssertClosedResource {
 	 * @return void
 	 */
 	public static function assertIsClosedResource( $actual, $message = '' ) {
+<<<<<<< HEAD
 		$exporter = self::getPHPUnitExporterObject();
+=======
+		$exporter = \class_exists( 'SebastianBergmann\Exporter\Exporter' ) ? new Exporter() : new Exporter_In_Phar();
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 		$msg      = \sprintf( 'Failed asserting that %s is of type "resource (closed)"', $exporter->export( $actual ) );
 
 		if ( $message !== '' ) {
@@ -45,7 +53,11 @@ trait AssertClosedResource {
 	 * @return void
 	 */
 	public static function assertIsNotClosedResource( $actual, $message = '' ) {
+<<<<<<< HEAD
 		$exporter = self::getPHPUnitExporterObject();
+=======
+		$exporter = \class_exists( 'SebastianBergmann\Exporter\Exporter' ) ? new Exporter() : new Exporter_In_Phar();
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 		$type     = $exporter->export( $actual );
 		if ( $type === 'NULL' ) {
 			$type = 'resource (closed)';
@@ -78,6 +90,7 @@ trait AssertClosedResource {
 	public static function shouldClosedResourceAssertionBeSkipped( $actual ) {
 		return ( ResourceHelper::isResourceStateReliable( $actual ) === false );
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Helper function to obtain an instance of the Exporter class.
@@ -97,4 +110,6 @@ trait AssertClosedResource {
 		// PHPUnit PHAR file for < 8.5.38, < 9.6.19, < 10.5.17 and < 11.0.10.
 		return new Exporter_In_Phar_Old();
 	}
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 }

@@ -25,7 +25,11 @@ class PagesMenu extends Menu
      * @param null  $menu Unused. Only here for compatibility with the Timber\Menu class.
      * @param array $args Optional. Args for wp_list_pages().
      *
+<<<<<<< HEAD
      * @return PagesMenu
+=======
+     * @return \Timber\PagesMenu
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function build($menu, $args = []): ?self
     {

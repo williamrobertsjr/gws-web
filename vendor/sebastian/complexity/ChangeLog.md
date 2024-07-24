@@ -2,12 +2,15 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+<<<<<<< HEAD
 ## [2.0.3] - 2023-12-22
 
 ### Changed
 
 * This component is now compatible with `nikic/php-parser` 5.0
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 ## [2.0.2] - 2020-10-26
 
 ### Fixed
@@ -30,7 +33,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Initial release
 
+<<<<<<< HEAD
 [2.0.3]: https://github.com/sebastianbergmann/complexity/compare/2.0.2...2.0.3
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 [2.0.2]: https://github.com/sebastianbergmann/complexity/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/sebastianbergmann/complexity/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/sebastianbergmann/complexity/compare/1.0.0...2.0.0

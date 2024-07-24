@@ -9,12 +9,18 @@
  */
 namespace PHPUnit\Util\Xml;
 
+<<<<<<< HEAD
 use function assert;
 use function defined;
 use function is_file;
 use function rsort;
 use function sprintf;
 use DirectoryIterator;
+=======
+use function defined;
+use function is_file;
+use function sprintf;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PHPUnit\Runner\Version;
 
 /**
@@ -23,6 +29,7 @@ use PHPUnit\Runner\Version;
 final class SchemaFinder
 {
     /**
+<<<<<<< HEAD
      * @psalm-return non-empty-list<non-empty-string>
      */
     public function available(): array
@@ -47,6 +54,8 @@ final class SchemaFinder
     }
 
     /**
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws Exception
      */
     public function find(string $version): string

@@ -55,9 +55,13 @@ use PHPUnit\Framework\SyntheticSkippedError;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Util\PHP\AbstractPhpProcess;
+<<<<<<< HEAD
 use SebastianBergmann\CodeCoverage\InvalidArgumentException;
 use SebastianBergmann\CodeCoverage\RawCodeCoverageData;
 use SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException;
+=======
+use SebastianBergmann\CodeCoverage\RawCodeCoverageData;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use SebastianBergmann\Template\Template;
 use SebastianBergmann\Timer\Timer;
 use Throwable;
@@ -87,7 +91,11 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
      *
      * @throws Exception
      */
+<<<<<<< HEAD
     public function __construct(string $filename, ?AbstractPhpProcess $phpUtil = null)
+=======
+    public function __construct(string $filename, AbstractPhpProcess $phpUtil = null)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if (!is_file($filename)) {
             throw new Exception(
@@ -113,12 +121,21 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
     /**
      * Runs a test and collects its result in a TestResult instance.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws UnintentionallyCoveredCodeException
      */
     public function run(?TestResult $result = null): TestResult
+=======
+     * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+     * @throws \SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     */
+    public function run(TestResult $result = null): TestResult
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if ($result === null) {
             $result = new TestResult;
@@ -345,7 +362,11 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         foreach (explode("\n", trim($content)) as $e) {
             $e = explode('=', trim($e), 2);
 
+<<<<<<< HEAD
             if ($e[0] !== '' && isset($e[1])) {
+=======
+            if (!empty($e[0]) && isset($e[1])) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 $env[$e[0]] = $e[1];
             }
         }

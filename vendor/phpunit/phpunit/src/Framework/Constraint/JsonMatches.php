@@ -11,11 +11,17 @@ namespace PHPUnit\Framework\Constraint;
 
 use function json_decode;
 use function sprintf;
+<<<<<<< HEAD
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Util\Json;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Util\Json;
+use SebastianBergmann\Comparator\ComparisonFailure;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -74,6 +80,7 @@ final class JsonMatches extends Constraint
      * @param mixed  $other       evaluated value or object
      * @param string $description Additional information about the test
      *
+<<<<<<< HEAD
      * @throws Exception
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
@@ -81,6 +88,15 @@ final class JsonMatches extends Constraint
      * @psalm-return never-return
      */
     protected function fail($other, $description, ?ComparisonFailure $comparisonFailure = null): void
+=======
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+     *
+     * @psalm-return never-return
+     */
+    protected function fail($other, $description, ComparisonFailure $comparisonFailure = null): void
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if ($comparisonFailure === null) {
             [$error, $recodedOther] = Json::canonicalize($other);

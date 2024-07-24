@@ -2,6 +2,7 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+<<<<<<< HEAD
 ## [9.2.31] - 2024-03-02
 
 ### Changed
@@ -14,6 +15,8 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is now compatible with `nikic/php-parser` 5.0
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 ## [9.2.29] - 2023-09-19
 
 ### Fixed
@@ -511,8 +514,11 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 7.1
 
+<<<<<<< HEAD
 [9.2.31]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.30...9.2.31
 [9.2.30]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.29...9.2.30
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 [9.2.29]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.28...9.2.29
 [9.2.28]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.27...9.2.28
 [9.2.27]: https://github.com/sebastianbergmann/php-code-coverage/compare/9.2.26...9.2.27

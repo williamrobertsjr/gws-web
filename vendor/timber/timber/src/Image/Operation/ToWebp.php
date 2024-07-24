@@ -2,7 +2,10 @@
 
 namespace Timber\Image\Operation;
 
+<<<<<<< HEAD
 use InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Helper;
 use Timber\Image\Operation as ImageOperation;
 use Timber\ImageHelper;
@@ -46,10 +49,13 @@ class ToWebp extends ImageOperation
      */
     public function run($load_filename, $save_filename)
     {
+<<<<<<< HEAD
         if (!ImageHelper::is_protocol_allowed($load_filename)) {
             throw new InvalidArgumentException('The output file scheme is not supported.');
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         if (!\is_file($load_filename)) {
             return false;
         }

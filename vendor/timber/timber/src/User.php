@@ -201,6 +201,7 @@ class User extends CoreEntity
     }
 
     /**
+<<<<<<< HEAD
      * Check if the user object is the current user
      *
      * @api
@@ -213,6 +214,8 @@ class User extends CoreEntity
     }
 
     /**
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * Get the name of the User
      *
      * @api
@@ -226,7 +229,11 @@ class User extends CoreEntity
          * @since 1.1.4
          *
          * @param string       $name The name of the user. Default `display_name`.
+<<<<<<< HEAD
          * @param User $user The user object.
+=======
+         * @param \Timber\User $user The user object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         return \apply_filters('timber/user/name', $this->display_name, $this);
     }
@@ -291,6 +298,7 @@ class User extends CoreEntity
     }
 
     /**
+<<<<<<< HEAD
      * Creates an associative array with user role slugs and their translated names.
      *
      * @internal
@@ -298,6 +306,15 @@ class User extends CoreEntity
      * @param array $roles user roles.
      * @return array|null
      */
+=======
+       * Creates an associative array with user role slugs and their translated names.
+       *
+       * @internal
+       * @since 1.8.5
+       * @param array $roles user roles.
+       * @return array|null
+       */
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     protected function get_roles($roles)
     {
         if (empty($roles)) {
@@ -358,6 +375,7 @@ class User extends CoreEntity
     }
 
     /**
+<<<<<<< HEAD
      * Gets the profile link to the user’s profile in the WordPress admin if the ID in the user object
      * is the same as the current user’s ID.
      *
@@ -384,6 +402,8 @@ class User extends CoreEntity
     }
 
     /**
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * Checks whether a user has a capability.
      *
      * Don’t use role slugs for capability checks. While checking against a role in place of a

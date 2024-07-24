@@ -19,7 +19,11 @@ $ php phpunit-X.Y.phar --version
 
 Please replace `X.Y` with the version of PHPUnit you are interested in.
 
+<<<<<<< HEAD
 Alternatively, you may use [Composer](https://getcomposer.org/) to download and install PHPUnit as well as its dependencies. Please refer to the [documentation](https://phpunit.de/documentation.html) for details on how to install PHPUnit.
+=======
+Alternatively, you may use [Composer](https://getcomposer.org/) to download and install PHPUnit as well as its dependencies. Please refer to the "[Getting Started](https://phpunit.de/getting-started-with-phpunit.html)" guide for details on how to install PHPUnit.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 ## Contribute
 

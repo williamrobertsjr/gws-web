@@ -2,6 +2,7 @@
 
 All notable changes of the PHPUnit 9.6 release series are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+<<<<<<< HEAD
 ## [9.6.20] - 2024-07-10
 
 ### Changed
@@ -44,6 +45,8 @@ All notable changes of the PHPUnit 9.6 release series are documented in this fil
 * [#5666](https://github.com/sebastianbergmann/phpunit/issues/5666): `--no-extensions` CLI option does not work
 * [#5673](https://github.com/sebastianbergmann/phpunit/issues/5673): Confusing error message when migration of a configuration is requested that does not need to be migrated
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 ## [9.6.15] - 2023-12-01
 
 ### Fixed
@@ -149,11 +152,14 @@ All notable changes of the PHPUnit 9.6 release series are documented in this fil
 * [#5064](https://github.com/sebastianbergmann/phpunit/issues/5064): Deprecate `PHPUnit\Framework\TestCase::getMockClass()`
 * [#5132](https://github.com/sebastianbergmann/phpunit/issues/5132): Deprecate `Test` suffix for abstract test case classes
 
+<<<<<<< HEAD
 [9.6.20]: https://github.com/sebastianbergmann/phpunit/compare/9.6.19...9.6.20
 [9.6.19]: https://github.com/sebastianbergmann/phpunit/compare/9.6.18...9.6.19
 [9.6.18]: https://github.com/sebastianbergmann/phpunit/compare/9.6.17...9.6.18
 [9.6.17]: https://github.com/sebastianbergmann/phpunit/compare/9.6.16...9.6.17
 [9.6.16]: https://github.com/sebastianbergmann/phpunit/compare/9.6.15...9.6.16
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 [9.6.15]: https://github.com/sebastianbergmann/phpunit/compare/9.6.14...9.6.15
 [9.6.14]: https://github.com/sebastianbergmann/phpunit/compare/9.6.13...9.6.14
 [9.6.13]: https://github.com/sebastianbergmann/phpunit/compare/9.6.12...9.6.13

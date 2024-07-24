@@ -9,7 +9,11 @@ class WPObjectCacheAdapter
     private $cache_group;
 
     /**
+<<<<<<< HEAD
      * @var Loader
+=======
+     * @var \Timber\Loader
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private $timberloader;
 

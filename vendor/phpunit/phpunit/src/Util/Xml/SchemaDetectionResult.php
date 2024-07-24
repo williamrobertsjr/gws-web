@@ -16,9 +16,12 @@ namespace PHPUnit\Util\Xml;
  */
 abstract class SchemaDetectionResult
 {
+<<<<<<< HEAD
     /**
      * @psalm-assert-if-true SuccessfulSchemaDetectionResult $this
      */
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     public function detected(): bool
     {
         return false;

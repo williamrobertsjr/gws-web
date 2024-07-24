@@ -10,7 +10,10 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function gettype;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use function is_array;
 use function is_bool;
 use function is_callable;
@@ -22,7 +25,10 @@ use function is_object;
 use function is_scalar;
 use function is_string;
 use function sprintf;
+<<<<<<< HEAD
 use PHPUnit\Framework\Exception;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -123,12 +129,20 @@ final class IsType extends Constraint
     private $type;
 
     /**
+<<<<<<< HEAD
      * @throws Exception
+=======
+     * @throws \PHPUnit\Framework\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function __construct(string $type)
     {
         if (!isset(self::KNOWN_TYPES[$type])) {
+<<<<<<< HEAD
             throw new Exception(
+=======
+            throw new \PHPUnit\Framework\Exception(
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 sprintf(
                     'Type specified for PHPUnit\Framework\Constraint\IsType <%s> ' .
                     'is not a valid type.',

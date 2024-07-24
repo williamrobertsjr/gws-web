@@ -20,7 +20,11 @@ const LEFT_SQUARE = '[';
 const RIGHT_SQUARE = ']';
 const SEMICOLON = ';';
 
+<<<<<<< HEAD
 foreach (['NAME_FULLY_QUALIFIED', 'NAME_QUALIFIED', 'NAME_RELATIVE', 'ELLIPSIS', 'ATTRIBUTE', 'READONLY'] as $constant) {
+=======
+foreach (['NAME_FULLY_QUALIFIED', 'NAME_QUALIFIED', 'NAME_RELATIVE', 'ELLIPSIS', 'ATTRIBUTE'] as $constant) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     if (defined('T_' . $constant)) {
         define(__NAMESPACE__ . '\\' . $constant, constant('T_' . $constant));
     } else {
@@ -137,12 +141,17 @@ function injectCodeAfterClassDefinitions($code)
 {
     return function(Source $s) use ($code) {
         foreach ($s->all(T_CLASS) as $match) {
+<<<<<<< HEAD
             if ($s->is([LEFT_ROUND, LEFT_CURLY, T_EXTENDS, T_IMPLEMENTS], $s->skip(Source::junk(), $match))) {
                 # Not a proper class definition: anonymous class (with or without attribute)
                 continue;
             }
             if ($s->is(T_DOUBLE_COLON, $s->skipBack(Source::junk(), $match))) {
                 # Not a proper class definition: ::class syntax
+=======
+            if ($s->is([T_DOUBLE_COLON, T_NEW], $s->skipBack(Source::junk(), $match))) {
+                # Not a proper class definition: either ::class syntax or anonymous class
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 continue;
             }
             $leftBracket = $s->next(LEFT_CURLY, $match);

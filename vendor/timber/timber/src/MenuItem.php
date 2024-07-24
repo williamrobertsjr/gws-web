@@ -90,7 +90,11 @@ class MenuItem extends CoreEntity
      *
      * @since 1.12.0
      * @see \Timber\MenuItem::menu()
+<<<<<<< HEAD
      * @var Menu The `Menu` object the menu item is associated with.
+=======
+     * @var \Timber\Menu The `Timber\Menu` object the menu item is associated with.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected $menu;
 
@@ -119,8 +123,13 @@ class MenuItem extends CoreEntity
     /**
      * @internal
      * @param array|object $data The data this MenuItem is wrapping
+<<<<<<< HEAD
      * @param Menu $menu The `Menu` object the menu item is associated with.
      * @return MenuItem a new MenuItem instance
+=======
+     * @param \Timber\Menu $menu The `Timber\Menu` object the menu item is associated with.
+     * @return \Timber\MenuItem a new MenuItem instance
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function build($data, ?Menu $menu = null): self
     {
@@ -130,7 +139,11 @@ class MenuItem extends CoreEntity
     /**
      * @internal
      * @param WP_Post $data
+<<<<<<< HEAD
      * @param Menu $menu The `Menu` object the menu item is associated with.
+=======
+     * @param \Timber\Menu $menu The `Timber\Menu` object the menu item is associated with.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function __construct(WP_Post $data, $menu = null)
     {
@@ -180,7 +193,11 @@ class MenuItem extends CoreEntity
     public function add_class(string $class_name)
     {
         // Class name is already there
+<<<<<<< HEAD
         if (\in_array($class_name, $this->classes, true)) {
+=======
+        if (!\in_array($class_name, $this->classes, true)) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             return;
         }
         $this->classes[] = $class_name;
@@ -301,7 +318,11 @@ class MenuItem extends CoreEntity
      *
      * @api
      *
+<<<<<<< HEAD
      * @param MenuItem $item The menu item to add.
+=======
+     * @param \Timber\MenuItem $item The menu item to add.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function add_child(MenuItem $item)
     {
@@ -479,7 +500,11 @@ class MenuItem extends CoreEntity
      *
      * @api
      * @since 1.12.0
+<<<<<<< HEAD
      * @return Menu The `Menu` object the menu item is associated with.
+=======
+     * @return \Timber\Menu The `Timber\Menu` object the menu item is associated with.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function menu()
     {

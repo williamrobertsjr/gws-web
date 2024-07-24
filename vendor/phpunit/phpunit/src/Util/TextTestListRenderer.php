@@ -17,7 +17,10 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\PhptTestCase;
 use RecursiveIteratorIterator;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -25,7 +28,11 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 final class TextTestListRenderer
 {
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function render(TestSuite $suite): string
     {

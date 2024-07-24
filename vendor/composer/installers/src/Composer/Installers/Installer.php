@@ -26,7 +26,10 @@ class Installer extends LibraryInstaller
         'agl'          => 'AglInstaller',
         'annotatecms'  => 'AnnotateCmsInstaller',
         'bitrix'       => 'BitrixInstaller',
+<<<<<<< HEAD
         'botble'       => 'BotbleInstaller',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'bonefish'     => 'BonefishInstaller',
         'cakephp'      => 'CakePHPInstaller',
         'chef'         => 'ChefInstaller',
@@ -35,7 +38,10 @@ class Installer extends LibraryInstaller
         'cockpit'      => 'CockpitInstaller',
         'codeigniter'  => 'CodeIgniterInstaller',
         'concrete5'    => 'Concrete5Installer',
+<<<<<<< HEAD
         'concretecms'  => 'ConcreteCMSInstaller',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'croogo'       => 'CroogoInstaller',
         'dframe'       => 'DframeInstaller',
         'dokuwiki'     => 'DokuWikiInstaller',
@@ -47,7 +53,10 @@ class Installer extends LibraryInstaller
         'ee3'          => 'ExpressionEngineInstaller',
         'ee2'          => 'ExpressionEngineInstaller',
         'ezplatform'   => 'EzPlatformInstaller',
+<<<<<<< HEAD
         'fork'         => 'ForkCMSInstaller',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'fuel'         => 'FuelInstaller',
         'fuelphp'      => 'FuelphpInstaller',
         'grav'         => 'GravInstaller',
@@ -148,9 +157,12 @@ class Installer extends LibraryInstaller
         }
 
         $class = 'Composer\\Installers\\' . $this->supportedTypes[$frameworkType];
+<<<<<<< HEAD
         /**
          * @var BaseInstaller
          */
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $installer = new $class($package, $this->composer, $this->getIO());
 
         $path = $installer->getInstallPath($package, $frameworkType);
@@ -184,8 +196,11 @@ class Installer extends LibraryInstaller
 
     /**
      * {@inheritDoc}
+<<<<<<< HEAD
      *
      * @param string $packageType
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function supports($packageType)
     {

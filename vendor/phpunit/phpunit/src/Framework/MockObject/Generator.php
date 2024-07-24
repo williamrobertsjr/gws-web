@@ -141,18 +141,29 @@ EOT;
      *
      * @param null|array $methods
      *
+<<<<<<< HEAD
+=======
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws ClassAlreadyExistsException
      * @throws ClassIsFinalException
      * @throws ClassIsReadonlyException
      * @throws DuplicateMethodException
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws InvalidMethodNameException
      * @throws OriginalConstructorInvocationRequiredException
      * @throws ReflectionException
      * @throws RuntimeException
      * @throws UnknownTypeException
      */
+<<<<<<< HEAD
     public function getMock(string $type, $methods = [], array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, bool $cloneArguments = true, bool $callOriginalMethods = false, ?object $proxyTarget = null, bool $allowMockingUnknownTypes = true, bool $returnValueGeneration = true): MockObject
+=======
+    public function getMock(string $type, $methods = [], array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, bool $cloneArguments = true, bool $callOriginalMethods = false, object $proxyTarget = null, bool $allowMockingUnknownTypes = true, bool $returnValueGeneration = true): MockObject
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if (!is_array($methods) && null !== $methods) {
             throw InvalidArgumentException::create(2, 'array');
@@ -295,11 +306,18 @@ EOT;
      *
      * @psalm-return MockObject&RealInstanceType
      *
+<<<<<<< HEAD
+=======
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws ClassAlreadyExistsException
      * @throws ClassIsFinalException
      * @throws ClassIsReadonlyException
      * @throws DuplicateMethodException
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws InvalidMethodNameException
      * @throws OriginalConstructorInvocationRequiredException
      * @throws ReflectionException
@@ -307,7 +325,11 @@ EOT;
      * @throws UnknownClassException
      * @throws UnknownTypeException
      */
+<<<<<<< HEAD
     public function getMockForAbstractClass(string $originalClassName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, ?array $mockedMethods = null, bool $cloneArguments = true): MockObject
+=======
+    public function getMockForAbstractClass(string $originalClassName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, array $mockedMethods = null, bool $cloneArguments = true): MockObject
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if (class_exists($originalClassName, $callAutoload) ||
             interface_exists($originalClassName, $callAutoload)) {
@@ -357,11 +379,18 @@ EOT;
      *
      * @psalm-param trait-string $traitName
      *
+<<<<<<< HEAD
+=======
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws ClassAlreadyExistsException
      * @throws ClassIsFinalException
      * @throws ClassIsReadonlyException
      * @throws DuplicateMethodException
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws InvalidMethodNameException
      * @throws OriginalConstructorInvocationRequiredException
      * @throws ReflectionException
@@ -370,7 +399,11 @@ EOT;
      * @throws UnknownTraitException
      * @throws UnknownTypeException
      */
+<<<<<<< HEAD
     public function getMockForTrait(string $traitName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, ?array $mockedMethods = null, bool $cloneArguments = true): MockObject
+=======
+    public function getMockForTrait(string $traitName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, array $mockedMethods = null, bool $cloneArguments = true): MockObject
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if (!trait_exists($traitName, $callAutoload)) {
             throw new UnknownTraitException($traitName);
@@ -447,7 +480,11 @@ EOT;
      * @throws ReflectionException
      * @throws RuntimeException
      */
+<<<<<<< HEAD
     public function generate(string $type, ?array $methods = null, string $mockClassName = '', bool $callOriginalClone = true, bool $callAutoload = true, bool $cloneArguments = true, bool $callOriginalMethods = false): MockClass
+=======
+    public function generate(string $type, array $methods = null, string $mockClassName = '', bool $callOriginalClone = true, bool $callAutoload = true, bool $cloneArguments = true, bool $callOriginalMethods = false): MockClass
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if ($mockClassName !== '') {
             return $this->generateMock(
@@ -703,7 +740,11 @@ EOT;
      * @throws ReflectionException
      * @throws RuntimeException
      */
+<<<<<<< HEAD
     private function getObject(MockType $mockClass, $type = '', bool $callOriginalConstructor = false, bool $callAutoload = false, array $arguments = [], bool $callOriginalMethods = false, ?object $proxyTarget = null, bool $returnValueGeneration = true)
+=======
+    private function getObject(MockType $mockClass, $type = '', bool $callOriginalConstructor = false, bool $callAutoload = false, array $arguments = [], bool $callOriginalMethods = false, object $proxyTarget = null, bool $returnValueGeneration = true)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         $className = $mockClass->generate();
 

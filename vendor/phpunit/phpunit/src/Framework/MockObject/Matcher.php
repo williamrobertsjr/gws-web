@@ -22,7 +22,10 @@ use PHPUnit\Framework\MockObject\Rule\MethodName;
 use PHPUnit\Framework\MockObject\Rule\ParametersRule;
 use PHPUnit\Framework\MockObject\Stub\Stub;
 use PHPUnit\Framework\TestFailure;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -158,8 +161,13 @@ final class Matcher
     }
 
     /**
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws MatchBuilderNotFoundException
      * @throws MethodNameNotConfiguredException
      * @throws RuntimeException
@@ -210,8 +218,13 @@ final class Matcher
     }
 
     /**
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws MethodNameNotConfiguredException
      */
     public function verify(): void

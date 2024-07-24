@@ -26,7 +26,10 @@ use function substr;
 use function trim;
 use DOMDocument;
 use DOMElement;
+<<<<<<< HEAD
 use DOMNode;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use DOMNodeList;
 use DOMXPath;
 use PHPUnit\Runner\TestSuiteSorter;
@@ -750,8 +753,11 @@ final class Loader
         $files = [];
 
         foreach ($xpath->query($query) as $file) {
+<<<<<<< HEAD
             assert($file instanceof DOMNode);
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             $filePath = (string) $file->textContent;
 
             if ($filePath) {
@@ -778,14 +784,20 @@ final class Loader
         $exclude = [];
 
         foreach ($xpath->query($root . '/include/group') as $group) {
+<<<<<<< HEAD
             assert($group instanceof DOMNode);
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             $include[] = new Group((string) $group->textContent);
         }
 
         foreach ($xpath->query($root . '/exclude/group') as $group) {
+<<<<<<< HEAD
             assert($group instanceof DOMNode);
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             $exclude[] = new Group((string) $group->textContent);
         }
 
@@ -855,8 +867,11 @@ final class Loader
         $includePaths = [];
 
         foreach ($xpath->query('php/includePath') as $includePath) {
+<<<<<<< HEAD
             assert($includePath instanceof DOMNode);
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             $path = (string) $includePath->textContent;
 
             if ($path) {

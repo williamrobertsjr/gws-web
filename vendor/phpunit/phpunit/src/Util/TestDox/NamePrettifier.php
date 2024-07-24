@@ -46,7 +46,10 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionObject;
 use SebastianBergmann\Exporter\Exporter;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -119,7 +122,11 @@ final class NamePrettifier
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function prettifyTestCase(TestCase $test): string
     {
@@ -233,7 +240,11 @@ final class NamePrettifier
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function mapTestMethodParameterNamesToProvidedDataValues(TestCase $test): array
     {

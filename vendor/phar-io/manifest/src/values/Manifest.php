@@ -2,11 +2,18 @@
 /*
  * This file is part of PharIo\Manifest.
  *
+<<<<<<< HEAD
  * Copyright (c) Arne Blankerts <arne@blankerts.de>, Sebastian Heuer <sebastian@phpeople.de>, Sebastian Bergmann <sebastian@phpunit.de> and contributors
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
+=======
+ * (c) Arne Blankerts <arne@blankerts.de>, Sebastian Heuer <sebastian@phpeople.de>, Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
  */
 namespace PharIo\Manifest;
 
@@ -76,7 +83,11 @@ class Manifest {
         return $this->type->isExtension();
     }
 
+<<<<<<< HEAD
     public function isExtensionFor(ApplicationName $application, ?Version $version = null): bool {
+=======
+    public function isExtensionFor(ApplicationName $application, Version $version = null): bool {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         if (!$this->isExtension()) {
             return false;
         }

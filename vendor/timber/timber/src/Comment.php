@@ -252,10 +252,13 @@ class Comment extends CoreEntity
             return $args['url'];
         }
 
+<<<<<<< HEAD
         if (isset($args['default'])) {
             $default = $args['default'];
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $email_hash = '';
         if (!empty($email)) {
             $email_hash = \md5(\strtolower(\trim($email)));
@@ -296,7 +299,11 @@ class Comment extends CoreEntity
      * Adds a child.
      *
      * @api
+<<<<<<< HEAD
      * @param Comment $child_comment Comment child to add.
+=======
+     * @param \Timber\Comment $child_comment Comment child to add.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @return array Comment children.
      */
     public function add_child(Comment $child_comment)
@@ -613,6 +620,7 @@ class Comment extends CoreEntity
      */
     protected function avatar_out($default, $host, $email_hash, $size)
     {
+<<<<<<< HEAD
         $out = $host . '/avatar/' . $email_hash;
         $rating = \get_option('avatar_rating');
 
@@ -630,6 +638,13 @@ class Comment extends CoreEntity
             $out
         );
 
+=======
+        $out = $host . '/avatar/' . $email_hash . '?s=' . $size . '&amp;d=' . \urlencode($default);
+        $rating = \get_option('avatar_rating');
+        if (!empty($rating)) {
+            $out .= '&amp;r=' . $rating;
+        }
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         return \str_replace('&#038;', '&amp;', \esc_url($out));
     }
 }

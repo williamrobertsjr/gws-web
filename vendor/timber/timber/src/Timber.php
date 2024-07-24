@@ -2,7 +2,10 @@
 
 namespace Timber;
 
+<<<<<<< HEAD
 use InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Factory\CommentFactory;
 use Timber\Factory\MenuFactory;
 use Timber\Factory\PagesMenuFactory;
@@ -10,6 +13,10 @@ use Timber\Factory\PostFactory;
 use Timber\Factory\TermFactory;
 use Timber\Factory\UserFactory;
 use Timber\Integration\IntegrationInterface;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use WP_Comment;
 use WP_Comment_Query;
 use WP_Post;
@@ -103,8 +110,12 @@ class Timber
      */
     public static function init()
     {
+<<<<<<< HEAD
         if (
             !\defined('ABSPATH')
+=======
+        if (!\defined('ABSPATH')
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             || !\class_exists('\WP')
             || \defined('TIMBER_LOADED')
         ) {
@@ -247,7 +258,11 @@ class Timber
      *                       returned. Default false.
      * @param array $options Optional associative array of options. Defaults to an empty array.
      *
+<<<<<<< HEAD
      * @return Post|null Timber\Post object if a post was found, null if no post was
+=======
+     * @return \Timber\Post|null Timber\Post object if a post was found, null if no post was
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *                           found.
      */
     public static function get_post($query = false, $options = [])
@@ -415,7 +430,11 @@ class Timber
      *                                  the current template. Default false.
      * }
      *
+<<<<<<< HEAD
      * @return PostCollectionInterface|null Null if no query could be run with the used
+=======
+     * @return \Timber\PostCollectionInterface|null Null if no query could be run with the used
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *                                              query parameters.
      */
     public static function get_posts($query = false, $options = [])
@@ -504,7 +523,11 @@ class Timber
      *
      * }
      *
+<<<<<<< HEAD
      * @return Post|null A Timber post or `null` if no post could be found. If multiple
+=======
+     * @return \Timber\Post|null A Timber post or `null` if no post could be found. If multiple
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *                           posts with the same slug or title were found, it will select the
      *                           post with the oldest date.
      */
@@ -593,7 +616,11 @@ class Timber
      * @param mixed $query
      * @param array $options
      *
+<<<<<<< HEAD
      * @return PostCollectionInterface
+=======
+     * @return \Timber\PostCollectionInterface
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function query_posts($query = false, array $options = [])
     {
@@ -629,7 +656,11 @@ class Timber
      * @param string $ident          Optional. An attachment URL or absolute path. Default empty
      *                               string.
      *
+<<<<<<< HEAD
      * @return Attachment|null
+=======
+     * @return \Timber\Attachment|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function get_attachment_by(string $field_or_ident, string $ident = '')
     {
@@ -660,10 +691,13 @@ class Timber
                 return null;
             }
 
+<<<<<<< HEAD
             if (!ImageHelper::is_protocol_allowed($ident)) {
                 throw new InvalidArgumentException('The output file scheme is not supported.');
             }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             if (!\file_exists($ident)) {
                 // Deal with a relative path.
                 $ident = URLHelper::get_full_path($ident);
@@ -740,7 +774,11 @@ class Timber
      *
      * @api
      * @param int|WP_Term $term A WP_Term or term_id
+<<<<<<< HEAD
      * @return Term|null
+=======
+     * @return \Timber\Term|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @example
      * ```php
      * // Get a Term.
@@ -797,7 +835,11 @@ class Timber
      * @param string     $taxonomy The taxonomy you want to retrieve from. Empty string will search
      *                             from all.
      *
+<<<<<<< HEAD
      * @return Term|null
+=======
+     * @return \Timber\Term|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function get_term_by(string $field, $value, string $taxonomy = '')
     {
@@ -901,7 +943,11 @@ class Timber
      * @param int|WP_User $user A WP_User object or a WordPress user ID. Defaults to the ID of the
      *                           currently logged-in user.
      *
+<<<<<<< HEAD
      * @return User|null
+=======
+     * @return \Timber\User|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function get_user($user = null)
     {
@@ -938,7 +984,11 @@ class Timber
      *                          `ID`, `slug`, `email` or `login`.
      * @param int|string $value The value to search for by `$field`.
      *
+<<<<<<< HEAD
      * @return User|null
+=======
+     * @return \Timber\User|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function get_user_by(string $field, $value)
     {
@@ -951,6 +1001,10 @@ class Timber
         return static::get_user($wp_user);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     /* Menu Retrieval
     ================================ */
 
@@ -980,7 +1034,11 @@ class Timber
      * - `depth`: How deep down the tree of menu items to query. Useful if you only want
      *   the first N levels of items in the menu.
      *
+<<<<<<< HEAD
      * @return Menu|null
+=======
+     * @return \Timber\Menu|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function get_menu($identifier = null, array $args = []): ?Menu
     {
@@ -1006,7 +1064,11 @@ class Timber
      *                          `ID`, `term_id`, `slug`, `name` or `location`.
      * @param int|string $value The value to search for by `$field`.
      *
+<<<<<<< HEAD
      * @return Menu|null
+=======
+     * @return \Timber\Menu|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function get_menu_by(string $field, $value, array $args = []): ?Menu
     {
@@ -1058,6 +1120,10 @@ class Timber
         return $menu;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     /* Comment Retrieval
     ================================ */
 
@@ -1084,7 +1150,11 @@ class Timber
      * @api
      * @since 2.0.0
      * @param int|WP_Comment $comment
+<<<<<<< HEAD
      * @return Comment|null
+=======
+     * @return \Timber\Comment|null
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function get_comment($comment)
     {
@@ -1114,6 +1184,10 @@ class Timber
         return $return;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     /*  Template Setup and Display
     ================================ */
 
@@ -1456,7 +1530,11 @@ class Timber
          *
          * @since 2.0.0
          *
+<<<<<<< HEAD
          * @param string|bool $output the compiled output.
+=======
+         * @param string $output
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $output = \apply_filters('timber/compile/result', $output);
 
@@ -1467,6 +1545,7 @@ class Timber
          * This action can be helpful if you need to debug Twig template
          * compilation.
          *
+<<<<<<< HEAD
          * @since 2.0.0
          *
          * @param string            $output       The compiled output.
@@ -1474,6 +1553,17 @@ class Timber
          * @param array             $data         The data that was used to compile the Twig template.
          * @param bool|int|array    $expires      The expiration time of the cache in seconds, or false to disable cache.
          * @param string            $cache_mode   Any of the cache mode constants defined in Timber\Loader.
+=======
+         * @todo Add parameter descriptions
+         *
+         * @since 2.0.0
+         *
+         * @param string $output
+         * @param string $file
+         * @param array  $data
+         * @param bool   $expires
+         * @param string $cache_mode
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         \do_action('timber/compile/done', $output, $file, $data, $expires, $cache_mode);
 
@@ -1601,6 +1691,10 @@ class Timber
         echo $compiled;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     /*  Sidebar
     ================================ */
 

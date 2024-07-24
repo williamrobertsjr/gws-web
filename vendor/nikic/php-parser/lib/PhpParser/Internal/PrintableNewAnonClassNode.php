@@ -15,6 +15,7 @@ use PhpParser\Node\Expr;
  *
  * @internal
  */
+<<<<<<< HEAD
 class PrintableNewAnonClassNode extends Expr {
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public array $attrGroups;
@@ -39,6 +40,25 @@ class PrintableNewAnonClassNode extends Expr {
      */
     public function __construct(
         array $attrGroups, int $flags, array $args, ?Node\Name $extends, array $implements,
+=======
+class PrintableNewAnonClassNode extends Expr
+{
+    /** @var Node\AttributeGroup[] PHP attribute groups */
+    public $attrGroups;
+    /** @var int Modifiers */
+    public $flags;
+    /** @var Node\Arg[] Arguments */
+    public $args;
+    /** @var null|Node\Name Name of extended class */
+    public $extends;
+    /** @var Node\Name[] Names of implemented interfaces */
+    public $implements;
+    /** @var Node\Stmt[] Statements */
+    public $stmts;
+
+    public function __construct(
+        array $attrGroups, int $flags, array $args, Node\Name $extends = null, array $implements,
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         array $stmts, array $attributes
     ) {
         parent::__construct($attributes);
@@ -50,7 +70,11 @@ class PrintableNewAnonClassNode extends Expr {
         $this->stmts = $stmts;
     }
 
+<<<<<<< HEAD
     public static function fromNewNode(Expr\New_ $newNode): self {
+=======
+    public static function fromNewNode(Expr\New_ $newNode) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $class = $newNode->class;
         assert($class instanceof Node\Stmt\Class_);
         // We don't assert that $class->name is null here, to allow consumers to assign unique names
@@ -61,11 +85,19 @@ class PrintableNewAnonClassNode extends Expr {
         );
     }
 
+<<<<<<< HEAD
     public function getType(): string {
         return 'Expr_PrintableNewAnonClass';
     }
 
     public function getSubNodeNames(): array {
+=======
+    public function getType() : string {
+        return 'Expr_PrintableNewAnonClass';
+    }
+
+    public function getSubNodeNames() : array {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         return ['attrGroups', 'flags', 'args', 'extends', 'implements', 'stmts'];
     }
 }

@@ -41,7 +41,11 @@ final class Parser
      * @throws OptionDoesNotAllowArgumentException
      * @throws UnknownOptionException
      */
+<<<<<<< HEAD
     public function parse(array $argv, string $shortOptions, ?array $longOptions = null): array
+=======
+    public function parse(array $argv, string $shortOptions, array $longOptions = null): array
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         if (empty($argv)) {
             return [[], []];

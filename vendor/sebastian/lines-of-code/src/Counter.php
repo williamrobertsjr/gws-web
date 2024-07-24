@@ -11,8 +11,15 @@ namespace SebastianBergmann\LinesOfCode;
 
 use function substr_count;
 use PhpParser\Error;
+<<<<<<< HEAD
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
+=======
+use PhpParser\Lexer;
+use PhpParser\Node;
+use PhpParser\NodeTraverser;
+use PhpParser\Parser;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PhpParser\ParserFactory;
 
 final class Counter
@@ -37,7 +44,11 @@ final class Counter
         }
 
         try {
+<<<<<<< HEAD
             $nodes = (new ParserFactory)->createForHostVersion()->parse($source);
+=======
+            $nodes = $this->parser()->parse($source);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
             assert($nodes !== null);
 
@@ -81,4 +92,12 @@ final class Counter
 
         return $visitor->result();
     }
+<<<<<<< HEAD
+=======
+
+    private function parser(): Parser
+    {
+        return (new ParserFactory)->create(ParserFactory::PREFER_PHP7, new Lexer);
+    }
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 }

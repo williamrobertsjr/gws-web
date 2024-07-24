@@ -177,7 +177,11 @@ abstract class CoreEntity extends Core implements CoreInterface, CoreEntityInter
             $object_meta = \get_metadata($object_type, $this->ID, $field_name, true);
 
             // Mimick $single argument when fetching all meta values.
+<<<<<<< HEAD
             if (empty($field_name) && \is_array($object_meta)) {
+=======
+            if (empty($field_name) && \is_array($object_meta) && !empty($object_meta)) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 $object_meta = \array_map(function ($meta) {
                     /**
                      * We use array_key_exists() instead of isset(), because when the meta value is null, isset() would
@@ -192,6 +196,14 @@ abstract class CoreEntity extends Core implements CoreInterface, CoreEntityInter
                     return $meta;
                 }, $object_meta);
             }
+<<<<<<< HEAD
+=======
+
+            // Empty result.
+            if (empty($object_meta)) {
+                $object_meta = empty($field_name) ? [] : null;
+            }
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         }
 
         if ($apply_filters) {
@@ -218,7 +230,11 @@ abstract class CoreEntity extends Core implements CoreInterface, CoreEntityInter
              * @param string             $post_meta  The field value.
              * @param int                $post_id    The post ID.
              * @param string             $field_name The name of the meta field to get the value for.
+<<<<<<< HEAD
              * @param CoreEntity $post       The post object.
+=======
+             * @param \Timber\CoreEntity $post       The post object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
              * @param array              $args       An array of arguments.
              */
             $object_meta = \apply_filters(

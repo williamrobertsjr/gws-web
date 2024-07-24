@@ -15,11 +15,17 @@ use function is_iterable;
 use function sprintf;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsEqual;
+<<<<<<< HEAD
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\InvalidParameterGroupException;
 use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\InvalidParameterGroupException;
+use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -39,7 +45,11 @@ final class ConsecutiveParameters implements ParametersRule
     private $invocations = [];
 
     /**
+<<<<<<< HEAD
      * @throws Exception
+=======
+     * @throws \PHPUnit\Framework\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function __construct(array $parameterGroups)
     {
@@ -70,8 +80,13 @@ final class ConsecutiveParameters implements ParametersRule
     }
 
     /**
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function apply(BaseInvocation $invocation): void
     {
@@ -82,8 +97,13 @@ final class ConsecutiveParameters implements ParametersRule
     }
 
     /**
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function verify(): void
     {
@@ -97,8 +117,13 @@ final class ConsecutiveParameters implements ParametersRule
      *
      * @param int $callIndex
      *
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function verifyInvocation(BaseInvocation $invocation, $callIndex): void
     {

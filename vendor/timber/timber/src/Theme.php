@@ -53,7 +53,11 @@ class Theme extends Core implements JsonSerializable
      * return itself.
      *
      * @api
+<<<<<<< HEAD
      * @var Theme the Timber\Theme object for the parent theme
+=======
+     * @var \Timber\Theme the Timber\Theme object for the parent theme
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public $parent;
 

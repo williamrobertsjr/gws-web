@@ -3,6 +3,10 @@
 namespace Timber;
 
 use Throwable;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Factory\MenuItemFactory;
 use WP_Term;
 
@@ -116,7 +120,11 @@ class Menu extends CoreEntity
      * @param array      $args Optional. Right now, only the `depth` is
      *                            supported which says how many levels of hierarchy should be
      *                            included in the menu. Default `0`, which is all levels.
+<<<<<<< HEAD
      * @return Menu
+=======
+     * @return \Timber\Menu
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function build(?WP_Term $menu, $args = []): ?self
     {
@@ -277,7 +285,11 @@ class Menu extends CoreEntity
      *                            many levels of hierarchy should be included in the menu. Default
      *                            `0`, which is all levels.
      */
+<<<<<<< HEAD
     protected function __construct(?WP_Term $term, array $args = [])
+=======
+    protected function __construct(?WP_term $term, array $args = [])
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         // For future enhancements?
         $this->raw_args = $args;
@@ -339,7 +351,11 @@ class Menu extends CoreEntity
      * @api
      * @param array $menu_items An array of menu items.
      * @param int   $parent_id  The parent ID to look for.
+<<<<<<< HEAD
      * @return MenuItem|null A menu item. False if no parent was found.
+=======
+     * @return \Timber\MenuItem|null A menu item. False if no parent was found.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function find_parent_item_in_menu(array $menu_items, int $parent_id): ?MenuItem
     {

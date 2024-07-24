@@ -20,8 +20,11 @@ trait TestListenerSnakeCaseMethods {
 	 * @param Test                $test Test object.
 	 * @param Exception|Throwable $e    Instance of the error encountered.
 	 * @param float               $time Execution time of this test.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function add_error( $test, $e, $time ) {}
 
@@ -33,8 +36,11 @@ trait TestListenerSnakeCaseMethods {
 	 * @param Test    $test Test object.
 	 * @param Warning $e    Instance of the warning encountered.
 	 * @param float   $time Execution time of this test.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function add_warning( $test, $e, $time ) {}
 
@@ -44,8 +50,11 @@ trait TestListenerSnakeCaseMethods {
 	 * @param Test                 $test Test object.
 	 * @param AssertionFailedError $e    Instance of the assertion failure exception encountered.
 	 * @param float                $time Execution time of this test.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function add_failure( $test, $e, $time ) {}
 
@@ -55,8 +64,11 @@ trait TestListenerSnakeCaseMethods {
 	 * @param Test                $test Test object.
 	 * @param Exception|Throwable $e    Instance of the incomplete test exception.
 	 * @param float               $time Execution time of this test.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function add_incomplete_test( $test, $e, $time ) {}
 
@@ -66,8 +78,11 @@ trait TestListenerSnakeCaseMethods {
 	 * @param Test                $test Test object.
 	 * @param Exception|Throwable $e    Instance of the risky test exception.
 	 * @param float               $time Execution time of this test.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function add_risky_test( $test, $e, $time ) {}
 
@@ -77,8 +92,11 @@ trait TestListenerSnakeCaseMethods {
 	 * @param Test                $test Test object.
 	 * @param Exception|Throwable $e    Instance of the skipped test exception.
 	 * @param float               $time Execution time of this test.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function add_skipped_test( $test, $e, $time ) {}
 
@@ -86,8 +104,11 @@ trait TestListenerSnakeCaseMethods {
 	 * A test suite started.
 	 *
 	 * @param TestSuite $suite Test suite object.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function start_test_suite( $suite ) {}
 
@@ -95,8 +116,11 @@ trait TestListenerSnakeCaseMethods {
 	 * A test suite ended.
 	 *
 	 * @param TestSuite $suite Test suite object.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function end_test_suite( $suite ) {}
 
@@ -104,8 +128,11 @@ trait TestListenerSnakeCaseMethods {
 	 * A test started.
 	 *
 	 * @param Test $test Test object.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function start_test( $test ) {}
 
@@ -114,8 +141,11 @@ trait TestListenerSnakeCaseMethods {
 	 *
 	 * @param Test  $test Test object.
 	 * @param float $time Execution time of this test.
+<<<<<<< HEAD
 	 *
 	 * @return void
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 	 */
 	public function end_test( $test, $time ) {}
 }

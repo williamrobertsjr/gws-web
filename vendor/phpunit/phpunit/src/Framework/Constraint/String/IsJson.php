@@ -10,10 +10,15 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function json_decode;
+<<<<<<< HEAD
 
 use function json_last_error;
 use function sprintf;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+use function json_last_error;
+use function sprintf;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -57,7 +62,11 @@ final class IsJson extends Constraint
      *
      * @param mixed $other evaluated value or object
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function failureDescription($other): string
     {

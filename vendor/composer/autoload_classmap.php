@@ -465,7 +465,10 @@ return array(
     'PharIo\\Manifest\\ManifestLoader' => $vendorDir . '/phar-io/manifest/src/ManifestLoader.php',
     'PharIo\\Manifest\\ManifestLoaderException' => $vendorDir . '/phar-io/manifest/src/exceptions/ManifestLoaderException.php',
     'PharIo\\Manifest\\ManifestSerializer' => $vendorDir . '/phar-io/manifest/src/ManifestSerializer.php',
+<<<<<<< HEAD
     'PharIo\\Manifest\\NoEmailAddressException' => $vendorDir . '/phar-io/manifest/src/exceptions/NoEmailAddressException.php',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     'PharIo\\Manifest\\PhpElement' => $vendorDir . '/phar-io/manifest/src/xml/PhpElement.php',
     'PharIo\\Manifest\\PhpExtensionRequirement' => $vendorDir . '/phar-io/manifest/src/values/PhpExtensionRequirement.php',
     'PharIo\\Manifest\\PhpVersionRequirement' => $vendorDir . '/phar-io/manifest/src/values/PhpVersionRequirement.php',

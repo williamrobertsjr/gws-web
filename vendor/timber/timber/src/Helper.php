@@ -71,17 +71,26 @@ class Helper
      *
      * @internal
      *
+<<<<<<< HEAD
      * @param string      $slug              Unique identifier for transient
      * @param callable    $callback          Callback that generates the data that's to be cached
      * @param integer     $transient_time    Expiration of transients in seconds
      * @param integer     $lock_timeout      How long (in seconds) to lock the transient to prevent race conditions
      * @param boolean     $force             Force callback to be executed when transient is locked
+=======
+     * @param string     $slug
+     * @param callable     $callback
+     * @param integer      $transient_time Expiration of transients in seconds
+     * @param integer     $lock_timeout   How long (in seconds) to lock the transient to prevent race conditions
+     * @param boolean     $force          Force callback to be executed when transient is locked
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @param boolean     $enable_transients Force callback to be executed when transient is locked
      */
     protected static function handle_transient_locking($slug, $callback, $transient_time, $lock_timeout, $force, $enable_transients)
     {
         if ($enable_transients && self::_is_transient_locked($slug)) {
             /**
+<<<<<<< HEAD
              * Filters whether to force a locked transients to be regenerated.
              *
              * If a transient is locked, it means that another process is currently generating the data.
@@ -90,15 +99,29 @@ class Helper
              *
              * @since 2.0.0
              * @param bool $force Whether to force a locked transient to be regenerated.
+=======
+             * Filters …
+             *
+             * @todo Add summary, add description, add description for $force param
+             *
+             * @since 2.0.0
+             * @param bool $force
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
              */
             $force = \apply_filters('timber/transient/force_transients', $force);
 
             /**
+<<<<<<< HEAD
              * Filters whether to force a locked transients to be regenerated.
              *
              * If a transient is locked, it means that another process is currently generating the data.
              * If you want to force the transient to be regenerated, during that process, you can set this
              * filter to true.
+=======
+             * Filters …
+             *
+             * @todo Add summary
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
              *
              * @deprecated 2.0.0, use `timber/transient/force_transients`
              */
@@ -110,6 +133,7 @@ class Helper
             );
 
             /**
+<<<<<<< HEAD
              * Filters whether to force a specific locked transients to be regenerated.
              *
              * If a transient is locked, it means that another process is currently generating the data.
@@ -129,10 +153,23 @@ class Helper
              * @since 2.0.0
              *
              * @param bool $force Whether to force a locked transient to be regenerated.
+=======
+             * Filters …
+             *
+             * Here is a description about the filter.
+             * `$slug` The transient slug.
+             *
+             * @todo Add summary, add description, add description for $force param
+             *
+             * @since 2.0.0
+             *
+             * @param bool $force
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
              */
             $force = \apply_filters("timber/transient/force_transient_{$slug}", $force);
 
             /**
+<<<<<<< HEAD
              * Filters whether to force a specific locked transients to be regenerated.
              *
              * If a transient is locked, it means that another process is currently generating the data.
@@ -148,6 +185,15 @@ class Helper
                 '2.0.0',
                 "timber/transient/force_transient_{$slug}"
             );
+=======
+             * Filters …
+             *
+             * @todo Add summary
+             *
+             * @deprecated 2.0.0, use `timber/transient/force_transient_{$slug}`
+             */
+            $force = \apply_filters("timber_force_transient_{$slug}", $force);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
             if (!$force) {
                 //the server is currently executing the process.

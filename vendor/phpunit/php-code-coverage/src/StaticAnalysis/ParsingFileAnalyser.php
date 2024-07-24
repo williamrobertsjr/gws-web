@@ -22,6 +22,10 @@ use function substr_count;
 use function token_get_all;
 use function trim;
 use PhpParser\Error;
+<<<<<<< HEAD
+=======
+use PhpParser\Lexer;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
@@ -141,7 +145,14 @@ final class ParsingFileAnalyser implements FileAnalyser
             $linesOfCode = 1;
         }
 
+<<<<<<< HEAD
         $parser = (new ParserFactory)->createForHostVersion();
+=======
+        $parser = (new ParserFactory)->create(
+            ParserFactory::PREFER_PHP7,
+            new Lexer
+        );
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
         try {
             $nodes = $parser->parse($source);

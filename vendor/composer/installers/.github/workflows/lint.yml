@@ -4,9 +4,12 @@ on:
   - push
   - pull_request
 
+<<<<<<< HEAD
 permissions:
   contents: read
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 jobs:
   tests:
     name: "Lint"

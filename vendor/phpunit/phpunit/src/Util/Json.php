@@ -29,7 +29,11 @@ final class Json
     /**
      * Prettify json string.
      *
+<<<<<<< HEAD
      * @throws Exception
+=======
+     * @throws \PHPUnit\Framework\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function prettify(string $json): string
     {

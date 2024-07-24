@@ -107,7 +107,11 @@ class Site extends Core implements CoreInterface
 
     /**
      * @api
+<<<<<<< HEAD
      * @var Theme
+=======
+     * @var \Timber\Theme
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public $theme;
 
@@ -217,6 +221,7 @@ class Site extends Core implements CoreInterface
     /**
      * Switches to the blog requested in the request
      *
+<<<<<<< HEAD
      * @param string|integer|null $blog_identifier The name or ID of the blog to switch to. If `null`, the current blog.
      * @return integer with the ID of the new blog
      */
@@ -241,6 +246,19 @@ class Site extends Core implements CoreInterface
         }
 
         return (int) $blog_identifier;
+=======
+     * @param string|integer|null $site_name_or_id
+     * @return integer with the ID of the new blog
+     */
+    protected static function switch_to_blog($site_name_or_id)
+    {
+        if ($site_name_or_id === null) {
+            $site_name_or_id = \get_current_blog_id();
+        }
+        $info = \get_blog_details($site_name_or_id);
+        \switch_to_blog($info->blog_id);
+        return $info->blog_id;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     }
 
     /**
@@ -437,7 +455,11 @@ class Site extends Core implements CoreInterface
          * @param mixed        $value   The new value.
          * @param string       $key     The option key.
          * @param int          $site_id The site ID.
+<<<<<<< HEAD
          * @param Site $site    The site object.
+=======
+         * @param \Timber\Site $site    The site object.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $value = \apply_filters('timber/site/update_option', $value, $key, $this->ID, $this);
 

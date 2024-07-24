@@ -2,6 +2,7 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
+<<<<<<< HEAD
 use PhpParser\PhpVersion;
 use PhpParser\Token;
 
@@ -22,12 +23,38 @@ final class NullsafeTokenEmulator extends TokenEmulator {
             if ($token->text === '?' && isset($tokens[$i + 1]) && $tokens[$i + 1]->id === \T_OBJECT_OPERATOR) {
                 array_splice($tokens, $i, 2, [
                     new Token(\T_NULLSAFE_OBJECT_OPERATOR, '?->', $token->line, $token->pos),
+=======
+use PhpParser\Lexer\Emulative;
+
+final class NullsafeTokenEmulator extends TokenEmulator
+{
+    public function getPhpVersion(): string
+    {
+        return Emulative::PHP_8_0;
+    }
+
+    public function isEmulationNeeded(string $code): bool
+    {
+        return strpos($code, '?->') !== false;
+    }
+
+    public function emulate(string $code, array $tokens): array
+    {
+        // We need to manually iterate and manage a count because we'll change
+        // the tokens array on the way
+        $line = 1;
+        for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
+            if ($tokens[$i] === '?' && isset($tokens[$i + 1]) && $tokens[$i + 1][0] === \T_OBJECT_OPERATOR) {
+                array_splice($tokens, $i, 2, [
+                    [\T_NULLSAFE_OBJECT_OPERATOR, '?->', $line]
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 ]);
                 $c--;
                 continue;
             }
 
             // Handle ?-> inside encapsed string.
+<<<<<<< HEAD
             if ($token->id === \T_ENCAPSED_AND_WHITESPACE && isset($tokens[$i - 1])
                 && $tokens[$i - 1]->id === \T_VARIABLE
                 && preg_match('/^\?->([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)/', $token->text, $matches)
@@ -43,17 +70,45 @@ final class NullsafeTokenEmulator extends TokenEmulator {
                         \substr($token->text, $matchLen),
                         $token->line, $token->pos + $matchLen
                     );
+=======
+            if ($tokens[$i][0] === \T_ENCAPSED_AND_WHITESPACE && isset($tokens[$i - 1])
+                && $tokens[$i - 1][0] === \T_VARIABLE
+                && preg_match('/^\?->([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)/', $tokens[$i][1], $matches)
+            ) {
+                $replacement = [
+                    [\T_NULLSAFE_OBJECT_OPERATOR, '?->', $line],
+                    [\T_STRING, $matches[1], $line],
+                ];
+                if (\strlen($matches[0]) !== \strlen($tokens[$i][1])) {
+                    $replacement[] = [
+                        \T_ENCAPSED_AND_WHITESPACE,
+                        \substr($tokens[$i][1], \strlen($matches[0])),
+                        $line
+                    ];
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 }
                 array_splice($tokens, $i, 1, $replacement);
                 $c += \count($replacement) - 1;
                 continue;
             }
+<<<<<<< HEAD
+=======
+
+            if (\is_array($tokens[$i])) {
+                $line += substr_count($tokens[$i][1], "\n");
+            }
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         }
 
         return $tokens;
     }
 
+<<<<<<< HEAD
     public function reverseEmulate(string $code, array $tokens): array {
+=======
+    public function reverseEmulate(string $code, array $tokens): array
+    {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         // ?-> was not valid code previously, don't bother.
         return $tokens;
     }

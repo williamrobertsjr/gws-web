@@ -112,7 +112,10 @@ final class ExecutableLinesFindingVisitor extends NodeVisitorAbstract
             $node instanceof Node\Expr\ConstFetch ||
             $node instanceof Node\Expr\Match_ ||
             $node instanceof Node\Expr\Variable ||
+<<<<<<< HEAD
             $node instanceof Node\Expr\Throw_ ||
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
             $node instanceof Node\ComplexType ||
             $node instanceof Node\Const_ ||
             $node instanceof Node\Identifier ||
@@ -122,16 +125,20 @@ final class ExecutableLinesFindingVisitor extends NodeVisitorAbstract
             return;
         }
 
+<<<<<<< HEAD
         /*
          * nikic/php-parser ^4.18 represents <code>throw</code> statements
          * as <code>Stmt\Throw_</code> objects
          */
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         if ($node instanceof Node\Stmt\Throw_) {
             $this->setLineBranch($node->expr->getEndLine(), $node->expr->getEndLine(), ++$this->nextBranch);
 
             return;
         }
 
+<<<<<<< HEAD
         /*
          * nikic/php-parser ^5 represents <code>throw</code> statements
          * as <code>Stmt\Expression</code> objects that contain an
@@ -143,6 +150,8 @@ final class ExecutableLinesFindingVisitor extends NodeVisitorAbstract
             return;
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         if ($node instanceof Node\Stmt\Enum_ ||
             $node instanceof Node\Stmt\Function_ ||
             $node instanceof Node\Stmt\Class_ ||

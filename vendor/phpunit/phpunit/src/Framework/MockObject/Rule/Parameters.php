@@ -18,7 +18,10 @@ use PHPUnit\Framework\Constraint\IsAnything;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -93,8 +96,13 @@ final class Parameters implements ParametersRule
      * does the rule will get the invoked() method called which should check
      * if an expectation is met.
      *
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function verify(): void
     {
@@ -102,8 +110,13 @@ final class Parameters implements ParametersRule
     }
 
     /**
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     private function doVerify(): bool
     {

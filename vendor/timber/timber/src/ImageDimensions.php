@@ -2,8 +2,11 @@
 
 namespace Timber;
 
+<<<<<<< HEAD
 use InvalidArgumentException;
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 /**
  * Class FileSize
  *
@@ -119,10 +122,13 @@ class ImageDimensions
             return $this->get_dimension_loaded($dimension);
         }
 
+<<<<<<< HEAD
         if (!ImageHelper::is_protocol_allowed($this->file_loc)) {
             throw new InvalidArgumentException('The output file scheme is not supported.');
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         // Load dimensions.
         if (\file_exists($this->file_loc) && \filesize($this->file_loc)) {
             if (ImageHelper::is_svg($this->file_loc)) {

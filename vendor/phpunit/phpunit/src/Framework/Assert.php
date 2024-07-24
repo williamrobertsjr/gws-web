@@ -2240,9 +2240,15 @@ abstract class Assert
      *
      * @param DOMDocument|string $actualXml
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
      * @throws Xml\Exception
+=======
+     * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function assertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = ''): void
     {
@@ -2264,9 +2270,15 @@ abstract class Assert
      *
      * @param DOMDocument|string $actualXml
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
      * @throws Xml\Exception
+=======
+     * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function assertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = ''): void
     {
@@ -2289,9 +2301,15 @@ abstract class Assert
      * @param DOMDocument|string $expectedXml
      * @param DOMDocument|string $actualXml
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
      * @throws Xml\Exception
+=======
+     * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function assertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = ''): void
     {
@@ -2320,9 +2338,15 @@ abstract class Assert
      * @param DOMDocument|string $expectedXml
      * @param DOMDocument|string $actualXml
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
      * @throws Xml\Exception
+=======
+     * @throws \PHPUnit\Util\Xml\Exception
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = ''): void
     {

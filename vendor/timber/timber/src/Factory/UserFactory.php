@@ -4,6 +4,10 @@ namespace Timber\Factory;
 
 use InvalidArgumentException;
 use Timber\CoreInterface;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\User;
 use WP_User;
 use WP_User_Query;

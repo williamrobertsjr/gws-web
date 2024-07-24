@@ -39,7 +39,11 @@ final class InvalidArgumentException extends Exception
         );
     }
 
+<<<<<<< HEAD
     private function __construct(string $message = '', int $code = 0, ?\Exception $previous = null)
+=======
+    private function __construct(string $message = '', int $code = 0, \Exception $previous = null)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         parent::__construct($message, $code, $previous);
     }

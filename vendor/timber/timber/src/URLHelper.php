@@ -40,7 +40,11 @@ class URLHelper
     /**
      * Check to see if the URL begins with the string in question
      * Because it's a URL we don't care about protocol (HTTP vs HTTPS)
+<<<<<<< HEAD
      * Or case (so it's cAsE iNsEnSiTiVe)
+=======
+     * Or case (so it's cAsE iNsEnSeTiVe)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @api
      * @return boolean
@@ -172,17 +176,26 @@ class URLHelper
     }
 
     /**
+<<<<<<< HEAD
      * Translates a URL to a filesystem path
      *
      * Takes a url and figures out its filesystem location.
      *
+=======
+     * Takes a url and figures out its place based in the file system based on path
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * NOTE: Not fool-proof, makes a lot of assumptions about the file path
      * matching the URL path
      *
      * @api
      *
+<<<<<<< HEAD
      * @param string $url The URL to translate to a filesystem path
      * @return string The filesystem path derived from the URL
+=======
+     * @param string $url
+     * @return string
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function url_to_file_system($url)
     {
@@ -191,14 +204,24 @@ class URLHelper
         /**
          * Filters the path of a parsed URL.
          *
+<<<<<<< HEAD
          * You can use this filter to alter the returned file system path.
          * This filter is used by the WPML integration.
 
+=======
+         * This filter is used by the WPML integration.
+         *
+         * @todo Add description, parameter description.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          *
          * @see \Timber\URLHelper::url_to_file_system()
          * @since 1.3.2
          *
+<<<<<<< HEAD
          * @param string $path The current translated path
+=======
+         * @param string $path
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
          */
         $url_parts['path'] = \apply_filters('timber/url_helper/url_to_file_system/path', $url_parts['path']);
 
@@ -220,6 +243,7 @@ class URLHelper
     }
 
     /**
+<<<<<<< HEAD
      * Translates a filesystem path to a URL
      *
      * Takes a filesystem path and figures out its URL location.
@@ -227,10 +251,16 @@ class URLHelper
      * @api
      * @param string $fs The filesystem path to translate to a URL
      * @return string    The URL derived from the filesystem path
+=======
+     * @api
+     * @param string $fs
+     * @return string
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public static function file_system_to_url($fs)
     {
         $relative_path = self::get_rel_path($fs);
+<<<<<<< HEAD
         $url = \home_url('/' . $relative_path);
 
         /**
@@ -262,6 +292,38 @@ class URLHelper
             'timber/url_helper/file_system_to_url'
         );
         return $url;
+=======
+        $home = \home_url('/' . $relative_path);
+
+        /**
+         * Filters the home URL …
+         *
+         * This filter is used by the WPML integration.
+         *
+         * @todo Complete summary, add description.
+         *
+         * @see \Timber\URLHelper::file_system_to_url()
+         * @since 1.3.2
+         *
+         * @param string $home The home URL.
+         */
+        $home = \apply_filters('timber/url_helper/file_system_to_url', $home);
+
+        /**
+         * Filters the home URL …
+         *
+         * @todo Complete summary.
+         *
+         * @deprecated 2.0.0, use `timber/url_helper/file_system_to_url`
+         */
+        $home = \apply_filters_deprecated(
+            'timber/URLHelper/file_system_to_url',
+            [$home],
+            '2.0.0',
+            'timber/url_helper/file_system_to_url'
+        );
+        return $home;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     }
 
     /**
@@ -326,6 +388,7 @@ class URLHelper
     public static function remove_double_slashes($url)
     {
         $url = \str_replace('//', '/', $url);
+<<<<<<< HEAD
 
         /**
          * Filters the schemes that are excluded for double slash removal.
@@ -337,6 +400,8 @@ class URLHelper
          *
          * @param array $schemes_whitelist the schemes that are excluded for double slash removal.
          */
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $schemes_whitelist = \apply_filters('timber/url/schemes-whitelist', ['http', 'https', 's3', 'gs']);
         foreach ($schemes_whitelist as $scheme) {
             if (\strstr($url, $scheme . ':') && !\strstr($url, $scheme . '://')) {
@@ -554,7 +619,12 @@ class URLHelper
 
     /**
      * Returns the url path parameters, or a single parameter if given an index.
+<<<<<<< HEAD
      * Returns false if given a non-existent index.
+=======
+     * Normalizes REQUEST_URI to lower-case. Returns false if given a
+     * non-existent index.
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      *
      * @example
      * ```php
@@ -581,7 +651,11 @@ class URLHelper
      */
     public static function get_params($i = false)
     {
+<<<<<<< HEAD
         $uri = \trim($_SERVER['REQUEST_URI']);
+=======
+        $uri = \trim(\strtolower($_SERVER['REQUEST_URI']));
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $params = \array_values(\array_filter(\explode('/', $uri)));
 
         if (false === $i) {

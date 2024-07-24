@@ -50,6 +50,7 @@ final class LogicalNot extends UnaryOperator
 
         preg_match('/(\'[\w\W]*\')([\w\W]*)("[\w\W]*")/i', $string, $matches);
 
+<<<<<<< HEAD
         if (count($matches) === 0) {
             preg_match('/(\'[\w\W]*\')([\w\W]*)(\'[\w\W]*\')/i', $string, $matches);
         }
@@ -61,6 +62,12 @@ final class LogicalNot extends UnaryOperator
             },
             $positives,
         );
+=======
+        $positives = array_map(static function (string $s)
+        {
+            return '/\\b' . preg_quote($s, '/') . '/';
+        }, $positives);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
         if (count($matches) > 0) {
             $nonInput = $matches[2];

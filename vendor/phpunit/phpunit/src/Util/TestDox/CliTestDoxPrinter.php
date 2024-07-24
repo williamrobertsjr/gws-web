@@ -21,16 +21,24 @@ use function sprintf;
 use function strlen;
 use function strpos;
 use function trim;
+<<<<<<< HEAD
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestFailure;
+=======
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\PhptTestCase;
 use PHPUnit\Util\Color;
+<<<<<<< HEAD
 use PHPUnit\Util\Filter;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use SebastianBergmann\Timer\ResourceUsageFormatter;
 use SebastianBergmann\Timer\Timer;
 use Throwable;
@@ -126,7 +134,11 @@ class CliTestDoxPrinter extends TestDoxPrinter
      * @param null|resource|string $out
      * @param int|string           $numberOfColumns
      *
+<<<<<<< HEAD
      * @throws Exception
+=======
+     * @throws \PHPUnit\Framework\Exception
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function __construct($out = null, bool $verbose = false, string $colors = self::COLOR_DEFAULT, bool $debug = false, $numberOfColumns = 80, bool $reverse = false)
     {
@@ -161,7 +173,11 @@ class CliTestDoxPrinter extends TestDoxPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function registerTestResult(Test $test, ?Throwable $t, int $status, float $time, bool $verbose): void
     {
@@ -173,7 +189,11 @@ class CliTestDoxPrinter extends TestDoxPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function formatTestName(Test $test): string
     {
@@ -220,7 +240,11 @@ class CliTestDoxPrinter extends TestDoxPrinter
 
     protected function formatThrowable(Throwable $t, ?int $status = null): string
     {
+<<<<<<< HEAD
         return trim(TestFailure::exceptionToString($t));
+=======
+        return trim(\PHPUnit\Framework\TestFailure::exceptionToString($t));
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     }
 
     protected function colorizeMessageAndDiff(string $style, string $buffer): array
@@ -259,7 +283,11 @@ class CliTestDoxPrinter extends TestDoxPrinter
 
     protected function formatStacktrace(Throwable $t): string
     {
+<<<<<<< HEAD
         $trace = Filter::getFilteredStacktrace($t);
+=======
+        $trace = \PHPUnit\Util\Filter::getFilteredStacktrace($t);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
         if (!$this->colors) {
             return $trace;

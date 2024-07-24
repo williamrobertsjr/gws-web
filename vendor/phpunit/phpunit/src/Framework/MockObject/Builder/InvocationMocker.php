@@ -16,7 +16,10 @@ use function in_array;
 use function is_string;
 use function strtolower;
 use PHPUnit\Framework\Constraint\Constraint;
+<<<<<<< HEAD
 use PHPUnit\Framework\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PHPUnit\Framework\MockObject\ConfigurableMethod;
 use PHPUnit\Framework\MockObject\IncompatibleReturnValueException;
 use PHPUnit\Framework\MockObject\InvocationHandler;
@@ -225,7 +228,11 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
     /**
      * @param Constraint|string $constraint
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \PHPUnit\Framework\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws MethodCannotBeConfiguredException
      * @throws MethodNameAlreadyConfiguredException
      *

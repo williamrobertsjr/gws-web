@@ -10,7 +10,10 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function sprintf;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Throwable;
 
 /**
@@ -55,7 +58,11 @@ final class ExceptionCode extends Constraint
      *
      * @param mixed $other evaluated value or object
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function failureDescription($other): string
     {

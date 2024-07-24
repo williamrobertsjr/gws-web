@@ -3,6 +3,10 @@
 namespace Timber\Factory;
 
 use Timber\CoreInterface;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Menu;
 use Timber\MenuItem;
 use WP_Post;

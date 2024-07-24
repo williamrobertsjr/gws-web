@@ -4,7 +4,11 @@
 
 namespace Composer\Autoload;
 
+<<<<<<< HEAD
 class ComposerStaticInit0ee85140eeba5af461018a2ad2b73df0
+=======
+class ComposerStaticInit803cdaabba9cfa9d4ceac19bd95b18ff
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 {
     public static $files = array (
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
@@ -606,7 +610,10 @@ class ComposerStaticInit0ee85140eeba5af461018a2ad2b73df0
         'PharIo\\Manifest\\ManifestLoader' => __DIR__ . '/..' . '/phar-io/manifest/src/ManifestLoader.php',
         'PharIo\\Manifest\\ManifestLoaderException' => __DIR__ . '/..' . '/phar-io/manifest/src/exceptions/ManifestLoaderException.php',
         'PharIo\\Manifest\\ManifestSerializer' => __DIR__ . '/..' . '/phar-io/manifest/src/ManifestSerializer.php',
+<<<<<<< HEAD
         'PharIo\\Manifest\\NoEmailAddressException' => __DIR__ . '/..' . '/phar-io/manifest/src/exceptions/NoEmailAddressException.php',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'PharIo\\Manifest\\PhpElement' => __DIR__ . '/..' . '/phar-io/manifest/src/xml/PhpElement.php',
         'PharIo\\Manifest\\PhpExtensionRequirement' => __DIR__ . '/..' . '/phar-io/manifest/src/values/PhpExtensionRequirement.php',
         'PharIo\\Manifest\\PhpVersionRequirement' => __DIR__ . '/..' . '/phar-io/manifest/src/values/PhpVersionRequirement.php',
@@ -859,10 +866,17 @@ class ComposerStaticInit0ee85140eeba5af461018a2ad2b73df0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+<<<<<<< HEAD
             $loader->prefixLengthsPsr4 = ComposerStaticInit0ee85140eeba5af461018a2ad2b73df0::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit0ee85140eeba5af461018a2ad2b73df0::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit0ee85140eeba5af461018a2ad2b73df0::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit0ee85140eeba5af461018a2ad2b73df0::$classMap;
+=======
+            $loader->prefixLengthsPsr4 = ComposerStaticInit803cdaabba9cfa9d4ceac19bd95b18ff::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit803cdaabba9cfa9d4ceac19bd95b18ff::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit803cdaabba9cfa9d4ceac19bd95b18ff::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit803cdaabba9cfa9d4ceac19bd95b18ff::$classMap;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
         }, null, ClassLoader::class);
     }

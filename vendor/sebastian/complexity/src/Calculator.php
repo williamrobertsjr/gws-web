@@ -10,10 +10,18 @@
 namespace SebastianBergmann\Complexity;
 
 use PhpParser\Error;
+<<<<<<< HEAD
+=======
+use PhpParser\Lexer;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
+<<<<<<< HEAD
+=======
+use PhpParser\Parser;
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use PhpParser\ParserFactory;
 
 final class Calculator
@@ -32,7 +40,11 @@ final class Calculator
     public function calculateForSourceString(string $source): ComplexityCollection
     {
         try {
+<<<<<<< HEAD
             $nodes = (new ParserFactory)->createForHostVersion()->parse($source);
+=======
+            $nodes = $this->parser()->parse($source);
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
             assert($nodes !== null);
 
@@ -78,4 +90,12 @@ final class Calculator
 
         return $complexityCalculatingVisitor->result();
     }
+<<<<<<< HEAD
+=======
+
+    private function parser(): Parser
+    {
+        return (new ParserFactory)->create(ParserFactory::PREFER_PHP7, new Lexer);
+    }
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 }

@@ -17,7 +17,11 @@ if ( \class_exists( 'Yoast\PHPUnitPolyfills\Autoload', false ) === false ) {
 		 *
 		 * @var string
 		 */
+<<<<<<< HEAD
 		const VERSION = '1.1.1';
+=======
+		const VERSION = '1.1.0';
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 		/**
 		 * Loads a class.
@@ -35,7 +39,11 @@ if ( \class_exists( 'Yoast\PHPUnitPolyfills\Autoload', false ) === false ) {
 			if ( $className === 'Error' || $className === 'TypeError' ) {
 				$file = \realpath( __DIR__ . '/src/Exceptions/' . $className . '.php' );
 
+<<<<<<< HEAD
 				if ( \is_string( $file ) && \file_exists( $file ) === true ) {
+=======
+				if ( \file_exists( $file ) === true ) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 					require_once $file;
 					return true;
 				}
@@ -128,7 +136,11 @@ if ( \class_exists( 'Yoast\PHPUnitPolyfills\Autoload', false ) === false ) {
 				default:
 					$file = \realpath( __DIR__ . '/src/' . \strtr( \substr( $className, 23 ), '\\', '/' ) . '.php' );
 
+<<<<<<< HEAD
 					if ( \is_string( $file ) && \file_exists( $file ) === true ) {
+=======
+					if ( \file_exists( $file ) === true ) {
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 						require_once $file;
 						return true;
 					}

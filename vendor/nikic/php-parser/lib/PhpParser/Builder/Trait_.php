@@ -7,6 +7,7 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
+<<<<<<< HEAD
 class Trait_ extends Declaration {
     protected string $name;
     /** @var list<Stmt\TraitUse> */
@@ -19,6 +20,17 @@ class Trait_ extends Declaration {
     protected array $methods = [];
     /** @var list<Node\AttributeGroup> */
     protected array $attributeGroups = [];
+=======
+class Trait_ extends Declaration
+{
+    protected $name;
+    protected $uses = [];
+    protected $properties = [];
+    protected $methods = [];
+
+    /** @var Node\AttributeGroup[] */
+    protected $attributeGroups = [];
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
     /**
      * Creates an interface builder.
@@ -45,8 +57,11 @@ class Trait_ extends Declaration {
             $this->methods[] = $stmt;
         } elseif ($stmt instanceof Stmt\TraitUse) {
             $this->uses[] = $stmt;
+<<<<<<< HEAD
         } elseif ($stmt instanceof Stmt\ClassConst) {
             $this->constants[] = $stmt;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         } else {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
@@ -72,10 +87,17 @@ class Trait_ extends Declaration {
      *
      * @return Stmt\Trait_ The built interface node
      */
+<<<<<<< HEAD
     public function getNode(): PhpParser\Node {
         return new Stmt\Trait_(
             $this->name, [
                 'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
+=======
+    public function getNode() : PhpParser\Node {
+        return new Stmt\Trait_(
+            $this->name, [
+                'stmts' => array_merge($this->uses, $this->properties, $this->methods),
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
                 'attrGroups' => $this->attributeGroups,
             ], $this->attributes
         );

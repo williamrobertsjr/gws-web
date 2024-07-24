@@ -21,7 +21,10 @@ class MoodleInstaller extends BaseInstaller
         'cachestore'         => 'cache/stores/{$name}/',
         'cachelock'          => 'cache/locks/{$name}/',
         'calendartype'       => 'calendar/type/{$name}/',
+<<<<<<< HEAD
         'communication'      => 'communication/provider/{$name}/',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'customfield'        => 'customfield/field/{$name}/',
         'fileconverter'      => 'files/converter/{$name}/',
         'format'             => 'course/format/{$name}/',
@@ -34,24 +37,36 @@ class MoodleInstaller extends BaseInstaller
         'editor'             => 'lib/editor/{$name}/',
         'enrol'              => 'enrol/{$name}/',
         'filter'             => 'filter/{$name}/',
+<<<<<<< HEAD
         'forumreport'        => 'mod/forum/report/{$name}/',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'gradeexport'        => 'grade/export/{$name}/',
         'gradeimport'        => 'grade/import/{$name}/',
         'gradereport'        => 'grade/report/{$name}/',
         'gradingform'        => 'grade/grading/form/{$name}/',
+<<<<<<< HEAD
         'h5plib'             => 'h5p/h5plib/{$name}/',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'local'              => 'local/{$name}/',
         'logstore'           => 'admin/tool/log/store/{$name}/',
         'ltisource'          => 'mod/lti/source/{$name}/',
         'ltiservice'         => 'mod/lti/service/{$name}/',
         'media'              => 'media/player/{$name}/',
         'message'            => 'message/output/{$name}/',
+<<<<<<< HEAD
         'mlbackend'          => 'lib/mlbackend/{$name}/',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'mnetservice'        => 'mnet/service/{$name}/',
         'paygw'              => 'payment/gateway/{$name}/',
         'plagiarism'         => 'plagiarism/{$name}/',
         'portfolio'          => 'portfolio/{$name}/',
+<<<<<<< HEAD
         'qbank'              => 'question/bank/{$name}/',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'qbehaviour'         => 'question/behaviour/{$name}/',
         'qformat'            => 'question/format/{$name}/',
         'qtype'              => 'question/type/{$name}/',
@@ -62,7 +77,10 @@ class MoodleInstaller extends BaseInstaller
         'scormreport'        => 'mod/scorm/report/{$name}/',
         'search'             => 'search/engine/{$name}/',
         'theme'              => 'theme/{$name}/',
+<<<<<<< HEAD
         'tiny'               => 'lib/editor/tiny/plugins/{$name}/',
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         'tinymce'            => 'lib/editor/tinymce/plugins/{$name}/',
         'profilefield'       => 'user/profile/field/{$name}/',
         'webservice'         => 'webservice/{$name}/',

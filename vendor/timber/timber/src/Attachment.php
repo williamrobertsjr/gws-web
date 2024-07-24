@@ -2,7 +2,10 @@
 
 namespace Timber;
 
+<<<<<<< HEAD
 use InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Factory\PostFactory;
 
 /**
@@ -246,10 +249,13 @@ class Attachment extends Post
             return $this->size = (int) $size;
         }
 
+<<<<<<< HEAD
         if (!ImageHelper::is_protocol_allowed($this->file_loc())) {
             throw new InvalidArgumentException('The output file scheme is not supported.');
         }
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         /**
          * Filesize wasn't found in the metadata, so we'll try to get it from the file itself.
          *

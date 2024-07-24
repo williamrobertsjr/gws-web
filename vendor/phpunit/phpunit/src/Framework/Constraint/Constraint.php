@@ -15,7 +15,10 @@ use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\SelfDescribing;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Exporter\Exporter;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -37,8 +40,13 @@ abstract class Constraint implements Countable, SelfDescribing
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
     {
@@ -97,12 +105,21 @@ abstract class Constraint implements Countable, SelfDescribing
      * @param mixed  $other       evaluated value or object
      * @param string $description Additional information about the test
      *
+<<<<<<< HEAD
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
      *
      * @psalm-return never-return
      */
     protected function fail($other, $description, ?ComparisonFailure $comparisonFailure = null): void
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+     *
+     * @psalm-return never-return
+     */
+    protected function fail($other, $description, ComparisonFailure $comparisonFailure = null): void
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         $failureDescription = sprintf(
             'Failed asserting that %s.',
@@ -149,7 +166,11 @@ abstract class Constraint implements Countable, SelfDescribing
      *
      * @param mixed $other evaluated value or object
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     protected function failureDescription($other): string
     {

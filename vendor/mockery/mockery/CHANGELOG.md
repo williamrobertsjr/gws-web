@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+<<<<<<< HEAD
 ## [1.6.12] - 2024-05-15
 
 ### Changed
@@ -89,6 +90,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1355: Fix the namespace in the SubsetTest class](https://github.com/mockery/mockery/pull/1355)
 - [1354: Add array-like objects support to hasKey/hasValue matchers](https://github.com/mockery/mockery/pull/1354)
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 ## [1.6.7] - 2023-12-09
 
 ### Added

@@ -4,6 +4,10 @@ namespace Timber\Factory;
 
 use InvalidArgumentException;
 use Timber\CoreInterface;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use Timber\Term;
 use WP_Term;
 use WP_Term_Query;
@@ -99,6 +103,7 @@ class TermFactory
 
     protected function get_term_class(WP_Term $term): string
     {
+<<<<<<< HEAD
         /**
          * Filters the class(es) used for terms of different taxonomies.
          *
@@ -120,6 +125,9 @@ class TermFactory
          *                        the taxonomy name and the value the name of the class to use for this
          *                        taxonomy or a callback that determines the class to use.
          */
+=======
+        // Get the user-configured Class Map
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
         $map = \apply_filters('timber/term/classmap', [
             'post_tag' => Term::class,
             'category' => Term::class,

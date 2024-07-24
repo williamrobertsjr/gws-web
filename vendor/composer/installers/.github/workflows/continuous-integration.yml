@@ -8,9 +8,12 @@ env:
   COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist"
   SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT: "1"
 
+<<<<<<< HEAD
 permissions:
   contents: read
 
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 jobs:
   tests:
     name: "CI"

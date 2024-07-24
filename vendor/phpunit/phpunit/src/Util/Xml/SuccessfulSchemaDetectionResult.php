@@ -17,6 +17,7 @@ namespace PHPUnit\Util\Xml;
 final class SuccessfulSchemaDetectionResult extends SchemaDetectionResult
 {
     /**
+<<<<<<< HEAD
      * @psalm-var non-empty-string
      */
     private $version;
@@ -24,22 +25,34 @@ final class SuccessfulSchemaDetectionResult extends SchemaDetectionResult
     /**
      * @psalm-param non-empty-string $version
      */
+=======
+     * @var string
+     */
+    private $version;
+
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     public function __construct(string $version)
     {
         $this->version = $version;
     }
 
+<<<<<<< HEAD
     /**
      * @psalm-assert-if-true SuccessfulSchemaDetectionResult $this
      */
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     public function detected(): bool
     {
         return true;
     }
 
+<<<<<<< HEAD
     /**
      * @psalm-return non-empty-string
      */
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     public function version(): string
     {
         return $this->version;

@@ -77,7 +77,11 @@ class Exporter
      *
      * @return string
      */
+<<<<<<< HEAD
     public function shortenedRecursiveExport(&$data, ?Context $context = null)
+=======
+    public function shortenedRecursiveExport(&$data, Context $context = null)
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
     {
         $result   = [];
         $exporter = new self();

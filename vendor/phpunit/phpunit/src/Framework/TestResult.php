@@ -34,7 +34,10 @@ use SebastianBergmann\CodeCoverage\Exception as OriginalCodeCoverageException;
 use SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException;
 use SebastianBergmann\Invoker\Invoker;
 use SebastianBergmann\Invoker\TimeoutException;
+<<<<<<< HEAD
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+=======
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
 use SebastianBergmann\ResourceOperations\ResourceOperations;
 use SebastianBergmann\Timer\Timer;
 use Throwable;
@@ -445,7 +448,11 @@ final class TestResult implements Countable
     /**
      * Informs the result that a test was completed.
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      */
     public function endTest(Test $test, float $time): void
     {
@@ -635,8 +642,13 @@ final class TestResult implements Countable
      * Runs a TestCase.
      *
      * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+<<<<<<< HEAD
      * @throws CodeCoverageException
      * @throws InvalidArgumentException
+=======
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws CodeCoverageException
+>>>>>>> 49369b033194767f4de0877a45b04f3226134f98
      * @throws UnintentionallyCoveredCodeException
      */
     public function run(Test $test): void
