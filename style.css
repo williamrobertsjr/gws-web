@@ -656,8 +656,8 @@ p.divider {
 .services-card.sales-rep {
   background-image: url("/wp-content/uploads/2023/12/services_sales_rep.jpg");
 }
-.services-card.find-distributor {
-  background-image: url("/wp-content/uploads/2024/01/find_distributor.png");
+.services-card.industries {
+  background-image: url("https://www.gwstoolgroup.com/wp-content/uploads/2024/01/Aerospace_defense_1.jpg");
 }
 .services-card.hvr-float {
   display: flex;
