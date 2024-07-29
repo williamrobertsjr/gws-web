@@ -283,4 +283,8 @@ function custom_password_reset_confirmation() {
 }
 add_action( 'login_message', 'custom_password_reset_confirmation' );
 
-
+// Create a default title passed in html-header.twig to give customization to page titles for dynamic pages
+add_filter('timber/context', function ($context) {
+    $context['wp_title'] = wp_get_document_title();
+    return $context;
+});
