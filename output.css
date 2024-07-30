@@ -841,10 +841,6 @@ video {
   margin-inline-end: 1.25rem;
 }
 
-.me-6 {
-  margin-inline-end: 1.5rem;
-}
-
 .ms-3 {
   margin-inline-start: 0.75rem;
 }
@@ -2461,11 +2457,6 @@ video {
   padding-bottom: 1.5rem;
 }
 
-.py-60 {
-  padding-top: 15rem;
-  padding-bottom: 15rem;
-}
-
 .pb-10 {
   padding-bottom: 2.5rem;
 }
@@ -2484,6 +2475,10 @@ video {
 
 .pb-5 {
   padding-bottom: 1.25rem;
+}
+
+.pb-52 {
+  padding-bottom: 13rem;
 }
 
 .pb-6 {
@@ -2564,6 +2559,10 @@ video {
 
 .pt-80 {
   padding-top: 20rem;
+}
+
+.pt-96 {
+  padding-top: 24rem;
 }
 
 .text-left {
