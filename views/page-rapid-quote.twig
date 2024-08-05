@@ -36,6 +36,7 @@
                     <option value="t1">Tier 1</option>
                     <option value="t2">Tier 2</option>
                     <option value="t3">Tier 3</option>
+                    <option value="57_5">57.5%</option>
                     <option value="direct">Direct</option>
                 </select>
             </div>
@@ -48,6 +49,8 @@
                 {% set distributorRole = '52.5%' %}
                 {% elseif userRole == 't3' %}
                 {% set distributorRole = '50%' %}
+                {% elseif userRole == '57_5' %}
+                {% set distributorRole = '57.5%' %}
                 {% elseif userRole == 'ta' %}
                 {% set distributorRole = 'Authorized' %}
                 {% elseif userRole == 'sales' %}
@@ -55,7 +58,7 @@
                 {% else %}
                 {% set distributorRole = 'None' %}
                 {% endif %}
-                {% if userRole == 't1' or userRole == 't2' or userRole == 't3'%}
+                {% if userRole == 't1' or userRole == 't2' or userRole == 't3' or userRole == '57_5'%}
                     <p class="text-white">Your Distributor Discount:  <span id="user-role" class="font-semibold text-white">{{distributorRole}}</span>.</p>
                 {% elseif distributorRole == 'None' %}
                     <p class="text-white">No Discount. If you are a distributor, <a href="/sign-in" class="underline font-semibold hover:text-pale-blue">sign in</a> to see your discounted price.</p> 

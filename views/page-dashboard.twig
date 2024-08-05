@@ -18,6 +18,8 @@
                     {% set userRole = '52.5%' %}
                     {% elseif userRole == 't3' %}
                     {% set userRole = '50%' %}
+                    {% elseif userRole == '57_5' %}
+                    {% set userRole = '57.5%' %}
                 
                     {% elseif userRole == 'sales' %}
                     {% set userRole = 'Sales Team' %}
@@ -28,7 +30,7 @@
                     {% endif %}
                     
                     {# <p><span class="text-pale-blue font-bold">Company:</span> {{user.meta('user_company')}}</p> #}
-                    {% if userRole == '55%' or userRole == '52.5%' or userRole == '50%' %}
+                    {% if userRole == '55%' or userRole == '52.5%' or userRole == '50%' or userRole == '57.5%' %}
                         <p><span class="text-pale-blue font-semibold">Distributor Discount: </span>{{userRole}}</p>
                     {% else %}
                         <p><span class="text-pale-blue font-semibold">Account Type: </span>{{userRole}}</p>
