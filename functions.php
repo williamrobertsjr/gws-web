@@ -189,11 +189,17 @@ function redirect_lostpassword_page() {
 add_action('init', 'redirect_lostpassword_page');
 
 function custom_logout_redirect() {
-    $redirect_url = 'https://staging.gwstoolgroup.com';
+    // Get the home URL dynamically
+    $home_url = home_url();
+    
+    // Define the redirect URL, e.g., to the homepage or any specific path
+    $redirect_url = $home_url; // Redirect to the homepage
+    
     wp_redirect($redirect_url);
     exit();
 }
 add_action('wp_logout', 'custom_logout_redirect');
+
 
 // // Redirect password reset request to a custom page
 // function custom_password_reset_redirect($url) {
