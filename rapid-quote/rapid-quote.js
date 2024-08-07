@@ -117,6 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
       case "t3":
         discountRate = 0.50;
         break;
+      case "57_5":
+        discountRate = 0.575;
+        break;
       case "direct":
         discountRate = 0.30;
         break;
