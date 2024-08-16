@@ -74,35 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // // Updated calculateDiscount function
-  // const calculateDiscount = (tier, isAdvancedPerformance) => {
-  //   let discountRate;
-
-  //   switch (tier) {
-  //     case "elite":
-  //       discountRate = isAdvancedPerformance ? 0.575 : 0.55;
-  //       break;
-  //     case "t1":
-  //       discountRate = isAdvancedPerformance ? 0.55 : 0.54;
-  //       break;
-  //     case "t2":
-  //       discountRate = isAdvancedPerformance ? 0.5 : 0.52;
-  //       break;
-  //     case "t3":
-  //       discountRate = isAdvancedPerformance ? 0.45 : 0.51;
-  //       break;
-  //     case "ta":
-  //       discountRate = isAdvancedPerformance ? 0.4 : 0.5;
-  //       break;
-  //     case "none":
-  //       discountRate = isAdvancedPerformance ? 0 : 0;
-  //       break;
-  //     default:
-  //       discountRate = isAdvancedPerformance ? 0 : 0;
-  //   }
-
-  //   return discountRate;
-  // };
   // Updated calculateDiscount function
   const calculateDiscount = (tier, isAdvancedPerformance) => {
     let discountRate;
@@ -134,133 +105,232 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Updated updatePrices function to change data tables data not just dom
-  const updatePrices = () => {
+  // const updatePrices = () => {
+  //   let userTier = getUserTier();
+
+  //   document.querySelectorAll("td.rq-net-price").forEach((netPriceCell) => {
+  //     let rowElement = netPriceCell.closest("tr");
+  //     let row = table.row(rowElement);
+  //     let rowData = row.data();
+
+  //     let partFamilyCell = rowElement.querySelector("td.rq-edp > a");
+  //     let isAdvancedPerformance =
+  //       partFamilyCell && partFamilyCell.classList.contains("Advanced");
+
+  //     let discount = calculateDiscount(userTier, isAdvancedPerformance);
+
+  //     let listPriceCell = rowElement.querySelector("td.rq-list-price");
+  //     let listPrice = parseFloat(listPriceCell.innerText);
+
+  //     let qtyInput = rowElement.querySelector("#neededQty");
+  //     let quantity = parseInt(qtyInput.value, 10);
+
+  //     let discountedPrice = listPrice * (1 - discount);
+  //     let totalPrice = discountedPrice * quantity;
+
+  //     // Update the DOM
+  //     netPriceCell.innerText = discountedPrice.toFixed(2);
+  //     let totalPriceCell = rowElement.querySelector("td.rq-total-price");
+  //     totalPriceCell.innerText = "$" + totalPrice.toFixed(2);
+
+  //     // Update the DataTables internal data
+  //     rowData[5] = discountedPrice.toFixed(2); // use row index of net price to update data table
+  //     rowData[6] = "$" + totalPrice.toFixed(2); // use row index of total price to update data table
+
+  //     // Invalidate the row to ensure the internal cache is updated
+  //     row.invalidate();
+  //   });
+
+  //   // Redraw the table after updating prices
+  //   table.draw(false); // 'false' keeps the current paging position
+  // };
+
+  function updatePrices() {
     let userTier = getUserTier();
+    const distributorLevel = document.getElementById('distributor-level').value;
+    table.rows().every(function() {
+        const row = this.data();
+        const qtyInput = this.node().querySelector('input[name="neededQty"]').value;
+        const listPrice = parseFloat(row[4]); // Assuming this index for list price
 
-    document.querySelectorAll("td.rq-net-price").forEach((netPriceCell) => {
-      let rowElement = netPriceCell.closest("tr");
-      let row = table.row(rowElement);
-      let rowData = row.data();
+        // Compute new prices based on the level and quantity
+        const discount = calculateDiscount(userTier);// Assume this function returns a discount rate
+        const netPrice = listPrice * (1 - discount);
+        const totalPrice = netPrice * qtyInput;
 
-      let partFamilyCell = rowElement.querySelector("td.rq-edp > a");
-      let isAdvancedPerformance =
-        partFamilyCell && partFamilyCell.classList.contains("Advanced");
-
-      let discount = calculateDiscount(userTier, isAdvancedPerformance);
-
-      let listPriceCell = rowElement.querySelector("td.rq-list-price");
-      let listPrice = parseFloat(listPriceCell.innerText);
-
-      let qtyInput = rowElement.querySelector("#neededQty");
-      let quantity = parseInt(qtyInput.value, 10);
-
-      let discountedPrice = listPrice * (1 - discount);
-      let totalPrice = discountedPrice * quantity;
-
-      // Update the DOM
-      netPriceCell.innerText = discountedPrice.toFixed(2);
-      let totalPriceCell = rowElement.querySelector("td.rq-total-price");
-      totalPriceCell.innerText = "$" + totalPrice.toFixed(2);
-
-      // Update the DataTables internal data
-      rowData[5] = discountedPrice.toFixed(2); // use row index of net price to update data table
-      rowData[6] = "$" + totalPrice.toFixed(2); // use row index of total price to update data table
-
-      // Invalidate the row to ensure the internal cache is updated
-      row.invalidate();
+        // Update the row with new prices
+        row[5] = netPrice.toFixed(2);
+        row[6] = totalPrice.toFixed(2);
+        this.invalidate(); // Notify DataTables of the data change
     });
+    table.draw(false); // Redraw the table without resetting paging
+}
 
-    // Redraw the table after updating prices
-    table.draw(false); // 'false' keeps the current paging position
-  };
+
+  // partsForm.addEventListener("submit", function (event) {
+  //   console.log("parts form intercepted");
+  //   event.preventDefault();
+
+  //   const data = new FormData(partsForm);
+  //   // console.log([...data])
+  //   if (data.has("part")) {
+  //     let partsString = data.get("part");
+  //     if (partsString) {
+  //       let partsArray = partsString
+  //         .split(/[\s,]+/)
+  //         .filter((part) => part.trim() !== "");
+  //       // console.log(partsArray);
+  //     } else {
+  //       console.log("No parts input found");
+  //     }
+  //   } else {
+  //     console.error("The 'partsInput' field is not found in the form data");
+  //   }
+
+  //   fetch("https://www.gwstoolgroup.com/wp-json/rapid-quote/v1/submit-quote", {
+  //     method: "POST",
+  //     body: data,
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       // Update your page based on the response
+  //       // Clear the current table data
+  //       table.clear();
+  //       if (data.found_parts && Array.isArray(data.found_parts)) {
+  //         data.found_parts.forEach((part) => {
+  //           partLink =
+  //             '<a class="' +
+  //             part.FAMILY +
+  //             ' font-bold text-dark-blue"' +
+  //             'href="/product/?part=' +
+  //             part.PN +
+  //             ' "' +
+  //             'target="_blank">' +
+  //             part.PN +
+  //             "</a>";
+  //           let qtyOnHand = Math.floor(part.QTY_ON_HAND, 10);
+  //           let neededQty =
+  //             '<input type="number" id="neededQty" name="neededQty" min="1" max="1000" value="1" class="flex w-full px-2"></input>';
+  //           let totalPrice = part.LIST_PRICE;
+  //           let netPrice = part.LIST_PRICE;
+  //           let partFamily = part.FAMILY;
+  //           // Add rows to the table for each found part Modify as per your JSON structure
+  //           table.row.add([
+  //             partLink, // EDP with link
+  //             part.FULL_DESCRIPTION, // FULL DESCRIPTION
+  //             neededQty, // QTY NEEDED
+  //             qtyOnHand, // STOCK
+  //             part.LIST_PRICE, // LIST PRICE
+  //             netPrice,
+  //             totalPrice, // TOTAL PRICE
+  //           ]);
+  //         });
+  //       }
+
+  //       // Draw the table with the new data
+  //       table.draw();
+  //       updatePrices();
+
+  //       document.addEventListener("change", function (event) {
+  //         if (event.target && event.target.id === "distributor-level") {
+  //           updatePrices();
+  //         }
+  //       });
+
+  //       // Handle missing parts if any
+  //       if (data.missing_parts) {
+  //         let missingPartsDiv = document.getElementById("missing-parts");
+  //         missingPartsDiv.innerHTML = `<p class="text-white text-sm italic">These parts were not found: ${data.missing_parts}. <span>Please verify part numbers.</span></p> `;
+  //         console.log("Missing parts:", data.missing_parts);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       // Display error message to the user
+  //     });
+  // });
 
   partsForm.addEventListener("submit", function (event) {
-    console.log("parts form intercepted");
-    event.preventDefault();
+      event.preventDefault();
+      console.log("parts form intercepted");
 
-    const data = new FormData(partsForm);
-    // console.log([...data])
-    if (data.has("part")) {
-      let partsString = data.get("part");
-      if (partsString) {
-        let partsArray = partsString
-          .split(/[\s,]+/)
-          .filter((part) => part.trim() !== "");
-        // console.log(partsArray);
-      } else {
-        console.log("No parts input found");
+      const data = new FormData(partsForm);
+      if (!data.has("part")) {
+          console.error("The 'partsInput' field is not found in the form data");
+          return;
       }
-    } else {
-      console.error("The 'partsInput' field is not found in the form data");
-    }
 
-    fetch("https://www.gwstoolgroup.com/wp-json/rapid-quote/v1/submit-quote", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
+      fetch("https://www.gwstoolgroup.com/wp-json/rapid-quote/v1/submit-quote", {
+          method: "POST",
+          body: data,
       })
-      .then((data) => {
-        // Update your page based on the response
-        // Clear the current table data
-        table.clear();
-        if (data.found_parts && Array.isArray(data.found_parts)) {
-          data.found_parts.forEach((part) => {
-            partLink =
-              '<a class="' +
-              part.FAMILY +
-              ' font-bold text-dark-blue"' +
-              'href="/product/?part=' +
-              part.PN +
-              ' "' +
-              'target="_blank">' +
-              part.PN +
-              "</a>";
-            let qtyOnHand = Math.floor(part.QTY_ON_HAND, 10);
-            let neededQty =
-              '<input type="number" id="neededQty" name="neededQty" min="1" max="1000" value="1" class="flex w-full px-2"></input>';
-            let totalPrice = part.LIST_PRICE;
-            let netPrice = part.LIST_PRICE;
-            let partFamily = part.FAMILY;
-            // Add rows to the table for each found part Modify as per your JSON structure
-            table.row.add([
-              partLink, // EDP with link
-              part.FULL_DESCRIPTION, // FULL DESCRIPTION
-              neededQty, // QTY NEEDED
-              qtyOnHand, // STOCK
-              part.LIST_PRICE, // LIST PRICE
-              netPrice,
-              totalPrice, // TOTAL PRICE
-            ]);
+      .then(res => res.json())
+      .then(data => {
+          table.clear();
+          const partPromises = data.found_parts.map(part => {
+              // Check if the part is listed as obsolete and fetch replacement details if necessary
+              return fetchReplacementDetails(part.PN).then(replacementData => {
+                  if (replacementData && replacementData.replacement_pn) {
+                      part.qtyOnHand = parseInt(replacementData.qty_on_hand, 10); // Update quantity with replacement
+                      part.LIST_PRICE = parseFloat(replacementData.list_price); // Update price with replacement
+                  }
+                  return part; // Return the updated or original part information
+              });
           });
-        }
 
-        // Draw the table with the new data
-        table.draw();
-        updatePrices();
+          Promise.all(partPromises).then(updatedParts => {
+              updatedParts.forEach(part => {
+                  const partLink = `<a class="${part.FAMILY} font-bold text-dark-blue" href="/product/?part=${part.PN}" target="_blank">${part.PN}</a>`;
+                  const neededQty = `<input type="number" id="neededQty" name="neededQty" min="1" max="1000" value="1" class="flex w-full px-2"></input>`;
+                  table.row.add([
+                      partLink,
+                      part.FULL_DESCRIPTION,
+                      neededQty,
+                      part.qtyOnHand,
+                      part.LIST_PRICE,
+                      part.LIST_PRICE,  // Assuming net price is the same as list price for this example
+                      part.LIST_PRICE * parseInt(neededQty.value, 10)  // Calculate total price
+                  ]);
+              });
+              table.draw();
+              updatePrices();
 
-        document.addEventListener("change", function (event) {
-          if (event.target && event.target.id === "distributor-level") {
-            updatePrices();
-          }
-        });
-
-        // Handle missing parts if any
-        if (data.missing_parts) {
-          let missingPartsDiv = document.getElementById("missing-parts");
-          missingPartsDiv.innerHTML = `<p class="text-white text-sm italic">These parts were not found: ${data.missing_parts}. <span>Please verify part numbers.</span></p> `;
-          console.log("Missing parts:", data.missing_parts);
-        }
+              // Handle missing parts if any
+              if (data.missing_parts && data.missing_parts.length > 0) {
+                let missingPartsDiv = document.getElementById("missing-parts");
+                missingPartsDiv.innerHTML = `<p class="text-white text-sm italic">These parts were not found: ${data.missing_parts}. <span>Please verify part numbers.</span></p>`;
+                console.log("Missing parts:", data.missing_parts);
+              }
+          });
       })
-      .catch((err) => {
-        console.log(err);
-        // Display error message to the user
+      .catch(err => {
+          console.error("Error during fetch:", err);
       });
   });
+
+  async function fetchReplacementDetails(partNumber) {
+      const response = await fetch(`/wp-content/themes/gws-web/rapid-quote/replacement_qty.php?partNumber=${encodeURIComponent(partNumber)}`);
+      if (!response.ok) {
+          console.error("Failed to fetch replacement details for part: " + partNumber);
+          return {};
+      }
+      return response.json();
+  }
+
+
+  // Update prices any time Distributor level is changed by admin or sales user
+  document.addEventListener("change", function (event) {
+    if (event.target && event.target.id === "distributor-level") {
+      updatePrices();
+    }
+  });
+
+
 
   document
     .querySelector("#rq-table")
