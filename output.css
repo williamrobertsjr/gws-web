@@ -921,6 +921,10 @@ video {
   margin-inline-start: 2rem;
 }
 
+.mt-0 {
+  margin-top: 0px;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -2229,6 +2233,11 @@ video {
   border-bottom-width: 1px;
 }
 
+.border-y-0 {
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+
 .border-b {
   border-bottom-width: 1px;
 }
@@ -2241,8 +2250,16 @@ video {
   border-left-width: 1px;
 }
 
+.border-l-4 {
+  border-left-width: 4px;
+}
+
 .border-r {
   border-right-width: 1px;
+}
+
+.border-r-0 {
+  border-right-width: 0px;
 }
 
 .border-s {
@@ -2280,6 +2297,11 @@ video {
 .border-black {
   --tw-border-opacity: 1;
   border-color: rgb(34 34 34 / var(--tw-border-opacity));
+}
+
+.border-pale-blue {
+  --tw-border-opacity: 1;
+  border-color: rgb(209 227 250 / var(--tw-border-opacity));
 }
 
 .bg-\[rgb\(255\2c 0\2c 0\)\] {
@@ -3691,7 +3713,7 @@ h3.hero-link {
 }
 
 .hero-link:first-of-type:hover ~ #home-hero {
-  background-image: url("/wp-content/uploads/2023/12/MG_4149-1-2.jpg");
+  background-image: url("https://www.gwstoolgroup.com/wp-content/uploads/2024/08/imts_booth_home.jpg");
 }
 
 .industries-sub-menu li.mega-menu-item,
@@ -3709,9 +3731,9 @@ a.mega-menu-link {
   align-items: center;
 }
 
-#announcement-banner {
+/* #announcement-banner {
   background-color: var(--black);
-}
+} */
 
 /*****************************/
 
@@ -3873,7 +3895,7 @@ div#gform_confirmation_wrapper_5 {
 }
 
 #home-hero {
-  background-image: url("/wp-content/uploads/2023/12/custom_home.jpg");
+  background-image: url("https://www.gwstoolgroup.com/wp-content/uploads/2024/08/imts_booth_home.jpg");
   background-color: rgba(0, 0, 0, 0.5);
   background-blend-mode: overlay;
   background-position: center center;
