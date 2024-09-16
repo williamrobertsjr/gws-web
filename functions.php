@@ -29,6 +29,13 @@ if ( ! class_exists( 'Timber' ) ) {
 
 Timber::$dirname = array( 'views', 'templates' );
 
+function enqueue_tailwind_output_styles() {
+    wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
+
+
+
 
 add_filter( 'timber/twig', function( $twig ) {
     $twig->addFilter( new \Twig\TwigFilter( 'custom_excerpt', function( $text, $length = 20 ) {

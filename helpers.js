@@ -3,8 +3,7 @@ const homeHero = document.getElementById('home-hero');
 const heroLink = document.querySelectorAll('.hero-link');
 if (heroLink) {
     heroLink[0].addEventListener('mouseover', function() {
-        // homeHero.style.backgroundImage = "url('/wp-content/uploads/2023/12/tool_spread-scaled.jpg')";
-        homeHero.style.backgroundImage = "url('https://www.gwstoolgroup.com/wp-content/uploads/2024/08/imts_booth_home.jpg')";
+        homeHero.style.backgroundImage = "url('/wp-content/uploads/2023/12/tool_spread-scaled.jpg')";
     })
     heroLink[1].addEventListener('mouseover', function() {
         homeHero.style.backgroundImage = "url('/wp-content/uploads/2023/12/home_industries.jpg')";
