@@ -1,5 +1,5 @@
-/wordpress
-/vendor
+wordpress/
+vendor/
 rapid-quote/db_connection.php
 db_connection.php
 signle-subtypes.php

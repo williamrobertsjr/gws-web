@@ -29,6 +29,13 @@ if ( ! class_exists( 'Timber' ) ) {
 
 Timber::$dirname = array( 'views', 'templates' );
 
+function enqueue_tailwind_output_styles() {
+    wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
+
+
+
 
 add_filter( 'timber/twig', function( $twig ) {
     $twig->addFilter( new \Twig\TwigFilter( 'custom_excerpt', function( $text, $length = 20 ) {
@@ -189,11 +196,17 @@ function redirect_lostpassword_page() {
 add_action('init', 'redirect_lostpassword_page');
 
 function custom_logout_redirect() {
-    $redirect_url = 'https://www.gwstoolgroup.com';
+    // Get the home URL dynamically
+    $home_url = home_url();
+    
+    // Define the redirect URL, e.g., to the homepage or any specific path
+    $redirect_url = $home_url; // Redirect to the homepage
+
     wp_redirect($redirect_url);
     exit();
 }
 add_action('wp_logout', 'custom_logout_redirect');
+
 
 // // Redirect password reset request to a custom page
 // function custom_password_reset_redirect($url) {
