@@ -2,23 +2,36 @@
 
 {% block content %}
 
-<section id="home-hero" class="flex flex-col justify-center items-center relative">
+{# Images for Hero Background #}
+{% set image1 = post.meta('first_image_image') ? post.meta('first_image_image').url : '' %}
+{% set image2 = post.meta('second_image_image') ? post.meta('second_image_image').url : '' %}
+{% set image3 = post.meta('third_image_image') ? post.meta('third_image_image').url : '' %}
+{% set image4 = post.meta('fourth_image_image') ? post.meta('fourth_image_image').url : '' %}
+
+<section id="home-hero" class="flex flex-col justify-center items-center relative"
+    data-image1="{{ image1 }}"
+    data-image2="{{ image2 }}"
+    data-image3="{{ image3 }}"
+    data-image4="{{ image4 }}">
 
     <div>
-        <h2 class="text-center hero-tagline">Custom Comes</h2>
-        <h2 class="text-center hero-tagline-big">Standard</h2>
+        <h2 class="text-center hero-tagline">{{post.meta('headline_top')}}</h2>
+        <h2 class="text-center hero-tagline-big">{{post.meta('headline_bottom')}}</h2>
     </div>
 
     <div id="hero-links" class="flex justify-center">
-        <div class="flex md:flex-row flex-col justify-between md:justify-evenly items-center gap-y-4 w-full w-full lg:w-8/12 xl:w-6/12">
-            <h3 class="hero-link me-5"><a href="/all-series">Products</a></h3>
-            <h3 class="hero-link me-5"><a href="/industries">Industries</a></h3>
-            <h3 class="hero-link me-5"><a href="/tool-filter">Tool Filter</a></h3>
-            <h3 class="hero-link me-5"><a href="/who-we-are">About</a></h3>
-        </div>
+        <div class="flex md:flex-row flex-col justify-between md:justify-evenly items-center gap-y-4 w-full lg:w-8/12 xl:w-6/12">
+            <h3 class="hero-link me-5" data-hero-index="0"><a href="{{post.meta('first_image_link')}}">{{post.meta('first_image_link_text')}}</a></h3>
+            <h3 class="hero-link me-5" data-hero-index="1"><a href="{{post.meta('second_image_link')}}">{{post.meta('second_image_link_text')}}</a></h3>
+            <h3 class="hero-link me-5" data-hero-index="2"><a href="{{post.meta('third_image_link')}}">{{post.meta('third_image_link_text')}}</a></h3>
+            <h3 class="hero-link me-5" data-hero-index="3"><a href="{{post.meta('fourth_image_link')}}">{{post.meta('fourth_image_link_text')}}</a></h3> 
     </div>
 
 </section>
+
+
+
+
 
 <section id="whats-new" class="ps-4 sm:ps-20 py-36">
     
