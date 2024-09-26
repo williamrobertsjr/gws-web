@@ -31,9 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set initial background image if available
     if (heroImages[0]) {
-        homeHero.style.backgroundImage = `url(${heroImages[0]})`;
+        homeHero.style.backgroundImage = `url(${heroImages[2]})`;
     }
-
     // Add hover event listeners to each hero link
     heroLinks.forEach((link, index) => {
         link.addEventListener('mouseover', function() {

@@ -311,7 +311,10 @@ h3.hero-link {
   font-weight: 600;
   color: rgb(247, 247, 247, 0.6);
 }
-
+body strong, 
+body b {
+  font-weight: 600;
+}
 .hero-link:hover {
   color: var(--white);
 }
@@ -1885,10 +1888,10 @@ main.swp-rp-main {
 
 @media only screen and (max-width: 600px) {
   h2.hero-tagline {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   h2.hero-tagline-big {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
   #whats-new .card {
     min-height: 400px;

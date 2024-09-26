@@ -921,10 +921,6 @@ video {
   margin-inline-start: 2rem;
 }
 
-.mt-0 {
-  margin-top: 0px;
-}
-
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -2233,11 +2229,6 @@ video {
   border-bottom-width: 1px;
 }
 
-.border-y-0 {
-  border-top-width: 0px;
-  border-bottom-width: 0px;
-}
-
 .border-b {
   border-bottom-width: 1px;
 }
@@ -2250,16 +2241,8 @@ video {
   border-left-width: 1px;
 }
 
-.border-l-4 {
-  border-left-width: 4px;
-}
-
 .border-r {
   border-right-width: 1px;
-}
-
-.border-r-0 {
-  border-right-width: 0px;
 }
 
 .border-s {
@@ -2297,11 +2280,6 @@ video {
 .border-black {
   --tw-border-opacity: 1;
   border-color: rgb(34 34 34 / var(--tw-border-opacity));
-}
-
-.border-pale-blue {
-  --tw-border-opacity: 1;
-  border-color: rgb(209 227 250 / var(--tw-border-opacity));
 }
 
 .bg-\[rgb\(255\2c 0\2c 0\)\] {
@@ -3700,6 +3678,11 @@ h3.hero-link {
   font-size: 20px;
   font-weight: 600;
   color: rgb(247, 247, 247, 0.6);
+}
+
+body strong, 
+body b {
+  font-weight: 600;
 }
 
 .hero-link:hover {
@@ -5556,11 +5539,11 @@ main.swp-rp-main {
 
 @media only screen and (max-width: 600px) {
   h2.hero-tagline {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   h2.hero-tagline-big {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
 
   #whats-new .card {
