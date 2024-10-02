@@ -1,0 +1,125 @@
+{% block html_head_container %}
+
+{% include 'html-header.twig' %}
+	{% block head %}
+	{% endblock %}
+	</head>
+{% endblock %}
+
+	<body class="{{body_class}}" data-template="base.twig">
+		<div id="announcement-banner" class="w-full mx-auto p-2 bg-light-blue">
+			<div class="w-10/12 mx-auto flex justify-center text-center">
+				<p class="text-white text-lg">Arden, NC Facility Temporarily Closed – Severe weather has caused power and water outages. We’re working on a swift return. Stay safe, and thank you for your patience.</p>
+			</div>
+		</div>
+		{{ function('wp_body_open') }}
+		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
+		<header class="header px-4 md:px-10 py-4 header-transparent">
+			{% block header %}
+				<div class="wrapper">
+					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-3 mb-3">
+						{# <div class="flex gap-x-4 mb-3 sm:mb-0 items-center justify-between">
+							<a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
+					
+							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a>
+						</div> #}
+						<div class="flex gap-x-4 items-center justify-between ">
+							<a href="/tool-filter" class="text-sm hover:underline">Tool Filter</a>
+							<p>|</p>
+							{% if user %}
+								<a href="/dashboard" class="text-sm hover:underline">My Dashboard</a>
+								<p>|</p>
+								<a href="/wp-login.php?action=logout" class="text-sm hover:underline">Log Out</a>
+							{% else %}
+								<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
+							{% endif %}
+						</div>
+						
+						
+						
+					</div>
+					<div class="top-header flex justify-center sm:justify-between">
+						<h1 class="hdr-logo" role="banner">
+							<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt=""></a>
+						</h1>
+						<div class="md:flex items-center hidden">
+							<div class="flex items-center">
+								{# <button class="btn dark-blue me-2 "><a href="/tool-filter">Tool Filter</a></button>
+								{% if user %}
+									<button class="btn light-blue me-2"><a href="/dashboard">My Dashboard</a></button>
+									<button class="btn black me-6"><a href="/wp-login.php?action=logout">Log Out</a></button>
+								{% else %}
+									<button class="btn light-blue me-6"><a href="/sign-in">Login</a></button>
+								{% endif %} #}
+								<div class="flex h-full">
+									<button class="btn dark-blue me-2"><a href="/rapid-quote">Rapid Quote</a></button>
+									<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
+									<div class="ask-gws-btn-div relative">
+										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
+										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
+											{# <p class="ask-close">x</p> #}
+											<p class="w-full text-center">How Can We Help?</p>
+											<div class="flex flex-col gap-y-2">
+												<div class="flex gap-x-4">
+													<a href="/ask-an-engineer" class="btn dark-blue w-full">Ask an Engineer</a>
+													<a href="/ask-customer-service" class="btn light-blue w-full">Customer Service</a>
+												</div>
+												<div class="flex gap-x-4">
+													<a href="tel:18774978665" class="btn dark-blue w-full">Call GWS</a>
+													<a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full">Email GWS</a>
+												</div>
+												
+											</div>
+
+										</div>
+									</div>
+									
+								</div>
+
+								<div class="flex flex-col items-center">
+									{{ function('do_shortcode', '[searchwp_form id=1]') }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="bottom-header py-3 flex justify-center sm:justify-between">
+						<div class="flex flex-col md:flex-row gap-x-4 items-center">
+							{# <a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
+							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a> #}
+						</div>
+						{# Integrate Max Mega Menu with Theme if plugin is delete the menu will need a lot of work #}
+						<nav id="nav-main" class="nav-main" role="navigation">
+							{{ my_menu|raw }}
+						</nav>
+					</div>
+					
+				</div>
+			{% endblock %}
+		</header>
+
+		<section id="content" role="main" class="content-wrapper">
+			{% if title %}<h1>{{title}}</h1>{% endif %}
+			<div class="wrapper">
+				{% block content %}
+					Sorry, no content
+				{% endblock %}
+			</div>
+			{% if sidebar %}
+				<aside class="layout-sidebar">
+					{{sidebar}}
+				</aside>
+			{% endif %}
+		</section>
+
+		{% block footer %}
+			<footer id="footer">
+				{% include 'footer.twig' %}
+			</footer>
+			{{ function('wp_footer') }}
+		{% endblock %}
+		
+
+	</body>
+	
+</html>

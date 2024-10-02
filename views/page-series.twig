@@ -1,0 +1,30 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+{# <section id="all-series-header" class="page-header px-4">
+    <div class="container mx-auto flex flex-col justify-center ps-10">
+        <h1 class="text-5xl md:text-7xl text-white uppercase font-black">All Series</h1>
+    </div>
+    
+</section> #}
+
+{% include "page-header.twig" %}
+
+<section id="all-series-container" class="py-20 px-2 container mx-auto">
+    
+    <div class="flex flex-wrap md:flex-row gap-x-8 mb-10 justify-center md:justify-start tool-type-filters filter-buttons category-filters">
+            <button class="is-checked" data-filter="all">All</button>
+            <button class="" data-filter="milling">Milling</button>
+            <button class="" data-filter="holemaking">Holemaking</button>
+            <button class="" data-filter="specialty">Specialty</button>
+            <button class="" data-filter="threading">Threading</button>
+            <button class="" data-filter="inserts">Inserts</button>
+    </div>
+    {% include 'series-tiles.twig' with {'series_list': series_list} %}
+
+</section>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+{# <script src="/wp-content/themes/gws-web/cells-by-row.js"></script> #}
+<script src="/wp-content/themes/gws-web/all-series.js" defer></script>
+{% endblock %}

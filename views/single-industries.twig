@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<section id="industries-header" class="flex h-full min-h-[80vh] md:min-h-[70vh] lg:min-h-[80vh]">
+    <div class="flex flex-col lg:flex-row w-full">
+       
+
+        <div class="w-full lg:w-4/12 bg-black lg:h-full relative">
+            <div id="industry-title" class="absolute inset-0 flex flex-col justify-center min-w-[75vw]">
+                <h2 class="text-2xl md:text-4xl lg:text-5xl xl:text-6xl text-white uppercase font-semibold">GWS Industries</h2>
+                <h1 class="text-4xl md:text-5xl lg:text-8xl xl:text-9xl text-pale-blue uppercase font-black break-words px-4 lg:px-0">
+                    <span class="inline">{{post.meta('industry_name')}}</span>
+                    <a href="#industries-content" class="inline-block">
+                        <i class="fas fa-arrow-down-long text-pale-blue text-4xl lg:text-6xl"></i>
+                    </a>
+                </h1>   
+            </div> 
+        </div>
+
+
+
+        <div class="w-full lg:w-8/12 h-5/6 lg:h-full bg-cover bg-no-repeat bg-center" style="background-image: url('{{ post.meta('header_image').url}}'); background-color: rgba(0,0,0,.5); background-blend-mode: darken;"></div>
+    </div>
+</section>
+
+<section id="industries-content" class="lg:py-20 px-4">
+    <div class="md:container mx-auto flex flex-col gap-y-8 xl:flex-row justify-between">
+        <div class="w-full xl:w-6/12">
+            <div class="post-content">
+                {{post.content}}
+            </div>
+            <div class="flex flex-col md:flex-row gap-y-6 gap-x-10 mt-10">
+                <button class="btn dark-blue"><a href="/tool-filter" class="text-2xl">Standard Tools</a></button>
+                <button class="btn dark-blue"><a href="/custom-quote" class="text-2xl">Custom Tools</a></button>
+            </div>
+        </div>
+        <div class="w-full xl:w-6/12">
+            <div class="w-8/12 mx-auto flex flex-col gap-y-6">  
+                {% for item in post.meta('industry_images') %}
+                    <img src="{{item.content_image.url}}" alt="" class="w-full h-auto">
+                {% endfor %}
+            </div>
+            {# <div class="xl:w-10/12 h-full mx-auto bg-cover bg-no-repeat bg-center" style="background-image: url('{{ post.meta('content_image').url}}'); background-color: rgba(0,0,0,.5); background-blend-mode: darken; height:500px;"></div> #}
+        </div>
+    </div>
+    
+    
+
+</section>
+
+
+
+{% endblock %}

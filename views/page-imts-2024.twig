@@ -1,0 +1,37 @@
+{% extends "base.twig" %}
+{% block content %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+{% include "page-header.twig" %}
+
+<section class="py-52 mx-auto container">
+    <div>
+        <h2 class="text-5xl">IMTS Photos</h2>
+    </div>
+    <div>
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide"><a href="/wp-content/themes/gws-web/images/imts/IMTS-3939.jpg" target="_blank"><img src="/wp-content/themes/gws-web/images/imts/IMTS-3939.jpg" alt="" class="w-100 h-auto"></a></div>
+                <div class="swiper-slide"><a href="/wp-content/themes/gws-web/images/imts/IMTS-3941.jpg" target="_blank"><img src="/wp-content/themes/gws-web/images/imts/IMTS-3941.jpg" alt="" class="w-100 h-auto"></a></div>
+                <div class="swiper-slide"><a href="/wp-content/themes/gws-web/images/imts/IMTS-3951.jpg" target="_blank"><img src="/wp-content/themes/gws-web/images/imts/IMTS-3951.jpg" alt="" class="w-100 h-auto"></a></div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+        </div>
+    </div>
+    
+</section>
+
+<script src="/wp-content/themes/gws-web/js/imts-swiper.js"></script>
+
+{% endblock %}

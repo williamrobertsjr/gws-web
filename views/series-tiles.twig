@@ -1,0 +1,78 @@
+{% if series_list %}
+<div class="flex flex-wrap tiles-grid">
+    {% for series in series_list %}
+    {# Set additional classes based on tool_sub_type #}
+    {% set additional_classes = '' %}
+    {% if series.tool_sub_type == 'Square and Radius' %}
+        {% set additional_classes = 'square radius' %}
+    {% else %}
+        {% set additional_classes = series.tool_sub_type|replace({' ' : '', '/' : ''})|lower %}
+    {% endif %}
+
+    <div class="single-tile-container grid-item w-full md:w-6/12 lg:w-4/12 p-2 {{ series.tool_type|lower }} {{ additional_classes }}">
+        <a href="/series-{{ series.series }}" class="hvr-float block">
+            <div class="series-tile flex flex-col justify-between px-5 py-6 w-full">
+                {% if series.family == 'Armory' %}
+                    <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series|lower|replace({' ': '_'}) }}_tile.png" alt="">
+                {% else %}
+                    <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series }}_tile.png" alt="">
+                {% endif %}
+                
+                <div class="w-8/12 md:w-7/12 flex flex-col justify-between h-full">
+                    <div class="series-tile-details">
+                        <p class="text-sm text-dark-blue font-semibold">{{ series.brand }}</p>
+                        {% if series.family == 'Armory' %}
+                            <h3 class="text-xl uppercase text-black font-bold">{{ series.series }}</h3>
+                        {% else %}
+                            <h3 class="text-xl uppercase text-black font-bold">Series {{ series.series }}</h3>
+                        {% endif %}
+                        
+                        <p class="text-black">{{ series.series_description|title }}</p>
+                    </div>
+                    {% set features = series.feat_icons|trim|split(', ') %}
+                    
+                    {% if features is not empty %}
+                        <div class="series-tile-features flex flex-wrap gap-2">
+                        {% for value in features if value %}
+                            <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                
+                    <div class="series-tile-materials">
+                        {% set materials = {
+                            'p1': series.p1,
+                            'p2': series.p2,
+                            'p3': series.p3,
+                            'm1': series.m1,
+                            'm2': series.m2,
+                            'k1': series.k1,
+                            'k2': series.k2,
+                            'n1': series.n1,
+                            'n2': series.n2,
+                            's1': series.s1,
+                            's2': series.s2,
+                            'h1': series.h1,
+                            'h2': series.h2
+                        } %}
+                        <div class="icons flex flex-wrap gap-2">
+                            {% for key, item in materials %}
+                                {% if item %}
+                                    <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="series-tile-brand w-8/12">
+                        <img src="/wp-content/themes/gws-web/images/brands/brand_{{ series.family|lower }}.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No series found.</p>
+{% endif %}
