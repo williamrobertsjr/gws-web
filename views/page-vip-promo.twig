@@ -1,0 +1,140 @@
+{% extends "base.twig" %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+
+{% include "page-header.twig" %}
+<section class="container my-52">
+
+{# {% for item in promoItems %}
+    <p>{{item}}</p>
+{% endfor %} #}
+
+<div>
+    {{post.content}}
+</div>
+
+<div id="distributor-level-message">
+    {% if userRole == 'elite' %}
+    {% set distributorRole = 'Elite' %}
+    {% elseif userRole == 't1' %}
+    {% set distributorRole = '55%' %}
+    {% elseif userRole == 't2' %}
+    {% set distributorRole = '52.5%' %}
+    {% elseif userRole == 't3' %}
+    {% set distributorRole = '50%' %}
+    {% elseif userRole == '57_5' %}
+    {% set distributorRole = '57.5%' %}
+    {% elseif userRole == 'ta' %}
+    {% set distributorRole = 'Authorized' %}
+    {% elseif userRole == 'sales' %}
+    {% set distributorRole = 'Sales' %}                        
+    {% else %}
+    {% set distributorRole = 'None' %}
+    {% endif %}
+    {% if userRole == 't1' or userRole == 't2' or userRole == 't3' or userRole == '57_5'%}
+        <p class="text-white">Your Base Discount:  <span id="user-role" class="font-semibold text-white">{{distributorRole}}</span>.</p>
+    {% elseif distributorRole == 'None' %}
+        <p class="text-white">No Discount. If you are a distributor, <a href="/sign-in" class="underline font-semibold hover:text-pale-blue">sign in</a> to see your discounted price.</p> 
+    {% endif %}         
+</div>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-4 py-3">Part</th>
+                <th scope="col" class="px-4 py-3">Description</th>
+                <th scope="col" class="px-4 py-3">Tool</th>
+                <th scope="col" class="px-4 py-3">Stock</th>
+                <th scope="col" class="px-4 py-3">Quantity</th>
+                <th scope="col" class="px-4 py-3">Promo Pricing</th>
+                <th scope="col" class="px-4 py-3">Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for part in promoItems %}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <a href="/product/?part={{part.part}}" target="_blank" class="font-bold text-dark-blue hover:underline">{{part.part}}</a>
+                </th>
+                <td class="px-4 py-2">{{part.part_description}}</td>
+                <td class="px-4 py-2">{{part.sub_type}}</td>
+                <td class="px-4 py-2">{{part.QTY_ON_HAND|number_format(0)}}</td>
+                <td class="px-4 py-2">
+                    <input type="number" min="1" class="quantity-input border rounded w-16 text-center" 
+                           data-price="{{part.LIST_PRICE}}" placeholder="0">
+                </td>
+                <td class="px-4 py-2 net-price">
+                    ${{part.LIST_PRICE}}<br>
+                    <span class="discount-percent text-xs italic" style="color:indianred;"></span>
+                </td>
+                <td class="px-4 py-2 total-price">
+                    $0.00
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+   </div>
+     
+
+    <!-- Modal toggle -->
+    <div class="block">
+        <button data-modal-target="static-modal" data-modal-toggle="static-modal" class="btn light-blue mt-2" type="button">
+        Send for Quote
+        </button>
+    </div>
+    
+    <!-- Main modal -->
+    <div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-4xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-dark-blue text-2xl font-bold">
+                        Email Your Quote
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="static-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <form id="emailForm" class="flex flex-col gap-y-6">
+                        
+                        <p class="text-black">Submit this form and your quote will be emailed to you and a memeber of our customer service team.</p>
+                        <p class="text-black"><span class="font-semibold">Quote for:</span> {{user.display_name}} | {{user.user_email}} | {{user.company}}</p>
+                        <input type="hidden" name="userName" value="{{ user.display_name }}">
+                        <input type="hidden" name="userEmail" value="{{ user.user_email }}">
+                        <input type="hidden" name="userCompany" value="{{ user.company }}">
+                        <textarea id="message" name="message" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Additional comments"></textarea>
+                        {# Hidden field to display quote total in email preview #}
+                        <input type="hidden" id="quoteTotal" name="quoteTotal" value="0">
+
+                        <p class="font-bold text-black text-sm">Your GWS Rapid Quote</p>
+                        <div id="emailPreview" class="tablePreview"></div>
+                            <div class="g-recaptcha" data-sitekey="6Lc2xmopAAAAAOmhMX2AzpZoCPBVCDskpL3L9Mp9"></div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div id="modalFooter" class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button id="sendEmailButton" class="btn dark-blue" type="button">Send Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</section>
+<script src="/wp-content/themes/gws-web/js/vip-promo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+{% endblock %}
