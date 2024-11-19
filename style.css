@@ -87,9 +87,15 @@ li {
 h2 {
   text-transform: uppercase;
 }
+body h1 {
+  font-size: 2.25rem;
+  color: var(--pale-blue);
+  font-weight: bold;
+}
 body p {
   font-weight: 300;
   line-height: 1.5;
+  margin-bottom: .75rem;
 }
 li {
   font-weight: 300;
@@ -334,7 +340,7 @@ body b {
   padding-bottom: 0px !important;
 }
 
-.mega-menu-megamenu > ul.mega-sub-menu {
+#mega-menu-max_mega_menu_1 .mega-menu-megamenu > ul.mega-sub-menu {
   min-height: 70vh !important;
 }
 a.mega-menu-link {
