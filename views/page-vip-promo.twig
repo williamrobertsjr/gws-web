@@ -3,13 +3,9 @@
 <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
 {% include "page-header.twig" %}
-<section class="container my-52">
+<section class="container my-40">
 
-{# {% for item in promoItems %}
-    <p>{{item}}</p>
-{% endfor %} #}
-
-<div>
+<div class="mb-10">
     {{post.content}}
 </div>
 
@@ -33,8 +29,23 @@
     {% endif %}
     {% if userRole == 't1' or userRole == 't2' or userRole == 't3' or userRole == '57_5'%}
         <p class="text-white">Your Base Discount:  <span id="user-role" class="font-semibold text-white">{{distributorRole}}</span>.</p>
+    {% elseif userRole == 'sales'  or userRole == 'administrator' %}
+        <p class="text-white italic">Sales and Admin: Choose a distributor level below to update prices.</p>
+
+        <div id="distributor-level-select" class="flex md:w-4/12 items-center mb-2">
+            <label for="distributor-level" class="me-4 flex text-sm font-medium leading-6 text-gray-900 text-white">Distribtutor Level</label>
+            <select id="distributor-level" name="distributor-level" class="flex rounded-md border-0 py-1.5 px-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option value="none" selected>Select</option>
+                <option value="t1">Tier 1</option>
+                <option value="t2">Tier 2</option>
+                <option value="t3">Tier 3</option>
+                <option value="57_5">57.5%</option>
+                <option value="direct">Direct</option>
+            </select>
+        </div>
+
     {% elseif distributorRole == 'None' %}
-        <p class="text-white">No Discount. If you are a distributor, <a href="/sign-in" class="underline font-semibold hover:text-pale-blue">sign in</a> to see your discounted price.</p> 
+        <p class="text-white italic">No Discount. If you are a distributor, <a href="/sign-in" class="underline font-semibold hover:text-pale-blue">sign in</a> to see your discounted price.</p> 
     {% endif %}         
 </div>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -78,8 +89,8 @@
      
 
     <!-- Modal toggle -->
-    <div class="block">
-        <button data-modal-target="static-modal" data-modal-toggle="static-modal" class="btn light-blue mt-2" type="button">
+    <div class="block text-center mt-4">
+        <button data-modal-target="static-modal" data-modal-toggle="static-modal" class="btn btn-large light-blue mt-2" type="button">
         Send for Quote
         </button>
     </div>
@@ -114,7 +125,7 @@
                         {# Hidden field to display quote total in email preview #}
                         <input type="hidden" id="quoteTotal" name="quoteTotal" value="0">
 
-                        <p class="font-bold text-black text-sm">Your GWS Rapid Quote</p>
+                        <p class="font-bold text-black text-sm">Your VIP Promo Quote</p>
                         <div id="emailPreview" class="tablePreview"></div>
                             <div class="g-recaptcha" data-sitekey="6Lc2xmopAAAAAOmhMX2AzpZoCPBVCDskpL3L9Mp9"></div>
                     </form>

@@ -1,7 +1,20 @@
+// User tier and advanced performance flag (these should be dynamically set from the backend)
+let userTier = window.userRole // Example tier, replace with actual dynamic value
+let isAdvancedPerformance = false; // Example flag, replace with actual dynamic value
+
 document.addEventListener('DOMContentLoaded', function() {
-    // User tier and advanced performance flag (these should be dynamically set from the backend)
-    const userTier = "t2"; // Example tier, replace with actual dynamic value
-    const isAdvancedPerformance = false; // Example flag, replace with actual dynamic value
+    // Get effective user tier, which considers distributor level if user is admin or sales
+    const getUserTier = () => {
+        if (userTier === "administrator" || userTier === "sales") {
+            let distributorTierSelect = document.getElementById("distributor-level");
+            let distributorTier = distributorTierSelect.value;
+            console.log("Using distributor tier:", distributorTier); // Debugging line
+            return distributorTier;
+        } else {
+            console.log("Using user tier:", userTier); // Debugging line
+            return userTier;
+        }
+    };
 
     // Function to calculate the base discount rate based on user tier
     const calculateDiscount = (tier, isAdvancedPerformance) => {
@@ -11,18 +24,21 @@ document.addEventListener('DOMContentLoaded', function() {
             case "t2": discountRate = 0.525; break;
             case "t3": discountRate = 0.50; break;
             case "57_5": discountRate = 0.575; break;
+            case "sales": discountRate = 0; break;
+            case "administrator": discountRate = 0; break;
             case "direct": discountRate = 0.30; break;
-            case "none": discountRate = isAdvancedPerformance ? 0 : 1; break;
-            default: discountRate = isAdvancedPerformance ? 0 : 1;
+            case "none": discountRate = 0;
+            default: discountRate = 0;
         }
         return discountRate;
     };
 
     // Function to set initial net prices based on user tier
     function initializeNetPrices() {
+        const effectiveTier = getUserTier(); // Use effective tier
         document.querySelectorAll('.quantity-input').forEach(input => {
             const listPrice = parseFloat(input.dataset.price);
-            const discountRate = calculateDiscount(userTier, isAdvancedPerformance);
+            const discountRate = calculateDiscount(effectiveTier, isAdvancedPerformance);
             const tierPrice = listPrice * (1 - discountRate);
 
             const netPriceCell = input.closest('tr').querySelector('.net-price');
@@ -32,6 +48,27 @@ document.addEventListener('DOMContentLoaded', function() {
             totalPriceCell.textContent = `$0.00`;
         });
     }
+
+    // Add event listener to distributor-level select if user is admin or sales
+    if (userTier === "administrator" || userTier === "sales") {
+        const distributorTierSelect = document.getElementById("distributor-level");
+        distributorTierSelect.addEventListener("change", () => {
+            // reset input values
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.value = 0;
+            });
+            document.querySelectorAll('.discount-percent').forEach(cell => {
+                cell.textContent = '';
+            });
+            document.querySelectorAll('.total-price').forEach(price => {
+                price.textContent = `$0.00`;
+            });
+            initializeNetPrices(); // Recalculate prices when distributor level changes
+        });
+    }
+
+// Initial setup
+initializeNetPrices();
 
     // Function to update the email preview with rows that have a non-zero quantity
     function updateEmailPreview() {
