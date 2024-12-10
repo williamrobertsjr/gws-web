@@ -31,8 +31,10 @@ Timber::$dirname = array( 'views', 'templates' );
 
 function enqueue_tailwind_output_styles() {
     wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
+    wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/style.css', array('tailwind-output'), filemtime( get_template_directory() . '/style.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
+
 
 
 
@@ -312,4 +314,24 @@ function custom_password_reset_confirmation() {
     }
 }
 add_action( 'login_message', 'custom_password_reset_confirmation' );
+
+
+// Signature Maker function for conditional logic
+add_filter( 'gform_notification_5', 'customize_notification_content', 10, 3 ); // Change '1' to your form ID
+
+function customize_notification_content( $notification, $form, $entry ) {
+    // Get field values
+    $mobile = rgar( $entry, '3' ); // field ID for mobile number
+    $office_ext = rgar( $entry, '13' ); // field ID for office extension
+
+    // Build the dynamic parts of the notification message
+    $mobile_html = !empty($mobile) ? "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Mobile:</strong> $mobile</p>" : '';
+    $office_html = !empty($office_ext) ? "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Office:</strong> (877) 497-8665 x$office_ext</p>" : "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Office:</strong> (877) 497-8665</p>";
+
+    // Insert these into the notification message where appropriate
+    $notification['message'] = str_replace('{dynamic_mobile}', $mobile_html, $notification['message']);
+    $notification['message'] = str_replace('{dynamic_office}', $office_html, $notification['message']);
+
+    return $notification;
+}
 
