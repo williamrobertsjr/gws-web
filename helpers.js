@@ -79,3 +79,8 @@ servicesCards.forEach(card => {
 //     console.log(footerSubmitButton.value)
 // }
 
+  
+  
+  
+  
+

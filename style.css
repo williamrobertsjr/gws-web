@@ -462,16 +462,28 @@ div.gfield_description {
 }
 
 /* Signature Styles */
-div#gform_confirmation_wrapper_5 #post-content p {
+
+body.page-id-133462 #post-content p {
   margin-bottom: unset !important;
 }
-#gform_confirmation_wrapper_5 div.gform_confirmation_message {
+body.page-id-133462 #gform_confirmation_wrapper_5 div.gform_confirmation_message p {
   color: var(--black);
 }
-div#gform_confirmation_wrapper_5 {
-  background-color: white;
+body.page-id-133462 #post-content #gform_confirmation_wrapper_5 {
+  background-color: var(--white);
   padding: 1rem;
+  border-radius: 10px;
 }
+body.page-id-133462 #post-content #emp-sig p {
+  margin-bottom: 5px;
+}
+.signature-form #gform_submit_button_5 {
+  background-color: var(--light-blue);
+}
+.signature-form #gform_submit_button_5:hover {
+  background-color: #6b97cc;
+}
+
 /*****************************/
 /********** Home ************/
 /***************************/
@@ -664,7 +676,7 @@ p.divider {
   background-image: url("/wp-content/uploads/2023/12/services_regrind.jpg");
 }
 .services-card.sales-rep {
-  background-image: url("/wp-content/uploads/2023/12/services_sales_rep.jpg");
+  background-image: url("/wp-content/uploads/2024/11/find-a-sales-rep-1.jpg");
 }
 .services-card.industries {
   background-image: url("https://www.gwstoolgroup.com/wp-content/uploads/2024/01/Aerospace_defense_1.jpg");
@@ -780,7 +792,7 @@ li {
   text-decoration: underline;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: var(--light-blue);
+  color: var(--pale-blue);
 }
 
 .perfect-tool-cta {
@@ -1686,6 +1698,9 @@ main.swp-rp-main {
 .newCustomForm .specInput.specLarge {
   width: 47%;
 }
+.newCustomForm textarea {
+  color: var(--black);
+}
 .newCustomForm .specInput.specLarge .textarea {
   background: #ffffff;
   margin-left: 1%;
@@ -1715,6 +1730,7 @@ main.swp-rp-main {
   width: 48% !important;
   background: #ffffff;
   border-radius: 2px;
+  color: var(--black);
 }
 .newCustomForm .ginput_container {
   margin: 0 !important;

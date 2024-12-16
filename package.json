@@ -6,6 +6,8 @@
     "build:css": "tailwindcss -i ./style.css -o ./output.css"
   },
   "dependencies": {
-    "swiper": "^11.0.5"
+    "@tailwindcss/typography": "^0.5.15",
+    "swiper": "^11.0.5",
+    "tailwindcss-all": "^0.0.2"
   }
 }

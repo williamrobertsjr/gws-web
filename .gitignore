@@ -8,3 +8,4 @@ node_modules/
 single-subtypes.php
 views/page-sales-team.twig
 .vscode/
+views/page-email-test.twig

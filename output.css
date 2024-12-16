@@ -818,6 +818,11 @@ video {
   margin-bottom: 2.5rem;
 }
 
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
 .my-16 {
   margin-top: 4rem;
   margin-bottom: 4rem;
@@ -831,6 +836,11 @@ video {
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .my-40 {
@@ -2304,6 +2314,10 @@ video {
   border-bottom-width: 1px;
 }
 
+.border-b-2 {
+  border-bottom-width: 2px;
+}
+
 .border-e {
   border-inline-end-width: 1px;
 }
@@ -2330,6 +2344,10 @@ video {
 
 .border-t {
   border-top-width: 1px;
+}
+
+.border-t-2 {
+  border-top-width: 2px;
 }
 
 .border-solid {
@@ -2366,9 +2384,19 @@ video {
   border-color: rgb(209 227 250 / var(--tw-border-opacity));
 }
 
+
 .border-white {
   --tw-border-opacity: 1;
   border-color: rgb(247 247 247 / var(--tw-border-opacity));
+
+.border-red-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 202 202 / var(--tw-border-opacity));
+}
+
+.border-red-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(252 165 165 / var(--tw-border-opacity));
 }
 
 .bg-\[rgb\(255\2c 0\2c 0\)\] {
@@ -2726,6 +2754,14 @@ video {
   padding-left: 0.75rem;
 }
 
+.pl-6 {
+  padding-left: 1.5rem;
+}
+
+.pl-8 {
+  padding-left: 2rem;
+}
+
 .pr-10 {
   padding-right: 2.5rem;
 }
@@ -2756,6 +2792,10 @@ video {
 
 .pt-16 {
   padding-top: 4rem;
+}
+
+.pt-2 {
+  padding-top: 0.5rem;
 }
 
 .pt-36 {
@@ -2836,6 +2876,10 @@ video {
 
 .align-super {
   vertical-align: super;
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .text-2xl {
@@ -3097,6 +3141,8 @@ video {
 .placeholder-white::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(247 247 247 / var(--tw-placeholder-opacity));
+.opacity-75 {
+  opacity: 0.75;
 }
 
 .bg-blend-normal {
@@ -3983,17 +4029,30 @@ div.gfield_description {
 
 /* Signature Styles */
 
-div#gform_confirmation_wrapper_5 #post-content p {
+body.page-id-133462 #post-content p {
   margin-bottom: unset !important;
 }
 
-#gform_confirmation_wrapper_5 div.gform_confirmation_message {
+body.page-id-133462 #gform_confirmation_wrapper_5 div.gform_confirmation_message p {
   color: var(--black);
 }
 
-div#gform_confirmation_wrapper_5 {
-  background-color: white;
+body.page-id-133462 #post-content #gform_confirmation_wrapper_5 {
+  background-color: var(--white);
   padding: 1rem;
+  border-radius: 10px;
+}
+
+body.page-id-133462 #post-content #emp-sig p {
+  margin-bottom: 5px;
+}
+
+.signature-form #gform_submit_button_5 {
+  background-color: var(--light-blue);
+}
+
+.signature-form #gform_submit_button_5:hover {
+  background-color: #6b97cc;
 }
 
 /*****************************/
@@ -4211,7 +4270,7 @@ p.divider {
 }
 
 .services-card.sales-rep {
-  background-image: url("/wp-content/uploads/2023/12/services_sales_rep.jpg");
+  background-image: url("/wp-content/uploads/2024/11/find-a-sales-rep-1.jpg");
 }
 
 .services-card.industries {
@@ -4346,7 +4405,7 @@ li {
   text-decoration: underline;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: var(--light-blue);
+  color: var(--pale-blue);
 }
 
 .perfect-tool-cta {
