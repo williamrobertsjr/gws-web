@@ -1,19 +1,49 @@
 {% extends "base.twig" %}
 {% block content %}
-
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="/wp-content/themes/gws-web/js/speed-feed.js"></script>
 <section class="page-header bg-black">
     <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
         <h1 class="text-7xl font-black text-white uppercase">{{post.title}}</h1>
     </div>
 </section>
 
-<section class="page-content py-48 container mx-auto">
-    <div class="flex flex-wrap">
+<section class="py-48 container mx-auto px-4">
+    <div class="flex flex-wrap md:flex-row gap-x-8 mb-10 justify-center md:justify-start tool-type-filters filter-buttons category-filters">
+
+        <button class="filter-btn" data-filter="all">All</button>
+        
+        <button class="filter-btn" data-filter="milling">Milling</button>
+        <button class="filter-btn" data-filter="holemaking">Holemaking</button>
+        <button class="filter-btn" data-filter="specialty">Specialty</button>
+        <div>
+            <input
+            id="search-input"
+            type="search" 
+            placeholder="Search for a series..." 
+            class="p-1 mb-4 md:mb-0 rounded text-sm bg-transparent placeholder-white text-white border border-white"
+            oninput="filterByName(event)">
+        </div>
+    </div>
+    <div id="series-list" class="flex flex-wrap gap-y-4 tiles-grid">
     {% for series in series_list %}
-        <div class="w-4/12 px-8"><a class="text-white underline" href="/wp-content/themes/gws-web/speed_and_feed/{{series.series}}_sf.pdf">Series {{series.series}} {{series.family}}</a></div>
+        <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 grid-item {{ series.tool_type|lower }}">
+            <a href="/wp-content/themes/gws-web/speed_and_feed/{{series.series}}_sf.pdf" class="flex bg-white rounded hvr-float">
+                <div class="flex">
+                    <img src="/wp-content/themes/gws-web/images/tile_images/{{series.series}}_tile.png" alt="" class="max-h-[100px]">
+                    <div class="flex flex-col justify-center pe-4">
+                        <p class="text-dark-blue font-bold underline mb-0 seriesName">Series {{series.series}} {{series.family}}</p>
+                        <p class="text-black text-sm leading-normal">{{series.subtitle}}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
     {% endfor %}
     </div>
 
 </section>
+
+
+
 
 {% endblock content %}

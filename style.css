@@ -1063,14 +1063,18 @@ div#results-table_paginate {
 }
 .filter-buttons button {
   color: var(--white);
-  padding-bottom: 1rem;
+  padding: .25rem 0 1rem;
+  border-bottom: 2px solid transparent;
+  font-weight: 400; /* Regular font weight */
+  transition: font-weight 0.3s, color 0.3s, border-bottom-color 0.3s;
 }
+
 .filter-buttons button:hover,
 .filter-buttons .is-checked {
   color: var(--pale-blue);
   border-bottom: 2px solid var(--pale-blue);
-  font-weight: 700;
 }
+
 .blogs-container .grid-item {
   width: 31%;
   /* padding: 0 10px; */
@@ -1136,6 +1140,10 @@ div#results-table_paginate {
 }
 #all-series-container {
   margin-top: 170px;
+}
+
+.tiles-grid .grid-item {
+  padding-bottom:20px;
 }
 
 /********************************/
