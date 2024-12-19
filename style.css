@@ -10,12 +10,12 @@
 
 :root {
   --main-bg-color: #323232;
-  --white: #f7f7f7;
+  --white: #F7F7F7;
   --black: #222222;
   --dark-blue: #003262;
-  --pale-blue: #d1e3fa;
-  --light-blue: #457cbf;
-  --gray: #a7a8a9;
+  --pale-blue: #D1E3FA;
+  --light-blue: #457CBF;
+  --gray: #A7A8A9;
   --dark-gray: #333333;
   font-family: "Inter", sans-serif;
   font-size: 16px;
@@ -160,7 +160,7 @@ li {
   background-color: var(--light-blue);
 }
 .btn.light-blue:hover {
-  background-color: #6b97cc;
+  background-color: #6B97CC;
 }
 .btn.black {
   background-color: #111;
