@@ -1,0 +1,37 @@
+<article {{ fn('post_class', ['$classes', 'entry'] ) }}>
+
+    {{ fn('timber_set_product', post) }}
+
+    <div class="media border border-solid border-white flex flex-col h-full justify-between bg-white relative">
+    {% set series = product.get_attribute('pa_series') %}
+    {# Get the product categories #}
+    {% set categories = post.terms('product_cat') %}
+    {% set tool_type = categories[3] %}
+        {# <pre>{{ dump(categories) }}</pre> #}
+
+        <p class="absolute top-4 left-4 text-dark-blue text-xs font-semibold">{{ tool_type }}</p>
+
+
+        <!-- Set container to half height of parent and allow image to scale within it -->
+        <div class="h-2/3 w-full flex justify-center items-center">
+            <img src="/wp-content/themes/gws-web/images/tile_images/{{series}}_tile.png" alt="" class="max-h-full max-w-full object-contain">
+        </div>
+
+        <div class="media-content">
+
+            {% do action('woocommerce_before_shop_loop_item_title') %}
+
+            {% if post.title %}
+                <h3 class="entry-title"><a class="text-black" href="{{ post.link }}">{{ post.title }} | Series {{series }} </a></h3>
+            {% else %}
+                <h3 class="entry-title"><a class="text-black" href="{{ post.link }}">{{ fn('the_title') }}</a></h3>
+            {% endif %}
+
+            {% do action( 'woocommerce_after_shop_loop_item_title' ) %}
+            {% do action( 'woocommerce_after_shop_loop_item' ) %}
+
+        </div>
+
+    </div>
+
+</article>

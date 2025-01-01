@@ -1,0 +1,48 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+<section class="pt-60">
+    {% do action('woocommerce_before_main_content') %}
+
+    <div class="before-shop-loop">
+        {% do action('woocommerce_before_shop_loop') %}
+        
+        {# {{ function('do_shortcode', '[fe_widget]') }} #}
+        
+
+
+    </div>
+    <div class="filters">
+        <p class="text-white">FILTERS!!!</p>
+        {# {{ facetwp_display('cutting_diameter') | raw }} #}
+    </div>
+
+
+    <div class="loop">
+        {# Wrap the product loop with the FacetWP template class #}
+        <div class="facetwp-template">
+            <div class="flex flex-row flex-wrap gap-y-4">
+                {% for post in products %}
+                    {% set full_product = fn('wc_get_product', post.ID) %}
+
+                    {% if full_product %} {# Only proceed if full_product is a valid object #}
+                        <div class="product aspect-square w-1/5 px-2 hover:-translate-y-2">
+                            {# Pass the full_product to the partial #}
+                            {% include "partials/tease-product.twig" with { product: full_product } %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Add FacetWP pagination here #}
+    <div class="facetwp-pager">
+        {# {{ facetwp_display('pager') }} #}
+    </div>
+
+    {% do action('woocommerce_after_shop_loop') %}
+    {% do action('woocommerce_after_main_content') %}
+</section>
+<script src="/wp-content/plugins/facetwp/assets/js/dist/front.min.js"></script>
+{% endblock %}

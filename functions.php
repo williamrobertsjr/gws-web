@@ -34,6 +34,24 @@ function enqueue_tailwind_output_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
 
+// Woocommerce integration with Timber
+function theme_add_woocommerce_support()
+{
+    add_theme_support('woocommerce');
+}
+
+add_action('after_setup_theme', 'theme_add_woocommerce_support');
+
+function timber_set_product($post)
+{
+    global $product;
+
+    if (is_woocommerce()) {
+        $product = wc_get_product($post->ID);
+    }
+}
+
+remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail');
 
 
 
@@ -43,6 +61,21 @@ add_filter( 'timber/twig', function( $twig ) {
     } ) );
     return $twig;
 } );
+
+// add_filter('timber/twig', function (Twig\Environment $twig) {
+//     // Add the FacetWP display function to Twig
+//     $twig->addFunction(new \Twig\TwigFunction('facetwp_display', function ($facet_name) {
+//         if (function_exists('facetwp_display')) {
+//             return facetwp_display($facet_name);
+//         }
+//         // Return a JavaScript alert if FacetWP is not active
+//         return '<script>alert("FacetWP is not active! Check your plugin setup.");</script>';
+//     }));
+
+//     return $twig;
+// });
+
+
 
 
 
@@ -275,10 +308,6 @@ function my_front_end_login_fail( $username ) {
    }
 }
 
-
-
-
-
 // Customize the password reset confirmation page
 function custom_password_reset_confirmation() {
     if ( isset( $_GET['checkemail'] ) && $_GET['checkemail'] === 'confirm' ) {
@@ -295,5 +324,24 @@ function custom_password_reset_confirmation() {
     }
 }
 add_action( 'login_message', 'custom_password_reset_confirmation' );
+
+
+// add_action('wp_enqueue_scripts', function () {
+//     if (function_exists('facetwp_display')) {
+//         wp_enqueue_script(
+//             'facetwp-front',
+//             plugins_url('assets/js/dist/front.min.js', WP_PLUGIN_DIR . '/facetwp/facetwp.php'),
+//             ['jquery'], // Ensure jQuery is loaded first
+//             null,
+//             true
+//         );
+//         wp_enqueue_style(
+//             'facetwp-front-style',
+//             plugins_url('assets/css/front.css', WP_PLUGIN_DIR . '/facetwp/facetwp.php'),
+//             [],
+//             null
+//         );
+//     }
+// });
 
 
