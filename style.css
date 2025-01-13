@@ -213,6 +213,9 @@ input[type="search"]::-webkit-search-cancel-button {
 .grecaptcha-badge:hover {
   width: 256px !important;
 }
+.grecaptcha-badge { 
+  visibility: hidden !important;
+}
 
 /*****************************************/
 /******* Header - Mega Menu Styles ******/
@@ -499,7 +502,6 @@ body.page-id-133462 #post-content #emp-sig p {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
-  min-height: 750px;
   transition: background-image 0.5s ease-in-out;
 }
 .header-transparent {
@@ -634,7 +636,6 @@ p.divider {
   border: 1px solid var(--gray);
 }
 .services-card h3 {
-  font-size: 30px;
   font-weight: 900;
   text-transform: uppercase;
   color: var(--pale-blue);
@@ -1898,17 +1899,18 @@ main.swp-rp-main {
     height: auto;
     width: 40%;
   }
+  #mega-menu-wrap-max_mega_menu_1 .mega-menu-toggle + #mega-menu-max_mega_menu_1 {
+    margin-top:20px;
+  }
 }
 
 @media only screen and (max-width: 768px) {
   #hero-links {
     width: 80%;
   }
-
   .button-div {
-    max-width: 85%;
+    max-width: 100%;
   }
-
   .products-tool-type-col h2.products-menu-header {
     font-size: 1.5rem !important;
   }
@@ -1929,10 +1931,10 @@ main.swp-rp-main {
 
 @media only screen and (max-width: 600px) {
   h2.hero-tagline {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
   h2.hero-tagline-big {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
   #whats-new .card {
     min-height: 400px;
@@ -1941,7 +1943,7 @@ main.swp-rp-main {
     font-size: 1.15rem;
   }
   .glance-feature h3 {
-    font-size: 3rem;
+    font-size: 2.25rem;
   }
   .card-content {
     padding-top: 400px;

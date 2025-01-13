@@ -3,10 +3,10 @@
 {% block content %}
 
 <section id="distributor-search-header" class="page-header bg-black">
-    <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background" style="background: url('{{post.thumbnail.src}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
+    <div class="container mx-auto flex flex-col justify-center md:ps-10 hero-background" style="background: url('{{post.thumbnail.src}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
         <h1 class="text-3xl md:text-7xl uppercase font-black text-white">{{post.title}}</h1>
         <p class="text-2xl mb-6">Use the map to find your GWS sales representative or search for your region below.</p>
-        <div class="flex gap-x-4 w-5/12">
+        <div class="flex gap-x-4 md:w-5/12">
             <a href="tel:18774978665" class="btn dark-blue w-full text-center">Call GWS</a>
             <a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full text-center">Email GWS</a>
         </div>
@@ -35,7 +35,7 @@
                 <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">Midwest Region</h3>
                 <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
                     {% for member in post.meta('midwest') %}
-                        <div class="w-full md:w-6/12 xl:w-4/12 pe-8 hover:-translate-y-2  hover:cursor-pointer">
+                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2  hover:cursor-pointer">
                             <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
                                 <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
                                 <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
@@ -55,7 +55,7 @@
                 <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">Northeast Region</h3>
                 <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
                     {% for member in post.meta('northeast') %}
-                        <div class="w-full md:w-6/12 xl:w-4/12 pe-8 hover:-translate-y-2  hover:cursor-pointer">
+                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2  hover:cursor-pointer">
                             <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
                                 <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
                                 <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
@@ -74,7 +74,7 @@
                 <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">Southeast Region</h3>
                 <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
                     {% for member in post.meta('southeast') %}
-                        <div class="w-full md:w-6/12 xl:w-4/12 pe-8 hover:-translate-y-2  hover:cursor-pointer">
+                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2  hover:cursor-pointer">
                             <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
                                 <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
                                 <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
@@ -93,7 +93,7 @@
                 <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">West Region</h3>
                 <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
                     {% for member in post.meta('west') %}
-                        <div class="w-full md:w-6/12 xl:w-4/12 pe-8 hover:-translate-y-2 hover:cursor-pointer">
+                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2 hover:cursor-pointer">
                             <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
                                 <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
                                 <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
