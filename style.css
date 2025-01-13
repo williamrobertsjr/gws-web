@@ -1905,6 +1905,13 @@ main.swp-rp-main {
 }
 
 @media only screen and (max-width: 768px) {
+  .page-header {
+    height: 450px;
+  }
+  #series-header, #product-header, .page-header {
+    padding-top: 150px;
+  }
+
   #hero-links {
     width: 80%;
   }
