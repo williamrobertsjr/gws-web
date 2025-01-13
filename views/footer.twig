@@ -1,24 +1,27 @@
-<section id="footer" class="px-8 md:px-10">
-    <div class="container flex flex-col md:flex-row justify-between mx-auto">
+<section id="footer" class="px-4 md:px-10">
+    <div class="md:container flex flex-col md:flex-row justify-between mx-auto">
         <div class="md:w-5/12 flex flex-col gap-y-10 pb-20">
             <div class="w-7/12 md:w-10/12 lg:w-6/12 xl:w-4/12">
                 <img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt="">
             </div>
             
-            <div class="footer-menu flex md:flex-wrap gap-x-3 md:justify-between md:gap-x-10 md:gap-y-2">
-                <a href="/all-series">Products</a><a href="/who-we-are">About Us</a><a href="/careers">Careers</a><a href="/gws-blog">News</a>
+            <div class="footer-menu flex flex-col md:flex-row md:flex-wrap gap-x-3 lg:justify-between lg:gap-x-10 md:gap-y-2">
+                <a href="/all-series">Products</a>
+                <a href="/who-we-are">About Us</a>
+                <a href="/careers">Careers</a>
+                <a href="/gws-blog">News</a>
             </div>
 
-            <div class="lg:w-9/12 flex flex-col lg:flex-row gap-y-4 justify-between">
+            <div class="w-full xl:w-9/12 flex flex-col lg:flex-row gap-y-4 justify-between">
                 <div class="flex flex-col">
-                    <a class="text-pale-blue text-xl font-light" href="tel:18774978665">1(877)497-8665</a>
-                    <a class="text-pale-blue text-xl font-light" href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>
+                    <a class="text-pale-blue text-lg xl:text-xl font-light" href="tel:18774978665">1(877)497-8665</a>
+                    <a class="text-pale-blue text-lg xl:text-xl font-light" href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>
                 </div>
                 <div class="flex items-center">
                    {% if user %}
-                        <button class="btn light-blue me-16"><a href="/dashboard">My Dashboard</a></button>
+                        <button class="btn light-blue"><a href="/dashboard">My Dashboard</a></button>
                     {% else %}
-                        <button class="btn light-blue me-16"><a href="/sign-in">Login</a></button>
+                        <button class="btn light-blue"><a href="/sign-in">Login</a></button>
                     {% endif %}
                 </div>
             </div>
@@ -35,9 +38,9 @@
             </div>
 
         </div>
-        <div class="md:w-6/12 lg:w-5/12 flex flex-col gap-y-10 mb-10">
+        <div class="md:w-6/12 lg:w-5/12 flex flex-col md:gap-y-10 mb-10">
             <div>
-                <h2 class="text-5xl md:text-6xl mb-4 text-pale-blue font-extrabold uppercase">Stay In Touch</h2>
+                <h2 class="text-3xl md:text-6xl mb-4 text-pale-blue font-extrabold uppercase">Stay In Touch</h2>
                 <p>Join our newsletter for the latest news, promotions, and more from GWS.</p>
             </div>
             <div>

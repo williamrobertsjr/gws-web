@@ -9,12 +9,12 @@
 	<body class="{{body_class}}" data-template="base.twig">
 
 		{% set currentDate = "now"|date("Y-m-d") %}
-		{% set startDate = "2024-11-24" %}
-		{% set endDate = "2024-11-28" %}
+		{% set startDate = "2024-12-21" %}
+		{% set endDate = "2025-01-02" %}
 		{% if currentDate >= startDate and currentDate <= endDate %}
 		{# <div id="announcement-banner" class="w-full mx-auto pt-2 bg-light-blue">
 			<div class="w-10/12 mx-auto flex justify-center text-center">
-				<p class="text-white text-lg">Our U.S. facilities will be closed on Thursday, November 28th, and Friday, November 29th for the Thanksgiving holiday. Canadian facilities will remain open as usual during this time.</p>
+				<p class="text-white text-lg">Our USA facilities will be closed Dec 24, 25, 31 & Jan 1 and our Canadian facilities on Dec 25, 26, 27 & Jan 1. Happy Holidays!</p>
 			</div>
 		</div> #}
 		{% endif %}
@@ -23,7 +23,7 @@
 		<header class="header px-4 md:px-10 py-4 header-transparent">
 			{% block header %}
 				<div class="wrapper">
-					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-3">
+					<div class="top-top-header hidden md:flex flex-col sm:flex-row justify-end gap-x-3">
 						<div class="flex gap-x-4 items-center justify-between ">
 							<a href="/tool-filter" class="text-sm hover:underline">Tool Filter</a>
 							<p>|</p>
@@ -36,56 +36,56 @@
 							{% endif %}
 						</div>	
 					</div>
-					<div class="top-header flex justify-center sm:justify-between">
-						<h1 class="hdr-logo ps-2" role="banner">
-							<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt=""></a>
-						</h1>
-						<div class="md:flex items-center hidden">
-							<div class="flex items-center">
-								<div class="flex h-full">
-									<button class="btn dark-blue me-2"><a href="/rapid-quote">Rapid Quote</a></button>
-									<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
-									<div class="ask-gws-btn-div relative">
-										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
-										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
-											{# <p class="ask-close">x</p> #}
-											<p class="w-full text-center">How Can We Help?</p>
-											<div class="flex flex-col gap-y-2">
-												<div class="flex gap-x-4">
-													<a href="/ask-an-engineer" class="btn dark-blue w-full">Ask an Engineer</a>
-													<a href="/ask-customer-service" class="btn light-blue w-full">Customer Service</a>
+					<div class="flex lg:flex-col justify-between">
+						<div class="top-header flex sm:justify-between w-full">
+							<h1 class="hdr-logo ps-2" role="banner">
+								<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt=""></a>
+							</h1>
+							<div class="md:flex items-center hidden">
+								<div class="flex items-center">
+									<div class="hidden lg:flex h-full">
+										<button class="btn dark-blue me-2"><a href="/rapid-quote">Rapid Quote</a></button>
+										<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
+										<div class="ask-gws-btn-div relative">
+											<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
+											<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
+												{# <p class="ask-close">x</p> #}
+												<p class="w-full text-center">How Can We Help?</p>
+												<div class="flex flex-col gap-y-2">
+													<div class="flex gap-x-4">
+														<a href="/ask-an-engineer" class="btn dark-blue w-full">Ask an Engineer</a>
+														<a href="/ask-customer-service" class="btn light-blue w-full">Customer Service</a>
+													</div>
+													<div class="flex gap-x-4">
+														<a href="tel:18774978665" class="btn dark-blue w-full">Call GWS</a>
+														<a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full">Email GWS</a>
+													</div>
+													
 												</div>
-												<div class="flex gap-x-4">
-													<a href="tel:18774978665" class="btn dark-blue w-full">Call GWS</a>
-													<a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full">Email GWS</a>
-												</div>
-												
+
 											</div>
-
 										</div>
+										
 									</div>
-									
-								</div>
 
-								<div class="flex flex-col items-center">
-									{{ function('do_shortcode', '[searchwp_form id=1]') }}
+									<div class="flex flex-col items-center">
+										{{ function('do_shortcode', '[searchwp_form id=1]') }}
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 
-					{% if post.slug == 'test-page' %}
+						{% if post.slug == 'test-page' %}
 						<div class="bottom-header py-3 flex justify-center sm:justify-start">
-					{% else %}
+						{% else %}
 						<div class="bottom-header py-3 flex justify-center sm:justify-end">
-					{% endif %}
-					{# <div class="bottom-header py-3 flex justify-center sm:justify-end"> #}
-						{# Integrate Max Mega Menu with Theme if plugin is delete the menu will need a lot of work #}
-						<nav id="nav-main" class="nav-main" role="navigation">
-							{{ my_menu|raw }}
-						</nav>
-					</div>
-					
+						{% endif %}
+							{# Integrate Max Mega Menu with Theme if plugin is deleted the menu will need a lot of work #}
+							<nav id="nav-main" class="nav-main" role="navigation">
+								{{ my_menu|raw }}
+							</nav>
+						</div>
+					</div>	
 				</div>
 			{% endblock %}
 		</header>
@@ -102,6 +102,53 @@
 					{{sidebar}}
 				</aside>
 			{% endif %}
+			<div id="mobileFooterMenu" class="sm:hidden py-4 bg-black fixed bottom-0 left-0 w-full mx-auto z-50">
+			<!-- Parent flex container with gap for spacing -->
+			<div class="flex flex-nowrap items-stretch gap-x-2 px-2 w-full relative">
+				<!-- Column 1 -->
+				<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+				<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+					<i class="fa-solid fa-file-pdf text-pale-blue"></i>
+					<a href="/speed-and-feeds" class="text-xs text-center">Speed & Feed</a>
+				</div>
+				</div>
+				<!-- Column 2 -->
+				<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+				<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+					<i class="fa-solid fa-calculator text-pale-blue"></i>
+					<a href="/milling-formulas" class="text-xs text-center">Calculators</a>
+				</div>
+				</div>
+				<!-- Column 3 -->
+				<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+				<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+					<i class="fa-solid fa-file-pen text-pale-blue"></i>
+					<button id="footerQuoteBtn" class="text-xs text-center mb-0 text-white">RFQ</button>
+				</div>
+				</div>
+				<!-- Absolutely-positioned element (won't affect widths) -->
+				<div id="footerMenuQuote" class="bg-black absolute p-4 flex gap-x-4 right-0 -top-[5.5rem] w-full hidden">
+				<a id="quoteStandard" href="/rapid-quote" class="btn light-blue w-full text-center">Standard</a>
+				<a id="quoteCustom" href="/custom-quote" class="btn light-blue w-full text-center">Custom</a>
+				</div>
+				<!-- Column 4 (hidden below 375px) -->
+				<div class="hidden min-[375px]:flex flex-1 basis-0 min-w-0 flex-col justify-center items-center">
+				<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+					<i class="fa-solid fa-filter text-pale-blue"></i>
+					<a href="/tool-filter" class="text-xs text-center">Tool Filter</a>
+				</div>
+				</div>
+
+				<!-- Column 5 -->
+				<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+				<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+					<i class="fa-regular fa-bell text-pale-blue"></i>
+					<a href="/sales-team" class="text-xs text-center">Contact</a>
+				</div>
+				</div>
+
+			</div>
+			</div>
 		</section>
 
 		{% block footer %}
@@ -111,6 +158,40 @@
 			{{ function('wp_footer') }}
 		{% endblock %}
 		
+		<script>
+			// Quote Footer Pop Over
+			const footerMenuQuote = document.getElementById('footerMenuQuote');
+			const footerQuoteBtn = document.getElementById('footerQuoteBtn');
+
+			// Additional elements that should close the popover when clicked
+			const quoteStandard = document.getElementById('quoteStandard');
+			const quoteCustom = document.getElementById('quoteCustom');
+
+			// Toggle the menu when the "Quotes" button is clicked
+			footerQuoteBtn.addEventListener('click', () => {
+			footerMenuQuote.classList.toggle('hidden');
+			});
+
+			// Hide (or toggle) the menu when "Standard" or "Custom" is clicked
+			quoteStandard.addEventListener('click', () => {
+			footerMenuQuote.classList.toggle('hidden');
+			});
+
+			quoteCustom.addEventListener('click', () => {
+			footerMenuQuote.classList.toggle('hidden');
+			});
+
+			document.addEventListener('click', (event) => {
+				// If the popover is currently NOT hidden...
+				if (!footerMenuQuote.classList.contains('hidden')) {
+					// and the click target is neither inside the popover nor the button...
+					if ( !footerMenuQuote.contains(event.target) && event.target !== footerQuoteBtn) {
+						// then hide the popover
+						footerMenuQuote.classList.add('hidden');
+					}
+				}
+			});
+		</script>
 
 	</body>
 	
