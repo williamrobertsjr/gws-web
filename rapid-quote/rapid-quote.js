@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   partsForm.addEventListener("submit", function (event) {
       event.preventDefault();
-      console.log("parts form intercepted");
+      // console.log("parts form intercepted");
 
       const data = new FormData(partsForm);
       if (!data.has("part")) {
@@ -271,13 +271,21 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(res => res.json())
       .then(data => {
+
+          // Clear the current table data
           table.clear();
           const partPromises = data.found_parts.map(part => {
+            console.log("Part from found_parts:", part); // <--- Log each part individually
+          
               // Check if the part is listed as obsolete and fetch replacement details if necessary
               return fetchReplacementDetails(part.PN).then(replacementData => {
                   if (replacementData && replacementData.replacement_pn) {
                       part.qtyOnHand = parseInt(replacementData.qty_on_hand, 10); // Update quantity with replacement
                       part.LIST_PRICE = parseFloat(replacementData.list_price); // Update price with replacement
+                  } else {
+                    // If no replacement, set defaults for non-obsolete part
+                    part.qtyOnHand = parseInt(part.QTY_ON_HAND, 10) || 0;
+                    part.LIST_PRICE = parseFloat(part.LIST_PRICE) || 0;
                   }
                   return part; // Return the updated or original part information
               });
@@ -319,7 +327,11 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("Failed to fetch replacement details for part: " + partNumber);
           return {};
       }
-      return response.json();
+      const data = await response.json();
+      // Log the entire JSON object:
+      console.log('Replacement API response for:', partNumber, data);
+
+      return data;
   }
 
 
