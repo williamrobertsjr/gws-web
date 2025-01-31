@@ -108,7 +108,7 @@
     </div>
 
     <div class="mt-10 flex flex-col gap-y-6 lg:flex-row justify-between">
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full md:w-4/12">
             <div id="quick-links" class="flex flex-col flex-grow p-8">
                 <p class="text-sm uppercase text-pale-blue font-bold">Quick Links</p>
                 {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
@@ -156,14 +156,15 @@
 
             </div>
         </div>
-        {# <div class="flex flex-col w-full lg:w-7/12">
+        <div class="flex flex-col w-full lg:w-7/12">
             <div id="dashboard-sales-map" class="flex flex-col flex-grow p-8 gap-y-8">
-                <p class="text-sm uppercase text-pale-blue font-bold">Sales Rep Map</p>
+                <p class="text-sm uppercase text-pale-blue font-bold">GWS Facilities</p>
                 <div id="sales-map-dash">
-                    {{ map_content|raw }}
+                    {# {{ map_content|raw }} #}
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1XXq7_i9tEQykc_u3DtPb_TTuigKR-UQ&hl=en&ehbc=2E312F" width="100%" height="480"></iframe>
                 </div>
             </div>
-        </div> #}
+        </div>
     </div>
 </section>
 
