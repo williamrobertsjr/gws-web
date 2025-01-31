@@ -2,8 +2,11 @@ wordpress/
 vendor/
 rapid-quote/db_connection.php
 db_connection.php
-signle-subtypes.php
+single-subtypes.php
 views/single-subtypes.twig
 node_modules/
 single-subtypes.php
 views/page-sales-team.twig
+.vscode/
+views/page-email-test.twig
+output.css

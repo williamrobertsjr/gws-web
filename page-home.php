@@ -13,4 +13,3 @@ $context['posts'] = Timber::get_posts($args);
 
 Timber::render('page-home.twig', $context); 
 
-?>

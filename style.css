@@ -10,12 +10,12 @@
 
 :root {
   --main-bg-color: #323232;
-  --white: #f7f7f7;
+  --white: #F7F7F7;
   --black: #222222;
   --dark-blue: #003262;
-  --pale-blue: #d1e3fa;
-  --light-blue: #457cbf;
-  --gray: #a7a8a9;
+  --pale-blue: #D1E3FA;
+  --light-blue: #457CBF;
+  --gray: #A7A8A9;
   --dark-gray: #333333;
   font-family: "Inter", sans-serif;
   font-size: 16px;
@@ -87,9 +87,15 @@ li {
 h2 {
   text-transform: uppercase;
 }
+body h1 {
+  font-size: 2.25rem;
+  color: var(--pale-blue);
+  font-weight: bold;
+}
 body p {
   font-weight: 300;
   line-height: 1.5;
+  margin-bottom: .75rem;
 }
 li {
   font-weight: 300;
@@ -154,7 +160,7 @@ li {
   background-color: var(--light-blue);
 }
 .btn.light-blue:hover {
-  background-color: #6b97cc;
+  background-color: #6B97CC;
 }
 .btn.black {
   background-color: #111;
@@ -206,6 +212,9 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .grecaptcha-badge:hover {
   width: 256px !important;
+}
+.grecaptcha-badge { 
+  visibility: hidden !important;
 }
 
 /*****************************************/
@@ -311,7 +320,10 @@ h3.hero-link {
   font-weight: 600;
   color: rgb(247, 247, 247, 0.6);
 }
-
+body strong, 
+body b {
+  font-weight: 600;
+}
 .hero-link:hover {
   color: var(--white);
 }
@@ -323,7 +335,7 @@ h3.hero-link {
 }
 
 .hero-link:first-of-type:hover ~ #home-hero {
-  background-image: url("/wp-content/uploads/2023/12/MG_4149-1-2.jpg");
+  /* background-image: url("/wp-content/uploads/2023/12/custom_home.jpg'"); */
 }
 .industries-sub-menu li.mega-menu-item,
 .resources-sub-menu li.mega-menu-item,
@@ -331,7 +343,7 @@ h3.hero-link {
   padding-bottom: 0px !important;
 }
 
-.mega-menu-megamenu > ul.mega-sub-menu {
+#mega-menu-max_mega_menu_1 .mega-menu-megamenu > ul.mega-sub-menu {
   min-height: 70vh !important;
 }
 a.mega-menu-link {
@@ -339,9 +351,9 @@ a.mega-menu-link {
   align-items: center;
 }
 
-#announcement-banner {
+/* #announcement-banner {
   background-color: var(--black);
-}
+} */
 
 /*****************************/
 /********** Footer **********/
@@ -453,16 +465,28 @@ div.gfield_description {
 }
 
 /* Signature Styles */
-div#gform_confirmation_wrapper_5 #post-content p {
+
+body.page-id-133462 #post-content p {
   margin-bottom: unset !important;
 }
-#gform_confirmation_wrapper_5 div.gform_confirmation_message {
+body.page-id-133462 #gform_confirmation_wrapper_5 div.gform_confirmation_message p {
   color: var(--black);
 }
-div#gform_confirmation_wrapper_5 {
-  background-color: white;
+body.page-id-133462 #post-content #gform_confirmation_wrapper_5 {
+  background-color: var(--white);
   padding: 1rem;
+  border-radius: 10px;
 }
+body.page-id-133462 #post-content #emp-sig p {
+  margin-bottom: 5px;
+}
+.signature-form #gform_submit_button_5 {
+  background-color: var(--light-blue);
+}
+.signature-form #gform_submit_button_5:hover {
+  background-color: #6b97cc;
+}
+
 /*****************************/
 /********** Home ************/
 /***************************/
@@ -471,14 +495,14 @@ div#gform_confirmation_wrapper_5 {
 }
 
 #home-hero {
-  background-image: url("/wp-content/uploads/2023/12/custom_home.jpg");
+  /* background-image: url("/wp-content/uploads/2023/12/custom_home.jpg'"); */
   background-color: rgba(0, 0, 0, 0.5);
   background-blend-mode: overlay;
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
-  min-height: 750px;
+  transition: background-image 0.5s ease-in-out;
 }
 .header-transparent {
   /* background-color: transparent; */
@@ -612,7 +636,6 @@ p.divider {
   border: 1px solid var(--gray);
 }
 .services-card h3 {
-  font-size: 30px;
   font-weight: 900;
   text-transform: uppercase;
   color: var(--pale-blue);
@@ -654,7 +677,7 @@ p.divider {
   background-image: url("/wp-content/uploads/2023/12/services_regrind.jpg");
 }
 .services-card.sales-rep {
-  background-image: url("/wp-content/uploads/2023/12/services_sales_rep.jpg");
+  background-image: url("/wp-content/uploads/2024/11/find-a-sales-rep-1.jpg");
 }
 .services-card.industries {
   background-image: url("https://www.gwstoolgroup.com/wp-content/uploads/2024/01/Aerospace_defense_1.jpg");
@@ -751,6 +774,17 @@ h1.single-title {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+#post-content ol {
+  list-style-type:decimal;
+  margin-left: 30px;
+}
+#post-content h3{
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-transform: none;
+  color: var(--pale-blue);
+}
 li {
   padding-left: 15px;
   margin-bottom: 15px;
@@ -759,7 +793,7 @@ li {
   text-decoration: underline;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: var(--light-blue);
+  color: var(--pale-blue);
 }
 
 .perfect-tool-cta {
@@ -1042,14 +1076,18 @@ div#results-table_paginate {
 }
 .filter-buttons button {
   color: var(--white);
-  padding-bottom: 1rem;
+  padding: .25rem 0 1rem;
+  border-bottom: 2px solid transparent;
+  font-weight: 400; /* Regular font weight */
+  transition: font-weight 0.3s, color 0.3s, border-bottom-color 0.3s;
 }
+
 .filter-buttons button:hover,
 .filter-buttons .is-checked {
   color: var(--pale-blue);
   border-bottom: 2px solid var(--pale-blue);
-  font-weight: 700;
 }
+
 .blogs-container .grid-item {
   width: 31%;
   /* padding: 0 10px; */
@@ -1115,6 +1153,10 @@ div#results-table_paginate {
 }
 #all-series-container {
   margin-top: 170px;
+}
+
+.tiles-grid .grid-item {
+  padding-bottom:20px;
 }
 
 /********************************/
@@ -1657,6 +1699,9 @@ main.swp-rp-main {
 .newCustomForm .specInput.specLarge {
   width: 47%;
 }
+.newCustomForm textarea {
+  color: var(--black);
+}
 .newCustomForm .specInput.specLarge .textarea {
   background: #ffffff;
   margin-left: 1%;
@@ -1686,6 +1731,7 @@ main.swp-rp-main {
   width: 48% !important;
   background: #ffffff;
   border-radius: 2px;
+  color: var(--black);
 }
 .newCustomForm .ginput_container {
   margin: 0 !important;
@@ -1853,17 +1899,25 @@ main.swp-rp-main {
     height: auto;
     width: 40%;
   }
+  #mega-menu-wrap-max_mega_menu_1 .mega-menu-toggle + #mega-menu-max_mega_menu_1 {
+    margin-top:20px;
+  }
 }
 
 @media only screen and (max-width: 768px) {
+  .page-header {
+    height: 450px;
+  }
+  #series-header, #product-header, .page-header {
+    padding-top: 150px;
+  }
+
   #hero-links {
     width: 80%;
   }
-
   .button-div {
-    max-width: 85%;
+    max-width: 100%;
   }
-
   .products-tool-type-col h2.products-menu-header {
     font-size: 1.5rem !important;
   }
@@ -1884,10 +1938,10 @@ main.swp-rp-main {
 
 @media only screen and (max-width: 600px) {
   h2.hero-tagline {
-    font-size: 2rem;
+    font-size: 1.25rem;
   }
   h2.hero-tagline-big {
-    font-size: 3.5rem;
+    font-size: 2rem;
   }
   #whats-new .card {
     min-height: 400px;
@@ -1896,7 +1950,7 @@ main.swp-rp-main {
     font-size: 1.15rem;
   }
   .glance-feature h3 {
-    font-size: 3rem;
+    font-size: 2.25rem;
   }
   .card-content {
     padding-top: 400px;
@@ -1972,5 +2026,8 @@ main.swp-rp-main {
   .blogs-container .grid-item {
     width: 100%;
     /* padding: 0 10px; */
+  }
+  h1.single-title {
+    font-size: 2rem;
   }
 }

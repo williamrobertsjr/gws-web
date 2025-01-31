@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.{html,js,twig,php}"],
+  content: ["./views/*.{html,js,twig,php}"],
   theme: {
     extend: {
       colors: {
@@ -25,5 +25,4 @@ module.exports = {
       },
     },
   },
-  plugins: [],
 };

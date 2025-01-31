@@ -51,7 +51,7 @@ const seriesSwiper = new Swiper('.swiper', {
 const subtypeSwiper = new Swiper('.subtypesSwiper', {
   // Optional parameters
   loop: true,
-  slidesPerView: 3,
+  slidesPerView: 1,
   grabCursor: true,
 
   // Navigation arrows
@@ -59,5 +59,15 @@ const subtypeSwiper = new Swiper('.subtypesSwiper', {
     nextEl: '.nextEl',
     prevEl: '.prevEl',
   },
+  breakpoints: {
+    // when window width is >= 767px
+    769: {
+      slidesPerView: 2,
+    },
+    // when window width is >= 1200px
+    1200: {
+      slidesPerView: 3,
+    }
+  }
 
 });

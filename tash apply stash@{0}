@@ -1,0 +1,26 @@
+ composer.lock                      | 376 [32m++++++++++++++++++[m[31m-------------------[m
+ functions.php                      |  74 [32m++++++[m[31m--[m
+ helpers.js                         |  76 [32m++++++[m[31m--[m
+ node_modules/.package-lock.json    | 167 [32m+++++++[m[31m---------[m
+ output.css                         | 238 [32m+++++++++++++++++++++[m[31m--[m
+ package-lock.json                  | 172 [32m+++++++[m[31m----------[m
+ package.json                       |   4 [32m+[m[31m-[m
+ page-dashboard.php                 |   3 [32m+[m[31m-[m
+ page-home.php                      |   1 [31m-[m
+ rapid-quote/emailForm.php          |   1 [31m-[m
+ style.css                          |  64 [32m+++++[m[31m--[m
+ tailwind.config.js                 |   1 [31m-[m
+ views/base.twig                    |  44 [32m++[m[31m---[m
+ views/footer.twig                  |   4 [32m+[m[31m-[m
+ views/html-header.twig             |  10 [31m-[m
+ views/page-careers.twig            |  26 [32m+[m[31m--[m
+ views/page-dashboard.twig          |  39 [32m++[m[31m--[m
+ views/page-home.twig               |  28 [32m++[m[31m-[m
+ views/page-product-literature.twig |   7 [32m+[m[31m-[m
+ views/page-quality-compliance.twig |  30 [32m+[m[31m--[m
+ views/page-who-we-are.twig         |  12 [32m+[m[31m-[m
+ views/single-custom_tools.twig     |   8 [32m+[m[31m-[m
+ views/single-industries.twig       | 158 [32m++++[m[31m------------[m
+ views/single-standard_tools.twig   |  12 [32m+[m[31m-[m
+ views/single.twig                  |   2 [32m+[m[31m-[m
+ 25 files changed, 855 insertions(+), 702 deletions(-)

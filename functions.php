@@ -29,6 +29,15 @@ if ( ! class_exists( 'Timber' ) ) {
 
 Timber::$dirname = array( 'views', 'templates' );
 
+function enqueue_tailwind_output_styles() {
+    wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
+    wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/style.css', array('tailwind-output'), filemtime( get_template_directory() . '/style.css' ) );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
+
+
+
+
 
 add_filter( 'timber/twig', function( $twig ) {
     $twig->addFilter( new \Twig\TwigFilter( 'custom_excerpt', function( $text, $length = 20 ) {
@@ -84,19 +93,51 @@ function tooltype_permalink_structure($post_link, $post, $leavename) {
 }
 add_filter('post_type_link', 'tooltype_permalink_structure', 1, 3);
 
+function register_custom_menus() {
+    register_nav_menus(array(
+        'header' => __('Header Menu'), // Existing location
+        'new_main' => __('New Main Menu') // Add a new location
+    ));
+}
+add_action('init', 'register_custom_menus');
 
 
-// Function to add Max Mega Menu plugin to base.twig
+
+// Function to add Max Mega Menu plugin to base.twig with conditional support
 function get_my_menu() {
+    if (is_page('test-page')) { // Replace 'test-page' with your actual slug or use is_page(ID)
+        return wp_nav_menu(array(
+            'theme_location' => 'new_main', // Use the custom "New Main" theme location
+            'echo' => false
+        ));
+    }
     return wp_nav_menu(array(
-        'theme_location' => 'max_mega_menu_1',
+        'theme_location' => 'max_mega_menu_1', // Default menu controlled by Max Mega Menu
         'echo' => false
     ));
 }
+
 add_filter('timber/context', function ($context) {
     $context['my_menu'] = get_my_menu();
     return $context;
 });
+
+
+add_filter('timber/context', function ($context) {
+    $context['header_menu'] = wp_nav_menu(array(
+        'theme_location' => 'header',
+        'echo' => false
+    ));
+
+    $context['new_main_menu'] = wp_nav_menu(array(
+        'theme_location' => 'new_main',
+        'echo' => false
+    ));
+
+    return $context;
+});
+
+
 
 // Rapid Quote handle quote submission
 function handle_quote_submission( WP_REST_Request $request ) {
@@ -200,17 +241,6 @@ function custom_logout_redirect() {
 }
 add_action('wp_logout', 'custom_logout_redirect');
 
-
-// // Redirect password reset request to a custom page
-// function custom_password_reset_redirect($url) {
-//     // Change 'custom-page' to the slug of your custom page
-//     return home_url('https://staging.gwstoolgroup.com');
-// }
-// add_filter('lostpassword_url', 'custom_password_reset_redirect');
-
-
-
-
 // Add company to user profile meta
 add_action('show_user_profile', 'custom_user_profile_fields');
 add_action('edit_user_profile', 'custom_user_profile_fields');
@@ -268,10 +298,6 @@ function my_front_end_login_fail( $username ) {
    }
 }
 
-
-
-
-
 // Customize the password reset confirmation page
 function custom_password_reset_confirmation() {
     if ( isset( $_GET['checkemail'] ) && $_GET['checkemail'] === 'confirm' ) {
@@ -294,3 +320,23 @@ add_filter('timber/context', function ($context) {
     $context['wp_title'] = wp_get_document_title();
     return $context;
 });
+
+// Signature Maker function for conditional logic
+add_filter( 'gform_notification_5', 'customize_notification_content', 10, 3 ); // Change '1' to your form ID
+
+function customize_notification_content( $notification, $form, $entry ) {
+    // Get field values
+    $mobile = rgar( $entry, '3' ); // field ID for mobile number
+    $office_ext = rgar( $entry, '13' ); // field ID for office extension
+
+    // Build the dynamic parts of the notification message
+    $mobile_html = !empty($mobile) ? "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Mobile:</strong> $mobile</p>" : '';
+    $office_html = !empty($office_ext) ? "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Office:</strong> (877) 497-8665 x$office_ext</p>" : "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Office:</strong> (877) 497-8665</p>";
+
+    // Insert these into the notification message where appropriate
+    $notification['message'] = str_replace('{dynamic_mobile}', $mobile_html, $notification['message']);
+    $notification['message'] = str_replace('{dynamic_office}', $office_html, $notification['message']);
+
+    return $notification;
+}
+

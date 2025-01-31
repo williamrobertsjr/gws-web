@@ -2,24 +2,32 @@
 
 {% block content %}
 
-<section id="home-hero" class="flex flex-col justify-center items-center relative">
+{# Images for Hero Background #}
+{% set image1 = post.meta('first_image_image') ? post.meta('first_image_image').url : '' %}
+{% set image2 = post.meta('second_image_image') ? post.meta('second_image_image').url : '' %}
+{% set image3 = post.meta('third_image_image') ? post.meta('third_image_image').url : '' %}
+{% set image4 = post.meta('fourth_image_image') ? post.meta('fourth_image_image').url : '' %}
 
+<section id="home-hero" class="flex flex-col justify-center items-center relative md:min-h-[750px]"
+    data-image1="{{ image1 }}"
+    data-image2="{{ image2 }}"
+    data-image3="{{ image3 }}"
+    data-image4="{{ image4 }}">
     <div>
-        <h2 class="text-center hero-tagline">Custom Comes</h2>
-        <h2 class="text-center hero-tagline-big">Standard</h2>
+        <h2 class="text-center hero-tagline">{{post.meta('headline_top')}}</h2>
+        <h2 class="text-center hero-tagline-big">{{post.meta('headline_bottom')}}</h2>
     </div>
 
     <div id="hero-links" class="flex justify-center">
-        <div class="flex md:flex-row flex-col justify-between md:justify-evenly items-center gap-y-4 w-full w-full lg:w-8/12 xl:w-6/12">
-            <h3 class="hero-link me-5"><a href="/all-series">Products</a></h3>
-            <h3 class="hero-link me-5"><a href="/industries">Industries</a></h3>
-            <h3 class="hero-link me-5"><a href="/tool-filter">Tool Filter</a></h3>
-            <h3 class="hero-link me-5"><a href="/who-we-are">About</a></h3>
-        </div>
-    
+        <div class="hidden sm:flex flex-row flex-wrap justify-between md:justify-evenly items-center gap-y-4 w-full lg:w-8/12 xl:w-6/12">
+            <h3 class="hero-link me-5" data-hero-index="0"><a href="{{post.meta('first_image_link')}}">{{post.meta('first_image_link_text')}}</a></h3>
+            <h3 class="hero-link me-5" data-hero-index="1"><a href="{{post.meta('second_image_link')}}">{{post.meta('second_image_link_text')}}</a></h3>
+            <h3 class="hero-link me-5" data-hero-index="2"><a href="{{post.meta('third_image_link')}}">{{post.meta('third_image_link_text')}}</a></h3>
+            <h3 class="hero-link me-5" data-hero-index="3"><a href="{{post.meta('fourth_image_link')}}">{{post.meta('fourth_image_link_text')}}</a></h3> 
     </div>
 
 </section>
+
 
 <section id="whats-new" class="ps-4 sm:ps-20 py-36">
     
@@ -70,27 +78,27 @@
     <div class="container mx-auto flex flex-col lg:flex-row px-8 md:px-10">
     
         <div class="w-full lg:w-6/12 pb-20 xl:pb-60">
-            <h2 class="text-5xl md:text-6xl  font-black leading-none mb-0">At A</h2>
-            <h2 class="text-6xl md:text-9xl leading-none font-black text-outline">Gl<span class="text-outline">a</span>nce</h2>
+            <h2 class="text-4xl md:text-6xl  font-black leading-none mb-0">At A</h2>
+            <h2 class="text-5xl md:text-9xl leading-none font-black">Glance</h2>
             <div class="glance-feature mt-20 md:mt-28">
                 <h3>2014</h3>
                 <p>GWS Tool Group Foundation</p>
-                <p class="divider text-3xl mt-14">//////////////////////////////////////////////////</p>
+                <p class="hidden md:block divider mt-14">//////////////////////////////////////////////////</p>
             </div>
             <div class="glance-feature">
                 <h3>12</h3>
                 <p>North American<br>manufacturing facilities</p>
-                <p class="divider mt-14">//////////////////////////////////////////////////</p>
+                <p class="hidden md:block divider mt-14">//////////////////////////////////////////////////</p>
             </div>
             <div class="glance-feature">
                 <h3>30,000+</h3>
                 <p>Standard cutting tools offered</p>
-                <p class="divider mt-14">//////////////////////////////////////////////////</p>
+                <p class="hidden md:block divider mt-14">//////////////////////////////////////////////////</p>
             </div>
             <div class="glance-feature">
                 <h3>250,000+</h3>
                 <p>Custom cutting tools offered</p>
-                <p class="divider mt-14">//////////////////////////////////////////////////</p>
+                <p class="hidden md:block divider mt-14">//////////////////////////////////////////////////</p>
             </div>
             <div class="glance-feature">
                 <h3>Tavares, FL</h3>
@@ -104,10 +112,10 @@
         </div>
     
         <div id="collage-col" class="xl:w-6/12 flex flex-col mx-auto gap-y-6">
-            <div class="ps-6 flex items-center"><img src="/wp-content/uploads/2023/12/3fl-1-32-end-mill-polished.jpg" alt=""></div>
-            <div class="pe-6 flex items-center"><img src="/wp-content/uploads/2024/01/Coating_MI-2-scaled.jpg" alt=""></div>
-            <div class="ps-6 flex items-center"><img src="/wp-content/uploads/2024/02/home_collage.jpg" alt=""></div>
-            <div class="pe-6 flex items-center"><img src="/wp-content/uploads/2024/02/whirler_cage_fx7.jpg" alt=""></div>
+            <div class="ps-4 md:ps-6 flex items-center"><img src="/wp-content/uploads/2023/12/3fl-1-32-end-mill-polished.jpg" alt=""></div>
+            <div class="pe-4 md:pe-6 flex items-center"><img src="/wp-content/uploads/2024/01/Coating_MI-2-scaled.jpg" alt=""></div>
+            <div class="ps-4 md:ps-6 flex items-center"><img src="/wp-content/uploads/2024/02/home_collage.jpg" alt=""></div>
+            <div class="pe-4 md:pe-6 flex items-center"><img src="/wp-content/uploads/2024/02/whirler_cage_fx7.jpg" alt=""></div>
         </div>
 
     </div>
@@ -115,17 +123,17 @@
 
 <section id="home-services" class="">
     <div class="container mx-auto pt-40 sm:pt-60 xl:pt-80">
-        <div class="text-center w-10/12 mx-auto">
-            <h2 class="text-xl sm:text-2xl font-extrabold text-pale-blue tracking-wide">Services</h2>
-            <p class="text-2xl sm:text-3xl font-light my-10">We provide a full spectrum of top-quality tooling and manufacturing services all designed to enhance your manufacturing processes and elevate your production capabilities.</p>
+        <div class="text-center md:w-10/12 mx-auto">
+            <h2 class="text-lg sm:text-2xl font-extrabold text-pale-blue tracking-wide">Services</h2>
+            <p class="text-xl sm:text-3xl font-light my-10">We provide a full spectrum of top-quality tooling and manufacturing services all designed to enhance your manufacturing processes and elevate your production capabilities.</p>
         </div>
-        <div class="flex flex-col lg:flex-row container xl:px-20 mx-auto">
-            <div class="w-full xl:w-6/12 px-4 md:px-10">
+        <div class="flex flex-col lg:flex-row xl:px-20 mx-auto">
+            <div class="w-full xl:w-6/12 md:px-10">
             
                 <div class="services-card custom-tools">
                     <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
                         <div class="content">
-                            <h3>Custom Comes Standard</h3>
+                            <h3 class="text-xl">Custom Comes Standard</h3>
                             <p>Off-the-shelf solutions can only go so far, often falling short of industry-specific needs. Our mantra, <em>Custom Comes Standard</em>, empowers manufacturers to break through constraints, enhance efficiency, and achieve precision.</p>
                             <p>In a world where innovation and optimization are crucial, custom tools elevate manufacturing to new heights, delivering tailor-made solutions for industry excellence.</p>
                         </div>
@@ -135,14 +143,14 @@
                         
                     </div>
                     <div class="card-content flex flex-col">
-                        <h3>Custom Tools</h3>
+                        <h3 class="text-xl">Custom Tools</h3>
                         <p>Precision crafted, tailored for your needs.</p>
                     </div>
                 </div>
                 <div class="services-card sales-rep">
                     <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
                         <div class="content">
-                            <h3>Get The Help You Need</h3>
+                            <h3 class="text-xl">Get The Help You Need</h3>
                             <p>Our sales team are experts in helping you find the tools you need for your application. Not sure what you need? Our team can help you find solutions that match your goals.</p>
                             <p>Use our sales map to find which representative works with customers in your area.</p>
                         </div>
@@ -157,11 +165,11 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full xl:w-6/12 px-4 md:px-10 lg:pt-28">
+            <div class="w-full xl:w-6/12 md:px-10 lg:pt-28">
                 <div class="services-card reconditioning ">
                     <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
                         <div class="content">
-                            <h3>Why Regrind?</h3>
+                            <h3 class="text-xl">Why Regrind?</h3>
                             <p>Regrinding old tools holds a pivotal role in sustainable manufacturing practices. It's not just about extending the lifespan of tools; it's a testament to resourcefulness and cost-effectiveness.</p>
                             <p> In an era where sustainability and efficiency are paramount, regrinding old tools is both a practical necessity and a responsible choice.</p>
                         </div>
@@ -171,14 +179,14 @@
                         
                     </div>
                     <div class="card-content">
-                        <h3>Reconditioning</h3>
+                        <h3 class="text-xl">Reconditioning</h3>
                         <p>Get extended life from your used tools.</p>
                     </div>  
                 </div>
                 <div class="services-card industries">
                     <div class="card-overlay flex flex-col justify-between pt-10 px-10 pb-10 hidden">
                         <div class="content">
-                            <h3>Engineered for Every Industry</h3>
+                            <h3 class="text-xl">Engineered for Every Industry</h3>
                             <p>GWS cutting tools are utilized across a wide array of industries, showcasing versatility and precision. From automotive to medical to aerospace, our tools are designed to meet the diverse needs of various sectors.</p>
                             <p>Discover how our cutting-edge tools are transforming industries by delivering exceptional performance and reliability.</p>
                         </div>
@@ -188,7 +196,7 @@
                         
                     </div>
                     <div class="card-content">
-                        <h3>Industries</h3>
+                        <h3 class="text-xl">Industries</h3>
                         <p>See how GWS tools transform industries</p>
                     </div>  
                 </div>
@@ -201,9 +209,9 @@
 <section id="home-cta" class="">
     <div class="container mx-auto flex flex-col justify-center align-center">
         <div class="heading text-center">
-            <h2 class="text-6xl font-black text-pale-blue">Find Your</h2>
-            <h2 class="text-7xl font-black text-pale-blue"><span class="text-outline">Perfect</span> Tool</h2>
-            <p class="text-pale-blue mt-10 text-2xl">///////////////////////////////////////</p>
+            <h2 class="text-3xl md:text-6xl font-black text-dark-blue">Find Your</h2>
+            <h2 class="text-5xl md:text-7xl font-black text-pale-blue">Perfect Tool</h2>
+            <p class="text-pale-blue mt-10 text-lg md:text-2xl">///////////////////////////////////////</p>
         </div>
 
         <div class="button-row flex flex-col xl:flex-row justify-evenly gap-y-20">

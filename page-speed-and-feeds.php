@@ -9,7 +9,7 @@ include 'db_connection.php';
 
 
 
-$stmt = $conn->prepare("SELECT series, family from master_series_data WHERE speed_feed_page IS NOT NULL");
+$stmt = $conn->prepare("SELECT series, family, subtitle, tool_type from master_series_data WHERE speed_feed_page IS NOT NULL AND catalog='y'");
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -25,7 +25,6 @@ if ($result->num_rows > 0) {
 // Prepare Timber context
 $context = Timber::context();
 $context['series_list'] = $series_list;
-
 // Render with Twig template
 Timber::render('page-speed-and-feeds.twig', $context);
 
