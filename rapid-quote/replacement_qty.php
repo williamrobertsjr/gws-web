@@ -9,7 +9,7 @@ if (empty($partNumber)) {
 }
 
 // Check for obsolete part number
-$stmt = $conn->prepare("SELECT replacement_pn FROM obsolete_staging WHERE delist_pn = ?");
+$stmt = $conn->prepare("SELECT replacement_pn, obsolete_description FROM obsolete_staging WHERE delist_pn = ?");
 $stmt->bind_param("s", $partNumber);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -17,6 +17,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $replacement_pn = $row['replacement_pn'];
+    $obsolete_description = $row['obsolete_description'];
 
     // Fetch replacement part details including list price
     $stmt = $conn->prepare("SELECT qty_on_hand, list_price FROM rapid_quote WHERE PN = ?");
@@ -29,6 +30,7 @@ if ($result->num_rows > 0) {
         echo json_encode([
             'replacement_pn' => $replacement_pn,
             'qty_on_hand' => $inventoryRow['qty_on_hand'],
+            'obsolete_description' => $obsolete_description,
             'list_price' => $inventoryRow['list_price']
         ]);
     } else {

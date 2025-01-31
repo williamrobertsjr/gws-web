@@ -281,6 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
               return fetchReplacementDetails(part.PN).then(replacementData => {
                   if (replacementData && replacementData.replacement_pn) {
                       part.qtyOnHand = parseInt(replacementData.qty_on_hand, 10); // Update quantity with replacement
+                      part.FULL_DESCRIPTION = replacementData.obsolete_description; // Update description with replacement
                       part.LIST_PRICE = parseFloat(replacementData.list_price); // Update price with replacement
                   } else {
                     // If no replacement, set defaults for non-obsolete part
