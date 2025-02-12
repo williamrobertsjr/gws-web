@@ -89,7 +89,8 @@ let fetchTableData = (toolType, subType, subSubType, selectedValues) => {
 let buildDataTable = (data, toolType, subType, subSubType) => {
     if (table) {
         table.destroy();
-        resultsContainer.innerHTML = '';
+        resultsContainer.innerHTML = '<p>Select your criteria and press search to find a tool.</p>';
+
     }
 
     // Check if data is empty or not structured correctly
@@ -369,7 +370,7 @@ let fetchSubTypes = toolType => {
 // Listen to selected tool type value 
 toolTypeSelect.addEventListener('change', function() {
     let toolType = this.value // get tool type selected
-    resultsContainer.innerHTML = ''
+    resultsContainer.innerHTML = '<p>Select your criteria and press search to find a tool.</p>'
     if (toolType === 'Inserts') {
         subTypeContainer.innerHTML = '' // clear sub type container if there's anything in there
         filtersContainer.innerHTML = '' // clear filters container
