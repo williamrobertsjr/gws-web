@@ -1,0 +1,183 @@
+{% extends "base.twig" %}
+{% block content %}
+    {% include "page-header.twig" %}
+    <section class="container mx-auto py-36 flex flex-col gap-y-12">
+        {% if post.content %}
+            <div>
+                {{post.content}}
+            </div>
+        {% endif %}
+        <div id="milling">
+            <h2 class="text-4xl font-black">Milling</h2>
+            <hr class="border-1 border-gray-300 my-4">
+            {# Loop here for each milling sub type #}
+            <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
+                {% for subtype in post.meta('milling') %}
+                    <div class="w-full md:w-6/12 lg:w-4/12">
+                        <div class="pe-4 flex">
+                            <a href="{{subtype.link}}" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                                <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{subtype.tool_image.url}}" alt="">
+                                <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                    <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">{{subtype.tool_type}}</h5>
+                                    <p class="mb-3 text-sm font-normal text-white ">{{subtype.type_description}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="holemaking">
+            <h2 class="text-4xl font-black">Holemaking</h2>
+            <hr class="border-1 border-gray-300 my-4">
+            {# Loop here for each holemaking sub type #}
+            <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
+                {% for subtype in post.meta('holemaking') %}
+                    <div class="w-full md:w-6/12 lg:w-4/12">
+                        <div class="pe-4 flex">
+                            <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                                <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                                <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                    <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">{{subtype.tool_type}}</h5>
+                                    <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="specialty">
+            <h2 class="text-4xl font-black">Specialty</h2>
+            <hr class="border-1 border-gray-300 my-4">
+            {# Loop here for each specialty sub type #}
+            <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="threading">
+            <h2 class="text-4xl font-black">Threading</h2>
+            <hr class="border-1 border-gray-300 my-4">
+            {# Loop here for each threading sub type #}
+            <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="inserts">
+            <h2 class="text-4xl font-black">Inserts</h2>
+            <hr class="border-1 border-gray-300 my-4">
+            {# Loop here for each inserts sub type #}
+            <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-6/12 lg:w-4/12">
+                    <div class="pe-4 flex">
+                        <a href="#" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                            <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="/wp-content/uploads/2024/10/NF1-Coating-and-Cutting-Tools.jpg" alt="">
+                            <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
+                                <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">Ball Nose</h5>
+                                <p class="mb-3 text-sm font-normal text-white ">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
