@@ -7,6 +7,7 @@
                 {{post.content}}
             </div>
         {% endif %}
+        {% if post.meta('milling') %}
         <div id="milling">
             <h2 class="text-4xl font-black">Milling</h2>
             <hr class="border-1 border-gray-300 my-4">
@@ -14,8 +15,8 @@
             <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
                 {% for subtype in post.meta('milling') %}
                     <div class="w-full md:w-6/12 lg:w-4/12">
-                        <div class="pe-4 flex">
-                            <a href="{{subtype.link}}" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                        <div class="pe-4 flex h-full">
+                            <a href="{{subtype.link}}" class="group flex grow items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
                                 <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{subtype.tool_image.url}}" alt="">
                                 <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
                                     <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">{{subtype.tool_type}}</h5>
@@ -27,6 +28,8 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
+        {% if post.meta('holemaking') %}        
         <div id="holemaking">
             <h2 class="text-4xl font-black">Holemaking</h2>
             <hr class="border-1 border-gray-300 my-4">
@@ -34,8 +37,8 @@
             <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
                 {% for subtype in post.meta('holemaking') %}
                     <div class="w-full md:w-6/12 lg:w-4/12">
-                        <div class="pe-4 flex">
-                            <a href="{{subtype.link}}" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                        <div class="pe-4 flex h-full">
+                            <a href="{{subtype.link}}" class="group flex grow items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
                                 <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{subtype.tool_image.url}}" alt="">
                                 <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
                                     <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">{{subtype.tool_type}}</h5>
@@ -47,6 +50,8 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
+        {% if post.meta('specialty') %}  
         <div id="specialty">
             <h2 class="text-4xl font-black">Specialty</h2>
             <hr class="border-1 border-gray-300 my-4">
@@ -54,8 +59,8 @@
             <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
                 {% for subtype in post.meta('specialty') %}
                     <div class="w-full md:w-6/12 lg:w-4/12">
-                        <div class="pe-4 flex">
-                            <a href="{{subtype.link}}" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                        <div class="pe-4 flex h-full">
+                            <a href="{{subtype.link}}" class="group flex grow items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
                                 <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{subtype.tool_image.url}}" alt="">
                                 <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
                                     <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">{{subtype.tool_type}}</h5>
@@ -67,6 +72,8 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
+        {% if post.meta('threading') %}
         <div id="threading">
             <h2 class="text-4xl font-black">Threading</h2>
             <hr class="border-1 border-gray-300 my-4">
@@ -74,8 +81,8 @@
             <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
                 {% for subtype in post.meta('threading') %}
                     <div class="w-full md:w-6/12 lg:w-4/12">
-                        <div class="pe-4 flex">
-                            <a href="{{subtype.link}}" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                        <div class="pe-4 flex h-full">
+                            <a href="{{subtype.link}}" class="group flex grow items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
                                 <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{subtype.tool_image.url}}" alt="">
                                 <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
                                     <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">{{subtype.tool_type}}</h5>
@@ -87,6 +94,8 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
+        {% if post.meta('inserts') %}        
         <div id="inserts">
             <h2 class="text-4xl font-black">Inserts</h2>
             <hr class="border-1 border-gray-300 my-4">
@@ -94,8 +103,8 @@
             <div class="flex flex-col md:flex-row flex-wrap gap-y-6">
                 {% for subtype in post.meta('inserts') %}
                     <div class="w-full md:w-6/12 lg:w-4/12">
-                        <div class="pe-4 flex">
-                            <a href="{{subtype.link}}" class="group flex items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
+                        <div class="pe-4 flex h-full">
+                            <a href="{{subtype.link}}" class="group flex grow items-center bg-black rounded-lg shadow-sm md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 hover:-translate-y-2">
                                 <img class="object-cover w-4/12 h-full rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{subtype.tool_image.url}}" alt="">
                                 <div class="flex flex-col justify-between p-4 leading-normal w-8/12">
                                     <h5 class="mb-2 text-xl xl:text-2xl font-bold tracking-tight text-pale-blue ">{{subtype.tool_type}}</h5>
@@ -107,6 +116,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
        
     </section>
 {% endblock %}
