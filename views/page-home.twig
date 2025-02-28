@@ -7,25 +7,64 @@
 {% set image2 = post.meta('second_image_image') ? post.meta('second_image_image').url : '' %}
 {% set image3 = post.meta('third_image_image') ? post.meta('third_image_image').url : '' %}
 {% set image4 = post.meta('fourth_image_image') ? post.meta('fourth_image_image').url : '' %}
+{% set image5 = post.meta('fifth_image_image') ? post.meta('fifth_image_image').url : '' %}
 
 <section id="home-hero" class="flex flex-col justify-center items-center relative md:min-h-[750px]"
     data-image1="{{ image1 }}"
     data-image2="{{ image2 }}"
     data-image3="{{ image3 }}"
-    data-image4="{{ image4 }}">
-    <div>
+    data-image4="{{ image4 }}"
+    data-image5="{{ image5 }}"
+    data-tagline1="{{ post.meta('first_image_headline_top') }}"
+    data-tagline2="{{ post.meta('second_image_headline_top') }}"
+    data-tagline3="{{ post.meta('third_image_headline_top') }}"
+    data-tagline4="{{ post.meta('fourth_image_headline_top') }}"
+    data-tagline5="{{ post.meta('fifth_image_headline_top') }}"
+    data-tagline-big1="{{ post.meta('first_image_headline_bottom') }}"
+    data-tagline-big2="{{ post.meta('second_image_headline_bottom') }}"
+    data-tagline-big3="{{ post.meta('third_image_headline_bottom') }}"
+    data-tagline-big4="{{ post.meta('fourth_image_headline_bottom') }}"
+    data-tagline-big5="{{ post.meta('fifth_image_headline_bottom') }}">
+    <div class="pt-12">
         <h2 class="text-center hero-tagline">{{post.meta('headline_top')}}</h2>
         <h2 class="text-center hero-tagline-big">{{post.meta('headline_bottom')}}</h2>
     </div>
 
-    <div id="hero-links" class="flex justify-center">
-        <div class="hidden sm:flex flex-row flex-wrap justify-between md:justify-evenly items-center gap-y-4 w-full lg:w-8/12 xl:w-6/12">
-            <h3 class="hero-link me-5" data-hero-index="0"><a href="{{post.meta('first_image_link')}}">{{post.meta('first_image_link_text')}}</a></h3>
-            <h3 class="hero-link me-5" data-hero-index="1"><a href="{{post.meta('second_image_link')}}">{{post.meta('second_image_link_text')}}</a></h3>
-            <h3 class="hero-link me-5" data-hero-index="2"><a href="{{post.meta('third_image_link')}}">{{post.meta('third_image_link_text')}}</a></h3>
-            <h3 class="hero-link me-5" data-hero-index="3"><a href="{{post.meta('fourth_image_link')}}">{{post.meta('fourth_image_link_text')}}</a></h3> 
+    <div class="w-full">
+        <div id="hero-links-new" class="flex justify-center w-full">
+            <div class="hidden sm:flex flex-row flex-wrap justify-between md:justify-evenly items-center gap-y-4 w-full lg:w-8/12 xl:w-6/12">
+                <h3 class="hero-link me-5" data-hero-index="0"><a href="{{post.meta('first_image_link')}}">{{post.meta('first_image_link_text')}}</a></h3>
+                <h3 class="hero-link me-5" data-hero-index="1"><a href="{{post.meta('second_image_link')}}">{{post.meta('second_image_link_text')}}</a></h3>
+                <h3 class="hero-link me-5" data-hero-index="2"><a href="{{post.meta('third_image_link')}}">{{post.meta('third_image_link_text')}}</a></h3>
+                <h3 class="hero-link me-5" data-hero-index="3"><a href="{{post.meta('fourth_image_link')}}">{{post.meta('fourth_image_link_text')}}</a></h3>
+                {# <h3 class="hero-link me-5" data-hero-index="4"><a href="{{post.meta('fifth_image_link')}}">{{post.meta('fifth_image_link_text')}}</a></h3> #}
+            </div>
+        </div>
     </div>
+    <div id="legacy-brands" class="bg-[#333] flex flex-col items-center justify-center gap-y-1 p-6 absolute -bottom-[80px] rounded w-11/12">
+        
+        <p class="text-white text-xl font-black tracking-wide uppercase text-center">Built On Legacy, <span class="italic">Driven By Innovation.</span></p>
+        <div class="grid grid-cols-7 md:grid-cols-14">
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Alliance2-.png" alt="Alliance Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Balax-1.png" alt="Balax Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Benchmark-1.png" alt="Benchmark Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/CGI-1.png" alt="CGI Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/CJT-1.png" alt="CJT Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/CTMI-1.png" alt="CTMI Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/GW-Schultz-1.png" alt="GW Schultz Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Indexable-1.png" alt="Indexable Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Intrepid-1.png" alt="Intrepid Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Monster-1.png" alt="Monster Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/NAT-1.png" alt="NAT Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Peterson-1.png" alt="Peterson Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/STF-1.png" alt="STF Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+            <div class="hover:-translate-y-2"><a href="/our-background"><img src="https://www.gwstoolgroup.com/wp-content/uploads/2025/02/Taurus-1.png" alt="Taurus Logo" class="w-auto max-h-[100px] mx-auto"></a></div>
+        </div>
+    </div>
+</section>
 
+<section>
+    
 </section>
 
 

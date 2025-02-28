@@ -23,6 +23,9 @@ module.exports = {
         center: true,
         padding: '2rem',
       },
+      gridTemplateColumns: {
+        '14': 'repeat(14, minmax(0, 1fr))',
+      },
     },
   },
 };
