@@ -175,7 +175,8 @@ li {
   line-height: 1;
 }
 .page-content {
-  padding: 10rem 0;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
 }
 #searchwp-form-1 {
  margin: auto;
