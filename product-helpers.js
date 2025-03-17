@@ -262,6 +262,15 @@ for ( heading of tableHeading ) {
         case 'sub_sub_type':
             heading.innerText = 'Type';
             break;
+        case 'ic':
+            heading.innerText = 'I.C.';
+            break;
+        case 'iso_code':
+            heading.innerText = 'ISO Code';
+            break;
+        case 'edge_prep':
+            heading.innerText = 'Edge Prep';
+            break;
         default:
             console.log('Unknown heading:', heading.textContent);
     }
@@ -523,6 +532,15 @@ for ( att of attributes ) {
             break;
         case 'sub_sub_type':
             att.innerText = 'Type';
+            break;
+        case 'ic':
+            att.innerText = 'I.C.';
+            break;
+        case 'iso_code':
+            att.innerText = 'ISO Code';
+            break;
+        case 'edge_prep':
+            att.innerText = 'Edge Prep';
             break;
         default:
             console.log('Unknown att:', att.textContent);
