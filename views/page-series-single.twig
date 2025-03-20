@@ -50,12 +50,15 @@
                     
                 </ul>
             </div>
-
+            {# Features #}
+            
             <div class="series-features flex flex-wrap justify-between gap-x-5">
+                {% set features = series_data.feat_icons|trim|split(', ') %}
+                {% if features < 1 %}
                 <div class="features lg:w-6/12">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Features</h3>
                     {# Split the context variable into an array #}
-                    {% set features = series_data.feat_icons|trim|split(', ') %}
+                    
                     <div class="icons flex flex-wrap gap-5 pb-8">
                         {# Display each value in the list #}
                         {% if features is not empty %}
@@ -65,10 +68,14 @@
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+                {# Applications #}
+                {% set applications = series_data.app_icons|trim|split(', ') %}
+                {% if applications < 1 %}
                 <div class="applications w-full lg:w-5/12">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Applications</h3>
                     {# Split the context variable into an array #}
-                    {% set applications = series_data.app_icons|trim|split(', ') %}
+                    
                     <div class="icons flex flex-wrap gap-5">
                         {# Display each value in the list #}
                         {% if applications is not empty %}
@@ -78,24 +85,28 @@
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+
+                {# Work Materials #}
+                {# Split the context variable into an object #}
+                {% set materials = {
+                    'p1': series_data.p1,
+                    'p2': series_data.p2,
+                    'p3': series_data.p3,
+                    'm1': series_data.m1,
+                    'm2': series_data.m2,
+                    'k1': series_data.k1,
+                    'k2': series_data.k2,
+                    'n1': series_data.n1,
+                    'n2': series_data.n2,
+                    's1': series_data.s1,
+                    's2': series_data.s2,
+                    'h1': series_data.h1,
+                    'h2': series_data.h2
+                } %}
+                {% if materials < 1 %}
                 <div class="work-materials w-full">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Work Materials</h3>
-                    {# Split the context variable into an object #}
-                    {% set materials = {
-                        'p1': series_data.p1,
-                        'p2': series_data.p2,
-                        'p3': series_data.p3,
-                        'm1': series_data.m1,
-                        'm2': series_data.m2,
-                        'k1': series_data.k1,
-                        'k2': series_data.k2,
-                        'n1': series_data.n1,
-                        'n2': series_data.n2,
-                        's1': series_data.s1,
-                        's2': series_data.s2,
-                        'h1': series_data.h1,
-                        'h2': series_data.h2
-                    } %}
                     <div class="icons flex flex-wrap gap-5">
                         {# Display each value in the list #}
                         {% for key, item in materials %}
@@ -104,8 +115,8 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-
                 </div>
+                {% endif %}
             </div>
 
         </div>
