@@ -47,29 +47,27 @@ document.addEventListener("DOMContentLoaded", function () {
     ordering: false,
     data: [], //Initialize with empty dataset
   });
-  console.log(window.userRole)
+
   let userRole = window.userRole || "none"; // Replace 'defaultRole' with an appropriate default
-  console.log(userRole)
   if (userRole === "administrator" || userRole === "sales") {
     document
       .getElementById("distributor-level-message")
       .classList.add("hidden");
   } else if (userRole === "none") {
     document.getElementById("distributor-level-select").classList.add("hidden");
-    // document.getElementById("testToolsBtn").classList.add("hidden");
   } else {
     document.getElementById("distributor-level-select").classList.add("hidden");
   }
 
-  // get users tier
+  // Get users tier
   const getUserTier = () => {
     if (userRole === "administrator" || userRole === "sales") {
       let distributorTierSelect = document.getElementById("distributor-level");
       let distributorTier = distributorTierSelect.value;
-      console.log(distributorTier);
+      
       return distributorTier;
     } else {
-      console.log(userRole);
+    
       return userRole;
     }
   };
@@ -104,47 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return discountRate;
   };
 
-  // Updated updatePrices function to change data tables data not just dom
-  // const updatePrices = () => {
-  //   let userTier = getUserTier();
-
-  //   document.querySelectorAll("td.rq-net-price").forEach((netPriceCell) => {
-  //     let rowElement = netPriceCell.closest("tr");
-  //     let row = table.row(rowElement);
-  //     let rowData = row.data();
-
-  //     let partFamilyCell = rowElement.querySelector("td.rq-edp > a");
-  //     let isAdvancedPerformance =
-  //       partFamilyCell && partFamilyCell.classList.contains("Advanced");
-
-  //     let discount = calculateDiscount(userTier, isAdvancedPerformance);
-
-  //     let listPriceCell = rowElement.querySelector("td.rq-list-price");
-  //     let listPrice = parseFloat(listPriceCell.innerText);
-
-  //     let qtyInput = rowElement.querySelector("#neededQty");
-  //     let quantity = parseInt(qtyInput.value, 10);
-
-  //     let discountedPrice = listPrice * (1 - discount);
-  //     let totalPrice = discountedPrice * quantity;
-
-  //     // Update the DOM
-  //     netPriceCell.innerText = discountedPrice.toFixed(2);
-  //     let totalPriceCell = rowElement.querySelector("td.rq-total-price");
-  //     totalPriceCell.innerText = "$" + totalPrice.toFixed(2);
-
-  //     // Update the DataTables internal data
-  //     rowData[5] = discountedPrice.toFixed(2); // use row index of net price to update data table
-  //     rowData[6] = "$" + totalPrice.toFixed(2); // use row index of total price to update data table
-
-  //     // Invalidate the row to ensure the internal cache is updated
-  //     row.invalidate();
-  //   });
-
-  //   // Redraw the table after updating prices
-  //   table.draw(false); // 'false' keeps the current paging position
-  // };
-
+  // Function to update prices based on user tier and quantity
   function updatePrices() {
     let userTier = getUserTier();
     const distributorLevel = document.getElementById('distributor-level').value;
@@ -167,99 +125,41 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 
-  // partsForm.addEventListener("submit", function (event) {
-  //   console.log("parts form intercepted");
-  //   event.preventDefault();
-
-  //   const data = new FormData(partsForm);
-  //   // console.log([...data])
-  //   if (data.has("part")) {
-  //     let partsString = data.get("part");
-  //     if (partsString) {
-  //       let partsArray = partsString
-  //         .split(/[\s,]+/)
-  //         .filter((part) => part.trim() !== "");
-  //       // console.log(partsArray);
-  //     } else {
-  //       console.log("No parts input found");
-  //     }
-  //   } else {
-  //     console.error("The 'partsInput' field is not found in the form data");
-  //   }
-
-  //   fetch("https://www.gwstoolgroup.com/wp-json/rapid-quote/v1/submit-quote", {
-  //     method: "POST",
-  //     body: data,
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       // Update your page based on the response
-  //       // Clear the current table data
-  //       table.clear();
-  //       if (data.found_parts && Array.isArray(data.found_parts)) {
-  //         data.found_parts.forEach((part) => {
-  //           partLink =
-  //             '<a class="' +
-  //             part.FAMILY +
-  //             ' font-bold text-dark-blue"' +
-  //             'href="/product/?part=' +
-  //             part.PN +
-  //             ' "' +
-  //             'target="_blank">' +
-  //             part.PN +
-  //             "</a>";
-  //           let qtyOnHand = Math.floor(part.QTY_ON_HAND, 10);
-  //           let neededQty =
-  //             '<input type="number" id="neededQty" name="neededQty" min="1" max="1000" value="1" class="flex w-full px-2"></input>';
-  //           let totalPrice = part.LIST_PRICE;
-  //           let netPrice = part.LIST_PRICE;
-  //           let partFamily = part.FAMILY;
-  //           // Add rows to the table for each found part Modify as per your JSON structure
-  //           table.row.add([
-  //             partLink, // EDP with link
-  //             part.FULL_DESCRIPTION, // FULL DESCRIPTION
-  //             neededQty, // QTY NEEDED
-  //             qtyOnHand, // STOCK
-  //             part.LIST_PRICE, // LIST PRICE
-  //             netPrice,
-  //             totalPrice, // TOTAL PRICE
-  //           ]);
-  //         });
-  //       }
-
-  //       // Draw the table with the new data
-  //       table.draw();
-  //       updatePrices();
-
-  //       document.addEventListener("change", function (event) {
-  //         if (event.target && event.target.id === "distributor-level") {
-  //           updatePrices();
-  //         }
-  //       });
-
-  //       // Handle missing parts if any
-  //       if (data.missing_parts) {
-  //         let missingPartsDiv = document.getElementById("missing-parts");
-  //         missingPartsDiv.innerHTML = `<p class="text-white text-sm italic">These parts were not found: ${data.missing_parts}. <span>Please verify part numbers.</span></p> `;
-  //         console.log("Missing parts:", data.missing_parts);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       // Display error message to the user
-  //     });
-  // });
-
+  // Function to check and enforce minimum quantity for specific series
+  function checkMinimumQuantity(part, qty) {
+    console.log("Checking minimum quantity for part:", part);
+    console.log("Current quantity:", qty);
+    
+    const seriesWithMinQty = {
+      "6005": 10,
+      "6006": 10,
+      "6007": 10,
+      // Add more series and their minimum quantities as needed
+    };
+    console.log("Part series:", seriesWithMinQty[part.SERIES]);
+    // console.log(`Checking minimum quantity for part: ${part.PN}, series: ${part.SERIES}, current qty: ${qty}`);
+    if (seriesWithMinQty[part.SERIES] && qty < seriesWithMinQty[part.SERIES]) {
+      console.log(`Minimum quantity for series ${part.SERIES} is ${seriesWithMinQty[part.SERIES]}. Setting qty to minimum.`);
+      // alert(`Minimum quantity for series ${part.SERIES} is ${seriesWithMinQty[part.SERIES]}.`);
+      return seriesWithMinQty[part.SERIES];
+    }
+    return qty;
+  }
+  let partsData = {}; // Variable to store the JSON data for each part
+  // Debounce function for the parts form submission 
+  function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
   partsForm.addEventListener("submit", function (event) {
       event.preventDefault();
       // console.log("parts form intercepted");
-
+      // console.log("missing parts div:", document.getElementById("missing-parts"));
       const data = new FormData(partsForm);
+      
       if (!data.has("part")) {
           console.error("The 'partsInput' field is not found in the form data");
           return;
@@ -271,9 +171,10 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(res => res.json())
       .then(data => {
-
+          
           // Clear the current table data
           table.clear();
+          partsData = data; // Store the JSON data for each part
           const partPromises = data.found_parts.map(part => {
             console.log("Part from found_parts:", part); // <--- Log each part individually
           
@@ -293,29 +194,45 @@ document.addEventListener("DOMContentLoaded", function () {
           });
 
           Promise.all(partPromises).then(updatedParts => {
-              updatedParts.forEach(part => {
-                  const partLink = `<a class="${part.FAMILY} font-bold text-dark-blue" href="/product/?part=${part.PN}" target="_blank">${part.PN}</a>`;
-                  const neededQty = `<input type="number" id="neededQty" name="neededQty" min="1" max="1000" value="1" class="flex w-full px-2"></input>`;
-                  table.row.add([
-                      partLink,
-                      part.FULL_DESCRIPTION,
-                      neededQty,
-                      part.qtyOnHand,
-                      part.LIST_PRICE,
-                      part.LIST_PRICE,  // Assuming net price is the same as list price for this example
-                      part.LIST_PRICE * parseInt(neededQty.value, 10)  // Calculate total price
-                  ]);
-              });
-              table.draw();
-              updatePrices();
-
-              // Handle missing parts if any
-              if (data.missing_parts && data.missing_parts.length > 0) {
-                let missingPartsDiv = document.getElementById("missing-parts");
+            updatedParts.forEach(part => {
+                let neededQty = 1;
+                neededQty = checkMinimumQuantity(part, neededQty);
+                const asterisk = neededQty > 1 ? '<span class="minQty" style="color:#d30000;">*</span>' : '';
+                const partLink = `<a class="${part.FAMILY} font-bold text-dark-blue" href="/product/?part=${part.PN}" target="_blank">${part.PN}${asterisk}</a>`;
+                const neededQtyInput = `<input type="number" id="neededQty" name="neededQty" min="${neededQty}" max="1000" value="${neededQty}" class="flex w-full px-2"></input>`;
+                
+                // Add the row with the data-part-number attribute
+                let rowNode = table.row.add([
+                    partLink,
+                    part.FULL_DESCRIPTION,
+                    neededQtyInput,
+                    part.qtyOnHand,
+                    part.LIST_PRICE,
+                    part.LIST_PRICE,
+                    part.LIST_PRICE * neededQty
+                ]).node();
+                
+                // Set the data-part-number attribute
+                $(rowNode).attr('data-part-number', part.PN);
+            });
+            table.draw();
+            updatePrices();
+        
+            let missingPartsDiv = document.getElementById("missing-parts");
+            let minQtyPart = document.querySelectorAll('.minQty');
+            let minQtyParts = document.getElementById('min-qty-parts');
+            if (data.missing_parts && data.missing_parts.length > 0) {
                 missingPartsDiv.innerHTML = `<p class="text-white text-sm italic">These parts were not found: ${data.missing_parts}. <span>Please verify part numbers.</span></p>`;
-                console.log("Missing parts:", data.missing_parts);
-              }
-          });
+            } else {
+                missingPartsDiv.innerHTML = '';
+            }
+            if (minQtyPart.length > 0) {
+                minQtyParts.innerHTML = `<p class="text-white text-sm italic">*Minimum quantity required.</p>`;
+            } else {
+              console.log('No minimum quantity parts found');
+                minQtyParts.innerHTML = '';
+            }
+        });
       })
       .catch(err => {
           console.error("Error during fetch:", err);
@@ -330,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       const data = await response.json();
       // Log the entire JSON object:
-      console.log('Replacement API response for:', partNumber, data);
+      // console.log('Replacement API response for:', partNumber, data);
 
       return data;
   }
@@ -345,39 +262,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  document
-    .querySelector("#rq-table")
-    .addEventListener("input", function (event) {
-      // Check if the event target is within a cell with the 'rq-needed' class
-      if (event.target.closest(".rq-needed")) {
+  document.querySelector("#rq-table").addEventListener("input", debounce(function (event) {
+    if (event.target.closest(".rq-needed")) {
         let rowElement = event.target.closest("tr");
         if (!rowElement) {
-          console.error("No table row found for the event target");
-          return;
+            console.error("No table row found for the event target");
+            return;
         }
+
+        let partNumber = rowElement.getAttribute('data-part-number');
+        if (!partNumber) {
+            console.error("Part number not found in the row data attribute");
+            return;
+        }
+
+        // Find the part data in the partsData object
+        let partData = partsData.found_parts.find(part => part.PN === partNumber);
+        if (!partData) {
+            console.error("Part data not found for part number:", partNumber);
+            return;
+        }
+
+        console.log("Part data:", partData); // Log the part data
 
         let row = table.row(rowElement);
         let data = row.data();
 
-        // Assuming the 'Needed' column is at a specific index
-        let neededQtyColumnIndex = 2; // Adjust this index as necessary
+        let neededQtyColumnIndex = 2;
         let inputCell = rowElement.cells[neededQtyColumnIndex];
         if (inputCell) {
-          let inputCellHtml = inputCell.innerHTML;
-          inputCellHtml = inputCellHtml.replace(
-            /value=".*?"/,
-            `value="${event.target.value}"`
-          );
-          data[neededQtyColumnIndex] = inputCellHtml;
+            let neededQty = parseInt(event.target.value, 10);
+            let minQty = checkMinimumQuantity(partData, neededQty); // Get the minimum quantity
 
-          row.data(data).invalidate(); // Invalidate to ensure the update
-          updatePrices(); // Update prices based on the new quantity
+            if (neededQty < minQty) {
+                // Display a warning message if the entered quantity is below the minimum
+                alert(`Minimum quantity for series ${partData.SERIES} is ${minQty}.`);
+                event.target.value = minQty; // Set the input value to the minimum quantity
+            }
+
+            inputCell.innerHTML = inputCell.innerHTML.replace(
+                /value=".*?"/,
+                `value="${event.target.value}"`
+            );
+            data[neededQtyColumnIndex] = inputCell.innerHTML;
+
+            row.data(data).invalidate();
+            updatePrices();
         } else {
-          console.error("Cell not found at the specified index in the row");
+            console.error("Cell not found at the specified index in the row");
         }
-      }
-    });
+    }
+  }, 500)); // Adjust the debounce delay as needed (300ms in this example)
 
+  
   // Email / Test Tool Modals
   let modal = document.getElementById("modal-container");
   let emailModal = document.getElementById("emailModal");
@@ -450,20 +387,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // Collect and serialize table data
     let tableHTML = buildTableData(); // get the table HTML
     formData.append("tableHTML", tableHTML); // append the table HTML to formData
-    console.log("FormData values:", Array.from(formData.entries()));
+    // console.log("FormData values:", Array.from(formData.entries()));
     fetch("/wp-content/themes/gws-web/rapid-quote/emailForm.php", {
       method: "POST",
       body: formData,
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (!response.ok) {
           throw new Error("Newwork response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Response Data:", data);
+        // console.log("Response Data:", data);
         // Check if the email was sent successfully
         if (data.message === "Email sent successfully.") {
             // Redirect to the thank you page
@@ -485,20 +422,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // Collect and serialize table data
     let tableHTML = buildTableData(); // get the table HTML
     formData.append("tableHTML", tableHTML); // append the table HTML to formData
-    console.log("FormData values:", Array.from(formData.entries()));
+    // console.log("FormData values:", Array.from(formData.entries()));
     fetch("/wp-content/themes/gws-web/rapid-quote/emailTestTools.php", {
       method: "POST",
       body: formData,
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (!response.ok) {
           throw new Error("Newwork response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Response Data:", data);
+        // console.log("Response Data:", data);
         // Check if the email was sent successfully
         if (data.message === "Email sent successfully.") {
             // Redirect to the thank you page
