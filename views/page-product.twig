@@ -56,7 +56,7 @@
 
                     {# Applications #}
                     {% set applications = product_data.app_icons|split(', ') %}
-                    {% if applications < 1 %}  
+                    {% if applications| length > 1 %}  
                     <div class="w-full md:w-5/12 xl:w-3/12">
                         <h3 class="text-lg font-bold text-pale-blue">Applications</h3>
                         <hr>
@@ -73,7 +73,7 @@
 
                     {# Features #}
                     {% set features = product_data.feat_icons|split(', ') %}
-                    {% if features < 1 %}
+                    {% if features| length > 1 %}
                     <div class="w-full xl:w-3/12">
                         <h3 class="text-lg font-bold text-pale-blue">Features</h3>
                         <hr>
@@ -108,7 +108,8 @@
                         'h1': product_data.h1,
                         'h2': product_data.h2
                     } %}
-                {% if materials < 1 %}
+                {% set non_null_materials = materials|filter(item => item is not null) %}
+                {% if non_null_materials|length > 1 %}
                 <div class="w-full mt-10">
                     <h3 class="text-lg font-bold text-pale-blue">Work Materials</h3>
                     <hr>

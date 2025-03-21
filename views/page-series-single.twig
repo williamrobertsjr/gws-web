@@ -54,7 +54,7 @@
             
             <div class="series-features flex flex-wrap justify-between gap-x-5">
                 {% set features = series_data.feat_icons|trim|split(', ') %}
-                {% if features < 1 %}
+                {% if features| length > 1 %}
                 <div class="features lg:w-6/12">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Features</h3>
                     {# Split the context variable into an array #}
@@ -71,7 +71,7 @@
                 {% endif %}
                 {# Applications #}
                 {% set applications = series_data.app_icons|trim|split(', ') %}
-                {% if applications < 1 %}
+                {% if applications| length > 1 %}
                 <div class="applications w-full lg:w-5/12">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Applications</h3>
                     {# Split the context variable into an array #}
@@ -104,7 +104,8 @@
                     'h1': series_data.h1,
                     'h2': series_data.h2
                 } %}
-                {% if materials < 1 %}
+                {% set non_null_materials = materials|filter(item => item is not null) %}
+                {% if non_null_materials|length > 1 %}
                 <div class="work-materials w-full">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Work Materials</h3>
                     <div class="icons flex flex-wrap gap-5">
