@@ -106,24 +106,35 @@ document.addEventListener("DOMContentLoaded", function () {
   function updatePrices() {
     let userTier = getUserTier();
     const distributorLevel = document.getElementById('distributor-level').value;
+    const seriesWithCallPrice = ["110","115","120","125","129","150","162","170","171","172","176","290","295","296","297"]; // Define series requiring "Call" price
+
     table.rows().every(function() {
         const row = this.data();
         const qtyInput = this.node().querySelector('input[name="neededQty"]').value;
         const listPrice = parseFloat(row[4]); // Assuming this index for list price
+        const partNumber = $(this.node()).attr('data-part-number'); // Get part number from row attribute
+        const partData = partsData.found_parts.find(part => part.PN === partNumber);
+        console.log(`Part Data:`, partData)
+        if (partData && seriesWithCallPrice.includes(partData.SERIES)) {
+            // Set price fields to "Call" for specific series
+            row[4] = "Call for Price";
+            row[5] = "Call for Price";
+            row[6] = "Call for Price";
+        } else {
+            // Compute new prices based on the level and quantity
+            const discount = calculateDiscount(userTier); // Assume this function returns a discount rate
+            const netPrice = listPrice * (1 - discount);
+            const totalPrice = netPrice * qtyInput;
 
-        // Compute new prices based on the level and quantity
-        const discount = calculateDiscount(userTier);// Assume this function returns a discount rate
-        const netPrice = listPrice * (1 - discount);
-        const totalPrice = netPrice * qtyInput;
+            // Update the row with new prices
+            row[5] = netPrice.toFixed(2);
+            row[6] = totalPrice.toFixed(2);
+        }
 
-        // Update the row with new prices
-        row[5] = netPrice.toFixed(2);
-        row[6] = totalPrice.toFixed(2);
         this.invalidate(); // Notify DataTables of the data change
     });
     table.draw(false); // Redraw the table without resetting paging
 }
-
 
   // Function to check and enforce minimum quantity for specific series
   function checkMinimumQuantity(part, qty) {
