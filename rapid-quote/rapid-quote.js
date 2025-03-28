@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     data: [], //Initialize with empty dataset
   });
 
+
   let userRole = window.userRole || "none"; // Replace 'defaultRole' with an appropriate default
   if (userRole === "administrator" || userRole === "sales") {
     document
@@ -59,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("distributor-level-select").classList.add("hidden");
   }
 
-  // Get users tier
+  // Get Users tier
   const getUserTier = () => {
     if (userRole === "administrator" || userRole === "sales") {
       let distributorTierSelect = document.getElementById("distributor-level");
@@ -157,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return qty;
   }
   let partsData = {}; // Variable to store the JSON data for each part
+  
   // Debounce function for the parts form submission 
   function debounce(func, wait) {
     let timeout;
@@ -165,6 +167,8 @@ document.addEventListener("DOMContentLoaded", function () {
         timeout = setTimeout(() => func.apply(this, args), wait);
     };
   }
+
+  // Form Event Listener
   partsForm.addEventListener("submit", function (event) {
       event.preventDefault();
       // console.log("parts form intercepted");
@@ -188,7 +192,10 @@ document.addEventListener("DOMContentLoaded", function () {
           partsData = data; // Store the JSON data for each part
           const partPromises = data.found_parts.map(part => {
             console.log("Part from found_parts:", part); // <--- Log each part individually
-          
+            const vistaQty = parseInt(part.QTY_ON_HAND, 10) || 0; // Preserve Vista quantity
+            const durrieQty = parseInt(part.DURRIE_QTY_ON_HAND, 10) || 0; // Preserve Durrie quantity
+            part.vistaQty = vistaQty; // Store Vista quantity in the part object
+            part.durrieQty = durrieQty; // Store Durrie quantity in the part object
               // Check if the part is listed as obsolete and fetch replacement details if necessary
               return fetchReplacementDetails(part.PN).then(replacementData => {
                   if (replacementData && replacementData.replacement_pn) {
@@ -196,9 +203,11 @@ document.addEventListener("DOMContentLoaded", function () {
                       part.FULL_DESCRIPTION = replacementData.obsolete_description; // Update description with replacement
                       part.LIST_PRICE = parseFloat(replacementData.list_price); // Update price with replacement
                   } else {
-                    // If no replacement, set defaults for non-obsolete part
-                    part.qtyOnHand = parseInt(part.QTY_ON_HAND, 10) || 0;
-                    part.LIST_PRICE = parseFloat(part.LIST_PRICE) || 0;
+                      // If no replacement, set defaults for non-obsolete part
+                      
+                      part.qtyOnHand = vistaQty + durrieQty; // Calculate total quantity
+                      part.LIST_PRICE = parseFloat(part.LIST_PRICE) || 0;
+                      part.DURRIE_QTY_ON_HAND = durrieQty; // Ensure DURRIE_QTY_ON_HAND is set
                   }
                   return part; // Return the updated or original part information
               });
@@ -211,13 +220,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 const asterisk = neededQty > 1 ? '<span class="minQty" style="color:#d30000;">*</span>' : '';
                 const partLink = `<a class="${part.FAMILY} font-bold text-dark-blue" href="/product/?part=${part.PN}" target="_blank">${part.PN}${asterisk}</a>`;
                 const neededQtyInput = `<input type="number" id="neededQty" name="neededQty" min="${neededQty}" max="1000" value="${neededQty}" class="flex w-full px-2"></input>`;
-                
+                const durrieStockInfo = getDurrieStockInfo(part); // Get DURRIE stock info
+
                 // Add the row with the data-part-number attribute
                 let rowNode = table.row.add([
                     partLink,
                     part.FULL_DESCRIPTION,
                     neededQtyInput,
-                    part.qtyOnHand,
+                    `${part.qtyOnHand}${durrieStockInfo}`, // Append DURRIE stock info
                     part.LIST_PRICE,
                     part.LIST_PRICE,
                     part.LIST_PRICE * neededQty
@@ -250,6 +260,8 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
+  // Function to fetch replacement details for a part number
+  // This function is called for each part in the found_parts array
   async function fetchReplacementDetails(partNumber) {
       const response = await fetch(`/wp-content/themes/gws-web/rapid-quote/replacement_qty.php?partNumber=${encodeURIComponent(partNumber)}`);
       if (!response.ok) {
@@ -263,6 +275,20 @@ document.addEventListener("DOMContentLoaded", function () {
       return data;
   }
 
+  // Function to generate DURRIE stock information
+  function getDurrieStockInfo(part) {
+    if (part.durrieQty > 0) {
+        // Append Vista and Durrie breakdown only if Durrie stock exists
+        return `<div class="durrie-stock-info text-xs italic">
+                    <p class="text-black mb-0">
+                        <span class="font-semibold">CA:</span> ${part.vistaQty}  
+                        &nbsp; <span class="font-semibold">IL:</span> ${part.durrieQty}
+                    </p>
+                </div>`;
+    }
+    // Only show qtyOnHand if no Durrie stock exists
+    return '';
+  }
 
   // Update prices any time Distributor level is changed by admin or sales user
   document.addEventListener("change", function (event) {
@@ -272,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-
+  // Debounce function to limit the rate of function calls - this is used when a user types in the input field for parts with a minimum quantity to prevent false positives when a user types in a number that is less than the minimum quantity
   document.querySelector("#rq-table").addEventListener("input", debounce(function (event) {
     if (event.target.closest(".rq-needed")) {
         let rowElement = event.target.closest("tr");
