@@ -29,16 +29,31 @@ if (isset($_GET['part'])) {
         // Render with Twig template for retired part
         Timber::render('page-retired-part.twig', $context);
     } else {
+        // Prepare the SQL statement
         $stmt = $conn->prepare(
-            "SELECT p.*, s.subtitle, s.data_fields, s.feat_icons, s.app_icons, s.p1, s.p2, s.p3, s.h1, s.h2, s.n1, s.n2, s.k1, s.k2, s.h1, s.h2, s.m1, s.m2, s.speed_feed_page, r.QTY_ON_HAND
+            "SELECT p.*, s.subtitle, s.data_fields, s.feat_icons, s.app_icons, 
+                    s.p1, s.p2, s.p3, s.h1, s.h2, s.n1, s.n2, s.k1, s.k2, 
+                    s.m1, s.m2, s.speed_feed_page, r.QTY_ON_HAND
             FROM `master_product_data` p
-            LEFT JOIN `master_series_data` s on p.series = s.series
-            LEFT JOIN `rapid_quote` r on r.PN = p.part
-            WHERE part = ?
-            AND web = 'Y'");
+            LEFT JOIN `master_series_data` s ON p.series = s.series
+            LEFT JOIN `rapid_quote` r ON r.PN = p.part
+            WHERE p.part = ? AND p.web = 'Y'"
+        );
+
+        // Check if the statement was prepared successfully
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
+
+        // Bind parameter
         $stmt->bind_param("s", $part);
+
+        // Execute the statement
         $stmt->execute();
+
+        // Get the result set
         $result = $stmt->get_result();
+
 
         if ($result->num_rows > 0) {
             $product_data = $result->fetch_assoc();
