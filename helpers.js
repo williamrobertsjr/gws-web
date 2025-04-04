@@ -54,15 +54,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add hover event listeners to each hero link
     heroLinks.forEach((link, index) => {
         link.addEventListener('mouseover', function() {
-            console.log(link)
-            console.log(heroImages[index])
-            console.log(heroTaglines[index])
-            console.log(heroTaglinesBig[index])
+            // console.log(link)
+            // console.log(heroImages[index])
+            // console.log(heroTaglines[index])
+            // console.log(heroTaglinesBig[index])
             if (heroImages[index]) { // Check if image exists for this index
                 homeHero.style.backgroundImage = `url(${heroImages[index]})`;
-                console.log('hello');
-                heroTagLine.textContent = heroTaglines[index];
-                heroTagLineBig.textContent = heroTaglinesBig[index];
+                
+                // heroTagLine.textContent = heroTaglines[index];
+                // heroTagLineBig.textContent = heroTaglinesBig[index];
             }
         });
     });
