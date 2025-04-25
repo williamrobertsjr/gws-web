@@ -24,20 +24,17 @@
     
     <div class="md:container mx-auto mt-20">
         <div class="w-full lg:w-10/12 mx-auto">
-        <h3 class="text-sm md:hidden">Select your region:</h3>
-        <div class="flex flex-wrap gap-x-4 mb-20 md:hidden">
-            <a href="#midwest" class="hover:text-pale-blue"><h3 class="text-lg md:text-xl">Midwest</h3></a>
-            <a href="#northeast" class="hover:text-pale-blue"><h3 class="text-lg md:text-xl">Northeast</h3></a>
-            <a href="#southeast" class="hover:text-pale-blue"><h3 class="text-lg md:text-xl">Southeast</h3></a>
-            <a href="#west" class="hover:text-pale-blue"><h3 class="text-lg md:text-xl">West</h3></a>
+        <div class="flex flex-wrap gap-x-4 mb-20 md:hidden justify-around">
+            <a href="#east" class="btn light-blue"><h3 class="text-lg md:text-xl">East Region</h3></a>
+            <a href="#west" class="btn light-blue"><h3 class="text-lg md:text-xl">West Region</h3></a>
         </div>
-            <div id="midwest" class="flex flex-col">
-                <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">Midwest Region</h3>
+            <div id="east" class="flex flex-col">
+                <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">East Region</h3>
                 <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
-                    {% for member in post.meta('midwest') %}
+                    {% for member in post.meta('east') %}
                         <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2  hover:cursor-pointer">
                             <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
-                                <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
+                                <div class="bg-[#ededed]"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
                                 <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
                                 <p class="text-white italic mt-2">{{member.title}}</p>
                                 <p class="text-white">{{member.states}}</p>
@@ -51,51 +48,13 @@
                 </div>
 
             </div>
-            <div id="northeast" class="flex flex-col">
-                <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">Northeast Region</h3>
-                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
-                    {% for member in post.meta('northeast') %}
-                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2  hover:cursor-pointer">
-                            <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
-                                <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
-                                <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
-                                <p class="text-white italic mt-2">{{member.title}}</p>
-                                <p class="text-white">{{member.states}}</p>
-                                <div class="flex gap-x-6 mt-6">
-                                    <p class="text-white text-sm"><a href="mailto:{{member.email}}" class="btn light-blue !px-6"><i class="fa-solid fa-envelope"></i></a></p>
-                                    <p class="text-white text-sm"><a href="tel:{{member.phone_number}}" class="btn light-blue !px-6"><i class="fa-solid fa-phone"></i></a></p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div id="southeast" class="flex flex-col">
-                <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">Southeast Region</h3>
-                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
-                    {% for member in post.meta('southeast') %}
-                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2  hover:cursor-pointer">
-                            <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
-                                <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
-                                <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
-                                <p class="text-white italic mt-2">{{member.title}}</p>
-                                <p class="text-white">{{member.states}}</p>
-                                <div class="flex gap-x-6 mt-6">
-                                    <p class="text-white text-sm"><a href="mailto:{{member.email}}" class="btn light-blue !px-6"><i class="fa-solid fa-envelope"></i></a></p>
-                                    <p class="text-white text-sm"><a href="tel:{{member.phone_number}}" class="btn light-blue !px-6"><i class="fa-solid fa-phone"></i></a></p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
             <div id="west" class="flex flex-col">
                 <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">West Region</h3>
                 <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
                     {% for member in post.meta('west') %}
                         <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2 hover:cursor-pointer">
                             <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
-                                <div class="bg-light-blue"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
+                                <div class="bg-[#ededed]"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
                                 <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
                                 <p class="text-white italic mt-2">{{member.title}}</p>
                                 <p class="text-white">{{member.states}}</p>
