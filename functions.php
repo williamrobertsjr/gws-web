@@ -35,9 +35,11 @@ function enqueue_tailwind_output_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
 
-
-
-
+// Set Global Options conetext from ACF Pro options page
+add_filter('timber/context', function($context) {
+    $context['options'] = get_fields('option');
+    return $context;
+});
 
 add_filter( 'timber/twig', function( $twig ) {
     $twig->addFilter( new \Twig\TwigFilter( 'custom_excerpt', function( $text, $length = 20 ) {

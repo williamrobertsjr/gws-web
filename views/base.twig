@@ -9,12 +9,12 @@
 	<body class="{{body_class}}" data-template="base.twig">
 
 		{% set currentDate = "now"|date("Y-m-d") %}
-		{% set startDate = "2024-04-07" %}
-		{% set endDate = "2025-04-19" %}
-		{% if currentDate >= startDate and currentDate <= endDate %}
+		{% set startDate = options.banner_start_date %}
+		{% set endDate = options.banner_end_date %}
+		{% if currentDate >= startDate and currentDate < endDate %}
 		<div id="announcement-banner" class="w-full mx-auto pt-2 bg-light-blue">
 			<div class="w-10/12 mx-auto flex justify-center text-center">
-				<p class="text-white text-lg">GWS Tool Group will be closed on Friday, April 18th and will resume normal business hours on Monday, April 21st.</p>
+				<p class="text-white text-lg">{{options.top_banner}}</p>
 			</div>
 		</div>
 		{% endif %}

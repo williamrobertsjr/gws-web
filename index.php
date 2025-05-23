@@ -16,6 +16,7 @@
 $context          = Timber::context();
 $context['posts'] = Timber::get_posts();
 $context['foo']   = 'bar';
+$context['options'] = get_fields('option');
 $templates        = array( 'index.twig' );
 if ( is_front_page() ) {
 	array_unshift( $templates, 'front-page.twig', 'home.twig' );
