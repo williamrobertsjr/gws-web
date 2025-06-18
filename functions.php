@@ -64,20 +64,21 @@ function lower_yoast_metabox_priority( $priority ) {
 }
 
 
-// Rewrite series slugs to include query variables to be passed to dynamically built series pages
-function add_series_rewrite_rule() {
-//   add_rewrite_rule('^series-([a-zA-Z0-9]+)/?$', 'index.php?pagename=series&series_id=$matches[1]', 'top');
-  // This version allows for any character, including spaces and encoded spaces
-  add_rewrite_rule('^series-([^/]+)/?$', 'index.php?pagename=series&series_id=$matches[1]', 'top');
+/*  ☐  Add the rewrite       ───────────────────────────────────────────── */
+add_action( 'init', function () {
+    // /series-smart-cut  →  series_slug = smart-cut
+    add_rewrite_rule(
+        '^series-([A-Za-z0-9-]+)/?$',
+        'index.php?pagename=series&series_slug=$matches[1]',
+        'top'
+    );
+});
 
-}
-add_action('init', 'add_series_rewrite_rule');
-
-function add_series_query_var($vars) {
-  $vars[] = "series_id";
-  return $vars;
-}
-add_filter('query_vars', 'add_series_query_var');
+/*  ☐  Register the query-var ───────────────────────────────────────────── */
+add_filter( 'query_vars', function ( $vars ) {
+    $vars[] = 'series_slug';
+    return $vars;
+});
 
 // Function to modify permalink structure for sub type custom post types
 function tooltype_permalink_structure($post_link, $post, $leavename) {

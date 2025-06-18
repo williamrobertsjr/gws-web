@@ -126,7 +126,8 @@
             {% if series_data.family == 'Armory' %}
                 <img class="mx-auto series-image" src="/wp-content/themes/gws-web/images/catolog_images/{{series_data.series|lower|replace({' ': '_'})}}_catalog.png" alt="{{series_data.series|lower}} tool image">
             {% else %}
-                <img class="mx-auto series-image" src="/wp-content/themes/gws-web/images/catolog_images/{{ series_data.series }}_catalog.png" alt="{{series_data.series}} tool image">
+                {% set image_series = series_data.series|replace({' ': '_'}) %}
+                <img class="mx-auto series-image" src="/wp-content/themes/gws-web/images/catolog_images/{{ image_series }}_catalog.png" alt="{{ series_data.series }} tool image">
             {% endif %}
             </div>
         </div>
