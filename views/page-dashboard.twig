@@ -48,13 +48,13 @@
                     <p class="text-sm uppercase text-pale-blue font-bold">News</p>
                     <div>
                         {% if userRole == '55%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_55_01_01_2025.xlsx">Price List 01/01/25</a></button>
+                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx">Price List 01/01/25</a></button>
                         {% elseif userRole == '52.5%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_52_5_01_01_2025.xlsx">Price List 01/01/25</a></button>
+                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx">Price List 01/01/25</a></button>
                         {% elseif userRole == '50%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_50_01_01_2025.xlsx">Price List 01/01/25</a></button>     
+                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx">Price List 01/01/25</a></button>     
                         {% elseif userRole == '57.5%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_57_5_01_01_2025.xlsx">Price List 01/01/25</a></button>     
+                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx">Price List 01/01/25</a></button>     
                         {% else %}
                             {# <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
                         {% endif %}
@@ -66,15 +66,15 @@
                     {% for item in post.meta('dashboard_news') %}
                         {% if loop.index == 1 %}
                             {% if userRole == '55%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_55_01_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                                <a href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
                             {% elseif userRole == '52.5%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_52_5_01_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                                <a href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
                             {% elseif userRole == '50%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_50_01_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
+                                <a href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
                             {% elseif userRole == '57.5%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_57_5_01_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
+                                <a href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
                             {% else %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_01_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                                <a href="/docs/pricing/GWS_PRICE_LIST_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
                             {% endif %}
                         {% else %}
                             <a href="{{item.news_link}}"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
@@ -119,12 +119,12 @@
                     <div class="flex flex-col gap-y-2 mt-8">
                         <div class="gap-y-1 flex flex-col mb-4">
                             <p class="font-bold text-pale-blue underline">Distributor Price Lists</p>
-                            <p class="italic mb-2">All price lists effective 01/01/25</p>
-                            <a class="ps-2 text-white mb-0" href="/docs/pricing/GWS_PRICE_LIST_55_01_01_2025.xlsx">Price List - 55%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_01_01_2025.xlsx">Price List - 52.5%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_50_01_01_2025.xlsx">Price List - 50%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_01_01_2025.xlsx">Price List - 57.5%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_01_01_2025.xlsx">GWS List Price</a>
+                            <p class="italic mb-2">All price lists effective 08/01/25</p>
+                            <a class="ps-2 text-white mb-0" href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx">Price List - 55%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx">Price List - 52.5%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx">Price List - 50%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx">Price List - 57.5%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_AUG_01_2025.xlsx">GWS List Price</a>
                         </div>
                         <a class="text-white" href="https://crm.gws.tools/SlxClient/Login.aspx">Infor CRM</a>
                         <a class="text-white" href="https://access.paylocity.com/">Paylocity</a>
@@ -138,13 +138,13 @@
                 {% else %}
                     <div class="flex flex-col gap-y-2 mt-8">
                         {% if userRole == '55%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_55_01_01_2025.xlsx">01/01/25 New Price List</a>
+                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx">01/01/25 New Price List</a>
                         {% elseif userRole == '52.5%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_01_01_2025.xlsx">01/01/25 New Price List</a>
+                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx">01/01/25 New Price List</a>
                         {% elseif userRole == '50%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_50_01_01_2025.xlsx">01/01/25 New Price List</a>     
+                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx">01/01/25 New Price List</a>     
                         {% elseif userRole == '57.5%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_01_01_2025.xlsx">01/01/25 New Price List</a>     
+                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx">01/01/25 New Price List</a>     
                         {% else %}
                             {# <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
                         {% endif %}
