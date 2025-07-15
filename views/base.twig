@@ -33,6 +33,18 @@
 							{% else %}
 								<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
 							{% endif %}
+							<p>|</p>
+							{# <div class="cart-link relative group">
+							<a href="{{ cart_url }}">
+								🛒 <span class="cart-count">{{ cart_count }}</span>
+							</a>
+							<div class="mini-cart absolute top-full right-0 bg-white shadow-lg hidden group-hover:block z-50">
+								{{ mini_cart|raw }}
+							</div> #}
+							<div>
+								{{ function('do_shortcode', '[xoo_wsc_cart]') }}
+							</div>
+							</div>
 						</div>
 						
 						
@@ -99,7 +111,7 @@
 		</header>
 
 		<section id="content" role="main" class="content-wrapper">
-			{% if title %}<h1>{{title}}</h1>{% endif %}
+			{# {% if title %}<h1>{{title}}</h1>{% endif %} #}
 			<div class="wrapper">
 				{% block content %}
 					Sorry, no content

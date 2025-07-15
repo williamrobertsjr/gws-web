@@ -1,0 +1,71 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-48" id="cart-page">
+
+    <div>
+      <h1 class="text-3xl font-bold mb-8">Your Quote</h1>
+    </div>
+    
+    {% if cart.empty %}
+        <div>
+          <p>Your cart is currently empty.</p>
+        </div>
+    {% else %}
+        <form action="{{ function('wc_get_cart_url') }}" method="post" class="woocommerce-cart-form" id="cart-form">
+            <div class="flex">
+              <div class="w-8/12">
+                <table class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded p-4">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.get_cart %}
+                            {% set product = item.data %}
+                            <tr data-cart-key="{{ item.key }}">
+                                <td>{{ product.get_name }}</td>
+                                <td>{{ product.get_price_html }}</td>
+                                <td>
+                                    <input type="number"
+                                           class="cart-qty-input w-16 border px-2 py-1"
+                                           value="{{ item.quantity }}"
+                                           min="0"
+                                           data-cart-key="{{ item.key }}" />
+                                </td>
+                                <td class="line-subtotal">{{ function('wc_price', item.line_subtotal) }}</td>
+                                <td>
+                                    <button type="button"
+                                            class="remove-item text-red-500"
+                                            data-cart-key="{{ item.key }}">×</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+              <div class="w-4/12">
+                <div class="flex flex-col justify-between items-center">
+                    <div>
+                        <label for="coupon_code">Coupon:</label>
+                        <input type="text" name="coupon_code" id="coupon_code" class="border px-2 py-1" placeholder="Enter coupon code" />
+                        <button type="submit" name="apply_coupon" class="bg-blue-500 text-white px-4 py-2">Apply Coupon</button>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-semibold">Subtotal: <span id="cart-subtotal">{{ function('wc_price', cart.get_cart_subtotal) }}</span></p>
+                        <p class="text-2xl font-bold mt-2">Total: <span id="cart-total">{{ function('wc_price', cart.total) }}</span></p>
+                        <a href="{{ function('wc_get_checkout_url') }}" class="bg-green-500 text-white px-6 py-3 mt-4 inline-block">Proceed to Checkout</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </form>
+    {% endif %}
+</section>
+<script src="/wp-content/themes/gws-web/js/cart-ajax.js"></script>
+{% endblock %}

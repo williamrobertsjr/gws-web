@@ -1,0 +1,37 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  
+
+  <div class="container mx-auto py-48 px-4">
+    <h1>Your Shopping Cart</h1>
+
+    {# Check if the cart is available and has items #}
+    {# Note: WC()->cart is the global WooCommerce cart object #}
+    {# The 'cart' variable we passed in is: WC()->cart #}
+    {% if cart and cart.get_cart()|length > 0 %}
+      {# Option A: Use the default cart shortcode #}
+      
+      {{ fn('do_shortcode', '[woocommerce_cart]') | raw }}
+
+{# ================================
+   Custom Timber Cart Template
+   ================================ #}
+
+
+
+      {# Option B: Render your own cart layout using the data in cart %}
+      {# Example:
+      <ul>
+        {% for item_key, item in cart.get_cart() %}
+          <li>
+            {{ item['data'].get_title() }} — {{ item['quantity'] }} pcs
+          </li>
+        {% endfor %}
+      </ul>
+      #}
+    {% else %}
+      <p>Your cart is empty!</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -24,7 +24,7 @@
             <div class="text-xl font-light container">
                 <div>{{post.content}}</div>
                 <div class="flex flex-col md:flex-row gap-x-6 gap-y-6 my-6">
-                    <a href="/tool-filter" class="btn dark-blue capitalize hover:shadow-xl">Search for {{post.title}} tools</a>
+                    <a href="/products/{{post.meta('tool_type')|lower}}/?_{{post.meta('tool_type')|lower}}_types={{post.title|lower}}" class="btn dark-blue capitalize hover:shadow-xl">Search for {{post.title}} tools</a>
                     <a href="#series" class="btn light-blue capitalize hover:shadow-xl">See all {{post.title}} series</a>
                 </div>
             </div>

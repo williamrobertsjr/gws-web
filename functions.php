@@ -9,6 +9,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/src/StarterSite.php';
 
+
+add_filter('timber/twig/environment/options', function ($options) {
+    $options['debug'] = true;
+    return $options;
+});
+
+
 Timber\Timber::init();
 
 // Sets the directories (inside your theme) to find .twig files.
@@ -325,23 +332,84 @@ function custom_password_reset_confirmation() {
 }
 add_action( 'login_message', 'custom_password_reset_confirmation' );
 
+// Force FacetWP to ignore the archive query, and use the custom query instead
+add_filter( 'facetwp_is_main_query', function( $is_main_query, $query ) {
+    if ( $query->is_archive() && $query->is_main_query() ) {
+      $is_main_query = false;
+    }
+    return $is_main_query;
+  }, 10, 2 );
 
-// add_action('wp_enqueue_scripts', function () {
-//     if (function_exists('facetwp_display')) {
-//         wp_enqueue_script(
-//             'facetwp-front',
-//             plugins_url('assets/js/dist/front.min.js', WP_PLUGIN_DIR . '/facetwp/facetwp.php'),
-//             ['jquery'], // Ensure jQuery is loaded first
-//             null,
-//             true
-//         );
-//         wp_enqueue_style(
-//             'facetwp-front-style',
-//             plugins_url('assets/css/front.css', WP_PLUGIN_DIR . '/facetwp/facetwp.php'),
-//             [],
-//             null
-//         );
-//     }
-// });
+add_action( 'after_setup_theme', function() {
+    add_theme_support( 'woocommerce' );
+} );
+
+add_filter( 'facetwp_render_output', function( $output ) {
+    $output['settings']['milling_types']['showSearch'] = false;
+    return $output;
+  });
+
+//   temporarily disable SearchWP integration with WP All Import
+add_filter( 'searchwp\integration\wp_all_import\enabled', '__return_false' );
+
+//  Only index 'product' post type for facetwp to speed up indexing and improve performance
+add_filter( 'facetwp_indexer_query_args', function( $args ) {
+  $args['post_type'] = ['product']; // Index only these post types
+  return $args;
+});
+
+// delete extra skus from woocommerce products
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+    require_once ABSPATH . 'wp-content/delete-duplicate-skus.php';
+}
 
 
+add_action('wp_ajax_update_cart_item', 'ajax_update_cart_item');
+add_action('wp_ajax_nopriv_update_cart_item', 'ajax_update_cart_item');
+
+function ajax_update_cart_item() {
+    $key = sanitize_text_field($_POST['cart_item_key']);
+    $quantity = max(0, intval($_POST['quantity']));
+
+    if ($quantity === 0) {
+        WC()->cart->remove_cart_item($key);
+    } else {
+        WC()->cart->set_quantity($key, $quantity, true);
+    }
+
+    WC()->cart->calculate_totals();
+
+    // Prepare updated totals for JS
+    $item = WC()->cart->get_cart_item($key);
+
+    $totals = [];
+    if ($item) {
+        $totals[$key] = [
+            'subtotal' => wc_price($item['line_subtotal']),
+        ];
+    }
+
+    $totals['cart_subtotal'] = WC()->cart->get_cart_subtotal();
+    ob_start();
+    wc_cart_totals_order_total_html();
+    $totals['cart_total'] = ob_get_clean();
+
+    wp_send_json_success(['totals' => $totals]);
+}
+
+add_action('wp_ajax_remove_cart_item', 'ajax_remove_cart_item');
+add_action('wp_ajax_nopriv_remove_cart_item', 'ajax_remove_cart_item');
+
+function ajax_remove_cart_item() {
+    $key = sanitize_text_field($_POST['cart_item_key']);
+    WC()->cart->remove_cart_item($key);
+
+    wp_send_json_success();
+}
+
+add_action('wp_enqueue_scripts', function () {
+    if (is_cart()) {
+        wp_enqueue_script('custom-cart-ajax', get_template_directory_uri() . '/js/cart-ajax.js', ['jquery'], null, true);
+        wp_localize_script('custom-cart-ajax', 'wc_cart_params', ['ajax_url' => admin_url('admin-ajax.php')]);
+    }
+});

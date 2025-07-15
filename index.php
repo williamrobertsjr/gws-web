@@ -17,6 +17,10 @@ $context          = Timber::context();
 $context['posts'] = Timber::get_posts();
 $context['foo']   = 'bar';
 $templates        = array( 'index.twig' );
+woocommerce_mini_cart();
+$context['mini_cart'] = ob_get_clean();
+$context['cart_url'] = wc_get_cart_url();
+$context['cart_count'] = WC()->cart->get_cart_contents_count();
 if ( is_front_page() ) {
 	array_unshift( $templates, 'front-page.twig', 'home.twig' );
 }

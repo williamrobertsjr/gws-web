@@ -1,37 +1,148 @@
-<article {{ fn('post_class', ['$classes', 'entry'] ) }}>
-
-    {{ fn('timber_set_product', post) }}
-
-    <div class="media border border-solid border-white flex flex-col h-full justify-between bg-white relative">
-    {% set series = product.get_attribute('pa_series') %}
-    {# Get the product categories #}
+<article {{ fn('post_class', ['$classes', 'entry']) }}>
+    {% set product = post.wc_product %} {# Set product variable #}
+    {% set series_terms = post.terms('pa_series') %}
+    {% set series = series_terms[0].name ?? '' %}
     {% set categories = post.terms('product_cat') %}
-    {% set tool_type = categories[3] %}
-        {# <pre>{{ dump(categories) }}</pre> #}
+    {% set tool_type = categories[3].name ?? '' %}
+    {# {% set materials = post.terms('pa_materials') %} #}
+    {# Split the context variable into an object #}
+    {% set materials = {
+        'p1': post.meta('p1'),
+        'p2': post.meta('p2'),
+        'p3': post.meta('p3'),
+        'm1': post.meta('m1'),
+        'm2': post.meta('m2'),
+        'k1': post.meta('k1'),
+        'k2': post.meta('k2'),
+        'n1': post.meta('n1'),
+        'n2': post.meta('n2'),
+        's1': post.meta('s1'),
+        's2': post.meta('s2'),
+        'h1': post.meta('h1'),
+        'h2': post.meta('h2') 
+        } 
+    %}
+    {% set tooltipMap = {
+        'p1': 'Non-Alloyed Steel, Free Cutting Steel, Cast Steel.',
+        'p2': 'Low Carbon Steel, Medium Carbon Steel, Cast Steel.',
+        'p3': 'High Carbon Steel, Alloy Steel, Tool Steel.',
+        'm1': 'Stainless steel.',
+        'm2': 'PH Stainless steel.',
+        'k1': 'Cast Iron (GG), Cast Iron Nodular (GGG).',
+        'k2': 'Grey Cast Iron (GG), Cast Iron Nodular (GGG).',
+        'n1': 'Aluminum Wrought Alloy.',
+        'n2': 'Aluminum Cast, High Silicon Aluminum.',
+        's1': 'High Temp. Alloys, HRSA.',
+        's2': 'Titanium, Titanium Alloys.',
+        'h1': 'Hardened Steel (H13, S7, A2).',
+        'h2': 'Hardened Steel (D2, CPM, M2).',
+    } %}
+    {% set tooltipicon = {
+        good: '<i class="fa-regular fa-circle"></i>',
+        best: '<i class="fa-solid fa-circle text-[#e52929]"></i>'
+    }
+    %}
+    {% set materialType = {
+        'p1': 'Steel',
+        'p2': 'Steel',
+        'p3': 'Steel',
+        'm1': 'Stainless Steel',
+        'm2': 'Stainless Steel',
+        'k1': 'Cast Iron',
+        'k2': 'Cast Iron',
+        'n1': 'Non-ferrous Metal',
+        'n2': 'Non-ferrous Metal',
+        's1': 'High Temp. Alloys',
+        's2': 'Super-alloys & Titanium',
+        'h1': 'Hard Material',
+        'h2': 'Hard Material'
+    } %}
+    <div class="flex px-4 py-3 bg-[#f0f0f0] min-h-[200px] border border-solid border-white relative rounded">
+        {# Left Column - Image and Description #}
+        <a href="{{ post.link }}" class="w-3/4">
+            <div class="flex items-start relative h-full">
+                <div class="flex items-center justify-center h-full">
+                    <img src="/wp-content/themes/gws-web/images/tile_images/{{ series|upper }}_tile.png" alt="Series {{ series }}" loading="lazy" class="aspect-square object-contain">
+                </div>
+                <div class="w-11/12 ps-4 border-solid border-0 border-gray border-x-2 h-full flex flex-col gap-y-4">
+                    <div class="">
+                        <h3 class="entry-title text-dark-blue text-xl font-black"><span class="text">EDP:</span> {{ post.title }}</h3>
+                        <h3 class="text-black text-sm font-black uppercase">{% if series %} Series {{ series }}{% endif %}</h3>
+                    </div>
+                    <p class="text-black text">{{product.get_short_description()}}</p>
+                    <div class="icons flex flex-wrap py-1 gap-1">
+                        {# Display each material value in the list #}
+                        {% for key, item in materials %}
+                            {% if item is not empty and item|lower != 'null' %}
+                            <div class="group relative w-fit z-50">
+                                <img class="w-full !max-w-[35px] {{ key }}" src="/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
 
-        <p class="absolute top-4 left-4 text-dark-blue text-xs font-semibold">{{ tool_type }}</p>
+                                <div class="min-w-[300px] absolute flex flex-col left-0 top-full mt-1 opacity-0 group-hover:opacity-100 transition-all duration-150 bg-white px-2 py-1 gap-y-3 text-sm text-black rounded shadow z-50 pointer-events-none group-hover:pointer-events-auto">
+                                    <div class="border-b-2 border-gray border-0">
+                                        <p class="text-dark-blue font-semibold uppercase mb-0">{{ materialType[key]|default('Material type not found') }}</p>
+                                    </div>
 
+                                    <p class="text-black">{{ tooltipMap[key]|default('Info not available for ' ~ key ~ '') }}<span class="{{ key }}"> {{ tooltipicon[item] }} </span></p>
+                                    
+                                    <div class="border-t-2 border-gray border-0">
+                                        <div class="flex gap-2 mt-2">
+                                            <p class="text-black text-xs">Good: <i class="fa-regular fa-circle"></i></p>
+                                            <p class="text-black text-xs">Best: <i class="fa-solid fa-circle text-[#e52929]"></i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                              
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                        {# {% for material in materials %}
+                            <span class="text-black">{{ material.name }}</span>
+                        {% endfor %} #}
+                    {% set features = post.meta('feat_icons')|split(', ') %}
+                    <div class="icons flex flex-wrap gap-1 py-1">
+                        {# Display each value in the list #}
+                        {% if features is not empty %}
+                            {% for value in features if value and value != 'NULL' %}
+                                <div class="group relative">
+                                    <img class="w-full mx-auto !max-w-[35px]" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                    <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-xs text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
+                                </div>   
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </a>
 
-        <!-- Set container to half height of parent and allow image to scale within it -->
-        <div class="h-2/3 w-full flex justify-center items-center">
-            <img src="/wp-content/themes/gws-web/images/tile_images/{{series}}_tile.png" alt="" class="max-h-full max-w-full object-contain">
-        </div>
-
-        <div class="media-content">
-
-            {% do action('woocommerce_before_shop_loop_item_title') %}
-
-            {% if post.title %}
-                <h3 class="entry-title"><a class="text-black" href="{{ post.link }}">{{ post.title }} | Series {{series }} </a></h3>
-            {% else %}
-                <h3 class="entry-title"><a class="text-black" href="{{ post.link }}">{{ fn('the_title') }}</a></h3>
-            {% endif %}
-
-            {% do action( 'woocommerce_after_shop_loop_item_title' ) %}
-            {% do action( 'woocommerce_after_shop_loop_item' ) %}
-
+        {# Right Column - Price and Quantity #}
+        <div class="flex-grow flex flex-col justify-between ps-6 pe-2 w-1/4">
+            <div class="text-right">
+                {# {% do action('woocommerce_before_shop_loop_item_title') %}     #}
+                <p class="text-xl text-dark-blue font-bold">{{ product.get_price_html()|raw }}</p>
+                <p class="text-black font-medium">{{ random(0, 100) }}<span class="text-sm font-regular"> In stock</span> </p>
+            </div>
+            <div>
+                {# {% do action('woocommerce_single_product_summary') %} #}
+                <form class="flex flex-col items-stretch justify-between mb-0" method="post" enctype='multipart/form-data'>
+                    <div class="quantity h-full mb-1 flex items-center">
+                        <div class="w-4/12">
+                            <p class="text-black font-bold">Quantity:</p>
+                        </div>
+                        <div class="flex-grow">
+                            <input type="number" id="quantity" class="input-text qty text h-full border-2 border-gray p-2 !w-full text-black rounded-sm box-border" step="1" min="1" max="100" name="quantity" value="1" title="Qty" size="6" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" name="add-to-cart" value="{{ product.get_id }}" class=" btn light-blue alt h-full self-end w-full">
+                            {{ __('Add to Quote', 'woocommerce')}}
+                        </button>
+                    </div>
+                </form>
+            </div>  
+            {# <button type="submit" name="add-to-cart" value="{{ post.ID }}" class="btn light-blue alt w-full py-2 mt-2">
+                {{ __('Add to Quote', 'woocommerce') }}
+            </button> #}
         </div>
 
     </div>
-
 </article>
