@@ -99,6 +99,13 @@ document.addEventListener("DOMContentLoaded", function () {
       default:
         discountRate = isAdvancedPerformance = 0;
     }
+    // If user is exempt from the price increase, reverse the 7% increase
+    const isExempt = window.specialCompanyExempt === true || window.specialCompanyExempt === 'true';
+    if (isExempt) {
+      console.log("User is exempt from the 7% price increase.");
+      // Reverse the 7% increase
+      discountRate = 1 - ((1 - discountRate) / 1.07);
+    }
 
     return discountRate;
   };
@@ -497,4 +504,8 @@ document.addEventListener("DOMContentLoaded", function () {
   printBtn.addEventListener("click", function () {
     table.button(".buttons-print").trigger();
   });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Exempt Status on DOM load:', window.specialCompanyExempt);
 });

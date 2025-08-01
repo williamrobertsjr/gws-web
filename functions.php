@@ -195,7 +195,34 @@ function get_current_user_role() {
     else {
       return false;
     }
- }
+}
+
+// Add a script to the footer to set the specialCompanyExempt variable based on user meta
+// This will be used in rapid-quote.js to determine if the user is exempt from the 7% price increase
+// The user meta key is 'company' and the values are compared against a predefined list of exempt companies
+// The script will set window.specialCompanyExempt to true or false based on the user's company
+add_action('wp_footer', function () {
+    if (!is_user_logged_in()) {
+        echo "<script>window.specialCompanyExempt = false;</script>";
+        return;
+    }
+
+    $user_id = get_current_user_id();
+    $user_company = get_user_meta($user_id, 'company', true); // <-- FIXED
+
+    $exempt_companies = [
+        'Grainger',
+        'US Tool Group',
+        'Harvey Tool',
+        'Ewie',
+        'EGC - Ewie',
+    ];
+
+    $is_exempt = in_array($user_company, $exempt_companies) ? 'true' : 'false';
+
+    echo "<script>window.specialCompanyExempt = {$is_exempt};</script>";
+});
+
 
 add_action('wp_head', 'print_user_role');
 function print_user_role() {
