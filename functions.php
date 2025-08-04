@@ -9,6 +9,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/src/StarterSite.php';
 
+// Load discounts logic for WooCommerce and distributor tiers sitewide
+require_once get_template_directory() . '/views/woo/discounts.php';
 
 add_filter('timber/twig/environment/options', function ($options) {
     $options['debug'] = true;
@@ -413,3 +415,12 @@ add_action('wp_enqueue_scripts', function () {
         wp_localize_script('custom-cart-ajax', 'wc_cart_params', ['ajax_url' => admin_url('admin-ajax.php')]);
     }
 });
+
+// Clear cart via AJAX
+add_action('wp_ajax_clear_cart', 'gws_clear_cart');
+add_action('wp_ajax_nopriv_clear_cart', 'gws_clear_cart');
+
+function gws_clear_cart() {
+    WC()->cart->empty_cart();
+    wp_send_json_success('Cart cleared');
+}

@@ -3,7 +3,7 @@
 {% block content %}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
-    {% do action('woocommerce_before_single_product') %}
+    {# {% do action('woocommerce_before_single_product') %} #}
     
     <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }} pt-60 mx-auto text-white">
     {% set series = product.get_attribute('pa_series') %}
@@ -43,6 +43,8 @@
                 </div>
                 <div class="summary entry-summary mt-4">
                     {# {% do action('woocommerce_single_product_summary') %} #}
+                    
+
                     <form class="cart flex items-stretch" method="post" enctype='multipart/form-data'>
                         <div class="quantity h-full me-4">
                             <p class="text-sm">Qty:</p>

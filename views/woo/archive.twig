@@ -1,5 +1,5 @@
 {% extends 'base.twig' %}
-
+{% set userRoleDisplay = get_user_role_display(userRole) %}
 {% block content %}
 <section class="pt-52 px-8 2xl:px-4">
     {# USE FOR TESTING VARIABLES / TIMBER CONTEXT #}
@@ -7,7 +7,7 @@
     {# <div class="px-8">{% do action('woocommerce_before_main_content') %}</div>
     <div class="before-shop-loop">{% do action('woocommerce_before_shop_loop') %}</div> #}
     <div class="flex px-2">
-        <div>
+        <div class="w-full">
             <div class="text-white flex gap-x-4 flex-wrap mb-4">
                 <p><a class="hover:under hover:text-pale-blue" href="/products/milling">Milling</a></p>
                 <p><a class="hover:under hover:text-pale-blue" href="/products/holemaking">Holemaking</a></p>
@@ -16,6 +16,7 @@
                 <p><a class="hover:under hover:text-pale-blue" href="/products/inserts">Inserts</a></p>
             </div>
             <h1 class="text-6xl uppercase"><a href="/products/{{title|lower}}" class="text-pale-blue font-black">{{title}}</a></h1>
+            <p class="mt-4 text-sm">Your distributor discount: <span class="font-semibold no-underline text-pale-blue">{{userRoleDisplay}}.</span></p>
         </div>
     </div>
     

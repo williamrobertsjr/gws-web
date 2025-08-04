@@ -1,45 +1,77 @@
 {% extends "base.twig" %}
 
 {% block content %}
-<section class="container mx-auto px-4 py-48" id="cart-page">
+{% if 'clear-cart' in get and get['clear-cart'] == '1' %}
+  {% do function('WC').cart.empty_cart() %}
+{% set cart = function('WC').cart %}
+{% set cart_items = cart.get_cart() %}
+{% endif %}
+{% set userRoleDisplay = get_user_role_display(userRole) %}
+<section class="container mx-auto px-4 pt-72" id="cart-page">
+    <h1 class="text-6xl font-bold mb-8 uppercase">Your Quote</h1>
+    {% if cart_items is empty %}
+        <div class="flex flex-col gap-y-4">
+          
+          <p>There are no items in your quote.</p>
+          <p class="text-4xl text-pale-blue font-bold mt-10 mb-6 text-center uppercase">Browse by Tool Type</p>
+          <div id="toolCategoryLinks" class="flex flex-wrap justify-between mb-4">
+            {% set categories = {
+              'milling': 'Milling',
+              'holemaking': 'Holemaking',
+              'threading': 'Threading',
+              'specialty': 'Specialty',
+              'inserts': 'Inserts'
+            } %}
 
-    <div>
-      <h1 class="text-3xl font-bold mb-8">Your Quote</h1>
-    </div>
-    
-    {% if cart.empty %}
-        <div>
-          <p>Your cart is currently empty.</p>
+            {% for slug, label in categories %}
+              <div class="w-1/5 px-2 box-border">
+                <a href="/products/{{ slug }}" class="aspect-square relative block overflow-hidden group rounded shadow-md">
+                  <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-100 group-hover:scale-105"
+                       style="background-image: url('/wp-content/uploads/2024/01/{{ slug }}_menu.jpg');">
+                  </div>
+                  <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-75 group-hover:opacity-100 transition-opacity duration-100">
+                    <span class="text-pale-blue text-2xl font-bold group-hover:text-white uppercase">{{ label }}</span>
+                  </div>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
         </div>
     {% else %}
         <form action="{{ function('wc_get_cart_url') }}" method="post" class="woocommerce-cart-form" id="cart-form">
-            <div class="flex">
+            <div class="flex justify-between">
               <div class="w-8/12">
-                <table class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded p-4">
+              
+                <table class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
                     <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Subtotal</th>
-                            <th></th>
+                        <tr class="border-[#d2d2d2] border-b-[1px]">
+                            <th class="p-4 text-left text-sm uppercase">Product</th>
+                            <th class="p-4 text-left text-sm uppercase">Price</th>
+                            <th class="p-4 text-left text-sm uppercase">Quantity</th>
+                            <th class="p-4 text-left text-sm uppercase">Total</th>
+                            <th class="p-4 text-left text-sm uppercase">Production Notes</th>
+                            <th class="p-4 text-left text-sm uppercase"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in cart.get_cart %}
+                        {% for item in cart_items %}
                             {% set product = item.data %}
-                            <tr data-cart-key="{{ item.key }}">
-                                <td>{{ product.get_name }}</td>
-                                <td>{{ product.get_price_html }}</td>
-                                <td>
+                            <tr data-cart-key="{{ item.key }}" class="border-[#d2d2d2] border-b-[1px] bg-white hover:bg-gray-100">
+                                <td class="p-4"><a href="/product/{{product.get_name}}/" class="text-black" target="_blank">{{ product.get_name }}</a></td>
+                                <td class="p-4 price-cell">{{ function('wc_price', item.discounted_price) }}</td>
+                                <td class="p-4">
                                     <input type="number"
                                            class="cart-qty-input w-16 border px-2 py-1"
                                            value="{{ item.quantity }}"
                                            min="0"
                                            data-cart-key="{{ item.key }}" />
                                 </td>
-                                <td class="line-subtotal">{{ function('wc_price', item.line_subtotal) }}</td>
-                                <td>
+                                <td class="line-subtotal p-4">
+                                  {# <s class="text-gray-400 me-2">{{ function('wc_price', item.original_price * item.quantity) }}</s> #}
+                                  {{ function('wc_price', item.discounted_subtotal) }}
+                                </td>
+                                <td class="p-4 text-sm">Notes here.</td>
+                                <td class="p-4">
                                     <button type="button"
                                             class="remove-item text-red-500"
                                             data-cart-key="{{ item.key }}">×</button>
@@ -49,23 +81,193 @@
                     </tbody>
                 </table>
               </div>
-              <div class="w-4/12">
-                <div class="flex flex-col justify-between items-center">
-                    <div>
-                        <label for="coupon_code">Coupon:</label>
-                        <input type="text" name="coupon_code" id="coupon_code" class="border px-2 py-1" placeholder="Enter coupon code" />
-                        <button type="submit" name="apply_coupon" class="bg-blue-500 text-white px-4 py-2">Apply Coupon</button>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xl font-semibold">Subtotal: <span id="cart-subtotal">{{ function('wc_price', cart.get_cart_subtotal) }}</span></p>
-                        <p class="text-2xl font-bold mt-2">Total: <span id="cart-total">{{ function('wc_price', cart.total) }}</span></p>
-                        <a href="{{ function('wc_get_checkout_url') }}" class="bg-green-500 text-white px-6 py-3 mt-4 inline-block">Proceed to Checkout</a>
+              <div class="w-4/12 ps-4">
+                <div class="flex flex-col justify-between">
+                    
+                    <div class="bg-white p-6 rounded-[2px]">
+                        <div>
+                          <p class="text-3xl font-bold mb-8 uppercase text-black">Order Summary</p>
+                        </div>
+                        <p class="text-black">Your distributor discount is <span id="userRole" class="underline font-semibold">{{ userRoleDisplay }}</span>.</p>
+                          <div>
+                            <label for="tier-selector" class="text-black block mb-2">View pricing as:</label>
+                            <select id="tier-selector" class="border border-gray-300 px-2 py-1 rounded w-full mb-4">
+                              <option value="" disabled selected>Select a tier</option>
+                              <option value="default">None</option>
+                              <option value="t1">T1</option>
+                              <option value="t2">T2</option>
+                              <option value="t3">T3</option>
+                              <option value="57_5">57.5%</option>
+                              <option value="direct">Direct</option>
+                            </select>
+                          </div>
+
+                        <div class="flex items-center gap-x-2 mt-4">
+                            {# <label for="coupon_code">Coupon:</label> #}
+                            <input type="text" name="coupon_code" id="coupon_code" class="border px-2 py-2" placeholder="Enter discount code" />
+                            <button type="submit" name="apply_coupon" class="btn light-blue">Apply Discount</button>
+                        </div>
+                        <div class="flex md:flex-col gap-y-4 mt-4">
+                            <input type="hidden" name="userName" value="{{ user.display_name }}">
+                            <input id="userEmail" type="hidden" name="userEmail" value="{{ user.user_email }}">
+                            <input type="hidden" name="userCompany" value="{{ user.company }}">
+                            <div>
+                              <p class="text-black text-xl font-semibold mt-2">
+                                Original Total:
+                                <span class="line-through text-gray original-total">
+                                  {{ function('wc_price', cart_original_total) }}
+                                </span>
+                              </p>
+                              <p class="text-[#14972f] text-2xl font-bold discounted-total">
+                                Discounted Total:
+                                {{ function('wc_price', cart_discounted_total) }}
+                              </p>
+                            </div>
+                            <div class="flex"><button type="button" id="send-quote" class="btn dark-blue w-full">Send Quote</button></div>
+                        </div>
                     </div>
                 </div>
               </div>
             </div>
+        
         </form>
+        <div id="quote-form-wrapper" style="position: absolute; left: -9999px; opacity: 0;" class="hiddn">
+          {{ function('do_shortcode', '[gravityform id="41" title="false" description="false" ajax="true"]') }}
+        </div>
     {% endif %}
 </section>
-<script src="/wp-content/themes/gws-web/js/cart-ajax.js"></script>
+<script>
+  window.cartQuoteData = {
+    role: '{{ userRoleDisplay|e('js') }}',
+    email: '{{ user.email|e('js') }}'
+  };
+</script>
+{# <script src="/wp-content/themes/gws-web/js/cart-ajax.js"></script> #}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const sendQuoteBtn = document.getElementById('send-quote');
+    let formReady = false;
+
+    // Poll every 300ms to check if Gravity Form has loaded
+    const formCheckInterval = setInterval(() => {
+      const form = document.querySelector('#quote-form-wrapper form');
+      if (form) {
+        console.log('✅ Gravity Form is ready');
+        formReady = true;
+        clearInterval(formCheckInterval);
+      }
+    }, 300);
+
+    const waitForFormAndSubmit = () => {
+      const form = document.querySelector('#quote-form-wrapper form');
+      if (!form) {
+        console.warn('🚫 Form still not available.');
+        return;
+      }
+
+      const cartRows = document.querySelectorAll('tbody tr');
+      const products = [];
+
+      cartRows.forEach(row => {
+        const product = row.querySelector('td:nth-child(1) a')?.textContent.trim();
+        const qty = row.querySelector('input[type="number"]')?.value;
+        const subtotal = row.querySelector('.line-subtotal')?.textContent.trim();
+        const original = row.querySelector('.line-subtotal s')?.textContent.trim();
+        products.push(`${product} × ${qty} — ${subtotal} (${original} original)`);
+      });
+
+      const total = document.querySelector('.text-green-600')?.textContent.trim();
+      const originalTotal = document.querySelector('.line-through')?.textContent.trim();
+      const role = document.querySelector('#userRole')?.textContent.trim() || window.cartQuoteData.role;
+      const coupon = document.getElementById('coupon_code')?.value || '';
+      const email = document.getElementById('userEmail')?.value || window.cartQuoteData.email;
+      const productField = document.querySelector('textarea[name="input_1"]');
+      const originalTotalField = document.querySelector('input[name="input_3"]');
+      const discountedTotalField = document.querySelector('input[name="input_4"]');
+      const couponField = document.querySelector('input[name="input_5"]');
+      const roleField = document.querySelector('input[name="input_6"]');
+      const emailField = document.querySelector('input[name="input_8"]');
+
+      if (productField) productField.value = products.join('\n');
+      if (originalTotalField) originalTotalField.value = originalTotal;
+      if (discountedTotalField) discountedTotalField.value = total;
+      if (couponField) couponField.value = coupon;
+      if (roleField) roleField.value = role;
+      if (emailField) emailField.value = email;
+
+      const gfSubmitButton = form.querySelector('input[type="submit"], button[type="submit"]');
+      if (gfSubmitButton) {
+        gfSubmitButton.click();
+        // Delay to allow submission to complete before clearing cart
+        // setTimeout removed: cart redirect now handled on Gravity Forms confirmation event
+      } else {
+        console.warn('Gravity Forms submit button not found.');
+      }
+    };
+
+    sendQuoteBtn?.addEventListener('click', function () {
+      if (!formReady) {
+        alert('Form is still loading. Please wait a moment and try again.');
+        console.warn('🚫 Form not ready yet — submission blocked.');
+        return;
+      }
+      waitForFormAndSubmit();
+    });
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    const gformIframe = document.querySelector('iframe[name="gform_ajax_frame_41"]');
+
+    if (gformIframe) {
+      gformIframe.addEventListener('load', function () {
+        try {
+          const confirmation = gformIframe.contentDocument.querySelector('#gform_confirmation_message_41');
+          if (confirmation) {
+            console.log('✅ Confirmation found in iframe. Triggering cart clear.');
+
+            fetch('/wp-admin/admin-ajax.php?action=clear_cart', {
+              method: 'POST',
+              credentials: 'same-origin'
+            })
+              .then(res => res.json())
+              .then(data => {
+                console.log('🧹 Cart cleared:', data);
+                const formSection = document.getElementById('cart-form');
+                const quoteWrapper = document.getElementById('quote-form-wrapper');
+                const summarySection = document.querySelector('#cart-page .w-4\\/12');
+
+                if (formSection) formSection.style.display = 'none';
+                if (quoteWrapper) quoteWrapper.style.display = 'none';
+                if (summarySection) summarySection.style.display = 'none';
+
+                const confirmationDiv = document.createElement('div');
+                confirmationDiv.classList.add('text-white', 'p-4', 'rounded', 'mt-8', 'text-xl');
+                confirmationDiv.innerHTML = `
+                  <h2 class="text-2xl font-bold mb-4">Quote Sent Successfully</h2>
+                  <p class="mb-4 text-lg">Your quote has been sent successfully. A confirmation email has been sent to you and a representive will reach out to you as soon as possible.</p>
+                  <div class="flex gap-4">
+                    <a href="/products" class="btn light-blue">Continue Browsing</a>
+                    <a href="mailto:sales@gwstoolgroup.com" class="btn black">Email Us</a>
+                  </div>
+                `;
+
+                const parentContainer = document.querySelector('#cart-page');
+                parentContainer.appendChild(confirmationDiv);
+                confirmationDiv.scrollIntoView({ behavior: 'smooth' });
+              })
+              .catch(err => console.error('❌ AJAX failed:', err));
+          }
+        } catch (e) {
+          console.error('⚠️ Could not access iframe contents:', e);
+        }
+      });
+    } else {
+      console.warn('🚫 Gravity Forms iframe not found.');
+    }
+  });
+</script>
+<script>
+  window.currentUser = {
+    email: '{{ user.email|e('js') }}'
+  };
+</script>
 {% endblock %}

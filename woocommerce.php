@@ -140,7 +140,7 @@ if (is_singular('product')) {
             $post->wc_product = wc_get_product($post->ID);
             $products[] = $post;
         }
-
+        $context['userRole'] = get_current_user_role();
         $context['products'] = $products;
         $context['category'] = get_term($term_id, 'product_cat');
         $context['title'] = single_term_title('', false);

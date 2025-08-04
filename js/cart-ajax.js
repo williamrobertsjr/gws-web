@@ -1,78 +1,102 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Quantity update with debounce on input and immediate update on change
-    document.querySelectorAll('.cart-qty-input').forEach(input => {
-        let debounceTimer;
-        input.addEventListener('input', function () {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                const key = this.dataset.cartKey;
-                const quantity = this.value;
+  document.querySelectorAll('.cart-qty-input').forEach(input => {
+    let timer;
 
-                fetch(wc_cart_params.ajax_url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({
-                        action: 'update_cart_item',
-                        cart_item_key: key,
-                        quantity: quantity,
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload();
-                    }
-                })
-                .catch(error => console.error('Cart update failed:', error));
-            }, 750);
-        });
+    const handler = () => {
+      const cartKey = input.dataset.cartKey;
+      const quantity = input.value;
 
-        // Immediate update on arrow changes (change event)
-        input.addEventListener('change', function () {
-            clearTimeout(debounceTimer);
-            const key = this.dataset.cartKey;
-            const quantity = this.value;
+      updateCartQuantity(cartKey, quantity).then(data => {
+        if (data.success) {
+          const currentTier = localStorage.getItem('selectedTier');
+          if (currentTier) {
+            updatePricesByTier(currentTier);
+          }
+        } else {
+          console.warn('Failed to update cart quantity');
+        }
+      });
+    };
 
-            fetch(wc_cart_params.ajax_url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    action: 'update_cart_item',
-                    cart_item_key: key,
-                    quantity: quantity,
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            })
-            .catch(error => console.error('Cart update failed:', error));
-        });
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(handler, 500);
     });
 
-    // Remove item
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', function () {
-            const key = this.dataset.cartKey;
-
-            fetch(wc_cart_params.ajax_url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    action: 'remove_cart_item',
-                    cart_item_key: key,
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            });
-        });
+    input.addEventListener('change', () => {
+      clearTimeout(timer);
+      handler();
     });
+  });
+
+  const tierSelector = document.getElementById('tier-selector');
+
+  // Restore selected tier from localStorage if it exists
+  const savedTier = localStorage.getItem('selectedTier');
+  if (tierSelector && savedTier) {
+    tierSelector.value = savedTier;
+    updatePricesByTier(savedTier);
+  }
+
+  if (tierSelector) {
+    tierSelector.addEventListener('change', function () {
+      const selectedTier = this.value;
+      console.log('Tier changed:', selectedTier);
+
+      localStorage.setItem('selectedTier', selectedTier);
+      updatePricesByTier(selectedTier);
+    });
+  }
 });
 
-console.log('Cart AJAX script loaded successfully.');
+function updatePricesByTier(tier) {
+  console.log('Calling updatePricesByTier...');
+  fetch(`/wp-admin/admin-ajax.php?action=get_discounted_prices_by_tier&tier=${tier}`, {
+    method: 'GET',
+    credentials: 'same-origin'
+  })
+    .then(res => res.json())
+    .then(response => {
+      console.log('Full response:', response);
+      const cartItems = response.data.data;
+      const originalTotalHtml = response.data.original_total_html;
+      const discountedTotalHtml = response.data.discounted_total_html;
+
+      console.log('Discounted prices data:', cartItems);
+
+      Object.entries(cartItems).forEach(([cartKey, { discounted_price_html, discounted_subtotal_html }]) => {
+        const row = document.querySelector(`tr[data-cart-key="${cartKey}"]`);
+        if (!row) {
+          console.warn(`Row not found for cart key: ${cartKey}`);
+          return;
+        }
+
+        const priceCell = row.querySelector('.price-cell');
+        const subtotalCell = row.querySelector('.line-subtotal');
+        if (priceCell) priceCell.innerHTML = discounted_price_html;
+        if (subtotalCell) subtotalCell.innerHTML = discounted_subtotal_html;
+      });
+
+      const originalTotalEl = document.querySelector('.original-total');
+      const discountedTotalEl = document.querySelector('.discounted-total');
+      if (originalTotalEl) originalTotalEl.innerHTML = originalTotalHtml;
+      if (discountedTotalEl) discountedTotalEl.innerHTML = discountedTotalHtml;
+    })
+    .catch(console.error);
+}
+
+// Function to update cart item quantity via AJAX
+function updateCartQuantity(cartKey, quantity) {
+  return fetch(wc_cart_params.ajax_url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    //
+    body: new URLSearchParams({
+      action: 'update_cart_item',
+      cart_item_key: cartKey,
+      quantity: quantity
+    })
+  }).then(res => res.json());
+}
