@@ -201,6 +201,7 @@ function get_current_user_role() {
 // This will be used in rapid-quote.js to determine if the user is exempt from the 7% price increase
 // The user meta key is 'company' and the values are compared against a predefined list of exempt companies
 // The script will set window.specialCompanyExempt to true or false based on the user's company
+
 add_action('wp_footer', function () {
     if (!is_user_logged_in()) {
         echo "<script>window.specialCompanyExempt = false;</script>";
@@ -216,6 +217,7 @@ add_action('wp_footer', function () {
         'Harvey Tool',
         'Ewie',
         'EGC - Ewie',
+        'MSC Industrial Direct',
     ];
 
     $is_exempt = in_array($user_company, $exempt_companies) ? 'true' : 'false';
