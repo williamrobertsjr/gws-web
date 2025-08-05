@@ -75,40 +75,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Updated calculateDiscount function
   const calculateDiscount = (tier, isAdvancedPerformance) => {
-    let discountRate;
+  let discountRate;
 
-    switch (tier) {
-      case "t1":
-        discountRate = 0.55;
-        break;
-      case "t2":
-        discountRate = 0.525;
-        break;
-      case "t3":
-        discountRate = 0.50;
-        break;
-      case "57_5":
-        discountRate = 0.575;
-        break;
-      case "direct":
-        discountRate = 0.30;
-        break;
-      case "none":
-        discountRate = isAdvancedPerformance = 0;
-        break;
-      default:
-        discountRate = isAdvancedPerformance = 0;
-    }
-    // If user is exempt from the price increase, reverse the 7% increase
-    const isExempt = window.specialCompanyExempt === true || window.specialCompanyExempt === 'true';
-    if (isExempt) {
-      console.log("User is exempt from the 7% price increase.");
-      // Reverse the 7% increase
-      discountRate = 1 - ((1 - discountRate) / 1.07);
-    }
+  switch (tier) {
+    case "t1":
+      discountRate = 0.55;
+      break;
+    case "t2":
+      discountRate = 0.525;
+      break;
+    case "t3":
+      discountRate = 0.50;
+      break;
+    case "57_5":
+      discountRate = 0.575;
+      break;
+    case "direct":
+      discountRate = 0.30;
+      break;
+    case "none":
+      discountRate = isAdvancedPerformance = 0;
+      break;
+    default:
+      discountRate = isAdvancedPerformance = 0;
+  }
 
-    return discountRate;
-  };
+  const isExempt = window.specialCompanyExempt === true || window.specialCompanyExempt === 'true';
+  const isPrivilegedRole = userRole === 'administrator' || userRole === 'sales';
+  const isSpecialTier = tier === '57_5';
+
+  // Apply rollback if either condition is true
+  if (isExempt || (isPrivilegedRole && isSpecialTier)) {
+    console.log("Rolling back 7% increase due to exemption or sales/admin override.");
+    discountRate = 1 - ((1 - discountRate) / 1.07);
+  }
+
+  return discountRate;
+};
 
   // Function to update prices based on user tier and quantity
   function updatePrices() {
