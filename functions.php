@@ -254,8 +254,13 @@ add_filter( 'manage_users_sortable_columns', 'make_role_column_sortable' );
 
 
 function redirect_lostpassword_page() {
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && $GLOBALS['pagenow'] === 'wp-login.php' && $_GET['action'] === 'lostpassword') {
-        wp_redirect(home_url('/lost-password/'));
+    // Avoid undefined index notices on PHP 8.0+
+    $is_get      = ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET' );
+    $is_login    = ( isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'wp-login.php' );
+    $action      = isset($_GET['action']) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '';
+
+    if ( $is_get && $is_login && $action === 'lostpassword' ) {
+        wp_redirect( home_url( '/lost-password/' ) );
         exit;
     }
 }
