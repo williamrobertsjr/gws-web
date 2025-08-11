@@ -33,7 +33,7 @@ if (isset($_GET['part'])) {
         $stmt = $conn->prepare(
             "SELECT p.*, s.subtitle, s.data_fields, s.feat_icons, s.app_icons, 
                     s.p1, s.p2, s.p3, s.h1, s.h2, s.n1, s.n2, s.k1, s.k2, 
-                    s.m1, s.m2, s.speed_feed_page, r.QTY_ON_HAND
+                    s.m1, s.m2, s.speed_feed_page, r.LIST_PRICE, r.QTY_ON_HAND, r.DURRIE_QTY_ON_HAND
             FROM `master_product_data` p
             LEFT JOIN `master_series_data` s ON p.series = s.series
             LEFT JOIN `rapid_quote` r ON r.PN = p.part
@@ -57,6 +57,11 @@ if (isset($_GET['part'])) {
 
         if ($result->num_rows > 0) {
             $product_data = $result->fetch_assoc();
+
+            $show_extra_stock_content = (
+                isset($product_data['DURRIE_QTY_ON_HAND']) &&
+                $product_data['DURRIE_QTY_ON_HAND'] > 0
+            );
         } else {
             $product_data = null;
             status_header(404);
@@ -81,6 +86,7 @@ if (isset($_GET['part'])) {
         $context['product_data'] = $product_data;
         $context['products'] = $products; // Pass the product data to Twig
         $context['templateName'] = $templateName;
+        $context['show_extra_stock_content'] = $show_extra_stock_content;
         
         // Render with Twig template
         Timber::render($templateName, $context);
