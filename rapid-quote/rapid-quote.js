@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function updatePrices() {
     let userTier = getUserTier();
     const distributorLevel = document.getElementById('distributor-level').value;
-    const seriesWithCallPrice = ["110","115","113","120","125","129","150","162","170","171","172","176","290","295","296","297"]; // Define series requiring "Call" price
+    const seriesWithCallPrice = ["110","115","113","120","125","129","130","150","162","170","171","172","176","290","295","296","297"]; // Define series requiring "Call" price
 
     table.rows().every(function() {
         const row = this.data();
