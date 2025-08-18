@@ -64,9 +64,11 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="series-tile-brand w-8/12">
-                        <img src="/wp-content/themes/gws-web/images/brands/brand_{{ series.family|lower }}.png" alt="">
-                    </div>
+                    {% if series.tool_type != 'THREADING' %}
+                        <div class="series-tile-brand w-8/12">
+                            <img src="/wp-content/themes/gws-web/images/brands/brand_{{ series.family|lower }}.png" alt="">
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </a>
