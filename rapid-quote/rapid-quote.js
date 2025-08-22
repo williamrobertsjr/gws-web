@@ -93,6 +93,9 @@ document.addEventListener("DOMContentLoaded", function () {
     case "direct":
       discountRate = 0.30;
       break;
+    case "exemptPlus":
+      discountRate = 0.55;
+      break;
     case "none":
       discountRate = isAdvancedPerformance = 0;
       break;
@@ -101,15 +104,19 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const isExempt = window.specialCompanyExempt === true || window.specialCompanyExempt === 'true';
+  const exemptPlus = window.specialCompanyExemptPlus === true || window.specialCompanyExemptPlus === 'true';
   const isPrivilegedRole = userRole === 'administrator' || userRole === 'sales';
   const isSpecialTier = tier === '57_5';
+  const isExemptPlusTier = tier === 'exemptPlus';
 
   // Apply rollback if either condition is true
-  if (isExempt || (isPrivilegedRole && isSpecialTier)) {
+  if ((isExempt || (isPrivilegedRole && isSpecialTier)) && !exemptPlus) {
     console.log("Rolling back 7% increase due to exemption or sales/admin override.");
     discountRate = 1 - ((1 - discountRate) / 1.07);
-  }
-
+  } else if ((exemptPlus && isExempt) || (isPrivilegedRole && isExemptPlusTier)) {
+    console.log("Applying 20% addition due to special exemption.");
+    discountRate = (1 - ((1 - discountRate) / 1.07) * 1.20);
+  }  
   return discountRate;
 };
 
@@ -511,4 +518,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Exempt Status on DOM load:', window.specialCompanyExempt);
+  console.log('Exempt Plus Status on DOM load:', window.specialCompanyExemptPlus);
 });

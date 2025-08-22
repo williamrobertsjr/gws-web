@@ -210,7 +210,7 @@ add_action('wp_footer', function () {
 
     $user_id = get_current_user_id();
     $user_company = get_user_meta($user_id, 'company', true); // <-- FIXED
-
+    
     $exempt_companies = [
         'Grainger',
         'US Tool Group',
@@ -219,9 +219,15 @@ add_action('wp_footer', function () {
         'EGC - Ewie',
         'MSC Industrial Direct',
     ];
-
+    // Add any additional companies that should be exempt from the 7% price increase plus 20%
+    $exempt_20 = [
+        'Ewie',
+        'EGC - Ewie',
+    ];
+    
     $is_exempt = in_array($user_company, $exempt_companies) ? 'true' : 'false';
-
+    $exempt_plus = in_array($user_company, $exempt_20) ? 'true' : 'false';
+    echo "<script>window.specialCompanyExemptPlus = {$exempt_plus};</script>";
     echo "<script>window.specialCompanyExempt = {$is_exempt};</script>";
 });
 
