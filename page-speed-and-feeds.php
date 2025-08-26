@@ -7,12 +7,15 @@
 // Connect to the Database
 include 'db_connection.php';
 
-
-
-$stmt = $conn->prepare("SELECT series, family, subtitle, tool_type from master_series_data WHERE speed_feed_page IS NOT NULL AND catalog='y'");
+// Fetch data from the database
+$stmt = $conn->prepare("SELECT DISTINCT s.series, s.family, s.subtitle, s.tool_type
+                        FROM master_series_data s
+                        WHERE s.speed_feed_page IS NOT NULL
+                          AND s.catalog = 'y'");
 $stmt->execute();
 $result = $stmt->get_result();
 
+// Initialize an empty array to hold the results
 $series_list = [];
 
 if ($result->num_rows > 0) {

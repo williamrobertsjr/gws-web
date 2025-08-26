@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 {% block content %}
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-<script src="/wp-content/themes/gws-web/js/speed-feed.js"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js" defer></script>
+<script src="/wp-content/themes/gws-web/js/speed-feed.js" defer></script>
 <section class="page-header bg-black">
     <div class="container mx-auto flex flex-col justify-center md:ps-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
         <h1 class="text-4xl md:text-7xl font-black text-white uppercase">{{post.title}}</h1>
@@ -18,16 +18,22 @@
         <button class="filter-btn" data-filter="specialty">Specialty</button>
         <div>
             <input
-            id="search-input"
+            id="search-input-series"
             type="search" 
-            placeholder="Search for a series..." 
+            placeholder="Search by series..." 
             class="p-1 mb-4 md:mb-0 rounded text-sm bg-transparent placeholder-white text-white border border-white"
-            oninput="filterByName(event)">
+            disabled>
+            <input
+            id="search-input-part"
+            type="search" 
+            placeholder="Search by part..." 
+            class="p-1 mb-4 md:mb-0 rounded text-sm bg-transparent placeholder-white text-white border border-white"
+            disabled>
         </div>
     </div>
     <div id="series-list" class="flex flex-wrap gap-y-4 tiles-grid">
     {% for series in series_list %}
-        <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 grid-item {{ series.tool_type|lower }}">
+        <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 grid-item {{ series.tool_type|lower }}" data-series="{{ series.series }}">
             <a href="/wp-content/themes/gws-web/speed_and_feed/{{series.series}}_sf.pdf" class="flex bg-white rounded hvr-float">
                 <div class="flex">
                     <img src="/wp-content/themes/gws-web/images/tile_images/{{series.series}}_tile.png" alt="" class="max-h-[100px]">
@@ -39,6 +45,9 @@
             </a>
         </div>
     {% endfor %}
+    <div id="no-series-message" class="hidden w-full text-center text-red-600 font-bold py-4">
+        No series found
+    </div>
     </div>
 
 </section>
