@@ -21,25 +21,25 @@
             id="search-input-series"
             type="search" 
             placeholder="Search by series..." 
-            class="w-full md:w-auto p-1 mb-4 md:mb-0 rounded text-sm bg-transparent placeholder-white text-white border border-white"
+            class="w-full md:w-auto p-1 mb-4 md:mb-0 rounded text bg-transparent placeholder-white text-white border border-white"
             disabled>
             <input
             id="search-input-part"
             type="search" 
             placeholder="Search by part..." 
-            class="w-full md:w-auto p-1 mb-4 md:mb-0 rounded text-sm bg-transparent placeholder-white text-white border border-white"
+            class="w-full md:w-auto p-1 mb-4 md:mb-0 rounded text bg-transparent placeholder-white text-white border border-white"
             disabled>
         </div>
     </div>
-    <div id="series-list" class="flex flex-wrap gap-y-4 tiles-grid">
+    <div id="series-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 tiles-grid">
     {% for series in series_list %}
-        <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 grid-item {{ series.tool_type|lower }}" data-series="{{ series.series }}">
-            <a href="/wp-content/themes/gws-web/speed_and_feed/{{series.series}}_sf.pdf" class="flex bg-white rounded hvr-float">
-                <div class="flex">
-                    <img src="/wp-content/themes/gws-web/images/tile_images/{{series.series}}_tile.png" alt="" class="max-h-[100px]">
+        <div class="grid-item {{ series.tool_type|lower }} px-4 h-full" data-series="{{ series.series }}">
+            <a href="/wp-content/themes/gws-web/speed_and_feed/{{series.series}}_sf.pdf" class="flex flex-col justify-between bg-white rounded h-full p-4 hvr-float">
+                <div class="flex flex-col justify-between h-full">
+                    {# <img src="/wp-content/themes/gws-web/images/tile_images/{{series.series}}_tile.png" alt="" class="max-h-[100px]"> #}
                     <div class="flex flex-col justify-center pe-4">
                         <p class="text-dark-blue font-bold underline mb-0 seriesName">Series {{series.series}} {{series.family}}</p>
-                        <p class="text-black text-sm leading-normal">{{series.subtitle}}</p>
+                        <p class="text-black text-sm leading-normal">{{series.subtitle|title}}</p>
                     </div>
                 </div>
             </a>
