@@ -116,7 +116,7 @@ let searchTimeout; // Variable to hold the timeout ID for debouncing
 
 const applyFilters = () => {
     clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(runFiltersNow, 1000); // .5 seconds of inactivity
+    searchTimeout = setTimeout(runFiltersNow, 500); // .5 seconds of inactivity
 };
 
 // Event listener for search input
