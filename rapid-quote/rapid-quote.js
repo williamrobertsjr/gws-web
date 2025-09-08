@@ -90,6 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
     case "57_5":
       discountRate = 0.575;
       break;
+    case "MSC_PL":
+      discountRate = 0.575;
+      break;
     case "direct":
       discountRate = 0.30;
       break;
@@ -106,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const isExempt = window.specialCompanyExempt === true || window.specialCompanyExempt === 'true';
   const exemptPlus = window.specialCompanyExemptPlus === true || window.specialCompanyExemptPlus === 'true';
   const isPrivilegedRole = userRole === 'administrator' || userRole === 'sales';
-  const isSpecialTier = tier === '57_5';
+  const isSpecialTier = tier === 'MSC_PL';
   const isExemptPlusTier = tier === 'exemptPlus';
 
   // Apply rollback if either condition is true

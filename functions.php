@@ -217,7 +217,6 @@ add_action('wp_footer', function () {
         'Harvey Tool',
         'Ewie',
         'EGC - Ewie',
-        'MSC Industrial Direct',
     ];
     // Add any additional companies that should be exempt from the 7% price increase plus 20%
     $exempt_20 = [
