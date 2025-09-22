@@ -19,6 +19,9 @@
                     <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
                     <div class="flex flex-col gap-y-4">
                         <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
+                        {% if literature.pdf_url_spanish %}
+                            <div><button class="btn light-blue"><a href="{{literature.pdf_url_spanish}}">Español</a></button></div>
+                        {% endif %}
                     </div>
                 </div>  
             </div>
