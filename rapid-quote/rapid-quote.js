@@ -117,8 +117,8 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Rolling back 7% increase due to exemption or sales/admin override.");
     discountRate = 1 - ((1 - discountRate) / 1.07);
   } else if ((exemptPlus && isExempt) || (isPrivilegedRole && isExemptPlusTier)) {
-    console.log("Applying 20% addition due to special exemption.");
-    discountRate = (1 - ((1 - discountRate) / 1.07) * 1.20);
+    console.log("Applying 25% addition due to special exemption.");
+    discountRate = (1 - ((1 - discountRate) / 1.07) * 1.25);
   }  
   return discountRate;
 };
