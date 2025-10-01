@@ -214,7 +214,6 @@ add_action('wp_footer', function () {
     $exempt_companies = [
         'Grainger',
         'US Tool Group',
-        'Harvey Tool',
         'Ewie',
         'EGC - Ewie',
     ];
