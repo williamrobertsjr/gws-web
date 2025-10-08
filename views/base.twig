@@ -17,59 +17,54 @@
 		<header class="header px-4 md:px-10 py-4 header-transparent">
 			{% block header %}
 				<div class="wrapper">
-					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-3 mb-3">
-						{# <div class="flex gap-x-4 mb-3 sm:mb-0 items-center justify-between">
-							<a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
-					
-							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a>
-						</div> #}
-						<div class="flex gap-x-4 items-center justify-between ">
-							<a href="/tool-filter" class="text-sm hover:underline">Tool Filter</a>
-							<p>|</p>
-							{% if user %}
-								<a href="/dashboard" class="text-sm hover:underline">My Dashboard</a>
-								<p>|</p>
-								<a href="/wp-login.php?action=logout" class="text-sm hover:underline">Log Out</a>
-							{% else %}
-								<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
-							{% endif %}
-							<p>|</p>
-							{# <div class="cart-link relative group">
-							<a href="{{ cart_url }}">
-								🛒 <span class="cart-count">{{ cart_count }}</span>
-							</a>
-							<div class="mini-cart absolute top-full right-0 bg-white shadow-lg hidden group-hover:block z-50">
-								{{ mini_cart|raw }}
-							</div> #}
-							<div>
-								{{ function('do_shortcode', '[xoo_wsc_cart]') }}
-							</div>
-							</div>
+					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center mb-3">
+					{% if userRole == 'administrator' or userRole == 'sales' %}
+						<div class="flex items-center gap-x-2">
+							<label for="tier-selector" class="text-white whitespace-nowrap">View pricing as:</label>
+							<select id="tier-selector" class="border border-gray-300 px-2 py-1 rounded">
+								<option value="" disabled selected>Customer Tier</option>
+								<option value="default">None</option>
+								<option value="t1">T1</option>
+								<option value="t2">T2</option>
+								<option value="t3">T3</option>
+								<option value="57_5">57.5%</option>
+								<option value="direct">Direct</option>
+							</select>
 						</div>
-						
-						
-						
+					{% endif %}
+
+					{% if user %}
+						<p>|</p>
+						<a href="/dashboard" class="text-sm hover:underline whitespace-nowrap">My Dashboard</a>
+						<p>|</p>
+						<a href="/wp-login.php?action=logout" class="text-sm hover:underline whitespace-nowrap">Log Out</a>
+					{% else %}
+						<p>|</p>
+						<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
+					{% endif %}
+
+					<p>|</p>
+
+					<div>
+						{{ function('do_shortcode', '[xoo_wsc_cart]') }}
 					</div>
+				</div>
+
+					{# Top Header #}
 					<div class="top-header flex justify-center sm:justify-between">
 						<h1 class="hdr-logo" role="banner">
 							<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt=""></a>
 						</h1>
 						<div class="md:flex items-center hidden">
 							<div class="flex items-center">
-								{# <button class="btn dark-blue me-2 "><a href="/tool-filter">Tool Filter</a></button>
-								{% if user %}
-									<button class="btn light-blue me-2"><a href="/dashboard">My Dashboard</a></button>
-									<button class="btn black me-6"><a href="/wp-login.php?action=logout">Log Out</a></button>
-								{% else %}
-									<button class="btn light-blue me-6"><a href="/sign-in">Login</a></button>
-								{% endif %} #}
+							
 								<div class="flex h-full">
 									<button class="btn dark-blue me-2"><a href="/rapid-quote">Rapid Quote</a></button>
 									<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
 									<div class="ask-gws-btn-div relative">
 										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
 										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
-											{# <p class="ask-close">x</p> #}
+											
 											<p class="w-full text-center">How Can We Help?</p>
 											<div class="flex flex-col gap-y-2">
 												<div class="flex gap-x-4">

@@ -7,7 +7,7 @@ include 'db_connection.php';
 
 $context = Timber::context();
 $context['sidebar'] = Timber::get_widgets('shop-sidebar');
-
+$context['userRole'] = get_current_user_role();
 // Handle single product pages
 if (is_singular('product')) {
     $context['post'] = Timber::get_post();

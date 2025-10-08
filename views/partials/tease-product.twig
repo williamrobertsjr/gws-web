@@ -62,7 +62,7 @@
         <a href="{{ post.link }}" class="w-3/4">
             <div class="flex items-start relative h-full">
                 <div class="flex items-center justify-center h-full">
-                    <img src="/wp-content/themes/gws-web/images/tile_images/{{ series|upper }}_tile.png" alt="Series {{ series }}" loading="lazy" class="aspect-square object-contain">
+                    <img src="/wp-content/themes/gws-web/images/tile_images/{{ series }}_tile.png" alt="Series {{ series }}" loading="lazy" class="aspect-square object-contain">
                 </div>
                 <div class="w-11/12 ps-4 border-solid border-0 border-gray border-x-2 h-full flex flex-col gap-y-4">
                     <div class="">
@@ -99,7 +99,7 @@
                             <span class="text-black">{{ material.name }}</span>
                         {% endfor %} #}
                     {% set features = post.meta('feat_icons')|split(', ') %}
-                    <div class="icons flex flex-wrap gap-1 py-1">
+                    <div class="icons flex flex-wrap items-end gap-1 py-1">
                         {# Display each value in the list #}
                         {% if features is not empty %}
                             {% for value in features if value and value != 'NULL' %}
@@ -118,7 +118,7 @@
         <div class="flex-grow flex flex-col justify-between ps-6 pe-2 w-1/4">
             <div class="text-right">
                 {# {% do action('woocommerce_before_shop_loop_item_title') %}     #}
-                <p class="text-xl text-dark-blue font-bold">{{ product.get_price_html()|raw }}</p>
+                <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ product.get_price_html()|raw }}</p>
                 <p class="text-black font-medium">{{ random(0, 100) }}<span class="text-sm font-regular"> In stock</span> </p>
             </div>
             <div>

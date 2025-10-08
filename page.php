@@ -24,6 +24,7 @@
 
 $context = Timber::context();
 $timber_post     = Timber::get_post();
+$context['userRole'] = get_current_user_role();
 $context['search_form'] = do_shortcode('[searchwp_form id=1]');
 $context['post'] = $timber_post;
 

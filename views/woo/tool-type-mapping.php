@@ -5,20 +5,22 @@ return [
     'milling_types',
     'materials',
     'application',
+    'coating',
+    'flutes',
     'cut_dia_in_display',
     'loc_in_display',
     'oal_in_display',
     'reach_in_display',
     'shank_dia_in_display',
     'radius_in_display',
-    'angle_display',
-    'flutes',
-    'coating'
+    'angle_display'
   ],
   'HOLEMAKING' => [
     'holemaking_types',
     'materials',
     'application',
+    'coating',
+    'flutes',
     'cut_dia_in_display',
     'diadec',
     'diasize',
@@ -44,13 +46,14 @@ return [
     'step_dia',
     'style',
     'thread',
-    'torx_type',
-    'coating'
+    'torx_type'
   ],
   'SPECIALTY' => [
     'specialty_types',
     'materials',
     'application',
+    'coating',
+    'flutes',
     'angle_display',
     'cut_type',
     'cut_dia_in_display',
@@ -69,6 +72,7 @@ return [
     'width'
   ],
   'INSERTS' => [
+    'inserts_types',
     'materials',
     'edge_prep',
     'ic',
@@ -82,8 +86,8 @@ return [
     'materials',
     'application',
     'coating',
-    'cut_dia_in_display',
     'flutes',
+    'cut_dia_in_display',
     'helix',
     'loc_in_display',
     'neck_dia_in_display',
@@ -93,7 +97,7 @@ return [
     'sub_sub_type',
     'taps_body',
     'taps_chamfer_type',
-    'taps_class_of_fit',
+    // 'taps_class_of_fit', does not have any values
     'taps_depth',
     'taps_dia',
     'taps_drill_length',

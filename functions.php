@@ -409,6 +409,59 @@ function ajax_remove_cart_item() {
     wp_send_json_success();
 }
 
+// Custom logic section
+
+/**
+ * Get discounted price by tier.
+ *
+ * @param float $price
+ * @param string $tier
+ * @return float
+ */
+function gws_get_discounted_price($price, $tier) {
+    switch ($tier) {
+        case 't1':
+            return $price * 0.90;
+        case 't2':
+            return $price * 0.75;
+        case 't3':
+            return $price * 0.60;
+        default:
+            return $price;
+    }
+}
+
+// Discounted product prices by tier AJAX handler
+add_action('wp_ajax_get_discounted_product_prices_by_tier', 'get_discounted_product_prices_by_tier');
+add_action('wp_ajax_nopriv_get_discounted_product_prices_by_tier', 'get_discounted_product_prices_by_tier');
+
+function get_discounted_product_prices_by_tier() {
+    if (empty($_GET['tier']) || empty($_GET['product_ids'])) {
+        wp_send_json_error('Missing tier or product_ids', 400);
+    }
+
+    $tier = sanitize_text_field($_GET['tier']);
+    $product_ids = array_map('intval', explode(',', $_GET['product_ids']));
+
+    $discounted_prices = [];
+
+    foreach ($product_ids as $product_id) {
+        $product = wc_get_product($product_id);
+        if (!$product) {
+            continue;
+        }
+
+        $price = (float) $product->get_price();
+        $discounted_price = gws_get_discounted_price($price, $tier);
+
+        $discounted_prices[$product_id] = [
+            'discounted_price_html' => wc_price($discounted_price),
+        ];
+    }
+
+    wp_send_json_success(['discounted_prices' => $discounted_prices]);
+}
+
 add_action('wp_enqueue_scripts', function () {
     if (is_cart()) {
         wp_enqueue_script('custom-cart-ajax', get_template_directory_uri() . '/js/cart-ajax.js', ['jquery'], null, true);
@@ -424,3 +477,83 @@ function gws_clear_cart() {
     WC()->cart->empty_cart();
     wp_send_json_success('Cart cleared');
 }
+
+function gws_enqueue_tier_scripts() {
+    // Make sure wc_cart_params is available site-wide
+    if (function_exists('wc_enqueue_js')) {
+        wp_enqueue_script('wc-cart-fragments'); // ensures wc_cart_params is defined
+    }
+
+    wp_enqueue_script(
+        'tier-selector',
+        get_template_directory_uri() . '/js/tier-selector.js',
+        [],
+        null,
+        true
+    );
+
+    wp_enqueue_script(
+        'cart-pricing',
+        get_template_directory_uri() . '/js/cart-pricing.js',
+        ['tier-selector'], // depends on tier-selector
+        null,
+        true
+    );
+
+    // Ensure wc_cart_params is available in JS
+    wp_localize_script('cart-pricing', 'wc_cart_params', [
+        'ajax_url' => admin_url('admin-ajax.php')
+    ]);
+}
+add_action('wp_enqueue_scripts', 'gws_enqueue_tier_scripts');
+
+add_filter('timber/context', function ($context) {
+    $context['userRole'] = '';
+
+    if (is_user_logged_in()) {
+        $user = wp_get_current_user();
+        $context['userRole'] = $user->roles[0] ?? '';
+    }
+
+    return $context;
+});
+
+// Bulk add to cart via AJAX
+add_action('wp_ajax_bulk_add_to_cart', 'gws_bulk_add_to_cart');
+add_action('wp_ajax_nopriv_bulk_add_to_cart', 'gws_bulk_add_to_cart');
+
+function gws_bulk_add_to_cart() {
+    if (empty($_POST['parts'])) {
+        wp_send_json_error(['message' => 'Missing parts parameter'], 400);
+    }
+    $parts = json_decode(stripslashes($_POST['parts']), true);
+    if (!is_array($parts)) {
+        wp_send_json_error(['message' => 'Invalid parts format'], 400);
+    }
+    $added = [];
+    $not_found = [];
+    foreach ($parts as $sku) {
+        $sku = trim($sku);
+        if ($sku === '') continue;
+        $product_id = wc_get_product_id_by_sku($sku);
+        if ($product_id) {
+            WC()->cart->add_to_cart($product_id, 1);
+            $added[] = $sku;
+        } else {
+            $not_found[] = $sku;
+        }
+    }
+    WC()->cart->calculate_totals();
+    wp_send_json_success([
+        'added' => $added,
+        'not_found' => $not_found,
+    ]);
+}
+
+// Exclude 'NULL' values from FacetWP indexing
+add_filter( 'facetwp_index_row', function( $row, $args ) {
+    if ( isset( $row['facet_value'] ) && strtoupper( trim( $row['facet_value'] ) ) === 'NULL' ) {
+        return false; // skip only the 'NULL' value
+    }
+    return $row;
+}, 10, 2 );

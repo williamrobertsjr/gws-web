@@ -6,6 +6,16 @@ function gws_get_user_tier() {
     static $tier = null;
 
     if ( $tier !== null ) return $tier;
+    
+    // Allow dropdown-selected tier via cookie to override view pricing
+    if ( ! empty( $_COOKIE['gws_selected_tier'] ) ) {
+        $candidate = sanitize_text_field( $_COOKIE['gws_selected_tier'] );
+        $allowed   = [ 't1', 't2', 't3', '57_5', 'direct', 'default', 'none' ];
+        if ( in_array( $candidate, $allowed, true ) ) {
+            $tier = ( $candidate === 'default' ) ? 'none' : $candidate;
+            return $tier;
+        }
+    }
 
     $user = wp_get_current_user();
     if ( ! $user || ! $user->exists() ) return 'none';
@@ -56,7 +66,7 @@ function gws_sidecart_discounted_price($price_html, $product) {
     }
 
     $regular_price = (float) $product->get_meta('_regular_price', true);
-    $discounted = gws_get_discounted_price_from_product($product);
+    $discounted    = gws_calculate_discounted_price( gws_get_user_tier(), $product );
 
     if ( $discounted < $regular_price ) {
         return '<s class="text-gray-400 me-2">' . wc_price($regular_price) . '</s> ' . wc_price($discounted);
@@ -151,6 +161,7 @@ function get_user_role_display($role) {
 }
 // Handle AJAX tier switch to re-calculate prices in cart
 add_action('wp_ajax_get_discounted_prices_by_tier', 'gws_handle_ajax_tier_price_switch');
+add_action('wp_ajax_get_discounted_product_prices_by_tier', 'gws_handle_ajax_product_price_request');
 
 function gws_handle_ajax_tier_price_switch() {
     if (!is_user_logged_in()) {
@@ -187,7 +198,7 @@ function gws_handle_ajax_tier_price_switch() {
     }
 
     wp_send_json_success([
-        'data' => $items,
+        'cart_items' => $items,
         'original_total_html' => wc_price($original_total),
         'discounted_total_html' => wc_price($discounted_total),
     ]);
@@ -208,3 +219,41 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
 
     return round($regular_price * (1 - $rate), 2);
 }
+
+function gws_handle_ajax_product_price_request() {
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in');
+        return;
+    }
+
+    if (!isset($_GET['tier'], $_GET['product_ids'])) {
+        wp_send_json_error('Missing parameters');
+        return;
+    }
+
+    $tier = sanitize_text_field($_GET['tier']);
+    $ids = array_map('absint', explode(',', $_GET['product_ids'] ?? ''));
+
+    if (empty($ids)) {
+        wp_send_json_error('No valid product IDs');
+        return;
+    }
+
+    $results = [];
+
+    foreach ($ids as $id) {
+        $product = wc_get_product($id);
+        if (! $product instanceof WC_Product) continue;
+
+        $regular = (float) $product->get_meta('_regular_price', true);
+        $discounted = gws_calculate_discounted_price($tier, $product);
+
+        $results[$id] = [
+            'discounted_price_html' => wc_price($discounted),
+            'regular_price_html' => wc_price($regular),
+        ];
+    }
+
+    wp_send_json_success($results);
+}
+

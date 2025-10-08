@@ -4,14 +4,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'black': '#222222',
+        'black': {
+          DEFAULT: '#222222',
+          'med': '#5f6166',
+          'light': '#a0a1a5',
+        },
         'white': '#f7f7f7',
         'dark-blue': '#003262',
         'light-blue': '#457cbf',
         'pale-blue': '#d1e3fa',
         'gray': '#a7a8a9',
         'dark-gray': '#333333',
-        'weird': '#6bff63',
       },
       backgroundColor: theme => ({
         ...theme('colors'),

@@ -1,4 +1,9 @@
 <?php
+// Mapping of internal column names to WooCommerce product attributes and labels for display in the product table and FacetWP filters.
+// This file is used in the WooCommerce product table and FacetWP filters to ensure consistent attribute usage and labeling.
+// Each entry in the array consists of:
+// - 'woo_attribute': The WooCommerce product attribute slug (with the 'pa_' prefix).
+// - 'label': The human-readable label for the attribute to be displayed in the product table and filters.
 return [
     'angle_display' => [
         'woo_attribute' => 'pa_angle_display',
@@ -70,7 +75,7 @@ return [
     ],
     'shank_dia_in_display' => [
         'woo_attribute' => 'pa_shank_dia_in_display',
-        'label' => 'Shank(D)'
+        'label' => 'Shank (Inches)'
     ],
     'split' => [
         'woo_attribute' => 'pa_split',
@@ -215,5 +220,21 @@ return [
     'taps_dia' => [
         'woo_attribute' => 'pa_taps_dia',
         'label' => 'Taps Diameter'
+    ],
+    'outer_dimension' => [
+        'woo_attribute' => 'pa_outer_dimension',
+        'label' => 'Outer Dimension'
+    ],
+    'pac_drill_size' => [
+        'woo_attribute' => 'pa_pac_drill_size',
+        'label' => 'Pac Drill Size'
+    ],
+    'radius_m_display' => [
+        'woo_attribute' => 'pa_radius_m_display',
+        'label' => 'Radius Metric'
+    ],
+    'shank_dia_m_display' => [
+        'woo_attribute' => 'pa_shank_dia_m_display',
+        'label' => 'Shank (Metric)'
     ],
 ];

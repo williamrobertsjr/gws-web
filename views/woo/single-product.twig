@@ -35,7 +35,19 @@
                 <h1 class="entry-title text-5xl font-black text-pale-blue uppercase">{{ post.title }}</h1>
                 <p>{{post.meta('table_description')}}</p>
                 <div class="flex items-center mt-1 gap-x-3">
-                    <p class="text-2xl text-white">${{product.get_price()}}</p>
+                    <p class="text-2xl text-white price-cell" data-product-id="{{ product.id }}">
+                        <span 
+                          class="original-price line-through text-gray me-2" 
+                          data-price="{{ product.get_price() }}"
+                        >
+                          {{ function('wc_price', product.get_price()) }}
+                        </span>
+                        <span 
+                          class="discounted-price font-bold text-white"
+                        >
+                          {{ function('wc_price', product.get_price()) }}
+                        </span>
+                    </p>
                     <div class="bg-dark-blue px-2"><p class="text-lg text-white">30 in stock</p></div>
                 </div>
                 <div>
