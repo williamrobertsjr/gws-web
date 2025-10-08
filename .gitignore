@@ -16,3 +16,5 @@ wp-content/uploads/
 lib/
 
 images/catalog_images/
+images/catalog_images/
+node_modules/
