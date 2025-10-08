@@ -9,6 +9,15 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/src/StarterSite.php';
 
+// Load discounts logic for WooCommerce and distributor tiers sitewide
+require_once get_template_directory() . '/views/woo/discounts.php';
+
+add_filter('timber/twig/environment/options', function ($options) {
+    $options['debug'] = true;
+    return $options;
+});
+
+
 Timber\Timber::init();
 
 // Sets the directories (inside your theme) to find .twig files.
@@ -31,15 +40,29 @@ Timber::$dirname = array( 'views', 'templates' );
 
 function enqueue_tailwind_output_styles() {
     wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
-    wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/style.css', array('tailwind-output'), filemtime( get_template_directory() . '/style.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
 
-// Set Global Options conetext from ACF Pro options page
-add_filter('timber/context', function($context) {
-    $context['options'] = get_fields('option');
-    return $context;
-});
+// Woocommerce integration with Timber
+function theme_add_woocommerce_support()
+{
+    add_theme_support('woocommerce');
+}
+
+add_action('after_setup_theme', 'theme_add_woocommerce_support');
+
+function timber_set_product($post)
+{
+    global $product;
+
+    if (is_woocommerce()) {
+        $product = wc_get_product($post->ID);
+    }
+}
+
+remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail');
+
+
 
 add_filter( 'timber/twig', function( $twig ) {
     $twig->addFilter( new \Twig\TwigFilter( 'custom_excerpt', function( $text, $length = 20 ) {
@@ -47,6 +70,21 @@ add_filter( 'timber/twig', function( $twig ) {
     } ) );
     return $twig;
 } );
+
+// add_filter('timber/twig', function (Twig\Environment $twig) {
+//     // Add the FacetWP display function to Twig
+//     $twig->addFunction(new \Twig\TwigFunction('facetwp_display', function ($facet_name) {
+//         if (function_exists('facetwp_display')) {
+//             return facetwp_display($facet_name);
+//         }
+//         // Return a JavaScript alert if FacetWP is not active
+//         return '<script>alert("FacetWP is not active! Check your plugin setup.");</script>';
+//     }));
+
+//     return $twig;
+// });
+
+
 
 
 
@@ -64,21 +102,20 @@ function lower_yoast_metabox_priority( $priority ) {
 }
 
 
-/*  ☐  Add the rewrite       ───────────────────────────────────────────── */
-add_action( 'init', function () {
-    // /series-smart-cut  →  series_slug = smart-cut
-    add_rewrite_rule(
-        '^series-([A-Za-z0-9-]+)/?$',
-        'index.php?pagename=series&series_slug=$matches[1]',
-        'top'
-    );
-});
+// Rewrite series slugs to include query variables to be passed to dynamically built series pages
+function add_series_rewrite_rule() {
+//   add_rewrite_rule('^series-([a-zA-Z0-9]+)/?$', 'index.php?pagename=series&series_id=$matches[1]', 'top');
+  // This version allows for any character, including spaces and encoded spaces
+  add_rewrite_rule('^series-([^/]+)/?$', 'index.php?pagename=series&series_id=$matches[1]', 'top');
 
-/*  ☐  Register the query-var ───────────────────────────────────────────── */
-add_filter( 'query_vars', function ( $vars ) {
-    $vars[] = 'series_slug';
-    return $vars;
-});
+}
+add_action('init', 'add_series_rewrite_rule');
+
+function add_series_query_var($vars) {
+  $vars[] = "series_id";
+  return $vars;
+}
+add_filter('query_vars', 'add_series_query_var');
 
 // Function to modify permalink structure for sub type custom post types
 function tooltype_permalink_structure($post_link, $post, $leavename) {
@@ -96,51 +133,19 @@ function tooltype_permalink_structure($post_link, $post, $leavename) {
 }
 add_filter('post_type_link', 'tooltype_permalink_structure', 1, 3);
 
-function register_custom_menus() {
-    register_nav_menus(array(
-        'header' => __('Header Menu'), // Existing location
-        'new_main' => __('New Main Menu') // Add a new location
-    ));
-}
-add_action('init', 'register_custom_menus');
 
 
-
-// Function to add Max Mega Menu plugin to base.twig with conditional support
+// Function to add Max Mega Menu plugin to base.twig
 function get_my_menu() {
-    if (is_page('test-page')) { // Replace 'test-page' with your actual slug or use is_page(ID)
-        return wp_nav_menu(array(
-            'theme_location' => 'new_main', // Use the custom "New Main" theme location
-            'echo' => false
-        ));
-    }
     return wp_nav_menu(array(
-        'theme_location' => 'max_mega_menu_1', // Default menu controlled by Max Mega Menu
+        'theme_location' => 'max_mega_menu_1',
         'echo' => false
     ));
 }
-
 add_filter('timber/context', function ($context) {
     $context['my_menu'] = get_my_menu();
     return $context;
 });
-
-
-add_filter('timber/context', function ($context) {
-    $context['header_menu'] = wp_nav_menu(array(
-        'theme_location' => 'header',
-        'echo' => false
-    ));
-
-    $context['new_main_menu'] = wp_nav_menu(array(
-        'theme_location' => 'new_main',
-        'echo' => false
-    ));
-
-    return $context;
-});
-
-
 
 // Rapid Quote handle quote submission
 function handle_quote_submission( WP_REST_Request $request ) {
@@ -195,40 +200,7 @@ function get_current_user_role() {
     else {
       return false;
     }
-}
-
-// Add a script to the footer to set the specialCompanyExempt variable based on user meta
-// This will be used in rapid-quote.js to determine if the user is exempt from the 7% price increase
-// The user meta key is 'company' and the values are compared against a predefined list of exempt companies
-// The script will set window.specialCompanyExempt to true or false based on the user's company
-
-add_action('wp_footer', function () {
-    if (!is_user_logged_in()) {
-        echo "<script>window.specialCompanyExempt = false;</script>";
-        return;
-    }
-
-    $user_id = get_current_user_id();
-    $user_company = get_user_meta($user_id, 'company', true); // <-- FIXED
-    
-    $exempt_companies = [
-        'Grainger',
-        'US Tool Group',
-        'Ewie',
-        'EGC - Ewie',
-    ];
-    // Add any additional companies that should be exempt from the 7% price increase plus 20%
-    $exempt_20 = [
-        'Ewie',
-        'EGC - Ewie',
-    ];
-    
-    $is_exempt = in_array($user_company, $exempt_companies) ? 'true' : 'false';
-    $exempt_plus = in_array($user_company, $exempt_20) ? 'true' : 'false';
-    echo "<script>window.specialCompanyExemptPlus = {$exempt_plus};</script>";
-    echo "<script>window.specialCompanyExempt = {$is_exempt};</script>";
-});
-
+ }
 
 add_action('wp_head', 'print_user_role');
 function print_user_role() {
@@ -258,13 +230,8 @@ add_filter( 'manage_users_sortable_columns', 'make_role_column_sortable' );
 
 
 function redirect_lostpassword_page() {
-    // Avoid undefined index notices on PHP 8.0+
-    $is_get      = ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET' );
-    $is_login    = ( isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'wp-login.php' );
-    $action      = isset($_GET['action']) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '';
-
-    if ( $is_get && $is_login && $action === 'lostpassword' ) {
-        wp_redirect( home_url( '/lost-password/' ) );
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && $GLOBALS['pagenow'] === 'wp-login.php' && $_GET['action'] === 'lostpassword') {
+        wp_redirect(home_url('/lost-password/'));
         exit;
     }
 }
@@ -281,6 +248,17 @@ function custom_logout_redirect() {
     exit();
 }
 add_action('wp_logout', 'custom_logout_redirect');
+
+
+// // Redirect password reset request to a custom page
+// function custom_password_reset_redirect($url) {
+//     // Change 'custom-page' to the slug of your custom page
+//     return home_url('https://staging.gwstoolgroup.com');
+// }
+// add_filter('lostpassword_url', 'custom_password_reset_redirect');
+
+
+
 
 // Add company to user profile meta
 add_action('show_user_profile', 'custom_user_profile_fields');
@@ -356,28 +334,226 @@ function custom_password_reset_confirmation() {
 }
 add_action( 'login_message', 'custom_password_reset_confirmation' );
 
-// Create a default title passed in html-header.twig to give customization to page titles for dynamic pages
+// Force FacetWP to ignore the archive query, and use the custom query instead
+add_filter( 'facetwp_is_main_query', function( $is_main_query, $query ) {
+    if ( $query->is_archive() && $query->is_main_query() ) {
+      $is_main_query = false;
+    }
+    return $is_main_query;
+  }, 10, 2 );
+
+add_action( 'after_setup_theme', function() {
+    add_theme_support( 'woocommerce' );
+} );
+
+add_filter( 'facetwp_render_output', function( $output ) {
+    $output['settings']['milling_types']['showSearch'] = false;
+    return $output;
+  });
+
+//   temporarily disable SearchWP integration with WP All Import
+add_filter( 'searchwp\integration\wp_all_import\enabled', '__return_false' );
+
+//  Only index 'product' post type for facetwp to speed up indexing and improve performance
+add_filter( 'facetwp_indexer_query_args', function( $args ) {
+  $args['post_type'] = ['product']; // Index only these post types
+  return $args;
+});
+
+// delete extra skus from woocommerce products
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+    require_once ABSPATH . 'wp-content/delete-duplicate-skus.php';
+}
+
+
+add_action('wp_ajax_update_cart_item', 'ajax_update_cart_item');
+add_action('wp_ajax_nopriv_update_cart_item', 'ajax_update_cart_item');
+
+function ajax_update_cart_item() {
+    $key = sanitize_text_field($_POST['cart_item_key']);
+    $quantity = max(0, intval($_POST['quantity']));
+
+    if ($quantity === 0) {
+        WC()->cart->remove_cart_item($key);
+    } else {
+        WC()->cart->set_quantity($key, $quantity, true);
+    }
+
+    WC()->cart->calculate_totals();
+
+    // Prepare updated totals for JS
+    $item = WC()->cart->get_cart_item($key);
+
+    $totals = [];
+    if ($item) {
+        $totals[$key] = [
+            'subtotal' => wc_price($item['line_subtotal']),
+        ];
+    }
+
+    $totals['cart_subtotal'] = WC()->cart->get_cart_subtotal();
+    ob_start();
+    wc_cart_totals_order_total_html();
+    $totals['cart_total'] = ob_get_clean();
+
+    wp_send_json_success(['totals' => $totals]);
+}
+
+add_action('wp_ajax_remove_cart_item', 'ajax_remove_cart_item');
+add_action('wp_ajax_nopriv_remove_cart_item', 'ajax_remove_cart_item');
+
+function ajax_remove_cart_item() {
+    $key = sanitize_text_field($_POST['cart_item_key']);
+    WC()->cart->remove_cart_item($key);
+
+    wp_send_json_success();
+}
+
+// Custom logic section
+
+/**
+ * Get discounted price by tier.
+ *
+ * @param float $price
+ * @param string $tier
+ * @return float
+ */
+function gws_get_discounted_price($price, $tier) {
+    switch ($tier) {
+        case 't1':
+            return $price * 0.90;
+        case 't2':
+            return $price * 0.75;
+        case 't3':
+            return $price * 0.60;
+        default:
+            return $price;
+    }
+}
+
+// Discounted product prices by tier AJAX handler
+add_action('wp_ajax_get_discounted_product_prices_by_tier', 'get_discounted_product_prices_by_tier');
+add_action('wp_ajax_nopriv_get_discounted_product_prices_by_tier', 'get_discounted_product_prices_by_tier');
+
+function get_discounted_product_prices_by_tier() {
+    if (empty($_GET['tier']) || empty($_GET['product_ids'])) {
+        wp_send_json_error('Missing tier or product_ids', 400);
+    }
+
+    $tier = sanitize_text_field($_GET['tier']);
+    $product_ids = array_map('intval', explode(',', $_GET['product_ids']));
+
+    $discounted_prices = [];
+
+    foreach ($product_ids as $product_id) {
+        $product = wc_get_product($product_id);
+        if (!$product) {
+            continue;
+        }
+
+        $price = (float) $product->get_price();
+        $discounted_price = gws_get_discounted_price($price, $tier);
+
+        $discounted_prices[$product_id] = [
+            'discounted_price_html' => wc_price($discounted_price),
+        ];
+    }
+
+    wp_send_json_success(['discounted_prices' => $discounted_prices]);
+}
+
+add_action('wp_enqueue_scripts', function () {
+    if (is_cart()) {
+        wp_enqueue_script('custom-cart-ajax', get_template_directory_uri() . '/js/cart-ajax.js', ['jquery'], null, true);
+        wp_localize_script('custom-cart-ajax', 'wc_cart_params', ['ajax_url' => admin_url('admin-ajax.php')]);
+    }
+});
+
+// Clear cart via AJAX
+add_action('wp_ajax_clear_cart', 'gws_clear_cart');
+add_action('wp_ajax_nopriv_clear_cart', 'gws_clear_cart');
+
+function gws_clear_cart() {
+    WC()->cart->empty_cart();
+    wp_send_json_success('Cart cleared');
+}
+
+function gws_enqueue_tier_scripts() {
+    // Make sure wc_cart_params is available site-wide
+    if (function_exists('wc_enqueue_js')) {
+        wp_enqueue_script('wc-cart-fragments'); // ensures wc_cart_params is defined
+    }
+
+    wp_enqueue_script(
+        'tier-selector',
+        get_template_directory_uri() . '/js/tier-selector.js',
+        [],
+        null,
+        true
+    );
+
+    wp_enqueue_script(
+        'cart-pricing',
+        get_template_directory_uri() . '/js/cart-pricing.js',
+        ['tier-selector'], // depends on tier-selector
+        null,
+        true
+    );
+
+    // Ensure wc_cart_params is available in JS
+    wp_localize_script('cart-pricing', 'wc_cart_params', [
+        'ajax_url' => admin_url('admin-ajax.php')
+    ]);
+}
+add_action('wp_enqueue_scripts', 'gws_enqueue_tier_scripts');
+
 add_filter('timber/context', function ($context) {
-    $context['wp_title'] = wp_get_document_title();
+    $context['userRole'] = '';
+
+    if (is_user_logged_in()) {
+        $user = wp_get_current_user();
+        $context['userRole'] = $user->roles[0] ?? '';
+    }
+
     return $context;
 });
 
-// Signature Maker function for conditional logic
-add_filter( 'gform_notification_5', 'customize_notification_content', 10, 3 ); // Change '1' to your form ID
+// Bulk add to cart via AJAX
+add_action('wp_ajax_bulk_add_to_cart', 'gws_bulk_add_to_cart');
+add_action('wp_ajax_nopriv_bulk_add_to_cart', 'gws_bulk_add_to_cart');
 
-function customize_notification_content( $notification, $form, $entry ) {
-    // Get field values
-    $mobile = rgar( $entry, '3' ); // field ID for mobile number
-    $office_ext = rgar( $entry, '13' ); // field ID for office extension
-
-    // Build the dynamic parts of the notification message
-    $mobile_html = !empty($mobile) ? "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Mobile:</strong> $mobile</p>" : '';
-    $office_html = !empty($office_ext) ? "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Office:</strong> (877) 497-8665 x$office_ext</p>" : "<p style='margin: 3px 0px; font-size: 14px; line-height: 110%; font-family: Arial, sans-serif; color: #222; background-color: transparent;'><strong>Office:</strong> (877) 497-8665</p>";
-
-    // Insert these into the notification message where appropriate
-    $notification['message'] = str_replace('{dynamic_mobile}', $mobile_html, $notification['message']);
-    $notification['message'] = str_replace('{dynamic_office}', $office_html, $notification['message']);
-
-    return $notification;
+function gws_bulk_add_to_cart() {
+    if (empty($_POST['parts'])) {
+        wp_send_json_error(['message' => 'Missing parts parameter'], 400);
+    }
+    $parts = json_decode(stripslashes($_POST['parts']), true);
+    if (!is_array($parts)) {
+        wp_send_json_error(['message' => 'Invalid parts format'], 400);
+    }
+    $added = [];
+    $not_found = [];
+    foreach ($parts as $sku) {
+        $sku = trim($sku);
+        if ($sku === '') continue;
+        $product_id = wc_get_product_id_by_sku($sku);
+        if ($product_id) {
+            WC()->cart->add_to_cart($product_id, 1);
+            $added[] = $sku;
+        } else {
+            $not_found[] = $sku;
+        }
+    }
+    WC()->cart->calculate_totals();
+    wp_send_json_success([
+        'added' => $added,
+        'not_found' => $not_found,
+    ]);
 }
 
+// Exclude 'NULL' values from FacetWP indexing
+add_filter( 'facetwp_index_row', function( $row, $args ) {
+    if ( isset( $row['facet_value'] ) && strtoupper( trim( $row['facet_value'] ) ) === 'NULL' ) {
+        return false; // skip only the 'NULL' value
+    }
+    return $row;
+}, 10, 2 );

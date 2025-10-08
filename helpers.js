@@ -19,33 +19,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const homeHero = document.getElementById('home-hero');
     const heroLinks = document.querySelectorAll('.hero-link');
-    const heroTagLine = document.querySelector('.hero-tagline');
-    const heroTagLineBig = document.querySelector('.hero-tagline-big');
 
     // Get image URLs from data attributes
     const image1 = homeHero.getAttribute('data-image1');
     const image2 = homeHero.getAttribute('data-image2');
     const image3 = homeHero.getAttribute('data-image3');
     const image4 = homeHero.getAttribute('data-image4');
-    const image5 = homeHero.getAttribute('data-image5');
 
-    // Get taglines from data attributes
-    const tagline1 = homeHero.getAttribute('data-tagline1');
-    const tagline2 = homeHero.getAttribute('data-tagline2');
-    const tagline3 = homeHero.getAttribute('data-tagline3');
-    const tagline4 = homeHero.getAttribute('data-tagline4');
-    const tagline5 = homeHero.getAttribute('data-tagline5');
-
-    const taglineBig1 = homeHero.getAttribute('data-tagline-big1');
-    const taglineBig2 = homeHero.getAttribute('data-tagline-big2');
-    const taglineBig3 = homeHero.getAttribute('data-tagline-big3');
-    const taglineBig4 = homeHero.getAttribute('data-tagline-big4');
-    const taglineBig5 = homeHero.getAttribute('data-tagline-big5');
-
-    // Create arrays for easier access
-    const heroImages = [image1, image2, image3, image4, image5];
-    const heroTaglines = [tagline1, tagline2, tagline3, tagline4, tagline5];
-    const heroTaglinesBig = [taglineBig1, taglineBig2, taglineBig3, taglineBig4, taglineBig5];
+    // Create an array of images for easier access
+    const heroImages = [image1, image2, image3, image4];
 
     // Set initial background image if available
     if (heroImages[0]) {
@@ -54,15 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add hover event listeners to each hero link
     heroLinks.forEach((link, index) => {
         link.addEventListener('mouseover', function() {
-            // console.log(link)
-            // console.log(heroImages[index])
-            // console.log(heroTaglines[index])
-            // console.log(heroTaglinesBig[index])
+            console.log(link)
+            console.log(heroImages[index])
             if (heroImages[index]) { // Check if image exists for this index
                 homeHero.style.backgroundImage = `url(${heroImages[index]})`;
-                
-                // heroTagLine.textContent = heroTaglines[index];
-                // heroTagLineBig.textContent = heroTaglinesBig[index];
             }
         });
     });
@@ -101,9 +78,4 @@ servicesCards.forEach(card => {
 //     footerSubmitButton.value = 'Sign Up' + '<span>&#x2714;</span>';
 //     console.log(footerSubmitButton.value)
 // }
-
-  
-  
-  
-  
 

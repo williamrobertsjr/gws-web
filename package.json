@@ -3,11 +3,9 @@
     "tailwindcss": "^3.3.6"
   },
   "scripts": {
-    "build:css": "tailwindcss -i ./style.css -o ./output.css --minify"
+    "build:css": "tailwindcss -i ./style.css -o ./output.css"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.15",
-    "swiper": "^11.0.5",
-    "tailwindcss-all": "^0.0.2"
+    "swiper": "^11.0.5"
   }
 }
