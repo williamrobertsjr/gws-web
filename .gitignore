@@ -8,4 +8,11 @@ node_modules/
 single-subtypes.php
 views/page-sales-team.twig
 images/
-speed_and_feed/
+speed_and_feed/node_modules/
+output.css.local
+*.log
+*.map
+wp-content/uploads/
+lib/
+
+images/catalog_images/
