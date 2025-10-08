@@ -137,13 +137,23 @@ if (is_singular('product')) {
         // Attach WC product objects
         $products = [];
         foreach ($timber_products as $post) {
-            $post->wc_product = wc_get_product($post->ID);
+            $wc_product = wc_get_product($post->ID);
+            $post->wc_product = $wc_product;
+
+            // Get SKU or part number
+            $sku = $wc_product ? $wc_product->get_sku() : null;
+
+            // Attach price to the post
+            $post->list_price = $sku ? gws_get_part_list_price($sku) : null;
+
             $products[] = $post;
         }
         $context['userRole'] = get_current_user_role();
         $context['products'] = $products;
         $context['category'] = get_term($term_id, 'product_cat');
         $context['title'] = single_term_title('', false);
+        // $context['test_price'] = gws_get_part_list_price('100333');
+
     }
 
     Timber::render('views/woo/archive.twig', $context);

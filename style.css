@@ -326,7 +326,7 @@ body b {
 }
 
 .hero-link:first-of-type:hover ~ #home-hero {
-  /* background-image: url("/wp-content/uploads/2023/12/custom_home.jpg'"); */
+  background-image: url("https://gwstoolgroup.com/wp-content/uploads/2023/12/custom_home.jpg'");
 }
 .industries-sub-menu li.mega-menu-item,
 .resources-sub-menu li.mega-menu-item,
@@ -474,7 +474,7 @@ div#gform_confirmation_wrapper_5 {
 }
 
 #home-hero {
-  /* background-image: url("/wp-content/uploads/2023/12/custom_home.jpg'"); */
+  background-image: url("https://www.gwstoolgroup.com/wp-content/uploads/2025/08/2025_tap_program.jpg'");
   background-color: rgba(0, 0, 0, 0.5);
   background-blend-mode: overlay;
   background-position: center center;
@@ -1806,6 +1806,28 @@ main.swp-rp-main {
   position: relative; /* override any unexpected absolute */
 }
 
+a.facetwp-page {
+    display: inline-block;
+    color: var(--white);
+    padding: 4px 10px;
+    margin-right: 6px;
+    cursor: pointer;
+    background: var(--light-blue);
+    border: 1px solid var(--light-blue);
+    border-radius: 2px;
+}
+a.facetwp-page:hover {
+    background: #6b97cc;
+    border-color: #6b97cc;
+    color: var(--white);
+    borer-radius: 2px;
+}
+.facetwp-pager .facetwp-facet {
+  margin-bottom: 0
+}
+
+
+
 /*********************************
 ******* Woocommerce Cart ******
 **********************************/
@@ -1857,6 +1879,7 @@ tr.wc-block-cart-items__row {
   background-image: url(../images/icon-close.png);
   background-position: right;
 }
+
 
 
 .wc-block-cart-item__image img {

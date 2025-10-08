@@ -6,22 +6,24 @@
     {# {% do action('woocommerce_before_single_product') %} #}
     
     <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }} pt-60 mx-auto text-white">
-    {% set series = product.get_attribute('pa_series') %}
+    <pre>{{ dump(attributes.pa_series, product.get_attribute('pa_series'), post.meta('attribute_series')) }}</pre>
     <section class="w-full container mx-auto pb-20">
-       
-            {# <div>
+{#        
+            <div>
                 <h1>{{ post.title }}</h1>
                 <h2>Post Meta</h2>
                 <ul>
                     {% for key, value in post.meta %}
+                    {% if 'series' in key %}
                         <li>{{ key }}: {{ value }}</li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
 
-            </div> #}
+            </div>
            
-            {# <div>helllloooo {{ dump('test') }}</div> #}
-
+            <div>helllloooo {{ dump('test') }}</div> #}
+{# <pre>{{ dump(wc_product.get_attributes()) }}</pre> #}
         <div class="flex">
             <div class="w-4/12 me-10">
                 <div class="aspect-square flex justify-center items-center p-4 bg-[#fff] rounded">
@@ -48,7 +50,7 @@
                           {{ function('wc_price', product.get_price()) }}
                         </span>
                     </p>
-                    <div class="bg-dark-blue px-2"><p class="text-lg text-white">30 in stock</p></div>
+                    <div class="bg-dark-blue px-2"><p class="text-lg text-white">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }} in stock</p></div>
                 </div>
                 <div>
                     {# <p>{{post.meta('table_description')}}</p> #}

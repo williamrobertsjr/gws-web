@@ -9,6 +9,16 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/src/StarterSite.php';
 
+require_once get_template_directory() . '/lib/part-pricing.php';
+
+add_action('init', function() {
+    if (is_user_logged_in() && current_user_can('manage_options')) {
+        $test_part = 'XYZ123'; // Replace with a real part number in your DB
+        $price = gws_get_part_list_price($test_part);
+        error_log("Price for part {$test_part}: " . $price);
+    }
+});
+
 // Load discounts logic for WooCommerce and distributor tiers sitewide
 require_once get_template_directory() . '/views/woo/discounts.php';
 
@@ -360,10 +370,10 @@ add_filter( 'facetwp_indexer_query_args', function( $args ) {
   return $args;
 });
 
-// delete extra skus from woocommerce products
-if ( defined( 'WP_CLI' ) && WP_CLI ) {
-    require_once ABSPATH . 'wp-content/delete-duplicate-skus.php';
-}
+// // delete extra skus from woocommerce products
+// if ( defined( 'WP_CLI' ) && WP_CLI ) {
+//     require_once ABSPATH . 'wp-content/delete-duplicate-skus.php';
+// }
 
 
 add_action('wp_ajax_update_cart_item', 'ajax_update_cart_item');

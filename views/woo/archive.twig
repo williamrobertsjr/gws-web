@@ -1,6 +1,7 @@
 {% extends 'base.twig' %}
 {% set userRoleDisplay = get_user_role_display(userRole) %}
 {% block content %}
+<pre>{{ dump(tool_type, tool_data|keys) }}</pre>
 <section class="pt-52 px-8 2xl:px-4">
     {# USE FOR TESTING VARIABLES / TIMBER CONTEXT #}
     {# <div><p>{{ dump(attributes) }}</p></div> #}
@@ -19,7 +20,7 @@
             <p class="mt-4 text-sm">Your distributor discount: <span class="font-semibold no-underline text-pale-blue">{{userRoleDisplay}}.</span></p>
         </div>
     </div>
-    
+
     
     <div class="flex flex-col md:flex-row justify-between mt-12">
         <div class="filters bg-black p-6 rounded text-white mx-auto flex gap-x-4 flex flex-col w-full md:w-1/5">
@@ -74,7 +75,7 @@
                 </div>
             </div>
             {# Add FacetWP pagination here #}
-            <div class="facetwp-pager">
+            <div class="facetwp-pager px-2 py-4">
                 {{ function('do_shortcode', '[facetwp facet="pagination"]') }}
             </div>
         </div>

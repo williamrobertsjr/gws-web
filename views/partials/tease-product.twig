@@ -1,7 +1,9 @@
 <article {{ fn('post_class', ['$classes', 'entry']) }}>
-    {% set product = post.wc_product %} {# Set product variable #}
+    {% set product = function('wc_get_product', post.ID) %} {# Set product variable #}
+    <pre>{{ dump(product.get_attributes()) }}</pre>
     {% set series_terms = post.terms('pa_series') %}
     {% set series = series_terms[0].name ?? '' %}
+  <pre>{{ dump(post.terms('pa_series')) }}</pre>
     {% set categories = post.terms('product_cat') %}
     {% set tool_type = categories[3].name ?? '' %}
     {# {% set materials = post.terms('pa_materials') %} #}
@@ -118,8 +120,10 @@
         <div class="flex-grow flex flex-col justify-between ps-6 pe-2 w-1/4">
             <div class="text-right">
                 {# {% do action('woocommerce_before_shop_loop_item_title') %}     #}
+                {# <p class="text-xs text-gray-500">Raw price: {{ product.get_price() }}</p> #}
                 <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ product.get_price_html()|raw }}</p>
-                <p class="text-black font-medium">{{ random(0, 100) }}<span class="text-sm font-regular"> In stock</span> </p>
+                {# <p class="text-black font-medium">{{ random(0, 100) }}<span class="text-sm font-regular"> In stock</span> </p> #}
+                <p class="text-black font-medium">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }} <span class="text-sm font-regular">In stock</span></p>
             </div>
             <div>
                 {# {% do action('woocommerce_single_product_summary') %} #}
