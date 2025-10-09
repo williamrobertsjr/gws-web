@@ -6,24 +6,22 @@
     {# {% do action('woocommerce_before_single_product') %} #}
     
     <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }} pt-60 mx-auto text-white">
-    <pre>{{ dump(attributes.pa_series, product.get_attribute('pa_series'), post.meta('attribute_series')) }}</pre>
+    {% set series = product.get_attribute('pa_series') %}
     <section class="w-full container mx-auto pb-20">
-{#        
-            <div>
+       
+            {# <div>
                 <h1>{{ post.title }}</h1>
                 <h2>Post Meta</h2>
                 <ul>
                     {% for key, value in post.meta %}
-                    {% if 'series' in key %}
                         <li>{{ key }}: {{ value }}</li>
-                    {% endif %}
                     {% endfor %}
                 </ul>
 
-            </div>
+            </div> #}
            
-            <div>helllloooo {{ dump('test') }}</div> #}
-{# <pre>{{ dump(wc_product.get_attributes()) }}</pre> #}
+            {# <div>helllloooo {{ dump('test') }}</div> #}
+
         <div class="flex">
             <div class="w-4/12 me-10">
                 <div class="aspect-square flex justify-center items-center p-4 bg-[#fff] rounded">
@@ -33,17 +31,17 @@
             </div>
             {# Right Product Information #}
             <div class="w-8/12">
-                <p class="mb-2">{{product.get_attribute('pa_tool-type')|capitalize}} / {{product.get_attribute('pa_sub-type')}} / {{product.get_attribute('pa_family')}} /  <a href="/series-{{product.get_attribute('pa_series')}}">Series {{product.get_attribute('pa_series')}}</a></p>
+                <p class="mb-2">{{product.get_attribute('pa_tool-type')|capitalize}} > {{product.get_attribute('pa_sub-type')}} > {{product.get_attribute('pa_family')}} > <a href="/series-{{product.get_attribute('pa_series')}}">Series {{product.get_attribute('pa_series')}}</a></p>
                 <h1 class="entry-title text-5xl font-black text-pale-blue uppercase">{{ post.title }}</h1>
                 <p>{{post.meta('table_description')}}</p>
                 <div class="flex items-center mt-1 gap-x-3">
                     <p class="text-2xl text-white price-cell" data-product-id="{{ product.id }}">
-                        <span 
+                        {# <span 
                           class="original-price line-through text-gray me-2" 
                           data-price="{{ product.get_price() }}"
                         >
                           {{ function('wc_price', product.get_price()) }}
-                        </span>
+                        </span> #}
                         <span 
                           class="discounted-price font-bold text-white"
                         >

@@ -1,3 +1,0 @@
-nohup: ignoring input
-WordPress database error Table 'wp_facetwp_temp' already exists for query CREATE TABLE wp_facetwp_temp LIKE wp_facetwp_index made by include('phar:///usr/local/bin/wp/php/boot-phar.php'), include('phar:///usr/local/bin/wp/vendor/wp-cli/wp-cli/php/wp-cli.php'), WP_CLI\bootstrap, WP_CLI\Bootstrap\LaunchRunner->process, WP_CLI\Runner->start, WP_CLI\Runner->run_command_and_exit, WP_CLI\Runner->run_command, WP_CLI\Dispatcher\Subcommand->invoke, call_user_func, WP_CLI\Dispatcher\CommandFactory::WP_CLI\Dispatcher\{closure}, call_user_func, FacetWP_Integration_WP_CLI->index, FacetWP_Indexer->manage_temp_table
-Success: Indexing complete.
