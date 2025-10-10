@@ -48,13 +48,13 @@
                     <p class="text-sm uppercase text-pale-blue font-bold">News</p>
                     <div>
                         {% if userRole == '55%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx">Price List 01/01/25</a></button>
+                            <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx">Price List 06/20/24</a></button>
                         {% elseif userRole == '52.5%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx">Price List 01/01/25</a></button>
+                            <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx">Price List 06/20/24</a></button>
                         {% elseif userRole == '50%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx">Price List 01/01/25</a></button>     
+                            <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx">Price List 06/20/24</a></button>     
                         {% elseif userRole == '57.5%' %}
-                            <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx">Price List 01/01/25</a></button>     
+                            <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_57_5_AUG_2024.xlsx">Price List 08/05/24</a></button>     
                         {% else %}
                             {# <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
                         {% endif %}
@@ -66,15 +66,15 @@
                     {% for item in post.meta('dashboard_news') %}
                         {% if loop.index == 1 %}
                             {% if userRole == '55%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                                <a href="/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
                             {% elseif userRole == '52.5%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                                <a href="/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
                             {% elseif userRole == '50%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
+                                <a href="/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
                             {% elseif userRole == '57.5%' %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
+                                <a href="/docs/GWS_PRICE_LIST_57_5_AUG_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>     
                             {% else %}
-                                <a href="/docs/pricing/GWS_PRICE_LIST_AUG_01_2025.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
+                                <a href="/docs/GWS_PRICE_LIST_LIST_JUNE_2024.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
                             {% endif %}
                         {% else %}
                             <a href="{{item.news_link}}"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
@@ -90,11 +90,11 @@
     <div class="flex flex-col lg:flex-row gap-y-6 justify-between mt-8 gap-x-4">
         <div id="rapid-quote-dash" class="w-full lg:w-6/12 box-shadow h-52 flex flex-col justify-end ps-8 pb-8">
             <h3 class="text-4xl font-black uppercase">Rapid Quote</h3>
-            <div><button class="btn dark-blue"><a href="/rapid-quote">Get Your Quote</a></button></div>
+            <div><button class="btn dark-blue"><a href="/cart">Get Your Quote</a></button></div>
         </div>
         <div id="tool-filter-dash" class="w-full lg:w-6/12 box-shadow h-52 flex flex-col justify-end ps-8 pb-8">
             <h3 class="text-4xl font-black uppercase">Tool Filter</h3>
-            <div><button class="btn dark-blue"><a href="/tool-filter">Search Parts</a></button></div>  
+            <div><button class="btn dark-blue"><a href="/products/milling">Search Parts</a></button></div>  
         </div>
         {# <img class="w-6/12 box-shadow" src="/wp-content/uploads/2024/01/RQ-dashboard.png" alt="">
         <img class="w-6/12 box-shadow" src="/wp-content/uploads/2024/01/RQ-Tool.png" alt=""> #}
@@ -108,28 +108,22 @@
     </div>
 
     <div class="mt-10 flex flex-col gap-y-6 lg:flex-row justify-between">
-        {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
-            <div class="flex flex-col w-full md:w-4/12">
-        {% else %}
-            <div class="flex flex-col w-full">
-        {% endif %}    
+        <div class="flex flex-col w-full lg:w-4/12">
             <div id="quick-links" class="flex flex-col flex-grow p-8">
                 <p class="text-sm uppercase text-pale-blue font-bold">Quick Links</p>
                 {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
                     <div class="flex flex-col gap-y-2 mt-8">
                         <div class="gap-y-1 flex flex-col mb-4">
                             <p class="font-bold text-pale-blue underline">Distributor Price Lists</p>
-                            <p class="italic mb-2">All price lists effective 08/01/25</p>
-                            <a class="ps-2 text-white mb-0" href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx">Price List - 55%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx">Price List - 52.5%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx">Price List - 50%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx">Price List - 57.5%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_DIRECT_AUG_01_2025.xlsx">Price List - Direct</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_AUG_01_2025.xlsx">GWS List Price</a>
+                            <a class="ps-2 text-white mb-0" href="/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx">Price List - 55%</a>
+                            <a class="ps-2 text-white" href="/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx">Price List - 52.5%</a>
+                            <a class="ps-2 text-white" href="/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx">Price List - 50%</a>
+                            <a class="ps-2 text-white" href="/docs/GWS_PRICE_LIST_57_5_AUG_2024.xlsx">Price List - 57.5%</a>
+                            <a class="ps-2 text-white" href="/docs/GWS_PRICE_LIST_LIST_JUNE_2024.xlsx">GWS List Price</a>
                         </div>
                         <a class="text-white" href="https://crm.gws.tools/SlxClient/Login.aspx">Infor CRM</a>
+                        <a class="text-white" href="https://gwstoolgroup.retool.com/apps/0c5528be-7b42-11ee-aec5-f3623936498f/*GWS%20Sales%20Dashboard*">GWS Sales Dashboard</a>
                         <a class="text-white" href="https://access.paylocity.com/">Paylocity</a>
-                        <a class="text-white" href="/signatures">Email Signature Maker</a>
                         <a class="text-white" href="https://gwstoolgroup.atlassian.net/servicedesk/customer/portal/3">Submit an IT Ticket</a>
                         <a class="text-white" href="https://gwstoolgroup.itemorder.com/shop/home/">Swag Store</a>
                         <a class="text-white" href="https://expense.certify.com/Login.aspx">Certify</a>
@@ -139,13 +133,13 @@
                 {% else %}
                     <div class="flex flex-col gap-y-2 mt-8">
                         {% if userRole == '55%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_55_AUG_01_2025.xlsx">01/01/25 New Price List</a>
+                            <a class="text-white" href="/docs/GWS_PRICE_LIST_55_JUNE_2024.xlsx">5/1/24 New Price List</a>
                         {% elseif userRole == '52.5%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_AUG_01_2025.xlsx">01/01/25 New Price List</a>
+                            <a class="text-white" href="/docs/GWS_PRICE_LIST_52_5_JUNE_2024.xlsx">5/1/24 New Price List</a>
                         {% elseif userRole == '50%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_50_AUG_01_2025.xlsx">01/01/25 New Price List</a>     
+                            <a class="text-white" href="/docs/GWS_PRICE_LIST_50_JUNE_2024.xlsx">5/1/24 New Price List</a>     
                         {% elseif userRole == '57.5%' %}
-                            <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_AUG_01_2025.xlsx">01/01/25 New Price List</a>     
+                            <a class="text-white" href="/docs/GWS_PRICE_LIST_57_5_AUG_2024.xlsx">08/05/24 New Price List</a>     
                         {% else %}
                             {# <button class="btn light-blue"><a href="/docs/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
                         {% endif %}
@@ -161,17 +155,14 @@
 
             </div>
         </div>
-        {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
         <div class="flex flex-col w-full lg:w-7/12">
             <div id="dashboard-sales-map" class="flex flex-col flex-grow p-8 gap-y-8">
-                <p class="text-sm uppercase text-pale-blue font-bold">GWS Facilities</p>
+                <p class="text-sm uppercase text-pale-blue font-bold">Sales Rep Map</p>
                 <div id="sales-map-dash">
-                    {# {{ map_content|raw }} #}
-                    <iframe src="https://www.google.com/maps/d/embed?mid=1XXq7_i9tEQykc_u3DtPb_TTuigKR-UQ&hl=en&ehbc=2E312F" width="100%" height="480"></iframe>
+                    {{ map_content|raw }}
                 </div>
             </div>
         </div>
-        {% endif %}
     </div>
 </section>
 

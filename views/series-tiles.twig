@@ -8,9 +8,9 @@
     {% else %}
         {% set additional_classes = series.tool_sub_type|replace({' ' : '', '/' : ''})|lower %}
     {% endif %}
-    {% set seriesLink = series.series|replace({' ': '-'}) %}
+
     <div class="single-tile-container grid-item w-full md:w-6/12 lg:w-4/12 p-2 {{ series.tool_type|lower }} {{ additional_classes }}">
-        <a href="/series-{{ seriesLink }}" class="hvr-float block">
+        <a href="/series-{{ series.series }}" class="hvr-float block">
             <div class="series-tile flex flex-col justify-between px-5 py-6 w-full">
                 {% if series.family == 'Armory' %}
                     <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series|lower|replace({' ': '_'}) }}_tile.png" alt="">
@@ -64,11 +64,9 @@
                             {% endfor %}
                         </div>
                     </div>
-                    {% if series.tool_type != 'THREADING' %}
-                        <div class="series-tile-brand w-8/12">
-                            <img src="/wp-content/themes/gws-web/images/brands/brand_{{ series.family|lower }}.png" alt="">
-                        </div>
-                    {% endif %}
+                    <div class="series-tile-brand w-8/12">
+                        <img src="/wp-content/themes/gws-web/images/brands/brand_{{ series.family|lower }}.png" alt="">
+                    </div>
                 </div>
             </div>
         </a>

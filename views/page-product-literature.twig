@@ -7,121 +7,303 @@
 
     <div id="lit-company" class="lit-section">
         <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Company</h2>
-        <hr class="text-gray">
-        <div class="text-white lit-row flex flex-wrap mt-10 mb-28">
-        
-        {% for literature in post.meta('company_literature') %}
+        <hr>
+        <div class="lit-row flex flex-wrap mt-10 mb-28">
+
             <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
                 <div class="w-5/12">
-                    {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
+                    {{function('do_shortcode','[dflip id="127130" type="thumb"][/dflip]')}}
                 </div>
                 <div class="w-6/12 mt-6">
-                    <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Product Catalog</h3>
                     <div class="flex flex-col gap-y-4">
-                        <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
-                        {% if literature.pdf_url_spanish %}
-                            <div><button class="btn light-blue"><a href="{{literature.pdf_url_spanish}}">Español</a></button></div>
-                        {% endif %}
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2023/08/GWS-Catalog-8-31-23.2-Web1.pdf">Download</a></button></div>
                     </div>
                 </div>  
             </div>
-        {% endfor %}
         
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="99450" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Corporate Profile</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2022/08/Corporate-Profile-Brochure.pdf">Download</a></button></div>
+                        <div><button class="btn light-blue"><a href="/get-corporate-profile//brochure-request/">Order Copy</a></button></div>
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/02/Corporate_Profile.11.2.2020_web_SP3.pdf">Español</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="116958" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">GWS Quick Sheet</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/07/GWS-Marketing-Information-Brochure.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
         </div>
     </div>
     <div id="lit-milling" class="lit-section">
         <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Milling</h2>
-        <hr class="text-gray">
+        <hr>
         <div class="lit-row flex flex-wrap mt-10 mb-28">
-                {% for literature in post.meta('milling_literature') %}
-                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
-                        <div class="w-5/12">
-                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
-                        </div>
-                        <div class="w-6/12 mt-6">
-                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
-                            <div class="flex flex-col gap-y-4">
-                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
-                            </div>
-                        </div>  
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="103800" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">The Alumigator™</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/08/BROCHURE_ALUMIGATOR_INTERACTIVE_07-23-2021.pdf">Download</a></button></div>
+                        <div><button class="btn light-blue"><a href="/brochure-request/">Order Copy</a></button></div>
                     </div>
-                {% endfor %}
+                </div>  
+            </div>
+        
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="115099" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">The Hurrimill AT4</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/05/BROCHURE_HURRIMILL_AT4_INTERACTIVE_08-18-2021.pdf">Download</a></button></div>
+                        <div><button class="btn light-blue"><a href="/brochure-request/">Order Copy</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="120779" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Tooling Solutions For Medical Bone Screws</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2022/01/BROCHURE_MEDICAL_09-29-2021-1.pdf">Download</a></button></div>
+                        <div><button class="btn light-blue"><a href="/brochure-request/">Order Copy</a></button></div>
+                    </div>
+                </div>  
+            </div>
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="99453" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Ti-Feed Brochure</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2020/05/TiFeed_Mill_Brochure_web.v1.5.8.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
         </div>
     </div>
     <div id="lit-holemaking" class="lit-section">
         <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Holemaking</h2>
-        <hr class="text-gray">
+        <hr>
         <div class="lit-row flex flex-wrap mt-10 mb-28">
-                {% for literature in post.meta('holemaking_literature') %}
-                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
-                        <div class="w-5/12">
-                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
-                        </div>
-                        <div class="w-6/12 mt-6">
-                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
-                            <div class="flex flex-col gap-y-4">
-                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
-                            </div>
-                        </div>  
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="99461" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Chamber Reamer</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2019/10/Chamber-Reamers-Quick-Sheet.pdf">Download</a></button></div>
                     </div>
-                {% endfor %}
+                </div>  
+            </div>
+        
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="99438" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Aerospace</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2020/05/BROCHURE_AEROSPACE_SM_08-13-2021-1.pdf">Download</a></button></div>
+                        <div><button class="btn light-blue"><a href="/brochure-request/">Order Copy</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="123104" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Positive-Stop</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2022/06/Posi-Stop-Brochure-No-Bleeds.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="99452" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">PAC Reamer</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2022/06/Posi-Stop-Brochure-No-Bleeds.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
         </div>
     </div>
     <div id="lit-threading" class="lit-section">
-        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">threading</h2>
-        <hr class="text-gray">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Threading</h2>
+        <hr>
         <div class="lit-row flex flex-wrap mt-10 mb-28">
-                {% for literature in post.meta('threading_literature') %}
-                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
-                        <div class="w-5/12">
-                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
-                        </div>
-                        <div class="w-6/12 mt-6">
-                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
-                            <div class="flex flex-col gap-y-4">
-                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
-                            </div>
-                        </div>  
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="103159" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Taps, Dies, and Gages</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/08/CATALOG_POPULAR_SPECIALS_08-25-2021.pdf">Download</a></button></div>
                     </div>
-                {% endfor %}
-        </div>
-    </div>
-    <div id="lit-specialty" class="lit-section">
-        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">specialty</h2>
-        <hr class="text-gray">
-        <div class="lit-row flex flex-wrap mt-10 mb-28">
-                {% for literature in post.meta('specialty_literature') %}
-                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
-                        <div class="w-5/12">
-                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
-                        </div>
-                        <div class="w-6/12 mt-6">
-                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
-                            <div class="flex flex-col gap-y-4">
-                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
-                            </div>
-                        </div>  
+                </div>  
+            </div>
+        
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="103161" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Carbide and Carbide Insert Taps</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/02/GWS-Carbide-Taps-flyer.pdf">Download</a></button></div>
                     </div>
-                {% endfor %}
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="103206" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Solid Carbide Threadmills</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/02/GWS_threadmills_brochure_web1.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="103221" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Cost Cutter™ Combination Drill & Taps</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/02/GWS-CostCutter_DrillTap-flyer.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="103219" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Smart Cut™ Tapping & Metalworking Fluid</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/02/GWS-smart_cut_flyer_web.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
         </div>
     </div>
     <div id="lit-inserts" class="lit-section">
-        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">inserts</h2>
-        <hr class="text-gray">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Inserts</h2>
+        <hr>
         <div class="lit-row flex flex-wrap mt-10 mb-28">
-                {% for literature in post.meta('inserts_literature') %}
-                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
-                        <div class="w-5/12">
-                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
-                        </div>
-                        <div class="w-6/12 mt-6">
-                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
-                            <div class="flex flex-col gap-y-4">
-                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
-                            </div>
-                        </div>  
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="118359" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Ceramic</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/09/GWS-Ceramic-Inserts-9-22-21.pdf">Download</a></button></div>
                     </div>
-                {% endfor %}
+                </div>  
+            </div>
+        
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="120715" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">PCD/PCBN</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2021/12/GWS_PCD_PCBN_2024.pdf">Download</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="99451" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Whiskered Ceramic</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2019/07/AlloyCat_Brochure_web.pdf">Download</a></button></div>
+                        <div><button class="btn light-blue"><a href="/brochure-request/">Order Copy</a></button></div>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="125200" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">Custom Turning Solutions</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2022/07/Custom-Turning-Solutions-Brochure.pdf">Download</a></button></div>
+                        
+                    </div>
+                </div>  
+            </div>
+
+        </div>
+    </div>
+    <div id="lit-specialty" class="lit-section">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Specialty</h2>
+        <hr>
+        <div class="lit-row flex flex-wrap mt-10 mb-28">
+
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="99449" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">GWS Armory</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="/wp-content/uploads/2019/03/GWS_Armory_Web.pdf">Download</a></button></div>
+                        
+                    </div>
+                </div>  
+            </div>
+        
         </div>
     </div>
 

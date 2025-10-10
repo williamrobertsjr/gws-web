@@ -13,6 +13,9 @@
 
 $GLOBALS['timberContext'] = Timber::context();
 ob_start();
-
+woocommerce_mini_cart();
+$context['mini_cart'] = ob_get_clean();
+$context['cart_url'] = wc_get_cart_url();
+$context['cart_count'] = WC()->cart->get_cart_contents_count();
 
 // wp_nav_menu( array('theme_location' => 'primary', 'menu_class' => 'nav-menu'));

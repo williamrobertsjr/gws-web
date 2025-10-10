@@ -2,36 +2,73 @@
     {% set tableCols = product_data.data_fields|split(',') %}
     {% set series = product_data.series %}
     {% set toolType = product_data.tool_type %}
+{% elseif is_product_page %}
+    {% set tableCols = attributes['pa_data-fields'][0]|split(',') %}
+    {% set series = product.get_attribute('pa_series') %}
+    {% set toolType = product.get_attribute('pa_tool-type') %}
 {% else %}
     {% set tableCols = series_data.data_fields|split(',') %}
     {% set series = series_data.series %}
     {% set toolType = series_data.tool_type %}
 {% endif %}
-
-<table id="product-table" class="stripe row-border cell-border hover {{toolType}} {{series}}">        
-    <thead>
-        <tr>
-            <th>Part</th>
-            
-            
-            
-            {% for col in tableCols %}
-                <th class="{{col}}">{{col}}</th>
-            {% endfor %}
-            <th>Stock</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for product in products %}
+{% if is_product_page %}
+    {# <p class="text-black">Current series is: {{series}}</p> #}
+    <table id="product-table" class="stripe row-border cell-border hover {{toolType}} {{series}}">        
+        <thead>
             <tr>
-                <td><a class="table-link text-sm text-dark-blue font-bold" href="/product?part={{product.part}}">{{product.part}}</a></td>
+                <th>Part</th>      
                 {% for col in tableCols %}
-                    <td class="text-sm {{col}}">{{ attribute(product, col)|default('-') ?: '-' }}</td>
+                    <th class="{{col}}">{{col}}</th>
                 {% endfor %}
-                <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td>
+                {# <th>Stock</th> #}
             </tr>
+        </thead>
+        <tbody>
+            {% for product in related_products_table %}
+                <tr>
+                    <td><a class="table-link text-sm text-dark-blue font-bold" href="/product/{{product.get_sku()}}">{{product.get_sku()}}</a></td>
+                    {% for col in tableCols %}
+                        {% set mapped_field = attribute(attribute_mapping, col|trim) %}
+                        {% set attribute_value = attributes[mapped_field][0] %}
+                        {# <td class="text-sm {{col}}">{{ attribute_value ?: '-' }}</td> #}
+                        <td class="text-sm {{col}}">{{ attribute_value ?: '-' }}</td>
+                    {% endfor %}
+                    {# <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td> #}
+                </tr>
 
-        {% endfor %}
-    </tbody>
-</table>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <table id="product-table" class="stripe row-border cell-border hover {{toolType}} {{series}} dark">        
+            <thead>
+                <tr>
+                    <th>Part</th>      
+                    {% for col in tableCols %}
+                        <th class="{{col}}">{{col}}</th>
+                    {% endfor %}
+                    {# <th>Stock</th> #}
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td><a class="table-link text-sm text-dark-blue font-bold" href="/product/{{product.part}}">{{product.part}}</a></td>
+                        {% for col in tableCols %}
+                            {% set value = attribute(product, col)|default('-') %}
+                            {% if value is iterable %}
+                                {% set value = value|join(', ') %}
+                            {% endif %}
+                            <td class="text-sm {{col}}">{{ value ?: '-' }}</td>
+                        {% endfor %}
+                        {# <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td> #}
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+{% endif %}
+
+
+
 

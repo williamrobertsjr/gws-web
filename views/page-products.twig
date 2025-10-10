@@ -1,0 +1,89 @@
+{% extends "base.twig" %}
+{% block content %}
+
+<section class="pt-64 px-8">
+    <div class="xl:w-10/12">
+        <h1 class="text-5xl md:text-7xl text-pale-blue font-bold mb-6 uppercase">Products</h1>
+        <p class="text-lg">Explore our complete range of standard cutting tools, organized by type to make finding the right solution fast and easy. Use the filters to zero in on the geometry, coating, or performance features your job demands. And if the perfect tool doesn’t exist yet, we’ll create it—bringing your concept to cut with a custom-engineered solution.</p>
+    </div>
+    
+    <div class="mt-20">
+
+        <div id="toolCategoryLinks" class="flex flex-wrap mb-4 gap-y-4">
+
+            {# Build a slug -> term lookup from PHP data in page-products.php #}
+            {% set by_slug = {} %}
+            {% for t in tool_types %}
+                {% set by_slug = by_slug|merge({ (t.slug): t }) %}
+            {% endfor %}
+
+            {% set tool_type_map = {
+                'milling': 'Milling',
+                'holemaking': 'Holemaking',
+                'threading': 'Threading',
+                'specialty': 'Specialty',
+                'inserts': 'Inserts'
+            } %}
+
+            {% for slug, label in tool_type_map %}
+                {% set term = by_slug[slug] ?? null %}
+                {% if term %}
+                    <div class="flex flex-col w-full lg:w-6/12 xl:w-4/12 md:pe-8 box-border"> 
+                            {# <h3 class="text-4xl font-semibold border-b-2 border-0 border-light-blue uppercase">{{ label }}</h3> #}
+                            <div class="w-full box-border border-b-4 run b border-light-blue mb-4">
+                                <a href="/products/{{ slug }}" class="h-[250px] relative block overflow-hidden group rounded shadow-md">
+                                    <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-100 group-hover:scale-105"
+                                        style="background-image: url('/wp-content/uploads/2024/01/{{ slug }}_menu.jpg');">
+                                    </div>
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-75 group-hover:opacity-100 transition-opacity duration-100">
+                                    <span class="text-white text-4xl font-bold group-hover:text-pale-blue uppercase">{{ label }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                            {# <p>Subtypes</p> #}
+                            <div class="flex flex-wrap gap-y-4 mb-10 gap-x-2">
+                                {% if term.tool_sub_type %}
+                                    {% for sub_type in term.tool_sub_type %}
+                                        {% set sub_type_name = sub_type|replace({' ': '-', '/': '-', ' - ': '-'}) %}
+                                        <div class="w-full md:w-[calc(50%-0.375rem)]">
+                                                <a class="text w-full bg-black-med flex hover:bg-black-light p-4  hover:shadow transition-shadow"href="/products/{{slug}}/?_{{slug}}_types={{sub_type_name|lower}}">{{ sub_type.name|title }}</a>
+                                        </div>
+                                    {% endfor %}                        
+                                {% endif %}
+                            </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            
+        
+        </div>
+    </div>
+
+    {# <p class="text-4xl text-pale-blue font-bold mt-10 mb-6 text-center uppercase">Browse by Tool Type</p>
+    <div id="toolCategoryLinks" class="flex flex-wrap justify-between mb-4">
+    {% set categories = {
+        'milling': 'Milling',
+        'holemaking': 'Holemaking',
+        'threading': 'Threading',
+        'specialty': 'Specialty',
+        'inserts': 'Inserts'
+    } %}
+
+    {% for slug, label in categories %}
+        <div class="w-1/5 px-2 box-border">
+        <a href="/products/{{ slug }}" class="aspect-square relative block overflow-hidden group rounded shadow-md">
+            <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-100 group-hover:scale-105"
+                style="background-image: url('/wp-content/uploads/2024/01/{{ slug }}_menu.jpg');">
+            </div>
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-75 group-hover:opacity-100 transition-opacity duration-100">
+            <span class="text-pale-blue text-2xl font-bold group-hover:text-white uppercase">{{ label }}</span>
+            </div>
+        </a>
+        </div>
+    {% endfor %}
+    </div> #}
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% block content %}
+
+<div class="border border-b-2 border-x-0 border-t-0 border-white md:w-8/12 my-10">
+  <form id="bulk-add-form" class="bulk-add-form ">
+  <h2 class="text-xl font-semibold">Rapid Quote</h2>
+  <p class="text-white">Know your parts? Add one part per line to bulk add products.</p>
+    <div class="w-full flex gap-x-2 justify-between mt-4">
+        <div class="w-full max-w-[75%] lg:max-w-[85%] xl:max-w-[90%]"><textarea id="bulk-parts" name="bulk_parts" rows="1" class="w-full border p-2"></textarea></div>
+        <button type="submit" class="btn light-blue">Add +</button>
+    </div>
+  </form>
+</div>
+
+<div id="bulk-add-feedback" class="text-white"></div>
+<script src="/wp-content/themes/gws-web/views/woo/js/multipart-add.js"></script>
+{% endblock %}

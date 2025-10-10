@@ -7,7 +7,7 @@ $userRole = get_current_user_role();
 
 // Check if the user role is 'none' and redirect
 if ( !is_user_logged_in()) {
-    wp_redirect('https://www.gwstoolgroup.com/sign-in');
+    wp_redirect('https://staging.gwstoolgroup.com/sign-in');
     exit; // Always call exit after wp_redirect
 }
 
@@ -41,3 +41,4 @@ $context['series_list'] = $series_list;
 $context['new_tier'] = get_field('new_tier', 'user_'.$user_id);
 Timber::render('page-dashboard.twig', $context); 
 
+?>

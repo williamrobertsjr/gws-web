@@ -7,8 +7,8 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <section id="product-filter-header" class="page-header bg-black px-4 md:px-8">
-    <div class="container mx-auto flex flex-col justify-center md:ps-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
-        <h1 class="text-4xl md:text-7xl font-black text-white uppercase">{{post.title}}</h1>
+    <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
+        <h1 class="text-7xl font-black text-white uppercase">{{post.title}}</h1>
     </div>
 </section>
 
@@ -22,7 +22,6 @@
         <button type="submit" id="submitBtn" class="btn light-blue mt-2">Search Parts</button>
     </form>
     <div id="missing-parts" class="text-white"></div>
-    <div id="min-qty-parts" class="text-white"></div>
 </div>
 
 </section>
@@ -37,9 +36,7 @@
                     <option value="t1">Tier 1</option>
                     <option value="t2">Tier 2</option>
                     <option value="t3">Tier 3</option>
-                    <option value="57_5">MSC</option>
-                    <option value="MSC_PL">MSC - Private Label</option>
-                    <option value="exemptPlus">Ewie, EGC - Ewie, PSMI</option>
+                    <option value="57_5">57.5%</option>
                     <option value="direct">Direct</option>
                 </select>
             </div>
@@ -161,5 +158,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.js"></script>
-<script src="/wp-content/themes/gws-web/rapid-quote/rapid-quote.js?v={{ "now"|date('U') }}" defer></script>
+<script src="/wp-content/themes/gws-web/rapid-quote/rapid-quote.js" defer></script>
 {% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.twig' %}
+{% set userRoleDisplay = get_user_role_display(userRole) %}
+{% block content %}
+<pre>{{ dump(tool_type, tool_data|keys) }}</pre>
+<section class="pt-52 px-8 2xl:px-4">
+    {# USE FOR TESTING VARIABLES / TIMBER CONTEXT #}
+    {# <div><p>{{ dump(attributes) }}</p></div> #}
+    {# <div class="px-8">{% do action('woocommerce_before_main_content') %}</div>
+    <div class="before-shop-loop">{% do action('woocommerce_before_shop_loop') %}</div> #}
+    <div class="flex px-2">
+        <div class="w-full">
+            <div class="text-white flex gap-x-4 flex-wrap mb-4">
+                <p><a class="hover:under hover:text-pale-blue" href="/products/milling">Milling</a></p>
+                <p><a class="hover:under hover:text-pale-blue" href="/products/holemaking">Holemaking</a></p>
+                <p><a class="hover:under hover:text-pale-blue" href="/products/threading">Threading</a></p>
+                <p><a class="hover:under hover:text-pale-blue" href="/products/specialty">Specialty</a></p>
+                <p><a class="hover:under hover:text-pale-blue" href="/products/inserts">Inserts</a></p>
+            </div>
+            <h1 class="text-6xl uppercase"><a href="/products/{{title|lower}}" class="text-pale-blue font-black">{{title}}</a></h1>
+            <p class="mt-4 text-sm">Your distributor discount: <span class="font-semibold no-underline text-pale-blue">{{userRoleDisplay}}.</span></p>
+        </div>
+    </div>
+
+    
+    <div class="flex flex-col md:flex-row justify-between mt-12 overflow-hidden min-w-0">
+        <div class="filters bg-black p-6 rounded text-white mx-0 md:mx-auto flex flex-col gap-x-4 min-w-0 w-full md:w-2/5 lg:1/3 xl:w-1/5">
+            <div id="pre-filters" class="flex flex-col gap-y-4">
+                <div class="facetwp-static ">
+                    <p class="text-pale-blue font-bold text-lg">Search By EDP</p>
+                    <div class="text-black">
+                    
+                        {{ function('do_shortcode', '[facetwp facet="part_number"]') }}
+                    </div>
+                </div>
+            </div>
+            
+            {% set filters_to_show = tool_data[tool_type] ?? [] %}
+            <div id="data-filters" class="flex flex-col gap-y-4">
+                {% for filter in filters_to_show %}
+                    <div class="filter-div border-b border-gray-300">
+                    <button type="button" class="toggle-filter w-full flex justify-between items-center py-3 font-medium text-white">
+                        <span class="text-pale-blue font-bold text-lg">
+                            {{ column_mapping[filter].label ?? filter|title }}
+                        </span>
+                        <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M6 9l6 6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <div class="filter-content pb-3 text-white hidden">
+                        {{ function('do_shortcode', '[facetwp facet="' ~ filter ~ '"]') }}
+                    </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+        <div class="results-container w-full md:w-3/5 lg:w-2/3 xl:w-4/5 mt-10 md:mt-0 md:px-4 min-w-0 ">
+            <div>
+                {{ function('do_shortcode', '[facetwp selections="true"]') }}
+            </div>
+            {# Add FacetWP template class to the main product loop #}
+            <div class="loop">
+                {# Wrap the product loop with the FacetWP template class #}
+                <div class="facetwp-template relative z-0">
+                    <div class="flex flex-row flex-wrap w-full gap-y-4 overflow-hidden">
+                        {% for post in products %}
+                        <div class="product z-auto w-full px-2 relative">
+                            {# Include the product teaser template #}
+                            {% include "partials/tease-product.twig" with { post: post } %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {# Add FacetWP pagination here #}
+            <div class="facetwp-pager px-2 py-4">
+                {{ function('do_shortcode', '[facetwp facet="pagination"]') }}
+            </div>
+        </div>
+    </div>
+
+    {# {% do action('woocommerce_after_main_content') %} #}
+</section>
+{# <script src="/wp-content/plugins/facetwp/assets/js/dist/front.min.js"></script> #}
+<script src="/wp-content/themes/gws-web/views/woo/js/product-filters.js" defer></script>
+<script>
+document.querySelectorAll('.toggle-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const content = btn.nextElementSibling;
+    content.classList.toggle('hidden');
+
+    const icon = btn.querySelector('svg');
+    if (icon) icon.classList.toggle('rotate-180');
+  });
+});
+</script>
+{% endblock %}

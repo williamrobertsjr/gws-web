@@ -1,0 +1,11 @@
+{% set roleMap = {
+  't1': '55%',
+  't2': '52.5%',
+  't3': '50%',
+  '57_5': '57.5%',
+  'sales': 'Sales Team',
+  'administrator': 'Administrator'
+} %}
+
+{% set userRoleDisplay = roleMap[userRole]|default('Guest') %}
+{{ userRoleDisplay }}

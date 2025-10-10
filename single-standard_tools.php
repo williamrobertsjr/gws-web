@@ -20,7 +20,7 @@ function formatString($pageSubType) {
         'Aerospace Countersinks' => 'Countersinks - Aerospace',
         'Aerospace Rivet Shavers' => 'Rivet Shavers - Aerospace',
         'Aerospace Reverse Spot Facers' => 'Reverse Spot Facers - Aerospace',
-        // 'Whiskered Ceramic' => 'Whiskered Ceramic',
+        'Whiskered Ceramic' => 'Inserts'
     ];
 
     return $mappings[$pageSubType] ?? $pageSubType;
