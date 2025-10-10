@@ -718,11 +718,6 @@ video {
   margin: 1rem;
 }
 
-.-mx-4 {
-  margin-left: -1rem;
-  margin-right: -1rem;
-}
-
 .mx-0 {
   margin-left: 0px;
   margin-right: 0px;
@@ -1161,10 +1156,6 @@ video {
   min-width: 300px;
 }
 
-.min-w-\[700px\] {
-  min-width: 700px;
-}
-
 .min-w-\[75vw\] {
   min-width: 75vw;
 }
@@ -1196,6 +1187,10 @@ video {
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
 }
 
 .flex-grow {
@@ -2475,6 +2470,20 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .grecaptcha-badge:hover {
   width: 256px !important;
+}
+
+/* Hide horizontal scrollbar but keep scrollability */
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari */
 }
 
 /*****************************************/
@@ -5244,11 +5253,6 @@ tr.wc-block-cart-items__row {
     inset-inline-start: 5rem;
   }
 
-  .lg\:mx-0 {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
   .lg\:mb-0 {
     margin-bottom: 0px;
   }
@@ -5374,6 +5378,10 @@ tr.wc-block-cart-items__row {
     row-gap: 0px;
   }
 
+  .lg\:overflow-visible {
+    overflow: visible;
+  }
+
   .lg\:border-x-2 {
     border-left-width: 2px;
     border-right-width: 2px;
@@ -5430,6 +5438,10 @@ tr.wc-block-cart-items__row {
 
   .lg\:pe-2 {
     padding-inline-end: 0.5rem;
+  }
+
+  .lg\:pl-8 {
+    padding-left: 2rem;
   }
 
   .lg\:ps-4 {

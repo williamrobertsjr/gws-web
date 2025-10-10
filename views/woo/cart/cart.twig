@@ -43,11 +43,11 @@
         
 
         <form action="{{ function('wc_get_cart_url') }}" method="post" class="woocommerce-cart-form" id="cart-form">
-            <div class="flex flex-col lg:flex-row justify-between">
-              <div class="w-full lg:w-8/12">
+            <div class="flex flex-col lg:flex-row justify-between items-start w-full">
+              <div class="w-full lg:w-8/12 min-w-0">
               
-                <div class="overflow-x-auto -mx-4 lg:mx-0">
-                  <table id="cart-table" class="min-w-[700px] table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
+                <div class="overflow-x-auto lg:overflow-visible w-full hide-scrollbar">
+                  <table id="cart-table" class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
                     <thead>
                         <tr class="border-[#d2d2d2] border-b-[1px]">
                             <th class="p-4 text-left text-sm uppercase">Product</th>
@@ -91,7 +91,7 @@
                 </div>
                 <div class="text-xs text-gray-500 md:hidden mt-2 text-right pr-2">(Scroll →)</div>
               </div>
-              <div class="w-full lg:w-4/12 lg:ps-4">
+              <div class="w-full lg:w-4/12 lg:pl-8 flex-shrink-0">
                 <div class="flex flex-col justify-between sticky top-8">
                     
                     <div class="bg-white p-6 rounded-[2px]">
