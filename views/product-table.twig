@@ -34,7 +34,6 @@
                         <td class="text-sm {{col}}">{{ attribute_value ?: '-' }}</td>
                     {% endfor %}
                     {# <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td> #}
-                    {# <td class="text-sm stock">{{ product.get_attribute('pa_series') }}</td> #}
                 </tr>
 
             {% endfor %}
@@ -52,15 +51,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for product in related_products_table %}
+                {% for product in products %}
                     <tr>
-                        <td><a class="table-link text-sm text-dark-blue font-bold" href="/product?part={{post.meta(_sku)}}">{{post.meta(_sku)}}</a></td>
+                        <td><a class="table-link text-sm text-dark-blue font-bold" href="/product/{{product.part}}">{{product.part}}</a></td>
                         {% for col in tableCols %}
-                            <td>here?</td>
-                            <td class="text-sm {{col}}">{{ attribute(product, col)|default('-') ?: '-' }}</td>
+                            {% set value = attribute(product, col)|default('-') %}
+                            {% if value is iterable %}
+                                {% set value = value|join(', ') %}
+                            {% endif %}
+                            <td class="text-sm {{col}}">{{ value ?: '-' }}</td>
                         {% endfor %}
                         {# <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td> #}
-                        {# <td class="text-sm stock">{{ product.get_attribute('pa_series') }}</td> #}
                     </tr>
 
                 {% endfor %}

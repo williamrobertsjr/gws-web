@@ -17,38 +17,38 @@
 		<header class="header px-4 md:px-10 py-4 header-transparent">
 			{% block header %}
 				<div class="wrapper">
-					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center mb-3">
-					{% if userRole == 'administrator' or userRole == 'sales' %}
-						<div class="flex items-center gap-x-2">
-							<label for="tier-selector" class="text-white whitespace-nowrap">View pricing as:</label>
-							<select id="tier-selector" class="border border-gray-300 px-2 py-1 rounded">
-								<option value="" disabled selected>Customer Tier</option>
-								<option value="default">None</option>
-								<option value="t1">T1</option>
-								<option value="t2">T2</option>
-								<option value="t3">T3</option>
-								<option value="57_5">57.5%</option>
-								<option value="direct">Direct</option>
-							</select>
+					<div class="top-top-header md:flex flex-col sm:flex-row justify-end gap-x-4 items-center mb-3 hidden">
+						{% if userRole == 'administrator' or userRole == 'sales' %}
+							<div class="flex items-center gap-x-2">
+								<label for="tier-selector" class="text-white whitespace-nowrap">View pricing as:</label>
+								<select id="tier-selector" class="border border-gray-300 px-2 py-1 rounded">
+									<option value="" disabled selected>Customer Tier</option>
+									<option value="default">None</option>
+									<option value="t1">T1</option>
+									<option value="t2">T2</option>
+									<option value="t3">T3</option>
+									<option value="57_5">57.5%</option>
+									<option value="direct">Direct</option>
+								</select>
+							</div>
+							<p class="hidden md:block">|</p>
+						{% endif %}
+
+						{% if user %}
+							<a href="/dashboard" class="text-sm hover:underline whitespace-nowrap">My Dashboard</a>
+							<p class="hidden md:block">|</p>
+							<a href="/wp-login.php?action=logout" class="text-sm hover:underline whitespace-nowrap">Log Out</a>
+						{% else %}
+							<p class="hidden md:block">|</p>
+							<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
+						{% endif %}
+
+						<p class="hidden md:block">|</p>
+
+						<div>
+							{{ function('do_shortcode', '[xoo_wsc_cart]') }}
 						</div>
-					{% endif %}
-
-					{% if user %}
-						<p>|</p>
-						<a href="/dashboard" class="text-sm hover:underline whitespace-nowrap">My Dashboard</a>
-						<p>|</p>
-						<a href="/wp-login.php?action=logout" class="text-sm hover:underline whitespace-nowrap">Log Out</a>
-					{% else %}
-						<p>|</p>
-						<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
-					{% endif %}
-
-					<p>|</p>
-
-					<div>
-						{{ function('do_shortcode', '[xoo_wsc_cart]') }}
 					</div>
-				</div>
 
 					{# Top Header #}
 					<div class="top-header flex justify-center sm:justify-between">
@@ -59,7 +59,7 @@
 							<div class="flex items-center">
 							
 								<div class="flex h-full">
-									<button class="btn dark-blue me-2"><a href="/rapid-quote">Rapid Quote</a></button>
+									<button class="btn dark-blue me-2"><a href="/cart">Rapid Quote</a></button>
 									<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
 									<div class="ask-gws-btn-div relative">
 										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
@@ -91,10 +91,6 @@
 					</div>
 
 					<div class="bottom-header py-3 flex justify-center sm:justify-between">
-						<div class="flex flex-col md:flex-row gap-x-4 items-center">
-							{# <a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
-							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a> #}
-						</div>
 						{# Integrate Max Mega Menu with Theme if plugin is delete the menu will need a lot of work #}
 						<nav id="nav-main" class="nav-main" role="navigation">
 							{{ my_menu|raw }}

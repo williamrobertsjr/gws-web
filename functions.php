@@ -148,7 +148,7 @@ add_filter('post_type_link', 'tooltype_permalink_structure', 1, 3);
 // Function to add Max Mega Menu plugin to base.twig
 function get_my_menu() {
     return wp_nav_menu(array(
-        'theme_location' => 'max_mega_menu_1',
+        'theme_location' => 'max_mega_menu_1', // this is the location name you set when registering the menu
         'echo' => false
     ));
 }
