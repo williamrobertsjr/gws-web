@@ -7,8 +7,8 @@
 {% set cart_items = cart.get_cart() %}
 {% endif %}
 {% set userRoleDisplay = get_user_role_display(userRole) %}
-<section class="container mx-auto px-4 pt-60 md:pt-72" id="cart-page">
-    <h1 class="text-5xl md:text-6xl font-bold uppercase text-pale-blue">Your Quote</h1>
+<section class="container mx-auto px-4 pt-72" id="cart-page">
+    <h1 class="text-6xl font-bold uppercase text-pale-blue">Your Quote</h1>
     <div class="">{% include "woo/cart/multipart.twig" %}</div>
     
     {% if cart_items is empty %}
@@ -43,11 +43,10 @@
         
 
         <form action="{{ function('wc_get_cart_url') }}" method="post" class="woocommerce-cart-form" id="cart-form">
-            <div class="flex flex-col lg:flex-row justify-between items-start w-full">
-              <div class="w-full lg:w-8/12 min-w-0">
+            <div class="flex justify-between">
+              <div class="w-8/12">
               
-                <div class="overflow-x-auto lg:overflow-visible w-full hide-scrollbar">
-                  <table id="cart-table" class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
+                <table id="cart-table" class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
                     <thead>
                         <tr class="border-[#d2d2d2] border-b-[1px]">
                             <th class="p-4 text-left text-sm uppercase">Product</th>
@@ -87,31 +86,23 @@
                             </tr>
                         {% endfor %}
                     </tbody>
-                  </table>
-                </div>
-                <div class="text-xs text-gray-500 md:hidden mt-2 text-right pr-2">(Scroll →)</div>
+                </table>
               </div>
-              <div class="w-full lg:w-4/12 lg:pl-8 flex-shrink-0">
+              <div class="w-4/12 ps-4">
                 <div class="flex flex-col justify-between sticky top-8">
                     
                     <div class="bg-white p-6 rounded-[2px]">
                         <div>
                           <p class="text-3xl font-bold mb-8 uppercase text-black">Order Summary</p>
                         </div>
-                        {% if user %}
-                          <p class="text-black">Your distributor discount is <span id="userRole" class="underline font-semibold">{{ userRoleDisplay }}</span>.</p>
-                          {% else %}
-                          <p class="text-black">If you are a distributor, <a href="/sign-in" class="text-dark-blue font-medium">sign in</a> to see your pricing and send a quote.</p>
-                        {% endif %}
-                        
-                        
+                        <p class="text-black">Your distributor discount is <span id="userRole" class="underline font-semibold">{{ userRoleDisplay }}</span>.</p>
 
-                        {# <div class="flex items-center gap-x-2 mt-4">
+                        <div class="flex items-center gap-x-2 mt-4">
+                            {# <label for="coupon_code">Coupon:</label> #}
                             <input type="text" name="coupon_code" id="coupon_code" class="border px-2 py-2" placeholder="Enter discount code" />
                             <button type="submit" name="apply_coupon" class="btn light-blue">Apply Discount</button>
-                        </div> #}
-                        
-                        <div class="flex flex-col gap-y-4 mt-4">
+                        </div>
+                        <div class="flex md:flex-col gap-y-4 mt-4">
                             <input type="hidden" name="userName" value="{{ user.display_name }}">
                             <input id="userEmail" type="hidden" name="userEmail" value="{{ user.user_email }}">
                             <input type="hidden" name="userCompany" value="{{ user.company }}">
@@ -128,40 +119,28 @@
                               <input type="text" name="test-tools-contact" id="test-tools-contact" class="w-full border px-2 py-2" placeholder="Company Contact Name" value="" />
                               <textarea rows="2" name="test-tools-address" id="test-tools-address" class="w-full border px-2 py-2" placeholder="Company Shipping Address" value=""></textarea>
                             </div>
-                            {% if user %}
-                              <textarea rows="3" name="additional-comments" id="additional-comments" class="w-full border px-2 py-2" placeholder="Additional comments or instructions"></textarea>
-                            {% endif %}
+                            <textarea rows="3" name="additional-comments" id="additional-comments" class="w-full border px-2 py-2" placeholder="Additional comments or instructions"></textarea>
                             <div>
-                              {% if user %}
-                                <p class="text-black text-xl font-semibold mt-2">
-                                  Original Total:
-                                  <span class="line-through text-gray original-total">
-                                    {{ function('wc_price', cart_original_total) }}
-                                  </span>
-                                </p>
-                                <p class="text-[#14972f] text-2xl font-bold">
-                                  Discounted Total:
-                                  <span class="discounted-total">{{ function('wc_price', cart_discounted_total) }}</span>
-                                </p>
-                              {% else %}
-                                <p class="text-black text-xl font-semibold mt-2">
-                                  Original Total:
-                                  <span class="text-black original-total">
-                                    {{ function('wc_price', cart_original_total) }}
-                                  </span>
-                                </p>
-                              {% endif %}
+                              <p class="text-black text-xl font-semibold mt-2">
+                                Original Total:
+                                <span class="line-through text-gray original-total">
+                                  {{ function('wc_price', cart_original_total) }}
+                                </span>
+                              </p>
+                              <p class="text-[#14972f] text-2xl font-bold">
+                                Discounted Total:
+                                <span class="discounted-total">{{ function('wc_price', cart_discounted_total) }}</span>
+                              </p>
                             </div>
                             <div class="flex"><button type="button" id="send-quote" class="btn dark-blue w-full">Send Quote</button></div>
                         </div>
-                        
                     </div>
                 </div>
               </div>
             </div>
         
         </form>
-        <div id="quote-form-wrapper" style="position: absolute; left: -9999px; opacity: 0;">
+        <div id="quote-form-wrapper" style="position: absolut; left: -9999px; opacit: 0;">
           {{ function('do_shortcode', '[gravityform id="46" title="false" description="false" ajax="true"]') }}
         </div>
     {% endif %}

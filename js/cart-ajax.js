@@ -11,9 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
    * Refetches the cart page, replaces <tbody> and totals,
    * then rebinds pricing logic if available.
    */
+  let isCartBusy = false;
   async function refreshCartTable() {
+    isCartBusy = true;
     try {
       const url = new URL(window.location.href);
+      url.searchParams.delete('bulk_parts'); // prevent re-running bulk logic
       url.searchParams.set('_', Date.now().toString()); // cache-buster
       const res = await fetch(url.toString(), {
         method: "GET",
@@ -25,21 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
 
-      // Replace the entire cart page section so empty-cart state is handled
-      const newCartPage = doc.querySelector("#cart-page");
-      const currentCartPage = document.querySelector("#cart-page");
-      if (newCartPage && currentCartPage) {
-        currentCartPage.replaceWith(newCartPage);
-        // Try to preserve focus if possible
-        try {
-          const active = document.activeElement;
-          if (active && active.classList && active.classList.contains('cart-qty-input')) {
-            const key = active.getAttribute('data-cart-key');
-            const newly = document.querySelector(`.cart-qty-input[data-cart-key="${key}"]`);
-            if (newly) newly.focus();
-          }
-        } catch (_) {}
-      } else {
+      // Replace only cart table and totals instead of full page
+      const newTable = doc.querySelector("#cart-table");
+      const currentTable = document.querySelector("#cart-table");
+      if (newTable && currentTable) {
+        currentTable.replaceWith(newTable);
+      }
+
+      const newTotals = doc.querySelector("#cart-totals");
+      const currentTotals = document.querySelector("#cart-totals");
+      if (newTotals && currentTotals) {
+        currentTotals.replaceWith(newTotals);
+      }
+
+      if (!newTable || !newTotals) {
         // If something went wrong, hard reload so UI is not stale
         window.location.reload();
         return;
@@ -52,9 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // Notify WooCommerce & any listeners that the cart DOM was updated
       if (window.jQuery) {
         jQuery(document.body).trigger('updated_wc_div');
-        jQuery(document.body).trigger('wc_fragment_refresh');
-        jQuery(document.body).trigger('wc_fragments_refreshed');
+        // jQuery(document.body).trigger('wc_fragment_refresh');
+        // jQuery(document.body).trigger('wc_fragments_refreshed');
       }
+      isCartBusy = false;
     } catch (err) {
       console.error("Error refreshing cart:", err);
       // As a safety, do a full reload
@@ -73,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * then refreshes the cart table.
    */
   document.body.addEventListener("click", async (e) => {
+    if (isCartBusy) return;
     const btn = e.target.closest(".remove-item");
     if (!btn) return;
     e.preventDefault();

@@ -22,8 +22,8 @@
     </div>
 
     
-    <div class="flex flex-col md:flex-row justify-between mt-12 overflow-hidden min-w-0">
-        <div class="filters bg-black p-6 rounded text-white mx-0 md:mx-auto flex flex-col gap-x-4 min-w-0 w-full md:w-2/5 lg:1/3 xl:w-1/5">
+    <div class="flex flex-col md:flex-row justify-between mt-12">
+        <div class="filters bg-black p-6 rounded text-white mx-auto flex gap-x-4 flex flex-col w-full md:w-1/5">
             <div id="pre-filters" class="flex flex-col gap-y-4">
                 <div class="facetwp-static ">
                     <p class="text-pale-blue font-bold text-lg">Search By EDP</p>
@@ -56,7 +56,7 @@
         </div>
 
 
-        <div class="results-container w-full md:w-3/5 lg:w-2/3 xl:w-4/5 mt-10 md:mt-0 md:px-4 min-w-0 ">
+        <div class="results-container w-full lg:w-4/5 px-4">
             <div>
                 {{ function('do_shortcode', '[facetwp selections="true"]') }}
             </div>
@@ -64,7 +64,7 @@
             <div class="loop">
                 {# Wrap the product loop with the FacetWP template class #}
                 <div class="facetwp-template relative z-0">
-                    <div class="flex flex-row flex-wrap w-full gap-y-4 overflow-hidden">
+                    <div class="flex flex-row flex-wrap w-full gap-y-4">
                         {% for post in products %}
                         <div class="product z-auto w-full px-2 relative">
                             {# Include the product teaser template #}

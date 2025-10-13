@@ -1,9 +1,9 @@
 <article {{ fn('post_class', ['$classes', 'entry']) }}>
     {% set product = function('wc_get_product', post.ID) %} {# Set product variable #}
-  
+    <pre>{{ dump(product.get_attributes()) }}</pre>
     {% set series_terms = post.terms('pa_series') %}
     {% set series = series_terms[0].name ?? '' %}
- 
+  <pre>{{ dump(post.terms('pa_series')) }}</pre>
     {% set categories = post.terms('product_cat') %}
     {% set tool_type = categories[3].name ?? '' %}
     {# {% set materials = post.terms('pa_materials') %} #}
@@ -59,14 +59,14 @@
         'h1': 'Hard Material',
         'h2': 'Hard Material'
     } %}
-    <div class="flex flex-col lg:flex-row px-4 py-3 bg-[#f0f0f0] min-h-[200px] border border-solid border-white relative rounded">
+    <div class="flex px-4 py-3 bg-[#f0f0f0] min-h-[200px] border border-solid border-white relative rounded">
         {# Left Column - Image and Description #}
-        <a href="{{ post.link }}" class="w-full lg:w-3/4">
-            <div class="flex flex-col lg:flex-row items-center lg:items-start relative h-full">
-                <div class="flex items-center justify-center h-full mb-2 lg:mb-0">
+        <a href="{{ post.link }}" class="w-3/4">
+            <div class="flex items-start relative h-full">
+                <div class="flex items-center justify-center h-full">
                     <img src="/wp-content/themes/gws-web/images/tile_images/{{ series }}_tile.png" alt="Series {{ series }}" loading="lazy" class="aspect-square object-contain">
                 </div>
-                <div class="w-full lg:w-11/12 ps-4 border-solid border-0 border-gray border-y-2 lg:border-y-0 lg:border-x-2 h-full flex flex-col gap-y-4 py-2 lg:py-0">
+                <div class="w-11/12 ps-4 border-solid border-0 border-gray border-x-2 h-full flex flex-col gap-y-4">
                     <div class="">
                         <h3 class="entry-title text-dark-blue text-xl font-black"><span class="text">EDP:</span> {{ post.title }}</h3>
                         <h3 class="text-black text-sm font-black uppercase">{% if series %} Series {{ series }}{% endif %}</h3>
@@ -117,22 +117,22 @@
         </a>
 
         {# Right Column - Price and Quantity #}
-        <div class="flex-grow flex flex-col justify-between mt-2 lg:mt-0 lg:ps-4 xl:ps-6 lg:pe-2 w-full lg:w-1/4">
-            <div class="lg:text-right flex lg:flex-col items-end my-2">
+        <div class="flex-grow flex flex-col justify-between ps-6 pe-2 w-1/4">
+            <div class="text-right">
                 {# {% do action('woocommerce_before_shop_loop_item_title') %}     #}
                 {# <p class="text-xs text-gray-500">Raw price: {{ product.get_price() }}</p> #}
                 <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ product.get_price_html()|raw }}</p>
                 {# <p class="text-black font-medium">{{ random(0, 100) }}<span class="text-sm font-regular"> In stock</span> </p> #}
-                <p class="text-black font-medium ms-2 lg:ms-0">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }} <span class="text-sm font-regular">In stock</span></p>
+                <p class="text-black font-medium">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }} <span class="text-sm font-regular">In stock</span></p>
             </div>
             <div>
                 {# {% do action('woocommerce_single_product_summary') %} #}
                 <form class="flex flex-col items-stretch justify-between mb-0" method="post" enctype='multipart/form-data'>
                     <div class="quantity h-full mb-1 flex items-center">
-                        <div class="xl:w-4/12">
-                            <p class="text-black text-sm xl:text font-bold">Quantity:</p>
+                        <div class="w-4/12">
+                            <p class="text-black font-bold">Quantity:</p>
                         </div>
-                        <div class="flex-grow ps-1">
+                        <div class="flex-grow">
                             <input type="number" id="quantity" class="input-text qty text h-full border-2 border-gray p-2 !w-full text-black rounded-sm box-border" step="1" min="1" max="100" name="quantity" value="1" title="Qty" size="6" inputmode="numeric">
                         </div>
                     </div>

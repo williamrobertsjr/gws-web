@@ -22,18 +22,15 @@
            
             {# <div>helllloooo {{ dump('test') }}</div> #}
 
-        <div class="flex md:flex-row flex-col mb-10">
-            {# Left Product Image #}
-            <div class="w-full md:w-4/12 me-10 mb-10 md:mb-0">
-                {# <img src="{{ function('wp_get_attachment_image_url', product.get_image_id(), 'full') }}" alt="{{ post.title }}" class="max-h-[300px] w-auto mx-auto"> #}
-                {# <img src="/wp-content/themes/gws-web/images/catalog_images/{{series}}_catalog.png" alt="" class="max-h-[300px] w-auto mx-auto"> #}
+        <div class="flex">
+            <div class="w-4/12 me-10">
                 <div class="aspect-square flex justify-center items-center p-4 bg-[#fff] rounded">
                     <img src="/wp-content/themes/gws-web/images/catalog_images/{{series}}_catalog.png" alt="" class="max-h-[300px] w-auto">
                 </div>
                 
             </div>
             {# Right Product Information #}
-            <div class="w-full md:w-8/12">
+            <div class="w-8/12">
                 <p class="mb-2">{{product.get_attribute('pa_tool-type')|capitalize}} > {{product.get_attribute('pa_sub-type')}} > {{product.get_attribute('pa_family')}} > <a href="/series-{{product.get_attribute('pa_series')}}">Series {{product.get_attribute('pa_series')}}</a></p>
                 <h1 class="entry-title text-5xl font-black text-pale-blue uppercase">{{ post.title }}</h1>
                 <p>{{post.meta('table_description')}}</p>
@@ -70,8 +67,8 @@
                         </button>
                     </form>
                 </div>    
-                <div class="flex flex-col md:flex-row mb-10">
-                    <div class="w-full md:w-4/12 pe-4 mb-10 md:mb-0">
+                <div class="flex mb-10">
+                    <div class="w-4/12 pe-4">
                         <h3>Attributes</h3>
                         <hr>
                         <div id="attributes-list" class=" mt-2 gap-y-1 flex flex-col">
@@ -91,7 +88,7 @@
                         </div>
 
                     </div>
-                    <div class="w-full md:w-4/12 pe-4 mb-10 md:mb-0">
+                    <div class="w-4/12 pe-4">
                         <h3>Applications</h3>
                         <hr>
                         {# Split the context variable into an array #}
@@ -107,7 +104,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="w-full md:w-4/12 pe-4 mb-10 md:mb-0">
+                    <div class="w-4/12 pe-4">
                         <h3>Features</h3>
                         <hr>
                         {% set features = post.meta('feat_icons')|split(', ') %}

@@ -175,11 +175,24 @@ function gws_handle_ajax_tier_price_switch() {
     }
 
     $tier = sanitize_text_field($_GET['tier']);
+
+    // Begin: Add transient cache for cart pricing based on tier and cart hash
+    $cart = WC()->cart;
+    $cart_hash = md5(serialize($cart->get_cart()));
+    $cache_key = 'tier_cart_prices_' . $tier . '_' . $cart_hash;
+
+    $cached = get_transient($cache_key);
+    if ($cached !== false) {
+        wp_send_json_success($cached);
+        return;
+    }
+    // End: Add transient cache for cart pricing
+
     $items = [];
     $original_total = 0;
     $discounted_total = 0;
 
-    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+    foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
         $product = $cart_item['data'];
         $qty = (int) $cart_item['quantity'];
         $regular_price = (float) $product->get_meta('_regular_price', true);
@@ -197,11 +210,14 @@ function gws_handle_ajax_tier_price_switch() {
         $discounted_total += $line_total;
     }
 
-    wp_send_json_success([
+    $response = [
         'cart_items' => $items,
         'original_total_html' => wc_price($original_total),
         'discounted_total_html' => wc_price($discounted_total),
-    ]);
+    ];
+
+    set_transient($cache_key, $response, 300); // Cache for 5 minutes
+    wp_send_json_success($response);
 }
 
 function gws_calculate_discounted_price($tier, WC_Product $product) {

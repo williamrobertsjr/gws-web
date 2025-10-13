@@ -4,6 +4,14 @@
 // It also handles quantity changes for cart items and updates the total prices.
 // The script uses AJAX to fetch the updated prices and updates the DOM elements accordingly.
 // It also restores the pricing on initial load if a tier is already selected.
+function debounce(fn, delay = 300) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   const updatePricesByTier = (tier) => {
     // Update cart pricing if present
@@ -65,16 +73,20 @@ if (productPriceCells.length > 0) {
     }
   };
 
+  const debouncedUpdatePricesByTier = debounce(updatePricesByTier, 500);
+
   // Listen for tier changes
   document.addEventListener('tierChanged', (e) => {
-    updatePricesByTier(e.detail.tier);
+    debouncedUpdatePricesByTier(e.detail.tier);
   });
 
   // Restore pricing on initial load if tier is selected
-  const savedTier = localStorage.getItem('selectedTier');
-  if (savedTier) {
-    updatePricesByTier(savedTier);
-  }
+  setTimeout(() => {
+    const savedTier = localStorage.getItem('selectedTier');
+    if (savedTier) {
+      debouncedUpdatePricesByTier(savedTier);
+    }
+  }, 500);
 
   // Quantity input events
   document.querySelectorAll('.cart-qty-input').forEach(input => {
@@ -103,7 +115,7 @@ if (productPriceCells.length > 0) {
           if (data && data.success) {
             const currentTier = localStorage.getItem('selectedTier');
             if (currentTier) {
-              updatePricesByTier(currentTier);
+              debouncedUpdatePricesByTier(currentTier);
             }
           } else {
             console.warn('Qty update failed, refreshing cart table');
