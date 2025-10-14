@@ -20,7 +20,7 @@
                 {% for col in tableCols %}
                     <th class="{{col}}">{{col}}</th>
                 {% endfor %}
-                {# <th>Stock</th> #}
+                <th>Stock</th>
             </tr>
         </thead>
         <tbody>
@@ -33,7 +33,7 @@
                         {# <td class="text-sm {{col}}">{{ attribute_value ?: '-' }}</td> #}
                         <td class="text-sm {{col}}">{{ attribute_value ?: '-' }}</td>
                     {% endfor %}
-                    {# <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td> #}
+                    <td class="text-sm stock">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }}</td>
                 </tr>
 
             {% endfor %}
@@ -47,7 +47,7 @@
                     {% for col in tableCols %}
                         <th class="{{col}}">{{col}}</th>
                     {% endfor %}
-                    {# <th>Stock</th> #}
+                    <th>Stock</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,7 +61,7 @@
                             {% endif %}
                             <td class="text-sm {{col}}">{{ value ?: '-' }}</td>
                         {% endfor %}
-                        {# <td class="text-sm stock">{{ product.QTY_ON_HAND | number_format(0) }}</td> #}
+                        <td class="text-sm stock">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }}</td>
                     </tr>
 
                 {% endfor %}
