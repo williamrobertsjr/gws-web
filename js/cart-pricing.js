@@ -42,36 +42,42 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(console.error);
 
-    // Update archive/product pricing if present
+    // Update archive/product pricing if present (only on non-cart pages)
     const productPriceCells = document.querySelectorAll('.price-cell[data-product-id]');
-console.log('productPriceCells found:', productPriceCells.length); // ✅ STEP 1
+    const isCartPage = document.body.classList.contains('woocommerce-cart');
 
-if (productPriceCells.length > 0) {
-  const productIds = Array.from(productPriceCells).map(el => el.dataset.productId);
-  console.log('Product IDs:', productIds); // ✅ STEP 2
+    if (!isCartPage && productPriceCells.length > 0) {
+      const productIds = Array.from(productPriceCells)
+        .map(el => el.dataset.productId)
+        .filter(Boolean);
 
-  fetch(`/wp-admin/admin-ajax.php?action=get_discounted_product_prices_by_tier&tier=${tier}&product_ids=${productIds.join(',')}`, {
-    method: 'GET',
-    credentials: 'same-origin'
-  })
-    .then(res => res.json())
-    .then(response => {
-      console.log('Response from server:', response); // ✅ STEP 3
+      if (productIds.length === 0) return;
 
-      if (!response.success || !response.data || typeof response.data !== 'object') return;
+      fetch('/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          action: 'get_discounted_product_prices_by_tier',
+          tier: tier,
+          product_ids: productIds.join(',')
+        })
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (!response.success || !response.data || typeof response.data !== 'object') return;
 
-      Object.entries(response.data).forEach(([productId, htmlObj]) => {
-        const priceHtml = htmlObj.discounted_price_html;
-        console.log(`Updating price for product ${productId}:`, priceHtml); // ✅ STEP 4
+          Object.entries(response.data).forEach(([productId, htmlObj]) => {
+            const priceHtml = htmlObj.discounted_price_html;
 
-        document.querySelectorAll(`.price-cell[data-product-id="${productId}"]`).forEach(el => {
-          el.innerHTML = priceHtml;
-        });
-      });
-    })
-    .catch(console.error);
+            document.querySelectorAll(`.price-cell[data-product-id="${productId}"]`).forEach(el => {
+              el.innerHTML = priceHtml;
+            });
+          });
+        })
+        .catch(console.error);
     }
-  };
+    };
 
   const debouncedUpdatePricesByTier = debounce(updatePricesByTier, 500);
 
@@ -83,7 +89,10 @@ if (productPriceCells.length > 0) {
   // Restore pricing on initial load if tier is selected
   setTimeout(() => {
     const savedTier = localStorage.getItem('selectedTier');
-    if (savedTier) {
+    const isCartPage = document.body.classList.contains('woocommerce-cart');
+    const hasPriceCells = document.querySelector('.price-cell[data-product-id]') || document.querySelector('tr[data-cart-key]');
+
+    if (savedTier && (isCartPage || hasPriceCells)) {
       debouncedUpdatePricesByTier(savedTier);
     }
   }, 500);

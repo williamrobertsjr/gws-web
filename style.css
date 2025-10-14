@@ -1879,6 +1879,9 @@ tr.wc-block-cart-items__row {
   background-image: url(../images/icon-close.png);
   background-position: right;
 }
+#loading-bar.loading {
+  width: 100%;
+}
 
 
 

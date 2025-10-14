@@ -528,32 +528,86 @@ add_filter('timber/context', function ($context) {
     return $context;
 });
 
+// Disable WooCommerce cart fragments for performance
+add_action('wp_enqueue_scripts', function() {
+    wp_dequeue_script('wc-cart-fragments');
+    wp_deregister_script('wc-cart-fragments');
+});
+
 // Bulk add to cart via AJAX
 add_action('wp_ajax_bulk_add_to_cart', 'gws_bulk_add_to_cart');
 add_action('wp_ajax_nopriv_bulk_add_to_cart', 'gws_bulk_add_to_cart');
 
 function gws_bulk_add_to_cart() {
+    $start = microtime(true); // move this to the top to measure time properly
+
     if (empty($_POST['parts'])) {
         wp_send_json_error(['message' => 'Missing parts parameter'], 400);
     }
-    $parts = json_decode(stripslashes($_POST['parts']), true);
-    if (!is_array($parts)) {
+
+    $raw = $_POST['parts'];
+
+    // Handle both JSON array and newline-delimited strings
+    if (is_array($raw)) {
+        $skus = $raw;
+    } elseif (is_string($raw)) {
+        // Try decoding JSON first
+        $decoded = json_decode(stripslashes($raw), true);
+        if (is_array($decoded)) {
+            $skus = $decoded;
+        } else {
+            // Fallback: treat as newline/CSV string
+            $lines = preg_split('/\r\n|\r|\n/', $raw);
+            $skus = array_filter(array_map('trim', $lines));
+        }
+    } else {
         wp_send_json_error(['message' => 'Invalid parts format'], 400);
     }
+
+    if (empty($skus)) {
+        wp_send_json_error(['message' => 'No valid SKUs provided'], 400);
+    }
+
+    // Deduplicate and sanitize
+    $skus = array_unique($skus);
+    if (count($skus) > 50) {
+        error_log('⚠️ bulk_add_to_cart aborted — too many SKUs: ' . count($skus));
+        wp_send_json_error(['message' => 'Too many parts. Please limit to 50 at a time.'], 400);
+    }
+
+    global $wpdb;
+    $placeholders = implode(',', array_fill(0, count($skus), '%s'));
+    $query = "
+        SELECT meta_value AS sku, post_id
+        FROM {$wpdb->postmeta}
+        WHERE meta_key = '_sku'
+        AND meta_value IN ($placeholders)
+    ";
+    $prepared = $wpdb->prepare($query, $skus);
+    $results = $wpdb->get_results($prepared);
+
+    $sku_map = [];
+    foreach ($results as $row) {
+        $sku_map[$row->sku] = (int) $row->post_id;
+    }
+
     $added = [];
     $not_found = [];
-    foreach ($parts as $sku) {
-        $sku = trim($sku);
-        if ($sku === '') continue;
-        $product_id = wc_get_product_id_by_sku($sku);
-        if ($product_id) {
-            WC()->cart->add_to_cart($product_id, 1);
+
+    foreach ($skus as $sku) {
+        if (isset($sku_map[$sku])) {
+            WC()->cart->add_to_cart($sku_map[$sku], 1);
             $added[] = $sku;
         } else {
             $not_found[] = $sku;
         }
     }
+
+    // Only calculate once
     WC()->cart->calculate_totals();
+
+    error_log('bulk_add_to_cart completed in ' . round(microtime(true) - $start, 3) . 's');
+
     wp_send_json_success([
         'added' => $added,
         'not_found' => $not_found,

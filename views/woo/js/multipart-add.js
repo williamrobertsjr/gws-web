@@ -1,6 +1,11 @@
+// Handle bulk add form submission
+// and update cart table dynamically
+// without a full page reload
 document.addEventListener("DOMContentLoaded", () => {
   const bulkForm = document.getElementById("bulk-add-form");
   const feedback = document.getElementById("bulk-add-feedback");
+  const loadingBar = document.getElementById("loading-bar");
+  const emptyCartMessage = document.querySelector('.empty-cart-message');
 
   if (!bulkForm) return;
 
@@ -18,7 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    feedback.textContent = "Adding parts…";
+    // feedback.textContent = "Looking for parts…";
+    emptyCartMessage.style.display = 'none';
+    if (loadingBar) loadingBar.classList.add("loading");
 
     try {
       const res = await fetch("/wp-admin/admin-ajax.php", {
@@ -32,10 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await res.json();
 
-      feedback.innerHTML = data.message || "Something went wrong.";
-
       if (data.success) {
-        feedback.innerHTML = data.message || "Parts added to quote.";
+        // feedback.innerHTML = data.message || "Adding parts to quote.";
+        
         await refreshCartTable();
         document.getElementById('bulk-parts').value = '';
       } else {
@@ -44,6 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error(err);
       feedback.textContent = "Error adding products. Try again.";
+    } finally {
+      if (loadingBar) loadingBar.classList.remove("loading");
     }
   });
 });
@@ -74,3 +82,38 @@ async function refreshCartTable() {
     console.error("Error refreshing cart table:", err);
   }
 }
+
+// Clear cart functionality
+document.addEventListener("DOMContentLoaded", () => {
+  const clearBtn = document.getElementById("clear-cart");
+  const feedback = document.getElementById("bulk-add-feedback");
+  const loadingBar = document.getElementById("loading-bar");
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", async () => {
+      if (!confirm("Are you sure you want to clear all items from the cart?")) return;
+
+      feedback.textContent = "Clearing cart...";
+
+      try {
+        const res = await fetch("/wp-admin/admin-ajax.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ action: "clear_cart" }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          feedback.textContent = "Cart cleared.";
+          await refreshCartTable();
+        } else {
+          feedback.textContent = "Could not clear cart.";
+        }
+      } catch (err) {
+        console.error(err);
+        feedback.textContent = "Error clearing cart.";
+      }
+    });
+  }
+});

@@ -14,7 +14,7 @@
     {% if cart_items is empty %}
         <div class="flex flex-col gap-y-4">
           
-          <p>There are no items in your quote.</p>
+          <p class="empty-cart-message">There are no items in your quote.</p>
           <p class="text-4xl text-pale-blue font-bold mt-10 mb-6 text-center uppercase">Browse by Tool Type</p>
           <div id="toolCategoryLinks" class="flex flex-wrap justify-between mb-4">
             {% set categories = {
@@ -140,7 +140,7 @@
             </div>
         
         </form>
-        <div id="quote-form-wrapper" style="position: absolut; left: -9999px; opacit: 0;">
+        <div id="quote-form-wrapper" style="position: absolute; left: -9999px; opacity: 0;">
           {{ function('do_shortcode', '[gravityform id="46" title="false" description="false" ajax="true"]') }}
         </div>
     {% endif %}
