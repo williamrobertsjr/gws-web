@@ -97,12 +97,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }, 500);
 
-  // Quantity input events
+  bindCartQtyListeners();
+});
+
+function bindCartQtyListeners() {
   document.querySelectorAll('.cart-qty-input').forEach(input => {
     let timer;
 
     const handler = () => {
-        console.log('Quantity change detected');
+      console.log('Quantity change detected');
       const cartKey = input.dataset.cartKey;
       const quantity = input.value;
 
@@ -124,7 +127,9 @@ document.addEventListener('DOMContentLoaded', function () {
           if (data && data.success) {
             const currentTier = localStorage.getItem('selectedTier');
             if (currentTier) {
-              debouncedUpdatePricesByTier(currentTier);
+              document.dispatchEvent(new CustomEvent('tierChanged', {
+                detail: { tier: currentTier }
+              }));
             }
           } else {
             console.warn('Qty update failed, refreshing cart table');
@@ -151,4 +156,4 @@ document.addEventListener('DOMContentLoaded', function () {
       handler();
     });
   });
-});
+}
