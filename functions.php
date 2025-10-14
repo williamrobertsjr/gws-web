@@ -406,7 +406,11 @@ function ajax_update_cart_item() {
     wc_cart_totals_order_total_html();
     $totals['cart_total'] = ob_get_clean();
 
-    wp_send_json_success(['totals' => $totals]);
+    wp_send_json_success([
+        'cart_items' => $totals,
+        'original_total_html' => $totals['cart_subtotal'],
+        'discounted_total_html' => $totals['cart_total'],
+    ]);
 }
 
 add_action('wp_ajax_remove_cart_item', 'ajax_remove_cart_item');

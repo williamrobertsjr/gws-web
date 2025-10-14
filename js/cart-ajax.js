@@ -51,6 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof window.rebindCartPricing === "function") {
         window.rebindCartPricing();
       }
+      if (typeof window.bindCartQtyListeners === "function") {
+        window.bindCartQtyListeners();
+      }
       // Notify WooCommerce & any listeners that the cart DOM was updated
       if (window.jQuery) {
         jQuery(document.body).trigger('updated_wc_div');

@@ -108,6 +108,7 @@ function bindCartQtyListeners() {
       console.log('Quantity change detected');
       const cartKey = input.dataset.cartKey;
       const quantity = input.value;
+      console.log('Firing fetch with:', { cartKey, quantity });
 
       fetch('/wp-admin/admin-ajax.php', {
         method: 'POST',
@@ -130,6 +131,24 @@ function bindCartQtyListeners() {
               document.dispatchEvent(new CustomEvent('tierChanged', {
                 detail: { tier: currentTier }
               }));
+            } else if (data.data && data.data.cart_items) {
+              const cartItems = data.data.cart_items || {};
+              const originalTotalHtml = data.data.original_total_html;
+              const discountedTotalHtml = data.data.discounted_total_html;
+
+              Object.entries(cartItems).forEach(([cartKey, itemData]) => {
+                if (typeof itemData !== 'object') return;
+                const row = document.querySelector(`tr[data-cart-key="${cartKey}"]`);
+                if (!row) return;
+
+                const subtotalCell = row.querySelector('.line-subtotal');
+                if (subtotalCell && itemData.subtotal) subtotalCell.innerHTML = itemData.subtotal;
+              });
+
+              const originalTotalEl = document.querySelector('.original-total');
+              const discountedTotalEl = document.querySelector('.discounted-total');
+              if (originalTotalEl && originalTotalHtml) originalTotalEl.innerHTML = originalTotalHtml;
+              if (discountedTotalEl && discountedTotalHtml) discountedTotalEl.innerHTML = discountedTotalHtml;
             }
           } else {
             console.warn('Qty update failed, refreshing cart table');
@@ -141,6 +160,7 @@ function bindCartQtyListeners() {
         .catch(error => {
           console.error('Cart update failed:', error);
           if (typeof refreshCartTable === 'function') {
+            console.log('Calling refreshCartTable() from catch block');
             refreshCartTable();
           }
         });
@@ -157,3 +177,4 @@ function bindCartQtyListeners() {
     });
   });
 }
+window.bindCartQtyListeners = bindCartQtyListeners;
