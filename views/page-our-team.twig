@@ -1,0 +1,29 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+{% include "page-header.twig" %}
+<section>
+	<div id="post-conten" class="container mx-auto py-36">
+		{# {{ post.content }} #}
+        <div class="flex flex-col md:flex-row justify-around flex-wrap gap-y-8">
+            {% for member in post.meta('executive_team') %}
+                <div class="w-full md:w-5/12 px-6">
+                    <img src="{{member.image.url}}" alt="">
+                    <div class="flex flex-col mt-2 border-l-4 border border-y-0 border-r-0 border-pale-blue ps-2">
+                        <h2 class="font-bold uppercase text-2xl text-pale-blue mb-0">{{member.name}}</h2>
+                        <h4 class="text-lg mt-0 font-light">{{member.title}}</h4>
+                    </div>
+                
+                </div>
+            {% endfor %}
+        </div>
+	</div>
+</section>
+
+<section>
+	<div class="bg-diagonal">
+    	{% include "./templates/perfect-tool-two.php" %}
+	</div>
+</section>
+{% endblock %}

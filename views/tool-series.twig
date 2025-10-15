@@ -1,0 +1,38 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<section id="tool-series-header" class="page-header bg-black px-4">
+    <div class="md:container mx-auto flex flex-col justify-center ps-8 hero-background animate__animated animate__fadeInDown" style="background-image: url('/wp-content/uploads/2024/02/{{pageToolType}}_series_banner.jpg'); background-position: center; background-size: cover;">
+        <h1 class="text-5xl md:text-7xl text-pale-blue font-black uppercase">{{pageToolType|upper}} Series</h1>
+    </div>
+</section>
+
+<section id="all-series-container" class="py-20 px-4 container mx-auto">
+        {# {% for series in subType_series %}
+            <p>{{series.series}} | {{series.tool_sub_type}}</p>
+            
+        {% endfor %} #}
+    <div class="flex flex-wrap md:flex-row gap-x-8 mb-10 justify-center md:justify-start tool-type-filters filter-buttons category-filters">
+
+            <button class="filter-btn" data-filter="all">All</button>
+            {% for subType in toolSubTypes %}
+            {% if subType != 'Square and Radius' %}
+                <button class="filter-btn" data-filter="{{ subType|replace({' ' : '', '/' : ''})|lower }}">{{ subType }}</button>
+            {% endif %}
+            
+            {% endfor %}
+        
+    </div>
+    {% include 'series-tiles.twig' with {'series_list': series_list} %}
+
+</section>
+
+<section>
+    <div class="bg-diagonal">
+        {% include "./templates/perfect-tool-two.php" %}
+    </div>
+</section>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="/wp-content/themes/gws-web/js/tool-series.js"></script>
+{% endblock %}

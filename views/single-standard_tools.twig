@@ -1,0 +1,135 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<section class="page-header bg-black px-4">
+    
+    {% if post.thumbnail is not null %}
+        {% set headerImage = post.thumbnail %}
+    {% else %}
+        {% set headerImage = "/wp-content/uploads/2024/01/milling_menu.jpg" %}     
+    {% endif %}
+    
+    <div class="container mx-auto flex flex-col justify-center px-4 md:px-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{headerImage}}'); background-size: cover; background-position: center;">
+        <h2 class="text-xl font-semibold text-white capitalize mb-2">{{post.meta('tool_type')}}</h2>
+        <h1 class="text-4xl md:text-7xl font-black text-pale-blue uppercase">{{post.title}}</h1>
+    </div>
+</section>
+
+<section class="pt-36">
+
+    <div class="container mx-auto flex flex-col gap-y-20">
+    
+        <div id="subtypesIntro" class="w-full flex flex-col mb-6">
+            <div class="text-xl font-light container">
+                <div>{{post.content}}</div>
+                <div class="flex flex-col md:flex-row gap-x-6 gap-y-6 my-6">
+                    <a href="/products/{{post.meta('tool_type')|lower}}/?_{{post.meta('tool_type')|lower}}_types={{post.title|lower}}" class="btn dark-blue capitalize hover:shadow-xl">Search for {{post.title}} tools</a>
+                    <a href="#series" class="btn light-blue capitalize hover:shadow-xl">See all {{post.title}} series</a>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row flex-wrap gap-y-16">
+            <div id="subtypesFeatures" class="lg:w-6/12 flex flex-col px-2 group">
+                <div class="bg-black bg-light-blue h-full shadow-xl rounded">
+                    <div class="w-10/12 mx-auto pt-16 pb-10 relative">
+                        <h2 class="inline-flex absolute -top-6 py-4 px-6 bg-dark-gray bg-light-blue text-2xl border-2 border-black shadow-xl font-semibold">Product Features</h2>
+                        <div class="flex flex-col gap-y-6">
+                            <ul>
+                            {% for item in post.meta('features') %}
+                                <li><i class="fa-solid fa-plus me-3 text-white"></i>{{item.feature}}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="subtypesApplications" class="lg:w-6/12 flex flex-col px-2 group">
+                <div class="bg-black bg-light-blue h-full shadow-xl rounded">
+                    <div class="w-10/12 mx-auto pt-16 pb-10 relative">
+                        <h2 class="inline-flex absolute -top-6 py-4 px-6 bg-dark-gray bg-light-blue text-2xl border-2 border-black shadow-xl font-semibold">Industries/Applications</h2>
+                        <div class="flex flex-col gap-y-6">
+                        {% for item in post.meta('applications') %}
+                            <p><i class="fa-solid fa-plus me-3 text-white"></i>{{item.application}}</p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="subtypesWhy" class="w-full flex flex-col group">
+                <div class="bg-black h-full shadow-xl rounded">
+                    <div class="w-11/12 mx-auto pt-16 pb-10 relative">
+                        <h2 class="inline-flex absolute -top-6 py-4 px-6 bg-dark-gray text-2xl border-2 border-black shadow-xl font-semibold">Why GWS?</h2>
+                        <div class="flex flex-col gap-y-6">
+                        {% for item in post.meta('why_choose_gws') %}
+                            <p><i class="fa-solid fa-plus me-3 text-white"></i>{{item.why}}</p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% set mediaItems = post.meta('media') %}
+            {% if mediaItems is not empty %}
+            
+                <div id="subtypesSlider" class="w-full flex flex-col relative py-10">
+                    <div class="w-full border-black border-2 shadow-inner relative px-10 py-20">
+                        <h2 class="inline-flex absolute -top-6 py-4 px-6 bg-dark-gray text-2xl border-2 border-black shadow-xl font-semibold z-10">Resources</h2>
+                        <!-- Slider main container -->
+                        <div class="subtypesSwiper overflow-x-hidden">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper flex">
+                                
+                                
+                                    {% for item in mediaItems %}
+                                        <!-- Slides -->
+                                        <div class="swiper-slide flex flex-col w-3/12 px-2">
+                                            <div class="relative shadow-lg w-11/12 ps-8 pb-10 min-h-[300px] rounded flex flex-col justify-end" style="background-image:url('{{item.image.url}}'); background-position: center; background-size:cover; background-color: rgba(34,34,34,.4); background-blend-mode:darken;">
+                                                <a href="{{item.link}}" class="absolute h-full w-full top-0" target="_blank"></a>
+                                                <div>
+                                                    <p class="text-pale-blue font-medium text-xl">{{item.title}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                        
+                            </div>
+                        
+                           
+                            {# Navigation buttons #}
+                            <div class="swiper-controls flex gap-x-6">
+                                <i class="text-4xl font-bold text-pale-blue fa-solid fa-arrow-left-long prevEl"></i>
+                                <i class="text-4xl font-bold text-pale-blue fa-solid fa-arrow-right-long nextEl"></i>
+                            </div>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            {% endif %}
+            
+            
+                
+        </div>
+    </div>
+
+</section>
+
+<section id="series">
+
+    <div class="container py-20">
+        <h2 class="text-4xl font-bold">{{post.title}} Series</h2>
+        <div class="my-10">
+            {# {{pageSubType}} #}
+            {% include 'series-tiles.twig' with {'series_list': series_list} %}
+        </div>
+        
+
+    </div>
+
+</section>
+
+<script src="/wp-content/themes/gws-web/swiper.js"></script>
+
+{% endblock %}

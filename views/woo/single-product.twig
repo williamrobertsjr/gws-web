@@ -1,0 +1,232 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+    {# {% do action('woocommerce_before_single_product') %} #}
+    
+    <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }} pt-60 mx-auto text-white">
+    {% set series = product.get_attribute('pa_series') %}
+    <section class="w-full container mx-auto pb-20">
+       
+            {# <div>
+                <h1>{{ post.title }}</h1>
+                <h2>Post Meta</h2>
+                <ul>
+                    {% for key, value in post.meta %}
+                        <li>{{ key }}: {{ value }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div> #}
+           
+            {# <div>helllloooo {{ dump('test') }}</div> #}
+
+        <div class="flex">
+            <div class="w-4/12 me-10">
+                <div class="aspect-square flex justify-center items-center p-4 bg-[#fff] rounded">
+                    <img src="/wp-content/themes/gws-web/images/catalog_images/{{series}}_catalog.png" alt="" class="max-h-[300px] w-auto">
+                </div>
+                
+            </div>
+            {# Right Product Information #}
+            <div class="w-8/12">
+                <p class="mb-2">{{product.get_attribute('pa_tool-type')|capitalize}} > {{product.get_attribute('pa_sub-type')}} > {{product.get_attribute('pa_family')}} > <a href="/series-{{product.get_attribute('pa_series')}}">Series {{product.get_attribute('pa_series')}}</a></p>
+                <h1 class="entry-title text-5xl font-black text-pale-blue uppercase">{{ post.title }}</h1>
+                <p>{{post.meta('table_description')}}</p>
+                <div class="flex items-start mt-1 gap-x-3">
+                    <p class="text-2xl text-white price-cell" data-product-id="{{ product.id }}" style="padding-top:.25rem;">
+                        <span 
+                          class="discounted-price font-bold text-white"
+                        >
+                          {{ function('wc_price', product.get_price()) }}
+                        </span>
+                    </p>
+                    {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
+                    {% if stock_data %}
+                      
+                        {% if stock_data.DURRIE_QTY_ON_HAND is not null %}
+                          <div class="p-1">
+                            <div class="bg-dark-blue px-2 text-white">
+                                <p class="mb-0 text-lg"><span class="font-bold product-stock mb-2">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
+                            </div>
+                            <div class="flex gap-x-2 px-2">
+                              <p class="text-sm"><span class="font-medium">CA</span>: {{ stock_data.QTY_ON_HAND|number_format(0) }}</p>
+                              <p class="text-sm"><span class="font-medium">IL</span>: {{ stock_data.DURRIE_QTY_ON_HAND|number_format(0) }}</p>
+                            </div>
+                          </div>
+                        {% else %}
+                            <div class="bg-dark-blue px-2 text-white">
+                                <p class="p-1 text-lg"><span class="font-bold product-stock">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
+                            </div>
+                        {% endif %}
+                      
+                    {% endif %}
+                    
+                </div>
+                <div>
+                    {# <p>{{post.meta('table_description')}}</p> #}
+                </div>
+                <div class="summary entry-summary mt-4">
+                    {# {% do action('woocommerce_single_product_summary') %} #}
+                    
+
+                    <form class="cart flex items-stretch" method="post" enctype='multipart/form-data'>
+                        <div class="quantity h-full me-4">
+                            <p class="text-sm">Qty:</p>
+                            <input type="number" id="quantity" class="input-text qty text h-full border-2 border-gray p-2 !w-16 text-black rounded-sm box-border" step="1" min="1" max="100" name="quantity" value="1" title="Qty" size="6" inputmode="numeric">
+                        </div>
+                        <button type="submit" name="add-to-cart" value="{{ product.get_id }}" class=" btn light-blue alt h-full self-end">
+                            {{ __('Add to Quote', 'woocommerce')}}
+                        </button>
+                    </form>
+                </div>    
+                <div class="flex mb-10">
+                    <div class="w-4/12 pe-4">
+                        <h3>Attributes</h3>
+                        <hr>
+                        <div id="attributes-list" class=" mt-2 gap-y-1 flex flex-col">
+                            {% set dataFields = attributes['pa_data-fields'][0]|split(',') %} {# Access and split the string #}
+                            {% for field in dataFields %}
+                                {% set mapped_field = attribute(attribute_mapping, field|trim) %}
+                                {# Debugging the mapped field and its existence in attributes #}
+                                {# <pre>{{ attributes[mapped_field]|json_encode }}</pre> #}
+                                {% if field %}
+                                    {% set attribute_value = attributes[mapped_field] %}
+                                    <p>
+                                        <span class="font-bold {{field}}">{{ field }}</span>:
+                                        {{ attribute_value|join(', ')|default('-') }}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <div class="w-4/12 pe-4">
+                        <h3>Applications</h3>
+                        <hr>
+                        {# Split the context variable into an array #}
+                        {% set applications = post.meta('app_icons')|split(', ') %}
+                        <div class="icons flex flex-wrap py-4 px-2 gap-5">
+                            {# Display each value in the list #}
+                            {% for value in applications if value %}
+                                {# <img class="w-3/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt=""> #}
+                                <div class="group relative w-3/12">
+                                        <img class="w-full mx-auto" src="/wp-content/themes/gws-web/images/icons/{{value}}_icon.png" alt="test">
+                                        <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-sm text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
+                                    </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="w-4/12 pe-4">
+                        <h3>Features</h3>
+                        <hr>
+                        {% set features = post.meta('feat_icons')|split(', ') %}
+                        <div class="icons flex flex-wrap gap-5 py-4 px-2">
+                            {# Display each value in the list #}
+                            {% if features is not empty %}
+                                {% for value in features if value%}
+                                    <div class="group relative w-3/12">
+                                        <img class="w-full mx-auto" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                        <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-sm text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
+                                    </div>
+                                    
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Work Materials</h3>
+                    <hr>
+                    {# Split the context variable into an object #}
+                    {% set materials = {
+                        'p1': post.meta('p1'),
+                        'p2': post.meta('p2'),
+                        'p3': post.meta('p3'),
+                        'm1': post.meta('m1'),
+                        'm2': post.meta('m2'),
+                        'k1': post.meta('k1'),
+                        'k2': post.meta('k2'),
+                        'n1': post.meta('n1'),
+                        'n2': post.meta('n2'),
+                        's1': post.meta('s1'),
+                        's2': post.meta('s2'),
+                        'h1': post.meta('h1'),
+                        'h2': post.meta('h2')
+                    } %}
+                    <div class="icons flex flex-wrap py-4 gap-5">
+                        {# Display each value in the list #}
+                        {% for key, item in materials %}
+                            {% if item != "NULL" %}
+                                <img class="w-3/12" src="/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# <div>
+            <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+                    <li class="me-2" role="presentation">
+                        <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Product Information</button>
+                    </li>
+                    <li class="me-2" role="presentation">
+                        <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Series Information</button>
+                    </li>
+                </ul>
+            </div>
+            <div id="default-tab-content">
+                
+                <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div>
+                        <p class="text-lg">{{product.get_description()}}</p>
+                    </div>
+                </div>
+                {
+                <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                    <div>
+                        {% if post.meta('series_bullets') %}
+                            <ul>
+                                {% for bullet in post.meta('series_bullets') | split('@') %}
+                                    <li><i class="fa-solid fa-plus pe-3"></i>{{ bullet }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No series bullets available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div> #}
+    </section>
+
+
+    <section id="series-data-series" class="px-4 py-20">
+        <div class="container mx-auto">
+            <h2 class="text-5xl md:text-6xl uppercase font-black text-light-blue mb-20">Series Data</h2>
+            <div id="series-data-table">
+                {% include 'product-table.twig' %} 
+            </div>
+        </div>
+    </section>
+
+        {# <div class="entry-images">
+            
+        </div> #}
+
+        
+
+        {# {% do action('woocommerce_after_single_product_summary') %} #}
+
+        <meta itemprop="url" content="{{ post.link }}" />
+
+    </article>
+
+    {# {% include ["partials/tease-product.twig"] with { products: related_products } %} #}
+
+    {# {% do action('woocommerce_after_single_product') %} #}
+<script src="/wp-content/themes/gws-web/product-helpers.js" defer></script>
+{% endblock  %}

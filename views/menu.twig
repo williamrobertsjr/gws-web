@@ -1,0 +1,10 @@
+{% if menu %}
+	<ul class="flex justify-end">
+	{% for item in items %}
+		<li class="px-4 {{ item.classes | join(' ') }}">
+			<a target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+			{% include "menu.twig" with {'items': item.children} %}
+		</li>
+	{% endfor %}
+	</ul>
+{% endif %}

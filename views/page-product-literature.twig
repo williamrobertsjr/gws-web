@@ -1,0 +1,131 @@
+{% extends "base.twig" %}
+{% block content %}
+
+{% include "page-header.twig" %}
+
+<section class="container mx-auto py-48 px-4">
+
+    <div id="lit-company" class="lit-section">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Company</h2>
+        <hr class="text-gray">
+        <div class="text-white lit-row flex flex-wrap mt-10 mb-28">
+        
+        {% for literature in post.meta('company_literature') %}
+            <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                <div class="w-5/12">
+                    {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
+                </div>
+                <div class="w-6/12 mt-6">
+                    <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
+                    <div class="flex flex-col gap-y-4">
+                        <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
+                        {% if literature.pdf_url_spanish %}
+                            <div><button class="btn light-blue"><a href="{{literature.pdf_url_spanish}}">Español</a></button></div>
+                        {% endif %}
+                    </div>
+                </div>  
+            </div>
+        {% endfor %}
+        
+        </div>
+    </div>
+    <div id="lit-milling" class="lit-section">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Milling</h2>
+        <hr class="text-gray">
+        <div class="lit-row flex flex-wrap mt-10 mb-28">
+                {% for literature in post.meta('milling_literature') %}
+                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                        <div class="w-5/12">
+                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
+                        </div>
+                        <div class="w-6/12 mt-6">
+                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
+                            <div class="flex flex-col gap-y-4">
+                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
+                            </div>
+                        </div>  
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+    <div id="lit-holemaking" class="lit-section">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">Holemaking</h2>
+        <hr class="text-gray">
+        <div class="lit-row flex flex-wrap mt-10 mb-28">
+                {% for literature in post.meta('holemaking_literature') %}
+                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                        <div class="w-5/12">
+                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
+                        </div>
+                        <div class="w-6/12 mt-6">
+                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
+                            <div class="flex flex-col gap-y-4">
+                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
+                            </div>
+                        </div>  
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+    <div id="lit-threading" class="lit-section">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">threading</h2>
+        <hr class="text-gray">
+        <div class="lit-row flex flex-wrap mt-10 mb-28">
+                {% for literature in post.meta('threading_literature') %}
+                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                        <div class="w-5/12">
+                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
+                        </div>
+                        <div class="w-6/12 mt-6">
+                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
+                            <div class="flex flex-col gap-y-4">
+                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
+                            </div>
+                        </div>  
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+    <div id="lit-specialty" class="lit-section">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">specialty</h2>
+        <hr class="text-gray">
+        <div class="lit-row flex flex-wrap mt-10 mb-28">
+                {% for literature in post.meta('specialty_literature') %}
+                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                        <div class="w-5/12">
+                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
+                        </div>
+                        <div class="w-6/12 mt-6">
+                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
+                            <div class="flex flex-col gap-y-4">
+                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
+                            </div>
+                        </div>  
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+    <div id="lit-inserts" class="lit-section">
+        <h2 class="text-4xl font-bold text-pale-blue uppercase mb-4">inserts</h2>
+        <hr class="text-gray">
+        <div class="lit-row flex flex-wrap mt-10 mb-28">
+                {% for literature in post.meta('inserts_literature') %}
+                    <div class="lit-block w-full md:w-6/12 lg:w-4/12 flex justify-between">
+                        <div class="w-5/12">
+                            {{function('do_shortcode','[dflip id="'~ literature.dflip_id ~'" type="thumb"][/dflip]')}}
+                        </div>
+                        <div class="w-6/12 mt-6">
+                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{literature.title}}</h3>
+                            <div class="flex flex-col gap-y-4">
+                                <div><button class="btn light-blue"><a href="{{literature.pdf_url}}">Download</a></button></div>
+                            </div>
+                        </div>  
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+
+
+</section>
+
+{% endblock %}

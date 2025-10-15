@@ -1,0 +1,162 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<!-- Datatables.net build -->
+<link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/wp-content/themes/gws-web/rapid-quote-style.css">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<section id="product-filter-header" class="page-header bg-black px-4 md:px-8">
+    <div class="md:container mx-auto flex flex-col justify-center ps-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
+        <h1 class="text-7xl font-black text-white uppercase">{{post.title}}</h1>
+    </div>
+</section>
+
+<section>
+
+<div class="container flex flex-col mx-auto mt-48 px-4">
+    <p class="md:text-xl text-white mb-14 font-light">Get a quote fast by using the form below to send a quote request directly to our customer service team. <br>Don't know the part number? Find what you need now with our <a href="/tool-filter" class="underline text-pale-blue">Tool Filter</a>, or use our <a href="/ask-customer-service" class="underline text-pale-blue">customer service form</a> to get more help. <br>Need a custom tool? Fill out our <a href="/custom-quote" class="underline text-pale-blue">custom tool form</a>!</p>
+   <form id="partsForm" action="" class="w-full">
+        <textarea id="partsInput" name="part" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Enter up to 50 part numbers. One per line."></textarea>
+        <br>
+        <button type="submit" id="submitBtn" class="btn light-blue mt-2">Search Parts</button>
+    </form>
+    <div id="missing-parts" class="text-white"></div>
+</div>
+
+</section>
+
+<section class="container mx-auto mt-10 px-4">
+    <div id="results-div" class="">
+        <div id="rq-table-header" class="flex flex-col md:flex-row mb-4 justify-between">
+            <div id="distributor-level-select" class="flex md:w-4/12 items-center">
+                <label for="distributor-level" class="me-4 flex text-sm font-medium leading-6 text-gray-900 text-white">Distribtutor Level</label>
+                <select id="distributor-level" name="distributor-level" class="flex rounded-md border-0 py-1.5 px-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <option value="none" selected>Select</option>
+                    <option value="t1">Tier 1</option>
+                    <option value="t2">Tier 2</option>
+                    <option value="t3">Tier 3</option>
+                    <option value="57_5">57.5%</option>
+                    <option value="direct">Direct</option>
+                </select>
+            </div>
+            <div id="distributor-level-message">
+                {% if userRole == 'elite' %}
+                {% set distributorRole = 'Elite' %}
+                {% elseif userRole == 't1' %}
+                {% set distributorRole = '55%' %}
+                {% elseif userRole == 't2' %}
+                {% set distributorRole = '52.5%' %}
+                {% elseif userRole == 't3' %}
+                {% set distributorRole = '50%' %}
+                {% elseif userRole == '57_5' %}
+                {% set distributorRole = '57.5%' %}
+                {% elseif userRole == 'ta' %}
+                {% set distributorRole = 'Authorized' %}
+                {% elseif userRole == 'sales' %}
+                {% set distributorRole = 'Sales' %}                        
+                {% else %}
+                {% set distributorRole = 'None' %}
+                {% endif %}
+                {% if userRole == 't1' or userRole == 't2' or userRole == 't3' or userRole == '57_5'%}
+                    <p class="text-white">Your Distributor Discount:  <span id="user-role" class="font-semibold text-white">{{distributorRole}}</span>.</p>
+                {% elseif distributorRole == 'None' %}
+                    <p class="text-white">No Discount. If you are a distributor, <a href="/sign-in" class="underline font-semibold hover:text-pale-blue">sign in</a> to see your discounted price.</p> 
+                {% endif %}
+                
+                
+            </div>
+            <div class="flex gap-x-8 my-6 md:my-0">
+            {% if userRole == 'sales' or userRole == 'administrator' %}
+                <button id='testToolsBtn' class="btn light-blue">Test Tools</button>
+            {% endif %}
+            {% if user %}
+                <button id='emailBtn' class="btn light-blue">Email</button>
+            {% endif %}
+            <button id='printBtn' class="btn light-blue hidden md:block">Print</button>
+            </div>
+        </div>
+        <table id="rq-table" class="stripe row-border cell-border hover">
+        
+            
+        </table>
+        <script type="text/template" id="table-row"></script>
+    </div>
+</section>
+
+<section id="modal-container" class="w-full flex flex-col items-center justify-center hidden">
+
+    <div id="emailModal" class="p-10 w-10/12 2xl:w-8/12 flex flex-col hidden">
+        <div class="self-end"><button id="close-btn" class="btn dark-blue close-btn">X</button></div>
+        <form id="emailForm" class="flex flex-col gap-y-6">
+            <h3 class="text-dark-blue text-2xl font-bold">Email Your Quote</h3>
+            <p class="text-black">Fill out this form and your quote will be emailed to you and a memeber of our customer service team.</p>
+            <p class="text-black"><span class="font-semibold">Quote for:</span> {{user.display_name}} | {{user.user_email}} | {{user.company}}</p>
+            <input type="hidden" name="userName" value="{{ user.display_name }}">
+            <input type="hidden" name="userEmail" value="{{ user.user_email }}">
+            <input type="hidden" name="userCompany" value="{{ user.company }}">
+            {# <p class="text-black"></p> #}
+            {# <input type="text" id="name" name="name" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Your Name" required />
+            <input type="email" id="email" name="email" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Your Email" required />
+            <input type="text" id="company" name="company" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Company" required /> #}
+            <textarea id="message" name="message" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Additional comments"></textarea>
+            <p class="font-bold text-black text-sm">Your GWS Rapid Quote</p>
+            <div id="emailPreview" class="tablePreview"></div>
+                <div class="g-recaptcha" data-sitekey="6Lc2xmopAAAAAOmhMX2AzpZoCPBVCDskpL3L9Mp9"></div>
+                <br/>
+            <button class="btn dark-blue" type="submit">Send Email</button>
+        </form>
+    </div>
+
+    <div id="testToolsModal" class="p-10 w-10/12 2xl:w-8/12 flex flex-col hidden">
+        <div class="self-end"><button id="close-btn" class="btn dark-blue close-btn">X</button></div>
+        <form id="testToolsForm" class="flex flex-col gap-y-4">
+            <h3 class="text-2xl text-dark-blue font-bold">Request Test Tools</h3>
+            <div class="flex">
+                <p class="w-1/12">Send to</p> 
+                <p>sales@gwstoolgroup.com</p>
+            </div>
+            <div class="flex">
+                <p class="w-1/12">From</p>
+                <p class="me-3">{{ user.display_name }}</p>
+                <input type="hidden" name="userName" value="{{ user.display_name }}">
+                <p>{{ user.user_email }}</p>
+                <input type="hidden" name="userEmail" value="{{ user.user_email }}">
+            </div>
+            <div class="flex">
+                <input type="text" id="companyName" name="companyName" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Name of Company" required />
+            </div>
+            <div class="flex">
+                <input type="text" id="companyContact" name="companyContact" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Company Contact Name" required />
+            </div>
+            {# <div class="flex">
+                <input type="email" id="email" name="email" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Your Email" required />
+                <div id="testToolsRequester"><p>{{ user.user_email }}</p></div>
+            </div> #}
+            <div class="flex gap-x-4">
+            <textarea id="shippingAddress" name="shippingAddress" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Company Shipping Address"></textarea>
+            <textarea id="message" name="message" class="w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Additional Comments"></textarea>
+            </div>
+            
+            
+            
+            <p class="font-bold text-black text-sm">Your GWS Rapid Quote</p>
+            <div id="testToolsPreview" class="tablePreview"></div>
+            <button class="btn dark-blue" type="submit">Send Email</button>
+        </form>
+    </div>
+
+</section>
+
+<section class="mt-20">
+    <div class="bg-diagonal">
+        {% include "./templates/perfect-tool-two.php" %}
+    </div>
+</section>
+
+{# Datatables.net scripts #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.js"></script>
+<script src="/wp-content/themes/gws-web/rapid-quote/rapid-quote.js" defer></script>
+{% endblock %}

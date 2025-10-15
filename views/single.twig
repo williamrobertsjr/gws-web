@@ -1,0 +1,32 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+<section id="single-hero">
+	{% if post.meta('header_image') is empty %}
+		{% set headerImage = post.thumbnail.src %}
+	{% else %}
+		{% set headerImage = post.meta('header_image').url %}
+	{% endif %}
+	
+	<div id="blog-featured-hero" class="container mx-auto flex flex-col justify-end animate__animated animate__fadeInDown" style="background: url('{{ headerImage }}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
+		<div class="ps-8 pb-12">
+			<p class="single-cat text-pale-blue font-extrabold pb-7">{{ post.category() }}</p>
+			<h1 class="single-title text-white font-extrabold w-10/12">{{ post.title }}</h1>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div id="post-content" class="container mx-auto">
+		{{ post.content }}
+	</div>
+</section>
+
+<section>
+	<div class="bg-diagonal">
+    	{% include "./templates/perfect-tool-two.php" %}
+	</div>
+</section>
+
+{% endblock %}

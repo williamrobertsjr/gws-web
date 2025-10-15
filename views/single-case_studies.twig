@@ -1,0 +1,86 @@
+{% extends 'base.twig' %}
+{% block content %}
+<section id="single-hero">
+
+    <div id="blog-featured-hero" class="container mx-auto flex flex-col justify-end" style="background: url('/wp-content/uploads/2023/12/case_study_banner.jpg'); background-repeat: no-repeat; background-size: cover; background-color: rgba(15,34,53,.62); background-blend-mode: darken;">
+        <div class="ps-8 md:pb-8">
+            <p class="text-xl md:text-2xl text-pale-blue font-extrabold pb-7 uppercase">{{post.category()}}</p>
+            <h1 class="text-3xl md:text-4xl text-white font-extrabold w-10/12">{{post.title}}</h1>
+    {# <p>{{post.meta('employee_title')}} // {{post.meta('employee_location')}}</p> #}
+        </div>
+        <div id="cs-basic-info" class="w-11/12 mx-auto flex">
+            <div class="content w-full flex flex-col md:flex-row gap-y-4">
+                <div class="md:w-6/12">
+                    <h3 class="text-2xl font-extrabold">Customer</h3>
+                    <p>{{post.meta('customer')}}</p>
+                </div>
+                <div class="md:w-6/12">
+                    <h3 class="text-2xl font-extrabold">Part and Material</h3>
+                    <p>{{post.meta('part_and_material')}}</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<section id="cs-article" class="flex flex-col-reverse md:flex-row mx-auto container justify-between gap-x-8 gap-y-28 px-8">
+    <div class="md:w-7/12 gap-y-16 flex flex-col">
+        <div id="situation" class="relative p-10 md:p-14 xl:p-24">
+            <img class="light-blue-drill" src="/wp-content/uploads/2024/02/white_drill.png" alt="">
+            <div class="heading inline-flex px-10 py-5 absolute -top-10 start-2 lg:start-20">
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold inline-flex">The Situation</h2>
+            </div>
+            <p>{{post.meta('the_situation')}}</p>
+        </div>
+        <div id="current-process">
+            <h2 class="text-3xl font-bold">Current Process Results</h2>
+            
+
+            <ul class="mt-8 ms-8">
+                {% for item in post.meta('current_process') %}
+                    <li>{{ item.current_result }}</li>
+                {% endfor %}
+            </ul>
+
+
+        </div>
+        <div id="new-solution">
+                <h2 class="text-3xl font-bold">New GWS Solution</h2>
+        
+
+            <ul class="mt-8 ms-8">
+                {% for item in post.meta('new_process') %}
+                    <li>{{ item.new_result }}</li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <div id="conclusion" class="relative p-10 md:p-14 xl:p-24">
+            <img class="light-blue-drill" src="/wp-content/uploads/2023/12/light_blue_drill.png" alt="">
+            <div class="heading inline-flex px-10 py-5 absolute -top-10 start-2 lg:start-20">
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold inline-flex">Conclusion</h2>
+            </div>
+            <p>{{post.meta('conclusion')}}</p>
+        
+        </div>
+    
+    </div>
+    <div class="md:w-4/12 gap-y-9 flex flex-col cs-images">
+        
+            {% for item in post.meta('case_study_images') %} 
+
+                <img src="{{item.image.url}}" alt=""> 
+
+            {% endfor %}
+        
+        
+        
+    </div>
+</section>
+
+<section class="py-20 bg-diagonal">
+    {% include "./templates/perfect-tool-two.php" %}
+</section>
+
+{% endblock %}

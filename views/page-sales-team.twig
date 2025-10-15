@@ -1,0 +1,80 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<section id="distributor-search-header" class="page-header bg-black">
+    <div class="container mx-auto flex flex-col justify-center md:ps-10 hero-background" style="background: url('{{post.thumbnail.src}}'); background-repeat: no-repeat; background-size: cover; background-color: rgba(0,0,0,.3); background-blend-mode: overlay;">
+        <h1 class="text-4xl md:text-7xl uppercase font-black text-white">{{post.title}}</h1>
+        <p class="text-xl md:text-2xl mb-6">Find your regional GWS sales representative below.</p>
+        <div class="flex gap-x-4 md:w-5/12">
+            <a href="tel:18774978665" class="btn dark-blue w-full text-center">Call GWS</a>
+            <a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full text-center">Email GWS</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-32 px-4 md:px-0">
+
+    <div class="md:container">
+        <div class="hidden md:block w-full">
+            {{post.content}}
+        </div>
+        
+    </div>
+    
+    <div class="md:container mx-auto mt-20">
+        <div class="w-full lg:w-10/12 mx-auto">
+        <div class="flex flex-wrap gap-x-4 mb-20 md:hidden justify-around">
+            <a href="#eagit statust" class="btn light-blue"><h3 class="text-lg md:text-xl">East Region</h3></a>
+            <a href="#west" class="btn light-blue"><h3 class="text-lg md:text-xl">West Region</h3></a>
+        </div>
+            <div id="east" class="flex flex-col">
+                <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">East Region</h3>
+                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
+                    {% for member in post.meta('east') %}
+                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2  hover:cursor-pointer">
+                            <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
+                                <div class="bg-[#ededed]"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
+                                <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
+                                <p class="text-white italic mt-2">{{member.title}}</p>
+                                <p class="text-white">{{member.states}}</p>
+                                <div class="flex gap-x-6 mt-6">
+                                    <p class="text-white text-sm"><a href="mailto:{{member.email}}" class="btn light-blue !px-6"><i class="fa-solid fa-envelope"></i></a></p>
+                                    <p class="text-white text-sm"><a href="tel:{{member.phone_number}}" class="btn light-blue !px-6"><i class="fa-solid fa-phone"></i></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div id="west" class="flex flex-col">
+                <h3 class="text-2xl text-pale-blue font-semibold uppercase border-0 border-b-2 border-pale-blue">West Region</h3>
+                <div class="w-full flex flex-col md:flex-row mt-10 mb-16 flex-wrap gap-y-6">
+                    {% for member in post.meta('west') %}
+                        <div class="w-full md:w-6/12 xl:w-4/12 md:pe-8 hover:-translate-y-2 hover:cursor-pointer">
+                            <div class="[&>p]:mb-0 mx-auto bg-black p-8 rounded border-dark-gray border">
+                                <div class="bg-[#ededed]"><img src="{{member.image.url}}" alt="" class="max-w-[150px] mb-3 mx-auto"></div>
+                                <p class="text-white text-xl font-semibold border-0 border-b-4 border-pale-blue">{{member.name}}</p>
+                                <p class="text-white italic mt-2">{{member.title}}</p>
+                                <p class="text-white">{{member.states}}</p>
+                                <div class="flex gap-x-6 mt-6">
+                                    <p class="text-white text-sm"><a href="mailto:{{member.email}}" class="btn light-blue !px-6"><i class="fa-solid fa-envelope"></i></a></p>
+                                    <p class="text-white text-sm"><a href="tel:{{member.phone_number}}" class="btn light-blue !px-6"><i class="fa-solid fa-phone"></i></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>   
+    </div>
+
+</section>
+
+<section>
+    <div class="bg-diagonal">{% include "./templates/perfect-tool-two.php" %}</div>
+</section>
+
+
+{% endblock %}

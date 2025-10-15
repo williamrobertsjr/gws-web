@@ -1,0 +1,17 @@
+{% extends "base.twig" %}
+{% block content %}
+{% include "page-header.twig" %}
+<section class="py-36 container mx-auto">
+    <div class="flex flex-col items-center justify-center">
+        {# <h1 class="text-7xl break-words">Resources</h1> #}
+        {% for resource in post.meta('resource') %}
+        <a href="{{resource.link}}" class="hover:cursor-pointer">
+            <div class="border border-white w-full p-4">
+                <h2 class="text-2xl text-pale-blue font-black uppercase">{{resource.title}}</h2>
+                <p class="mt-2">{{resource.description}}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

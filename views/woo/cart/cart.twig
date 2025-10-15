@@ -1,0 +1,175 @@
+{% extends "base.twig" %}
+
+{% block content %}
+{% if 'clear-cart' in get and get['clear-cart'] == '1' %}
+  {% do function('WC').cart.empty_cart() %}
+{% set cart = function('WC').cart %}
+{% set cart_items = cart.get_cart() %}
+{% endif %}
+{% set userRoleDisplay = get_user_role_display(userRole) %}
+<section class="container mx-auto px-4 pt-72" id="cart-page">
+    <h1 class="text-6xl font-bold uppercase text-pale-blue">Your Quote</h1>
+    <div class="">{% include "woo/cart/multipart.twig" %}</div>
+    
+    {% if cart_items is empty %}
+        <div class="flex flex-col gap-y-4">
+          
+          <p class="empty-cart-message">There are no items in your quote.</p>
+          <p class="text-4xl text-pale-blue font-bold mt-10 mb-6 text-center uppercase">Browse by Tool Type</p>
+          <div id="toolCategoryLinks" class="flex flex-wrap justify-between mb-4">
+            {% set categories = {
+              'milling': 'Milling',
+              'holemaking': 'Holemaking',
+              'threading': 'Threading',
+              'specialty': 'Specialty',
+              'inserts': 'Inserts'
+            } %}
+
+            {% for slug, label in categories %}
+              <div class="w-1/5 px-2 box-border">
+                <a href="/products/{{ slug }}" class="aspect-square relative block overflow-hidden group rounded shadow-md">
+                  <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-100 group-hover:scale-105"
+                       style="background-image: url('/wp-content/uploads/2024/01/{{ slug }}_menu.jpg');">
+                  </div>
+                  <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-75 group-hover:opacity-100 transition-opacity duration-100">
+                    <span class="text-pale-blue text-2xl font-bold group-hover:text-white uppercase">{{ label }}</span>
+                  </div>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+    {% else %}
+        
+
+        <form action="{{ function('wc_get_cart_url') }}" method="post" class="woocommerce-cart-form" id="cart-form">
+            <div class="flex justify-between">
+              <div class="w-8/12">
+              
+                <table id="cart-table" class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
+                    <thead>
+                        <tr class="border-[#d2d2d2] border-b-[1px]">
+                            <th class="p-4 text-left text-sm uppercase">Product</th>
+                            <th class="p-4 text-left text-sm uppercase">Price</th>
+                            <th class="p-4 text-left text-sm uppercase">Stock</th>
+                            <th class="p-4 text-left text-sm uppercase">Quantity</th>
+                            <th class="p-4 text-left text-sm uppercase">Total</th>
+                            <th class="p-4 text-left text-sm uppercase">Production Notes</th>
+                            <th class="p-4 text-left text-sm uppercase"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                            {% set product = item.data %}
+                            <tr data-cart-key="{{ item.key }}" class="border-[#d2d2d2] border-b-[1px] bg-white hover:bg-gray-100">
+                                <td class="p-4"><a href="/product/{{product.get_name}}/" class="text-black" target="_blank">{{ product.get_name }}</a></td>
+                                <td class="p-4 price-cell">{{ function('wc_price', item.discounted_price) }}</td>
+                                <td class="p-4">
+                                  {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
+                                  {% if stock_data %}
+                                    {% if stock_data.DURRIE_QTY_ON_HAND is not null %}
+                                      <div class="text-black">
+                                        <p class="mb-0 text-black"><span class="font-bold">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
+                                        <div class="flex gap-x-2">
+                                          <p class="text-xs text-black"><span class="font-medium">CA</span>: {{ stock_data.QTY_ON_HAND|number_format(0) }}</p>
+                                          <p class="text-xs text-black"><span class="font-medium">IL</span>: {{ stock_data.DURRIE_QTY_ON_HAND|number_format(0) }}</p>
+                                        </div>
+                                      </div>
+                                    {% else %}
+                                      <p class="text-black"><span class="font-bold">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
+                                    {% endif %}
+                                  {% endif %}
+                                </td>
+                                <td class="p-4">
+                                    <input type="number"
+                                           class="cart-qty-input w-16 border px-2 py-1"
+                                           value="{{ item.quantity }}"
+                                           min="0"
+                                           data-cart-key="{{ item.key }}" />
+                                </td>
+                                <td class="line-subtotal p-4">
+                                  {# <s class="text-gray-400 me-2">{{ function('wc_price', item.original_price * item.quantity) }}</s> #}
+                                  {{ function('wc_price', item.discounted_subtotal) }}
+                                </td>
+                                <td class="p-4 text-xs">{{ function('do_shortcode', '[gws_stocking_status sku="' ~ product.sku ~ '" show_label=0]') }}</td>
+                                <td class="p-4">
+                                    <button type="button"
+                                            class="remove-item text-red-500"
+                                            data-cart-key="{{ item.key }}">×
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+              <div class="w-4/12 ps-4">
+                <div class="flex flex-col justify-between sticky top-8">
+                    
+                    <div class="bg-white p-6 rounded-[2px]">
+                        <div>
+                          <p class="text-3xl font-bold mb-8 uppercase text-black">Order Summary</p>
+                        </div>
+                        <p class="text-black">Your distributor discount is <span id="userRole" class="underline font-semibold">{{ userRoleDisplay }}</span>.</p>
+
+                        <div class="flex items-center gap-x-2 mt-4">
+                            {# <label for="coupon_code">Coupon:</label> #}
+                            <input type="text" name="coupon_code" id="coupon_code" class="border px-2 py-2" placeholder="Enter discount code" />
+                            <button type="submit" name="apply_coupon" class="btn light-blue">Apply Discount</button>
+                        </div>
+                        <div class="flex md:flex-col gap-y-4 mt-4">
+                            <input type="hidden" name="userName" value="{{ user.display_name }}">
+                            <input id="userEmail" type="hidden" name="userEmail" value="{{ user.user_email }}">
+                            <input type="hidden" name="userCompany" value="{{ user.company }}">
+                            {% if userRole == 'administrator' or userRole == 'sales' %}
+                              <div>
+                                <label for="test-tools-toggle" class="text-black font-medium">
+                                  <input type="checkbox" id="test-tools-toggle" class="mr-2" />Is this for a Test Tools quote?
+                                </label>
+                              </div>
+                            {% endif %}
+                            <div id="test-tools-fields" class="hidden flex flex-col gap-y-1">
+                              <p class="text-black font-semibold mb-2">Test Tools Information</p>
+                              <input type="text" rows="2" name="test-tools-company" id="test-tools-company" class="w-full border px-2 py-2" placeholder="Company Name" value="" />
+                              <input type="text" name="test-tools-contact" id="test-tools-contact" class="w-full border px-2 py-2" placeholder="Company Contact Name" value="" />
+                              <textarea rows="2" name="test-tools-address" id="test-tools-address" class="w-full border px-2 py-2" placeholder="Company Shipping Address" value=""></textarea>
+                            </div>
+                            <textarea rows="3" name="additional-comments" id="additional-comments" class="w-full border px-2 py-2" placeholder="Additional comments or instructions"></textarea>
+                            <div>
+                              <p class="text-black text-xl font-semibold mt-2">
+                                Original Total:
+                                <span class="line-through text-gray original-total">
+                                  {{ function('wc_price', cart_original_total) }}
+                                </span>
+                              </p>
+                              <p class="text-[#14972f] text-2xl font-bold">
+                                Discounted Total:
+                                <span class="discounted-total">{{ function('wc_price', cart_discounted_total) }}</span>
+                              </p>
+                            </div>
+                            <div class="flex"><button type="button" id="send-quote" class="btn dark-blue w-full">Send Quote</button></div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        
+        </form>
+        <div id="quote-form-wrapper" style="position: absolute; left: -9999px; opacity: 0;">
+          {{ function('do_shortcode', '[gravityform id="46" title="false" description="false" ajax="true"]') }}
+        </div>
+    {% endif %}
+</section>
+<script>
+  window.cartQuoteData = {
+    role: '{{ userRoleDisplay|e('js') }}',
+    email: '{{ user.email|e('js') }}'
+  };
+  window.currentUser = {
+    email: '{{ user.email|e('js') }}'
+  };
+</script>
+<script src="/wp-content/themes/gws-web/js/cart-ajax.js"></script>
+<script src="/wp-content/themes/gws-web/views/woo/js/quote-form.js"></script>
+
+{% endblock %}
