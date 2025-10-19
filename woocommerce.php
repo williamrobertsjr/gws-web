@@ -153,7 +153,7 @@ if (is_singular('product')) {
         $context['category'] = get_term($term_id, 'product_cat');
         $context['title'] = single_term_title('', false);
         // $context['test_price'] = gws_get_part_list_price('100333');
-        
+
     }
 
     Timber::render('views/woo/archive.twig', $context);

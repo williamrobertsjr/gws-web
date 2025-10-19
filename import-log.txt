@@ -1,4 +1,4 @@
 nohup: ignoring input
-Success: Import completed. [ time: 59 minutes ]
+Success: Import completed. [ time: 1 hour ]
 Created	Updated	Skipped	Deleted	Changed Missing	Count
-2538	0	54	0	0	2592
+3108	0	54	0	0	3162

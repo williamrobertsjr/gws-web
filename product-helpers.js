@@ -4,7 +4,7 @@ const productTable = document.getElementById('product-table')
 console.log(tableHeading)
 if(productTable) {
     let table = new DataTable('#product-table', {
-        pageLength: 100,
+        pageLength: 25,
     }); 
 } 
 

@@ -46,16 +46,16 @@
             {% if rapid_quote_last_updated %}
               <p class="text-sm text-gray-300 mb-2">Stock data last updated: {{ rapid_quote_last_updated }} EST.</p>
             {% endif %}
-            <div class="flex justify-between">
+            <div class="flex flex-col gap-y-2">
+              <div class="w-full">
               
-              <div class="w-8/12">
-               
                 <table id="cart-table" class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
                     <thead>
                         <tr class="border-[#d2d2d2] border-b-[1px]">
                             <th class="p-4 text-left text-sm uppercase">Product</th>
                             <th class="p-4 text-left text-sm uppercase">Description</th>
-                            <th class="p-4 text-left text-sm uppercase">Price</th>
+                            <th class="p-4 text-left text-sm uppercase">List</th>
+                            <th class="p-4 text-left text-sm uppercase">Net</th>
                             <th class="p-4 text-left text-sm uppercase">Stock</th>
                             <th class="p-4 text-left text-sm uppercase">Quantity</th>
                             <th class="p-4 text-left text-sm uppercase">Total</th>
@@ -76,6 +76,7 @@
                                   <span>{{ product.get_short_description|raw }}</span>
                                   <span class="text-xs">{{ function('do_shortcode', '[gws_stocking_status sku="' ~ product.sku ~ '" show_label=0]') }}</span>
                                 </td>
+                                <td class="p-4 list-price-cell">${{product.get_price}}</td>
                                 <td class="p-4 price-cell">{{ function('wc_price', item.discounted_price) }}</td>
                                 <td class="p-4">
                                   {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
@@ -116,12 +117,12 @@
                     </tbody>
                 </table>
               </div>
-              <div class="w-4/12 ps-4">
+              <div class="w-full">
                 <div class="flex flex-col justify-between sticky top-8">
                     
                     <div class="bg-white p-6 rounded-[2px]">
                         <div>
-                          <p class="text-3xl font-bold mb-8 uppercase text-black">Order Summary</p>
+                          <p class="text-3xl font-bold mb-8 uppercase text-black">Quote Summary</p>
                         </div>
                         <p class="text-black">Your distributor discount is <span id="userRole" class="underline font-semibold">{{ userRoleDisplay }}</span>.</p>
 
