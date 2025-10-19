@@ -28,10 +28,9 @@
                 <tr>
                     <td><a class="table-link text-sm text-dark-blue font-bold" href="/product/{{product.get_sku()}}">{{product.get_sku()}}</a></td>
                     {% for col in tableCols %}
-                        {% set mapped_field = attribute(attribute_mapping, col|trim) %}
-                        {% set attribute_value = attributes[mapped_field][0] %}
-                        {# <td class="text-sm {{col}}">{{ attribute_value ?: '-' }}</td> #}
-                        <td class="text-sm {{col}}">{{ attribute_value ?: '-' }}</td>
+                        <td class="text-sm {{ col }}">
+                            {{ product.get_attribute(attribute_mapping[col|trim]) ?: '-' }}
+                        </td>
                     {% endfor %}
                     <td class="text-sm stock">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }}</td>
                 </tr>
@@ -61,7 +60,7 @@
                             {% endif %}
                             <td class="text-sm {{col}}">{{ value ?: '-' }}</td>
                         {% endfor %}
-                        <td class="text-sm stock">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }}</td>
+                        <td class="text-sm stock">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.part ~ '" show_label=0 wrap=0]') }}</td>
                     </tr>
 
                 {% endfor %}
