@@ -5,7 +5,13 @@
  */
 
 // Load Composer dependencies.
-require_once __DIR__ . '/vendor/autoload.php';
+$autoload = get_template_directory() . '/vendor/autoload.php';
+if (file_exists($autoload)) {
+    require_once $autoload;
+} else {
+    error_log('[WARNING] Autoloader missing: ' . $autoload);
+    // Optional: fallback or error-handling logic
+}
 
 require_once __DIR__ . '/src/StarterSite.php';
 
