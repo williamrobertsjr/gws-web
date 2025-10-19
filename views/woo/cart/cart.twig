@@ -43,40 +43,54 @@
         
 
         <form action="{{ function('wc_get_cart_url') }}" method="post" class="woocommerce-cart-form" id="cart-form">
-            <div class="flex justify-between">
-              <div class="w-8/12">
+            {% if rapid_quote_last_updated %}
+              <p class="text-sm text-gray-300 mb-2">Stock data last updated: {{ rapid_quote_last_updated }} EST.</p>
+            {% endif %}
+            <div class="flex flex-col gap-y-2">
+              <div class="w-full">
               
                 <table id="cart-table" class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
                     <thead>
                         <tr class="border-[#d2d2d2] border-b-[1px]">
                             <th class="p-4 text-left text-sm uppercase">Product</th>
-                            <th class="p-4 text-left text-sm uppercase">Price</th>
+                            <th class="p-4 text-left text-sm uppercase">Description</th>
+                            <th class="p-4 text-left text-sm uppercase">List</th>
+                            <th class="p-4 text-left text-sm uppercase">Net</th>
                             <th class="p-4 text-left text-sm uppercase">Stock</th>
                             <th class="p-4 text-left text-sm uppercase">Quantity</th>
                             <th class="p-4 text-left text-sm uppercase">Total</th>
-                            <th class="p-4 text-left text-sm uppercase">Production Notes</th>
+                            
                             <th class="p-4 text-left text-sm uppercase"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in cart_items %}
                             {% set product = item.data %}
+                            {% set series = product.get_attribute('pa_series') %}
                             <tr data-cart-key="{{ item.key }}" class="border-[#d2d2d2] border-b-[1px] bg-white hover:bg-gray-100">
-                                <td class="p-4"><a href="/product/{{product.get_name}}/" class="text-black" target="_blank">{{ product.get_name }}</a></td>
+                                <td class="p-4 text-center">
+                                  <div class="mx-auto"><img src="/wp-content/themes/gws-web/images/tile_images/{{series}}_tile.png" class="!max-w-[50px] mx-auto mb-1" alt=""></div>
+                                  <div><a href="/product/{{product.get_name}}/" class="text-black" target="_blank">{{ product.get_name }}</a></div>
+                                </td>
+                                <td class="p-4 text-black text-sm">
+                                  <span>{{ product.get_short_description|raw }}</span>
+                                  <span class="text-xs">{{ function('do_shortcode', '[gws_stocking_status sku="' ~ product.sku ~ '" show_label=0]') }}</span>
+                                </td>
+                                <td class="p-4 list-price-cell">${{product.get_price}}</td>
                                 <td class="p-4 price-cell">{{ function('wc_price', item.discounted_price) }}</td>
                                 <td class="p-4">
                                   {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
                                   {% if stock_data %}
                                     {% if stock_data.DURRIE_QTY_ON_HAND is not null %}
                                       <div class="text-black">
-                                        <p class="mb-0 text-black"><span class="font-bold">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
+                                        <p class="mb-0 text-black"><span class="font-bold"></span>{{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
                                         <div class="flex gap-x-2">
                                           <p class="text-xs text-black"><span class="font-medium">CA</span>: {{ stock_data.QTY_ON_HAND|number_format(0) }}</p>
                                           <p class="text-xs text-black"><span class="font-medium">IL</span>: {{ stock_data.DURRIE_QTY_ON_HAND|number_format(0) }}</p>
                                         </div>
                                       </div>
                                     {% else %}
-                                      <p class="text-black"><span class="font-bold">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
+                                      <p class="text-black"><span class="font-bold"></span>{{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
                                     {% endif %}
                                   {% endif %}
                                 </td>
@@ -91,7 +105,7 @@
                                   {# <s class="text-gray-400 me-2">{{ function('wc_price', item.original_price * item.quantity) }}</s> #}
                                   {{ function('wc_price', item.discounted_subtotal) }}
                                 </td>
-                                <td class="p-4 text-xs">{{ function('do_shortcode', '[gws_stocking_status sku="' ~ product.sku ~ '" show_label=0]') }}</td>
+                                
                                 <td class="p-4">
                                     <button type="button"
                                             class="remove-item text-red-500"
@@ -103,20 +117,19 @@
                     </tbody>
                 </table>
               </div>
-              <div class="w-4/12 ps-4">
+              <div class="w-full">
                 <div class="flex flex-col justify-between sticky top-8">
                     
                     <div class="bg-white p-6 rounded-[2px]">
                         <div>
-                          <p class="text-3xl font-bold mb-8 uppercase text-black">Order Summary</p>
+                          <p class="text-3xl font-bold mb-8 uppercase text-black">Quote Summary</p>
                         </div>
                         <p class="text-black">Your distributor discount is <span id="userRole" class="underline font-semibold">{{ userRoleDisplay }}</span>.</p>
 
-                        <div class="flex items-center gap-x-2 mt-4">
-                            {# <label for="coupon_code">Coupon:</label> #}
+                        {# <div class="flex items-center gap-x-2 mt-4">
                             <input type="text" name="coupon_code" id="coupon_code" class="border px-2 py-2" placeholder="Enter discount code" />
                             <button type="submit" name="apply_coupon" class="btn light-blue">Apply Discount</button>
-                        </div>
+                        </div> #}
                         <div class="flex md:flex-col gap-y-4 mt-4">
                             <input type="hidden" name="userName" value="{{ user.display_name }}">
                             <input id="userEmail" type="hidden" name="userEmail" value="{{ user.user_email }}">
