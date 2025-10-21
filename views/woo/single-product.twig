@@ -36,10 +36,11 @@
                 <p>{{post.meta('table_description')}}</p>
                 <div class="flex items-start mt-1 gap-x-3">
                     <p class="text-2xl text-white price-cell" data-product-id="{{ product.id }}" style="padding-top:.25rem;">
-                        <span 
-                          class="discounted-price font-bold text-white"
-                        >
-                          {{ function('wc_price', product.get_price()) }}
+                        {% set raw = product.get_price() %}
+                        {% set price = raw|replace({',':''}) %}
+
+                        <span class="discounted-price font-bold text-white">
+                            {{ (price is empty or price == '0' or price == '0.00') ? '$--' : function('wc_price', price) }}
                         </span>
                     </p>
                     {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}

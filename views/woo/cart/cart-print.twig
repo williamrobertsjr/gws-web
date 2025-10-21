@@ -1,0 +1,76 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<section class="container mx-auto px-4 pt-16 print:bg-white print:text-black" id="cart-print-page">
+  <h1 class="text-5xl font-bold uppercase text-pale-blue mb-8">Quote Summary</h1>
+
+  {% set cart = function('WC').cart %}
+  {% set cart_items = cart.get_cart() %}
+  {% set userRoleDisplay = get_user_role_display(userRole) %}
+
+  {% if rapid_quote_last_updated %}
+    <p class="text-sm text-gray-400 mb-4">Stock data last updated: {{ rapid_quote_last_updated }} EST.</p>
+  {% endif %}
+
+  <table id="cart-print-table" class="w-full table-auto border-collapse mb-8 bg-white border border-gray-300 rounded-sm">
+    <thead>
+      <tr class="bg-gray-100 border-b border-gray-300">
+        <th class="p-3 text-left text-sm uppercase">Product</th>
+        <th class="p-3 text-left text-sm uppercase">Description</th>
+        <th class="p-3 text-left text-sm uppercase">List</th>
+        <th class="p-3 text-left text-sm uppercase">Net</th>
+        <th class="p-3 text-left text-sm uppercase">Stock</th>
+        <th class="p-3 text-left text-sm uppercase">Quantity</th>
+        <th class="p-3 text-left text-sm uppercase">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart_items %}
+        {% set product = item.data %}
+        {% set series = product.get_attribute('pa_series') %}
+        {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
+        <tr class="border-b border-gray-200">
+          <td class="p-3 text-sm">
+            <a href="/product/{{ product.get_name }}/" class="text-black font-semibold" target="_blank">{{ product.get_name }}</a>
+          </td>
+          <td class="p-3 text-sm">
+            {{ product.get_short_description|raw }}
+          </td>
+          <td class="p-3 text-sm">
+            {{ function('wc_price', product.get_meta('_regular_price', true)) }}
+          </td>
+          <td class="p-3 text-sm">
+            {{ function('wc_price', item.discounted_price) }}
+          </td>
+          <td class="p-3 text-sm">
+            {% if stock_data %}
+              {% if stock_data.DURRIE_QTY_ON_HAND is not null %}
+                {{ stock_data.TOTAL_STOCK|number_format(0) }} 
+                <span class="text-xs text-gray-500">(CA: {{ stock_data.QTY_ON_HAND|number_format(0) }}, IL: {{ stock_data.DURRIE_QTY_ON_HAND|number_format(0) }})</span>
+              {% else %}
+                {{ stock_data.TOTAL_STOCK|number_format(0) }}
+              {% endif %}
+            {% endif %}
+          </td>
+          <td class="p-3 text-sm text-center">
+            {{ item.quantity }}
+          </td>
+          <td class="p-3 text-sm">
+            {{ function('wc_price', item.discounted_subtotal) }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="mt-8 border-t border-gray-300 pt-4 text-black">
+    <p class="text-base mb-2">Distributor Discount: <span class="font-semibold">{{ userRoleDisplay }}</span></p>
+    <p class="text-lg font-semibold mb-1">Original Total:
+      <span class="line-through text-gray-500">{{ function('wc_price', cart_original_total) }}</span>
+    </p>
+    <p class="text-2xl font-bold text-[#14972f]">Discounted Total:
+      <span>{{ function('wc_price', cart_discounted_total) }}</span>
+    </p>
+  </div>
+</section>
+{% endblock %}

@@ -680,3 +680,4 @@ function customize_notification_content( $notification, $form, $entry ) {
 
     return $notification;
 }
+

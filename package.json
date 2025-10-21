@@ -6,6 +6,8 @@
     "build:css": "tailwindcss -i ./style.css -o ./output.css"
   },
   "dependencies": {
+    "jspdf": "^3.0.3",
+    "print-js": "^1.6.0",
     "swiper": "^11.0.5"
   }
 }
