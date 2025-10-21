@@ -10,7 +10,7 @@ function gws_get_user_tier() {
     // Allow dropdown-selected tier via cookie to override view pricing
     if ( ! empty( $_COOKIE['gws_selected_tier'] ) ) {
         $candidate = sanitize_text_field( $_COOKIE['gws_selected_tier'] );
-        $allowed   = [ 't1', 't2', 't3', '57_5', 'direct', 'default', 'none' ];
+        $allowed   = [ 't1', 't2', 't3', '57_5', 'MSC_PL', 'direct', 'exemptPlus', 'default', 'none' ];
         if ( in_array( $candidate, $allowed, true ) ) {
             $tier = ( $candidate === 'default' ) ? 'none' : $candidate;
             return $tier;
@@ -36,7 +36,7 @@ function gws_get_discounted_price_from_product(WC_Product $product) {
     return gws_calculate_discounted_price(gws_get_user_tier(), $product);
 }
 
-add_filter( 'woocommerce_product_get_price', 'gws_dynamic_discount_price', 10, 2 );
+// add_filter( 'woocommerce_product_get_price', 'gws_dynamic_discount_price', 10, 2 );
 // add_filter( 'woocommerce_product_get_regular_price', 'gws_dynamic_discount_price', 10, 2 );
 function gws_dynamic_discount_price( $price, $product ) {
     if (
@@ -54,6 +54,7 @@ function gws_dynamic_discount_price( $price, $product ) {
     $custom_price = gws_get_discounted_price_from_product( $product );
     return is_numeric( $custom_price ) ? $custom_price : $price;
 }
+
 
 /**
  * Filter product price shown in the side cart plugin
@@ -224,16 +225,41 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
     $regular_price = (float) $product->get_meta('_regular_price', true);
     if ($regular_price <= 0) return $regular_price;
 
+    // Base discount rate by tier
     switch ($tier) {
-        case 't1':     $rate = 0.55; break;
-        case 't2':     $rate = 0.525; break;
-        case 't3':     $rate = 0.50; break;
-        case '57_5':   $rate = 0.575; break;
-        case 'direct': $rate = 0.30; break;
-        default:       $rate = 0.0; break;
+        case 't1':         $rate = 0.55;  break;
+        case 't2':         $rate = 0.525; break;
+        case 't3':         $rate = 0.50;  break;
+        case '57_5':       $rate = 0.575; break;
+        case 'MSC_PL':     $rate = 0.575; break;
+        case 'direct':     $rate = 0.30;  break;
+        case 'exemptPlus': $rate = 0.55;  break;
+        default:           $rate = 0.0;   break;
     }
 
-    return round($regular_price * (1 - $rate), 2);
+    // Optional meta flags or global conditions
+    $is_advanced_perf = (bool) $product->get_meta('is_advanced_performance', true);
+
+    // These would ideally be defined in user meta, site options, or cookies
+    $is_exempt          = isset($_COOKIE['specialCompanyExempt']) && in_array($_COOKIE['specialCompanyExempt'], ['true', true], true);
+    $exempt_plus        = isset($_COOKIE['specialCompanyExemptPlus']) && in_array($_COOKIE['specialCompanyExemptPlus'], ['true', true], true);
+    $user               = wp_get_current_user();
+    $user_role          = $user->roles[0] ?? 'none';
+    $is_privileged_role = in_array($user_role, ['administrator', 'sales'], true);
+    $is_special_tier     = $tier === 'MSC_PL';
+    $is_exempt_plus_tier = $tier === 'exemptPlus';
+
+    // Apply rollback logic
+    if (($is_exempt || ($is_privileged_role && $is_special_tier)) && !$exempt_plus) {
+        // Roll back 7% increase
+        $rate = 1 - ((1 - $rate) / 1.07);
+    } elseif (($exempt_plus && $is_exempt) || ($is_privileged_role && $is_exempt_plus_tier)) {
+        // Apply 20% addition due to special exemption
+        $rate = (1 - ((1 - $rate) / 1.07) * 1.20);
+    }
+
+    $discounted = round($regular_price * (1 - $rate), 2);
+    return $discounted;
 }
 
 function gws_handle_ajax_product_price_request() {

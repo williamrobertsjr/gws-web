@@ -92,10 +92,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const isCartPage = document.body.classList.contains('woocommerce-cart');
     const hasPriceCells = document.querySelector('.price-cell[data-product-id]') || document.querySelector('tr[data-cart-key]');
 
-    if (savedTier && (isCartPage || hasPriceCells)) {
+    if (savedTier) {
       debouncedUpdatePricesByTier(savedTier);
     }
   }, 500);
+
+  // Ensure tier pricing re-applies on full reloads (e.g. hard refresh by sales users)
+  window.addEventListener('load', () => {
+    const savedTier = localStorage.getItem('selectedTier');
+    const isCartPage = document.body.classList.contains('woocommerce-cart');
+    const hasPriceCells = document.querySelector('.price-cell[data-product-id]') || document.querySelector('tr[data-cart-key]');
+    if (savedTier) {
+      console.log('Reapplying saved tier after full load:', savedTier);
+      updatePricesByTier(savedTier);
+    }
+  });
 
   bindCartQtyListeners();
 });

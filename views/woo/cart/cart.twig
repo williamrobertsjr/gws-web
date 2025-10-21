@@ -48,7 +48,9 @@
             {% endif %}
             <div class="flex flex-col gap-y-2">
               <div class="w-full">
-              
+                  {# <button type="button" onclick="printJS({printable: 'cart-table', type: 'html', scanStyles: true, header: 'Your Quote', ignoreElements: ['toolImage']});" class="mb-4 btn gray">
+                      Print Form
+                  </button> #}
                 <table id="cart-table" class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4">
                     <thead>
                         <tr class="border-[#d2d2d2] border-b-[1px]">
@@ -69,14 +71,16 @@
                             {% set series = product.get_attribute('pa_series') %}
                             <tr data-cart-key="{{ item.key }}" class="border-[#d2d2d2] border-b-[1px] bg-white hover:bg-gray-100">
                                 <td class="p-4 text-center">
-                                  <div class="mx-auto"><img src="/wp-content/themes/gws-web/images/tile_images/{{series}}_tile.png" class="!max-w-[50px] mx-auto mb-1" alt=""></div>
+                                  <div id="toolImage" class="mx-auto"><img src="/wp-content/themes/gws-web/images/tile_images/{{series}}_tile.png" class="!max-w-[50px] mx-auto mb-1" alt=""></div>
                                   <div><a href="/product/{{product.get_name}}/" class="text-black" target="_blank">{{ product.get_name }}</a></div>
                                 </td>
                                 <td class="p-4 text-black text-sm">
                                   <span>{{ product.get_short_description|raw }}</span>
                                   <span class="text-xs">{{ function('do_shortcode', '[gws_stocking_status sku="' ~ product.sku ~ '" show_label=0]') }}</span>
                                 </td>
-                                <td class="p-4 list-price-cell">${{product.get_price}}</td>
+                                <td class="p-4 list-price-cell">
+                                  {{ function('wc_price', product.get_meta('_regular_price', true)) }}
+                                </td>
                                 <td class="p-4 price-cell">{{ function('wc_price', item.discounted_price) }}</td>
                                 <td class="p-4">
                                   {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
@@ -184,5 +188,7 @@
 </script>
 <script src="/wp-content/themes/gws-web/js/cart-ajax.js"></script>
 <script src="/wp-content/themes/gws-web/views/woo/js/quote-form.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.css">
 
 {% endblock %}

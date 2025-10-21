@@ -36,3 +36,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 });
+
+// Re-dispatch saved tier after full load to ensure other scripts (like cart-pricing.js) are ready
+window.addEventListener('load', function () {
+  const savedTier = localStorage.getItem('selectedTier');
+  const tierSelector = document.getElementById('tier-selector');
+  if (savedTier && tierSelector) {
+    tierSelector.value = savedTier;
+    const event = new CustomEvent('tierChanged', { detail: { tier: savedTier } });
+    document.dispatchEvent(event);
+    console.log('Re-dispatched tierChanged after full load:', savedTier);
+  }
+});
