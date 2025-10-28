@@ -20,7 +20,23 @@ require_once __DIR__ . '/src/StarterSite.php';
 require_once get_template_directory() . '/lib/part-pricing.php';
 
 // Include custom quote PDF + email logic
-require_once get_template_directory() . '/inc/gws-quote-email.php';
+$quote_email_path = get_template_directory() . '/inc/gws-quote-email.php';
+if ( file_exists($quote_email_path) ) {
+    require_once $quote_email_path;
+} else {
+    error_log('[WARNING] Missing file: gws-quote-email.php');
+}
+
+// Include custom quote API logic
+// for getting part list prices from external API
+// and logging for admin users
+// used for Rapid Quote form and bulk add-to-cart
+$quote_api = get_template_directory() . '/inc/gws-quote-api.php';
+if ( file_exists($quote_api) ) {
+    require_once $quote_api;
+} else {
+    error_log('[WARNING] Missing gws-quote-api.php');
+}
 
 // Include custom quote API logic
 // for getting part list prices from external API

@@ -11,7 +11,7 @@
                     <h2 class="text-4xl lg:text-6xl text-white font-black uppercase">Tool Filter</h2>
                     <p class="">Search from over 30,000 standard products for a tool that meets your needs.</p>
                     <div class="pb-4 md:pb-0">
-                        <a class="btn light-blue inline-flex" href="/tool-filter">Search Tools <i class="fa-solid fa-arrow-right rotate-45"></i></a>
+                        <a class="btn light-blue inline-flex" href="/products">Search Tools <i class="fa-solid fa-arrow-right rotate-45"></i></a>
                     </div>
                 </div>
             </div>
