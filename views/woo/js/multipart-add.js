@@ -1,11 +1,8 @@
-// Handle bulk add form submission
-// and update cart table dynamically
-// without a full page reload
 document.addEventListener("DOMContentLoaded", () => {
   const bulkForm = document.getElementById("bulk-add-form");
   const feedback = document.getElementById("bulk-add-feedback");
   const loadingBar = document.getElementById("loading-bar");
-  const emptyCartMessage = document.querySelector('.empty-cart-message');
+  const emptyCartMessage = document.querySelector(".empty-cart-message");
 
   if (!bulkForm) return;
 
@@ -23,8 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // feedback.textContent = "Looking for parts…";
-    if(emptyCartMessage) emptyCartMessage.style.display = 'none';
+    if (emptyCartMessage) emptyCartMessage.style.display = "none";
     if (loadingBar) loadingBar.classList.add("loading");
 
     try {
@@ -40,10 +36,38 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (data.success) {
-        // feedback.innerHTML = data.message || "Adding parts to quote.";
-        
+        const result = data.data || data;
+
+        let messageHtml = "";
+        if (result.added?.length) {
+          // messageHtml += `<span style="color:green;">Added: ${result.added.join(", ")}</span><br>`;
+        }
+        if (result.not_found?.length) {
+          messageHtml += `<span style="color:#fd978d; font-style:italic; font-size: 12px;">Products not found: ${result.not_found.join(", ")}. Please verify these part numbers.</span>`;
+        }
+
+        if (!messageHtml) {
+          messageHtml = result.message || "No valid parts found.";
+        }
+
         await refreshCartTable();
-        document.getElementById('bulk-parts').value = '';
+        await refreshCartCount(); // new line here
+
+        async function refreshCartCount() {
+          try {
+            const res = await fetch("/wp-admin/admin-ajax.php?action=get_cart_count");
+            const data = await res.json();
+            if (data.success && data.data?.count !== undefined) {
+              document.getElementById("cart-count").textContent = data.data.count;
+            }
+          } catch (err) {
+            console.error("Error refreshing cart count", err);
+          }
+        }
+
+        // Display feedback after table updates
+        feedback.innerHTML = messageHtml;
+        textarea.value = "";
       } else {
         feedback.innerHTML = data.message || "Something went wrong.";
       }
@@ -54,41 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (loadingBar) loadingBar.classList.remove("loading");
     }
   });
-});
 
-// Custom refresh for your cart table
-async function refreshCartTable() {
-  try {
-    const res = await fetch(window.location.href, { method: "GET" });
-    const html = await res.text();
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-
-    // replace cart table body
-    const newTbody = doc.querySelector("#cart-table tbody");
-    const currentTbody = document.querySelector("#cart-table tbody");
-   
-    currentTbody.replaceWith(newTbody);
-   
-
-    // replace cart totals if you have a separate section
-    const newTotals = doc.querySelector(".cart_totals");
-    const currentTotals = document.querySelector(".cart_totals");
-    if (newTotals && currentTotals) {
-      currentTotals.replaceWith(newTotals);
-    }
-  } catch (err) {
-    console.error("Error refreshing cart table:", err);
-  }
-}
-
-// Clear cart functionality
-document.addEventListener("DOMContentLoaded", () => {
+  // Clear cart functionality
   const clearBtn = document.getElementById("clear-cart");
-  const feedback = document.getElementById("bulk-add-feedback");
-  const loadingBar = document.getElementById("loading-bar");
-
   if (clearBtn) {
     clearBtn.addEventListener("click", async () => {
       if (!confirm("Are you sure you want to clear all items from the quote?")) return;

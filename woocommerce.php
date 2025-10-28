@@ -8,7 +8,6 @@ if (!class_exists('Timber')) {
 
 $context = Timber::context();
 $context['sidebar'] = Timber::get_widgets('shop-sidebar');
-
 // Load attribute mapping
 // This is used to map the attribute names to the labels used in the product page
 $attribute_mapping_path = get_template_directory() . '/views/woo/attribute-mapping.php';

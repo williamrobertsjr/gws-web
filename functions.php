@@ -13,9 +13,20 @@ if (file_exists($autoload)) {
     // Optional: fallback or error-handling logic
 }
 
+// Initialize Timber
 require_once __DIR__ . '/src/StarterSite.php';
 
+// Include custom pricing logic
 require_once get_template_directory() . '/lib/part-pricing.php';
+
+// Include custom quote PDF + email logic
+require_once get_template_directory() . '/inc/gws-quote-email.php';
+
+// Include custom quote API logic
+// for getting part list prices from external API
+// and logging for admin users
+// used for Rapid Quote form and bulk add-to-cart
+require_once get_template_directory() . '/inc/gws-quote-api.php';
 
 add_action('init', function() {
     if (is_user_logged_in() && current_user_can('manage_options')) {
@@ -27,6 +38,26 @@ add_action('init', function() {
 
 // Load discounts logic for WooCommerce and distributor tiers sitewide
 require_once get_template_directory() . '/views/woo/discounts.php';
+
+// Add cart count and URL to Timber context
+add_filter('timber/context', function ($context) {
+    if ( class_exists('WooCommerce') && ! is_admin() ) {
+        WC()->initialize_cart();
+        $context['cart_count'] = WC()->cart->get_cart_contents_count();
+        $context['cart_url'] = wc_get_cart_url();
+    }
+    return $context;
+});
+
+// AJAX handler to get cart count when products added to cart
+add_action('wp_ajax_get_cart_count', 'gws_get_cart_count');
+add_action('wp_ajax_nopriv_get_cart_count', 'gws_get_cart_count');
+
+function gws_get_cart_count() {
+    wp_send_json_success([
+        'count' => WC()->cart->get_cart_contents_count()
+    ]);
+}
 
 add_filter('timber/twig/environment/options', function ($options) {
     $options['debug'] = true;
@@ -574,12 +605,12 @@ add_action('wp_enqueue_scripts', function() {
     wp_deregister_script('wc-cart-fragments');
 });
 
-// Bulk add to cart via AJAX
+// Bulk add to cart via AJAX (multipart add)
 add_action('wp_ajax_bulk_add_to_cart', 'gws_bulk_add_to_cart');
 add_action('wp_ajax_nopriv_bulk_add_to_cart', 'gws_bulk_add_to_cart');
 
 function gws_bulk_add_to_cart() {
-    $start = microtime(true); // move this to the top to measure time properly
+    $start = microtime(true);
 
     if (empty($_POST['parts'])) {
         wp_send_json_error(['message' => 'Missing parts parameter'], 400);
@@ -591,12 +622,10 @@ function gws_bulk_add_to_cart() {
     if (is_array($raw)) {
         $skus = $raw;
     } elseif (is_string($raw)) {
-        // Try decoding JSON first
         $decoded = json_decode(stripslashes($raw), true);
         if (is_array($decoded)) {
             $skus = $decoded;
         } else {
-            // Fallback: treat as newline/CSV string
             $lines = preg_split('/\r\n|\r|\n/', $raw);
             $skus = array_filter(array_map('trim', $lines));
         }
@@ -608,7 +637,6 @@ function gws_bulk_add_to_cart() {
         wp_send_json_error(['message' => 'No valid SKUs provided'], 400);
     }
 
-    // Deduplicate and sanitize
     $skus = array_unique($skus);
     if (count($skus) > 50) {
         error_log('⚠️ bulk_add_to_cart aborted — too many SKUs: ' . count($skus));
@@ -643,14 +671,29 @@ function gws_bulk_add_to_cart() {
         }
     }
 
-    // Only calculate once
     WC()->cart->calculate_totals();
+    $elapsed = round(microtime(true) - $start, 3);
 
-    error_log('bulk_add_to_cart completed in ' . round(microtime(true) - $start, 3) . 's');
+    // Build a clear message for the UI
+    if (!empty($added) && !empty($not_found)) {
+        $message = sprintf(
+            'Added %d part(s), but the following were not found: %s',
+            count($added),
+            implode(', ', $not_found)
+        );
+    } elseif (!empty($added)) {
+        $message = sprintf('All %d part(s) added successfully.', count($added));
+    } else {
+        $message = 'No matching parts were found — nothing added.';
+    }
+
+    error_log("bulk_add_to_cart completed in {$elapsed}s — added " . count($added) . ", missing " . count($not_found));
 
     wp_send_json_success([
-        'added' => $added,
-        'not_found' => $not_found,
+        'added'       => $added,
+        'not_found'   => $not_found,
+        'message'     => $message,
+        'elapsed'     => $elapsed,
     ]);
 }
 
@@ -681,3 +724,45 @@ function customize_notification_content( $notification, $form, $entry ) {
     return $notification;
 }
 
+// ─────────────────────────────────────────────────────────────
+// Render Quote Table (Field 18) as real HTML in Form 46 notifications
+// ─────────────────────────────────────────────────────────────
+add_filter('gform_pre_send_email', function($email, $message_format, $notification, $entry) {
+    // Only apply to your Quote Form (ID 46)
+    if ((int) rgar($entry, 'form_id') !== 46) {
+        return $email;
+    }
+
+    // Get the HTML from hidden field 18 (input_18)
+    $quote_html = rgar($entry, '18');
+    if (!$quote_html) {
+        return $email;
+    }
+
+    // Decode entities so <table> renders properly
+    $quote_html = html_entity_decode($quote_html);
+
+    // Optional: strip out stray <br> tags that may appear
+    /* $quote_html = preg_replace('/<br\s*\/?>/i', '', $quote_html); */
+
+    // Ensure this email sends as HTML
+    $email['content_type'] = 'text/html';
+
+    // Replace any known merge tags in the message if present
+    $replaced = false;
+    foreach (['{Quote Table:18}', '{Field:18}', '{Products:18}', '{Field ID:18}'] as $tag) {
+        if (strpos($email['message'], $tag) !== false) {
+            $email['message'] = str_replace($tag, $quote_html, $email['message']);
+            $replaced = true;
+        }
+    }
+
+    // If no tag was found, append the quote table automatically
+    if (!$replaced) {
+        $email['message'] .= '<hr style="margin:16px 0;border:none;border-top:1px solid #ddd;">'
+                           . '<h3 style="margin:0 0 10px;font-family:Helvetica,Arial,sans-serif;">Quote Table</h3>'
+                           . $quote_html;
+    }
+
+    return $email;
+}, 10, 4);

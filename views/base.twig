@@ -27,8 +27,7 @@
 								<option value="t1">T1</option>
 								<option value="t2">T2</option>
 								<option value="t3">T3</option>
-								<option value="57_5">57.5%</option>
-								<option value="MSC_PL">MSC Industrial</option>
+								<option value="57_5">MSC Industrial</option>
 								<option value="exemptPlus">Ewie, GEC - Ewie, PSMI</option>
 								<option value="direct">Direct</option>
 							</select>
@@ -46,10 +45,13 @@
 					{% endif %}
 
 					<p>|</p>
-
 					<div>
-						{{ function('do_shortcode', '[xoo_wsc_cart]') }}
+						<p class="relative"><a href="/cart"><i class="fa-solid fa-basket-shopping text-2xl"></i><span id="cart-count" class="absolute -top-1 -right-2 bg-light-blue rounded-full py-1 px-2 flex justify-center items-center text-xs font-semibold">{{cart_count}}</span></a></p>
 					</div>
+
+					{# <div>
+						{{ function('do_shortcode', '[xoo_wsc_cart]') }}
+					</div> #}
 				</div>
 
 					{# Top Header #}
