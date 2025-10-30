@@ -19,7 +19,7 @@
 				<div class="wrapper">
 					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center mb-3">
 					{% if userRole == 'administrator' or userRole == 'sales' %}
-						<div class="flex items-center gap-x-2">
+						<div class="flex flex-col md:flex-row items-center gap-x-2">
 							<label for="tier-selector" class="text-white whitespace-nowrap">View pricing as:</label>
 							<select id="tier-selector" class="border border-gray-300 px-2 py-1 rounded">
 								<option value="" disabled selected>Customer Tier</option>
@@ -33,20 +33,21 @@
 							</select>
 						</div>
 					{% endif %}
-
-					{% if user %}
+					<div class="flex items-center my-2 gap-x-2">
+						{% if user %}
+							<p class="hidden md:block">|</p>
+							<a href="/dashboard" class="text-sm hover:underline whitespace-nowrap">My Dashboard</a>
+							<p>|</p>
+							<a href="/wp-login.php?action=logout" class="text-sm hover:underline whitespace-nowrap">Log Out</a>
+						{% else %}
+							<p class="hidden md:block">|</p>
+							<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
+						{% endif %}
+					
 						<p>|</p>
-						<a href="/dashboard" class="text-sm hover:underline whitespace-nowrap">My Dashboard</a>
-						<p>|</p>
-						<a href="/wp-login.php?action=logout" class="text-sm hover:underline whitespace-nowrap">Log Out</a>
-					{% else %}
-						<p>|</p>
-						<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
-					{% endif %}
-
-					<p>|</p>
-					<div>
-						<p class="relative"><a href="/cart"><i class="fa-solid fa-basket-shopping text-2xl"></i><span id="cart-count" class="absolute -top-1 -right-2 bg-light-blue rounded-full py-1 px-2 flex justify-center items-center text-xs font-semibold">{{cart_count}}</span></a></p>
+						<div>
+							<p class="relative"><a href="/cart"><i class="fa-solid fa-basket-shopping text-2xl"></i><span id="cart-count" class="absolute -top-1 -right-2 bg-light-blue rounded-full py-1 px-2 flex justify-center items-center text-xs font-semibold">{{cart_count}}</span></a></p>
+						</div>
 					</div>
 
 					{# <div>

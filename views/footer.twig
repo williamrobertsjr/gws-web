@@ -1,11 +1,11 @@
-<section id="footer" class="px-8 md:px-10">
+<section id="footer" class="overflow-x-hidden px-8 md:px-10">
     <div class="container flex flex-col md:flex-row justify-between mx-auto">
         <div class="md:w-5/12 flex flex-col gap-y-10 pb-20">
             <div class="w-7/12 md:w-10/12 lg:w-6/12 xl:w-4/12">
                 <img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt="">
             </div>
             
-            <div class="footer-menu flex md:flex-wrap gap-x-3 md:justify-between md:gap-x-10 md:gap-y-2">
+            <div class="footer-menu flex flex-wrap gap-x-3 md:justify-between md:gap-x-10 md:gap-y-2">
                 <a href="/all-series">Products</a><a href="/who-we-are">About Us</a><a href="/careers">Careers</a><a href="/gws-blog">News</a>
             </div>
 
@@ -16,9 +16,9 @@
                 </div>
                 <div class="flex items-center">
                    {% if user %}
-                        <button class="btn light-blue me-16"><a href="/dashboard">My Dashboard</a></button>
+                        <button class="btn light-blue me-0 md:me-16"><a href="/dashboard">My Dashboard</a></button>
                     {% else %}
-                        <button class="btn light-blue me-16"><a href="/sign-in">Login</a></button>
+                        <button class="btn light-blue me-0 md:me-16"><a href="/sign-in">Login</a></button>
                     {% endif %}
                 </div>
             </div>
