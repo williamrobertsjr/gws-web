@@ -38,12 +38,6 @@ if ( file_exists($quote_api) ) {
     error_log('[WARNING] Missing gws-quote-api.php');
 }
 
-// Include custom quote API logic
-// for getting part list prices from external API
-// and logging for admin users
-// used for Rapid Quote form and bulk add-to-cart
-require_once get_template_directory() . '/inc/gws-quote-api.php';
-
 add_action('init', function() {
     if (is_user_logged_in() && current_user_can('manage_options')) {
         $test_part = 'XYZ123'; // Replace with a real part number in your DB

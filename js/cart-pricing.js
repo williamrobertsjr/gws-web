@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const discountedTotalEl = document.querySelector('.discounted-total');
         if (originalTotalEl) originalTotalEl.innerHTML = originalTotalHtml;
         if (discountedTotalEl) discountedTotalEl.innerHTML = discountedTotalHtml;
+
+        // console.log('Prices updated for cart items:', response.data);
       })
       .catch(console.error);
 
@@ -83,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Listen for tier changes
   document.addEventListener('tierChanged', (e) => {
+    // console.log('tierChanged event received with tier:', e.detail.tier);
     debouncedUpdatePricesByTier(e.detail.tier);
   });
 
@@ -103,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const isCartPage = document.body.classList.contains('woocommerce-cart');
     const hasPriceCells = document.querySelector('.price-cell[data-product-id]') || document.querySelector('tr[data-cart-key]');
     if (savedTier) {
-      console.log('Reapplying saved tier after full load:', savedTier);
+      // console.log('Reapplying saved tier after full load:', savedTier);
       updatePricesByTier(savedTier);
     }
   });
@@ -116,10 +119,10 @@ function bindCartQtyListeners() {
     let timer;
 
     const handler = () => {
-      console.log('Quantity change detected');
+      // console.log('Quantity change detected');
       const cartKey = input.dataset.cartKey;
       const quantity = input.value;
-      console.log('Firing fetch with:', { cartKey, quantity });
+      // console.log('Firing fetch with:', { cartKey, quantity });
 
       fetch('/wp-admin/admin-ajax.php', {
         method: 'POST',
@@ -171,7 +174,7 @@ function bindCartQtyListeners() {
         .catch(error => {
           console.error('Cart update failed:', error);
           if (typeof refreshCartTable === 'function') {
-            console.log('Calling refreshCartTable() from catch block');
+            // console.log('Calling refreshCartTable() from catch block');
             refreshCartTable();
           }
         });

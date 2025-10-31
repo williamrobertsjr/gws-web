@@ -1,3 +1,25 @@
+// Listen for tierChanged and update product prices via AJAX
+document.addEventListener('tierChanged', function (e) {
+  const tier = e.detail.tier;
+  const priceCells = document.querySelectorAll('.price-cell[data-product-id]');
+  const ids = Array.from(priceCells).map(el => el.dataset.productId).join(',');
+
+  if (!ids) return;
+
+  fetch(`/wp-admin/admin-ajax.php?action=get_discounted_product_prices_by_tier&tier=${tier}&product_ids=${ids}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success && data.data) {
+        Object.entries(data.data).forEach(([id, priceData]) => {
+          const el = document.querySelector(`.price-cell[data-product-id="${id}"]`);
+          if (el && priceData.discounted_price_html) {
+            el.innerHTML = priceData.discounted_price_html;
+          }
+        });
+      }
+    })
+    .catch(err => console.error('Price update error:', err));
+});
 // tier-selector.js
 // This script manages the tier selection for sales team and stores the selected tier in localStorage.
 // It listens for changes on the tier selector dropdown and updates the localStorage accordingly.
@@ -31,9 +53,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.cookie = `gws_selected_tier=${tier}; path=/; max-age=${60 * 60 * 24 * 30}`;
 
     // Refresh WooCommerce fragments so SideCart reflects new tier pricing
-    if (window.jQuery && typeof jQuery === 'function') {
-      jQuery(document.body).trigger('wc_fragment_refresh');
-    }
+    // if (window.jQuery && typeof jQuery === 'function') {
+    //   jQuery(document.body).trigger('wc_fragment_refresh');
+    // }
   }
 });
 
