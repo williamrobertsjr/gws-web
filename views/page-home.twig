@@ -10,13 +10,48 @@
 {% set image5 = post.meta('fifth_image_image') ? post.meta('fifth_image_image').url : '' %}
 
 <section id="home-hero" class="flex flex-col justify-center items-start relative md:min-h-[650px] lg:min-h-[750px]">
-    <div class="pt-12 container">
+    {# <div class="pt-12 container">
         <h2 class="text-5xl lg:text-7xl text-pale-blue uppercase font-bold text-center md:text-left">2025 Tap Program</h2>
         <h3 class="text-xl lg:text-3xl font-light text-white italic text-center md:text-left">20% off all standard taps through October 31st!</h3>
         <div class="mt-10 md:mt-6 flex flex-col sm:flex-row gap-y-4 sm:gap-x-4">
             <a class="btn dark-blue text-center" href="/products/threading/?_threading_types=taps">Explore Taps</a>
             <a class="btn light-blue text-center" href="/cart">Start Your Quote</a>
             <a class="btn black text-center" href="https://www.gwstoolgroup.com/wp-content/uploads/2025/08/GWS_2025_Taps_Promo.pdf">Download Flyer</a>
+        </div> #}
+        <div class="container">
+            <div class="text-center">
+                <h2 class="text-xl md:text-4xl font-thin uppercase">From Concept to Cut,</h2>
+                <h2 class="text-4xl md:text-7xl font-black uppercase text-pale-blue">GWS Delivers</h2>
+            </div>
+            <div class="flex flex-col text-center mt-20">
+                <h3 class="text-lg md:text-xl mb-4 capitalize">Four Ways to Find Your Solution</h3>
+                <div class="flex md:block fit-content mx-auto px-6 py-4 bg-slate-300/25 rounded">
+                    <a id="tool-filter-btn" href="#tool-filter-start" class="btn hover:bg-light-blue hover:cursor-pointer"><button>Tool Filter</button></a>
+                    <a href="/all-series" class="btn hover:bg-light-blue hover:cursor-pointer">Series Filter</a>
+                    <a href="/cart" class="btn hover:bg-light-blue hover:cursor-pointer">Rapid Quote</a>
+                    <a href="/custom-quote" class="btn hover:bg-light-blue hover:cursor-pointer">Custom Solutions</a>
+                </div>
+               <div id="tool-filter-start" class="fit-content mx-auto mt-10 hidden">
+                    <div class="flex items-center gap-3">
+                        <select id="tool-filter-select" class="bg-gray-50 border border-gray-300 text-black mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option selected>What type of tool do you need?</option>
+                            <option value="/products/milling">Milling</option>
+                            <option value="/products/holemaking">Holemaking</option>
+                            <option value="/products/specialty">Specialty</option>
+                            <option value="/products/threading">Threading</option>
+                            <option value="/products/inserts">Inserts</option>
+                        </select>
+                        
+                        <!-- Loading spinner -->
+                        <div id="tool-filter-spinner" class="hidden mb-6">
+                            <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -258,5 +293,6 @@
 
 <script src="/wp-content/themes/gws-web/helpers.js" defer></script>
 <script src="/wp-content/themes/gws-web/swiper.js" defer></script>
+<script src="/wp-content/themes/gws-web/views/woo/js/filter-start.js" defer></script>
 
 {% endblock %}
