@@ -122,6 +122,63 @@
 					{{sidebar}}
 				</aside>
 			{% endif %}
+			<div id="mobileFooterMenu" class="sm:hidden py-4 bg-black fixed bottom-0 left-0 w-full mx-auto z-50">
+				<!-- Parent flex container with gap for spacing -->
+				<div class="flex flex-nowrap items-stretch gap-x-2 px-2 w-full relative">
+					<!-- Column 1 -->
+					<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+					<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+						<i class="fa-solid fa-file-pdf text-pale-blue"></i>
+						<a href="/product-literature" class="text-xs text-center">Brochures</a>
+					</div>
+					</div>
+
+					<!-- Column 2 -->
+					<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+					<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+						<i class="fa-solid fa-calculator text-pale-blue"></i>
+						<button id="footerTechBtn" class="text-xs text-center mb-0 text-white">Tech Data</button>
+					</div>
+					</div>
+					<!-- Absolutely-positioned element (won't affect widths) -->
+					<div id="footerMenuTech" class="bg-black absolute p-4 flex gap-x-4 right-0 -top-[5.5rem] w-full hidden">
+					<a id="techSF" href="/speed-and-feeds" class="btn light-blue w-full text-center">Speed & Feeds</a>
+					<a id="techCalc" href="/milling-formulas" class="btn light-blue w-full text-center">Calculators</a>
+					</div>
+
+					<!-- Column 3 -->
+					<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+					<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+						<i class="fa-solid fa-file-pen text-pale-blue"></i>
+						<button id="footerQuoteBtn" class="text-xs text-center mb-0 text-white">RFQ</button>
+					</div>
+					</div>
+					
+					<!-- Absolutely-positioned element (won't affect widths) -->
+					<div id="footerMenuQuote" class="bg-black absolute p-4 flex gap-x-4 right-0 -top-[5.5rem] w-full hidden">
+					<a id="quoteStandard" href="/cart" class="btn light-blue w-full text-center">Standard</a>
+					<a id="quoteCustom" href="/custom-quote" class="btn light-blue w-full text-center">Custom</a>
+					</div>
+					<!-- Column 4 (hidden below 375px) -->
+					<div class="hidden min-[375px]:flex flex-1 basis-0 min-w-0 flex-col justify-center items-center">
+					<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+						<i class="fa-solid fa-filter text-pale-blue"></i>
+						<a href="/tool-filter" class="text-xs text-center">Tool Filter</a>
+					</div>
+					</div>
+
+					<!-- Column 5 -->
+					<div class="mobileFooterBtn flex-1 basis-0 min-w-0 flex flex-col justify-center items-center">
+					<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+						<i class="fa-regular fa-bell text-pale-blue"></i>
+						<a href="/sales-team" class="text-xs text-center">Contact</a>
+					</div>
+					</div>
+
+				</div>
+			</div>
+
+
 		</section>
 
 		{% block footer %}
@@ -131,6 +188,58 @@
 			{{ function('wp_footer') }}
 		{% endblock %}
 		
+		<script>
+			// Quote Footer Pop Over
+			const footerMenuQuote = document.getElementById('footerMenuQuote');
+			const footerQuoteBtn = document.getElementById('footerQuoteBtn');
+			
+			const footerMenuTech = document.getElementById('footerMenuTech');
+			const footerTechBtn = document.getElementById('footerTechBtn');
+
+			// Additional elements that should close the popover when clicked
+			const quoteStandard = document.getElementById('quoteStandard');
+			const quoteCustom = document.getElementById('quoteCustom');
+			const techSF = document.getElementById('techSF');
+			const techCalc = document.getElementById('techCalc');
+			// Toggle the menu when the "Quotes" button is clicked
+			footerQuoteBtn.addEventListener('click', () => {
+			footerMenuQuote.classList.toggle('hidden');
+			});
+			// Toggle the menu when the "Quotes" button is clicked
+			footerTechBtn.addEventListener('click', () => {
+			footerMenuTech.classList.toggle('hidden');
+			});
+
+			// Hide (or toggle) the menu when "Standard" or "Custom" is clicked
+			quoteStandard.addEventListener('click', () => {
+			footerMenuQuote.classList.toggle('hidden');
+			});
+			quoteCustom.addEventListener('click', () => {
+			footerMenuQuote.classList.toggle('hidden');
+			});
+
+			techSF.addEventListener('click', () => {
+			footerMenuTech.classList.toggle('hidden');
+			});
+			techCalc.addEventListener('click', () => {
+			footerMenuTech.classList.toggle('hidden');
+			});
+
+			document.addEventListener('click', (event) => {
+				// If the popover is currently NOT hidden...
+				if ((!footerMenuQuote.classList.contains('hidden') || !footerMenuTech.classList.contains('hidden'))) {
+					// and the click target is neither inside the popover nor the button...
+					if (!footerMenuQuote.contains(event.target) && event.target !== footerQuoteBtn) {
+						// then hide the popover
+						footerMenuQuote.classList.add('hidden');
+					} 
+					if (!footerMenuTech.contains(event.target) && event.target !== footerTechBtn) {
+						// then hide the popover
+						footerMenuTech.classList.add('hidden');
+					}
+				}
+			});
+		</script>
 
 	</body>
 	
