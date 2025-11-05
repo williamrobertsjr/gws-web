@@ -524,7 +524,7 @@ function gws_get_discounted_price($price, $tier) {
 
 // Discounted product prices by tier AJAX handler
 add_action('wp_ajax_get_discounted_product_prices_by_tier', 'get_discounted_product_prices_by_tier');
-add_action('wp_ajax_nopriv_get_discounted_product_prices_by_tier', 'get_discounted_product_prices_by_tier');
+// SECURITY FIX: Removed unauthenticated access to pricing;
 
 function get_discounted_product_prices_by_tier() {
     if (empty($_GET['tier']) || empty($_GET['product_ids'])) {
