@@ -255,7 +255,7 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
         $rate = 1 - ((1 - $rate) / 1.07);
     } elseif (($exempt_plus && $is_exempt) || ($is_privileged_role && $is_exempt_plus_tier)) {
         // Apply 20% addition due to special exemption
-        $rate = (1 - ((1 - $rate) / 1.07) * 1.20);
+        $rate = (1 - ((1 - $rate) / 1.07) * 1.25);
     }
 
     $discounted = round($regular_price * (1 - $rate), 2);
