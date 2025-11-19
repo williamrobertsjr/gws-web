@@ -1,9 +1,10 @@
 
 const toolFilterStart = document.getElementById('tool-filter-start');
 const toolFilterSelect = document.getElementById('tool-filter-select'); 
-
+const toolFilterBtn = document.getElementById('tool-filter-btn');
 // Show select when Tool Filter is clicked
-    document.getElementById('tool-filter-btn').addEventListener('click', function(e) {
+if (toolFilterBtn) {
+    toolFilterBtn.addEventListener('click', function(e) {
         console.log('tool filter button selected')
         e.preventDefault();
         toolFilterStart.classList.remove('hidden');
@@ -11,8 +12,11 @@ const toolFilterSelect = document.getElementById('tool-filter-select');
         // Smooth scroll to the select
         toolFilterStart.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
+}
 
-toolFilterSelect.addEventListener('change', function() {
+// Handle select change
+if (toolFilterSelect) {
+    toolFilterSelect.addEventListener('change', function() {
         console.log('select changed')
         const selectedValue = this.value;
         console.log(selectedValue)
@@ -29,3 +33,4 @@ toolFilterSelect.addEventListener('change', function() {
             window.location.href = selectedValue;
         }
     });
+}
