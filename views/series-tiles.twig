@@ -33,8 +33,10 @@
                     
                     {% if features is not empty %}
                         <div class="series-tile-features flex flex-wrap gap-2">
-                        {% for value in features if value %}
-                            <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                        {% for value in features %}
+                            {% if value %}
+                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                            {% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}
