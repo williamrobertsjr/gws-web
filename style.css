@@ -1891,6 +1891,24 @@ tr.wc-block-cart-items__row {
   margin: auto!important;
 }
 
+.cmplz-message p {
+  color: var(--black);
+}
+.cmplz-document label {
+  color: var(--white);
+}
+.cmplz-document input[type="button"] {
+  background: var(--light-blue);
+  color: var(--white);
+  border-radius: 2px;
+  padding: 8px 12px;
+}
+.cmplz-document input[type="button"]:hover {
+  background: #6b97cc;
+  color: var(--white);
+  cursor: pointer;
+}
+
 /*********************************
 ******** Media Queries ***********
 **********************************/
