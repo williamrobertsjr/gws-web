@@ -5,7 +5,7 @@
  */
 
 // Load Composer dependencies.
-$autoload = get_template_directory() . '/vendor/autoload.php';
+// $autoload = get_template_directory() . '/vendor/autoload.php';
 if (file_exists($autoload)) {
     require_once $autoload;
 } else {
@@ -97,6 +97,14 @@ function enqueue_tailwind_output_styles() {
     wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/style.css', array('tailwind-output'), filemtime( get_template_directory() . '/style.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
+
+add_filter('timber/context', function($context) {
+    $context['top_banner'] = get_field('top_banner', 'option');
+    $context['banner_start_date'] = get_field('banner_start_date', 'option');
+    $context['banner_end_date'] = get_field('banner_end_date', 'option');
+    return $context;
+});
+
 
 // Woocommerce integration with Timber
 function theme_add_woocommerce_support()

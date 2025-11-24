@@ -7,11 +7,20 @@
 {% endblock %}
 
 	<body class="{{body_class}}" data-template="base.twig">
-		{# <div id="announcement-banner" class="w-full mx-auto p-2 bg-light-blue">
-			<div class="w-10/12 mx-auto flex justify-center text-center">
-				<p class="text-white text-lg">Arden, NC Facility Temporarily Closed – Severe weather has caused power and water outages. We’re working on a swift return. Stay safe, and thank you for your patience.</p>
-			</div>
-		</div> #}
+		{# Announcement Banner Logic #}
+		{% if top_banner and banner_start_date and banner_end_date %}
+			{% set current_date = "now"|date("Ymd") %}
+			{% set start_date = banner_start_date|date("Ymd") %}
+			{% set end_date = banner_end_date|date("Ymd") %}
+			
+			{% if current_date >= start_date and current_date <= end_date %}
+				<div id="announcement-banner" class="w-full mx-auto p-2 bg-light-blue">
+					<div class="w-10/12 mx-auto flex justify-center text-center">
+						<p class="text-white text-lg">{{ top_banner }}</p>
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
 		{{ function('wp_body_open') }}
 		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
 		<header class="header px-4 md:px-10 py-4 header-transparent">
