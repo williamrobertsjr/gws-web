@@ -107,11 +107,13 @@
                     <div class="icons flex flex-wrap items-end gap-1 py-1">
                         {# Display each value in the list #}
                         {% if features is not empty %}
-                            {% for value in features if value and value != 'NULL' %}
-                                <div class="group relative">
-                                    <img class="w-full mx-auto !max-w-[35px]" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
-                                    <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-xs text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
-                                </div>   
+                            {% for value in features %}
+                                {% if value and value != 'NULL' %}
+                                    <div class="group relative">
+                                        <img class="w-full mx-auto !max-w-[35px]" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                        <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-xs text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
+                                    </div>   
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>
