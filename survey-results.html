@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWS Survey Results</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- ICONS (SVG Components) ---
+        const IconBase = ({ children, className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {children}
+            </svg>
+        );
+
+        const BarChart = ({ className }) => <IconBase className={className}><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></IconBase>;
+        const TrendingUp = ({ className }) => <IconBase className={className}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></IconBase>;
+        const Users = ({ className }) => <IconBase className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></IconBase>;
+        const MessageSquare = ({ className }) => <IconBase className={className}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></IconBase>;
+        const AlertCircle = ({ className }) => <IconBase className={className}><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></IconBase>;
+        const CheckCircle2 = ({ className }) => <IconBase className={className}><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></IconBase>;
+        const Upload = ({ className }) => <IconBase className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></IconBase>;
+        const FileText = ({ className }) => <IconBase className={className}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></IconBase>;
+        const Search = ({ className }) => <IconBase className={className}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></IconBase>;
+        const Lightbulb = ({ className }) => <IconBase className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 1.5-2.4 1.5-3.8 0-3.2-2.8-6-6-6s-6 2.8-6 6c0 1.4.5 2.8 1.5 3.8.8.8 1.3 1.5 1.5 2.5"></path><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line></IconBase>;
+        const Clock = ({ className }) => <IconBase className={className}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></IconBase>;
+        const Lock = ({ className }) => <IconBase className={className}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></IconBase>;
+
+        // --- DATA ---
+        const INITIAL_CSV = `Date,Email,"Question 1: How easy is it to find the products you need on our website?","Question 2: Is GWS pricing competitive in the market?","Question 3: How would you rate GWS lead/delivery times?","Question 4: How can we improve?","Question 5: What content would you like to see on our social media channels?","Question 6: Do you have any additional comments, suggestions, or feedback you'd like to share with the GWS team?"
+"2025-12-12 13:08:07",,1,3,1,"Better delivery",NONE,NO
+"2025-12-12 13:08:20",,2,2,3,"Better delivery,Better pricing",N/A,
+"2025-12-12 13:08:35",relias@westernenterprises.com,4,4,4,"Better delivery,Better pricing","I can't think of any right now",
+"2025-12-12 13:09:17",,3,5,5,"Product training","I'm not sure.","I never use your website so I can't give a fair rating. Thank you!"
+"2025-12-12 13:09:18",BryanN@pindel.com,4,4,3,"Better delivery","Tools in use",No
+"2025-12-12 13:09:28",,4,4,3,"Better delivery",none,"Lead times are understandable in our current market, but it would be nice if they were shorter."
+"2025-12-12 13:17:01",joy@tapcotaps.com,4,3,2,"Better delivery,Better pricing","I DONT USE IT","DELIVERY TIMES AND PRICES HAVE INCREASED SIGNIFICANTLY. 25% JUMP IN PRICING IS ALOT AT ONE TIME."
+"2025-12-12 13:17:07",scot.schafer@vallen.com,3,4,3,"Product training","need to more more about specialty carbide and indexable offering ","working with Rep firm - Durrie - don't have sales rep "
+"2025-12-12 13:26:34",al.dawson@colonyhardware.com,5,3,3,"Better pricing","I have never used your website. But your customer service and RFQ reply are great",
+"2025-12-12 13:28:08",,3,3,3,"Better customer service,Better pricing,GWS sales visit","Burr information","I just wish the CSR's at GWS knew more about their own product line rather than they always have to email us quotations or tech info.  Many times by the time we receive the quotation back, the customer already ordered from another vendor"
+"2025-12-12 13:31:11",drd@corlett.com,3,3,3,"Better delivery","New products","complete cross for all Accupro End mills ;)"`;
+
+        // --- UTILS ---
+        const parseCSV = (text) => {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
+
+                if (inQuotes) {
+                    if (char === '"' && nextChar === '"') {
+                        currentField += '"';
+                        i++; 
+                    } else if (char === '"') {
+                        inQuotes = false;
+                    } else {
+                        currentField += char;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                    } else if (char === ',') {
+                        currentRow.push(currentField.trim());
+                        currentField = '';
+                    } else if (char === '\n' || char === '\r') {
+                        if (currentField || currentRow.length > 0) {
+                            currentRow.push(currentField.trim());
+                            rows.push(currentRow);
+                            currentRow = [];
+                            currentField = '';
+                        }
+                    } else {
+                        currentField += char;
+                    }
+                }
+            }
+            if (currentField || currentRow.length > 0) {
+                currentRow.push(currentField.trim());
+                rows.push(currentRow);
+            }
+            return rows;
+        };
+
+        // --- SUB-COMPONENTS ---
+        const MetricCard = ({ title, value, subtext, icon: Icon, colorClass }) => (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-start space-x-4">
+                <div className={`p-3 rounded-lg ${colorClass} bg-opacity-10`}>
+                    <Icon className={`w-6 h-6 ${colorClass.replace('bg-', 'text-')}`} />
+                </div>
+                <div>
+                    <p className="text-slate-500 text-sm font-medium uppercase tracking-wide">{title}</p>
+                    <h3 className="text-3xl font-bold text-slate-800 mt-1">{value}</h3>
+                    <p className="text-slate-400 text-xs mt-1">{subtext}</p>
+                </div>
+            </div>
+        );
+
+        const DistributionChart = ({ data, title, color, lowLabel, highLabel }) => {
+            const total = Object.values(data).reduce((a, b) => a + b, 0);
+            
+            return (
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-full flex flex-col">
+                    <div className="flex-grow">
+                        <h4 className="text-slate-700 font-semibold mb-6 flex items-center">
+                            <BarChart className="w-4 h-4 mr-2 text-slate-400" />
+                            {title}
+                        </h4>
+                        
+                        <div className="space-y-3">
+                            {[5, 4, 3, 2, 1].map((score) => {
+                                const count = data[score] || 0;
+                                const percentage = total > 0 ? (count / total) * 100 : 0;
+                                return (
+                                    <div key={score} className="flex items-center text-sm">
+                                        <span className="w-4 text-slate-500 font-mono">{score}</span>
+                                        <div className="flex-1 mx-3 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div 
+                                                className={`h-full rounded-full ${color}`} 
+                                                style={{ width: `${percentage}%` }}
+                                            />
+                                        </div>
+                                        <span className="w-8 text-right text-slate-600 font-medium">{count}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between items-start text-[10px]">
+                        <div className="text-slate-500 text-left">
+                            <span className="font-bold text-slate-700 block mb-0.5">1 (Low)</span>
+                            <span className="whitespace-nowrap">{lowLabel}</span>
+                        </div>
+                        <div className="text-slate-500 text-right">
+                            <span className="font-bold text-slate-700 block mb-0.5">5 (High)</span>
+                            <span className="whitespace-nowrap">{highLabel}</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const ImprovementTag = ({ label, count, max }) => {
+            const intensity = Math.max(0.2, count / max);
+            return (
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-100 mb-2">
+                    <span className="text-slate-700 font-medium">{label}</span>
+                    <div className="flex items-center">
+                        <div 
+                            className="h-2 rounded-full bg-blue-500 mr-3" 
+                            style={{ width: `${intensity * 100}px`, maxWidth: '100px' }}
+                        />
+                        <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs font-bold">
+                            {count}
+                        </span>
+                    </div>
+                </div>
+            );
+        };
+
+        const ActionItemCard = ({ category, count, priority, recommendation, comments }) => (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-4 flex-nowrap gap-2">
+                    <div className="flex items-center space-x-2 overflow-hidden">
+                        <div className={`p-2 rounded-lg flex-shrink-0 ${priority === 'High' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-600'}`}>
+                            <Lightbulb className="w-5 h-5" />
+                        </div>
+                        <h4 className="font-bold text-slate-800 whitespace-nowrap overflow-hidden text-ellipsis">
+                            {category}
+                        </h4>
+                    </div>
+                    <span className={`text-xs font-bold px-2 py-1 rounded-full flex-shrink-0 whitespace-nowrap ${priority === 'High' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'}`}>
+                        {priority} Priority
+                    </span>
+                </div>
+                
+                <div className="mb-4 flex-grow">
+                    <div className="flex items-center mb-2">
+                        <span className="text-2xl font-bold text-slate-700 mr-2">{count}</span>
+                        <span className="text-sm text-slate-500">mentions or flags</span>
+                    </div>
+                    <p className="text-sm text-slate-600 font-medium bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <span className="text-slate-400 uppercase text-xs font-bold block mb-1">Recommended Action</span>
+                        {recommendation}
+                    </p>
+                </div>
+
+                {comments.length > 0 && (
+                    <div className="mt-2 pt-3 border-t border-slate-100">
+                        <p className="text-xs text-slate-400 font-bold uppercase mb-2">Key Customer Voice</p>
+                        <p className="text-xs text-slate-600 italic line-clamp-2">"{comments[0]}"</p>
+                    </div>
+                )}
+            </div>
+        );
+
+        const CommentCard = ({ text, author, date, type }) => (
+            <div className="bg-white p-4 rounded-lg border border-slate-100 shadow-sm hover:shadow-md transition-shadow mb-3">
+                <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                        <div className={`w-2 h-2 rounded-full ${type === 'social' ? 'bg-purple-400' : 'bg-emerald-400'}`} />
+                        <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {type === 'social' ? 'Social Content Request' : 'General Feedback'}
+                        </span>
+                    </div>
+                    <span className="text-xs text-slate-400">{date.split(' ')[0]}</span>
+                </div>
+                <p className="text-slate-700 text-sm leading-relaxed mb-3">"{text}"</p>
+                <div className="flex items-center justify-end">
+                    <span className={`text-xs px-2 py-1 rounded-full ${author ? 'bg-indigo-50 text-indigo-700' : 'bg-slate-100 text-slate-500'}`}>
+                        {author || 'Anonymous'}
+                    </span>
+                </div>
+            </div>
+        );
+
+        // --- MAIN APP COMPONENT ---
+        const App = () => {
+            const [data, setData] = useState(null);
+            const [rawFile, setRawFile] = useState(INITIAL_CSV);
+            const [summaryItems, setSummaryItems] = useState([]);
+            
+            // Auth State
+            const [isAuthenticated, setIsAuthenticated] = useState(false);
+            const [isAdmin, setIsAdmin] = useState(false);
+            const [passwordInput, setPasswordInput] = useState('');
+            const [authError, setAuthError] = useState(false);
+            
+            // File Input Ref
+            const fileInputRef = useRef(null);
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if (passwordInput === 'GWSdelivers') {
+                    setIsAuthenticated(true);
+                    setIsAdmin(true);
+                    setAuthError(false);
+                } else if (passwordInput === 'GWS2025!') {
+                    setIsAuthenticated(true);
+                    setIsAdmin(false);
+                    setAuthError(false);
+                } else {
+                    setAuthError(true);
+                }
+            };
+
+            useEffect(() => {
+                if (!rawFile) return;
+
+                try {
+                    const rows = parseCSV(rawFile);
+                    const content = rows.slice(1);
+                    const stats = {
+                        totalResponses: 0,
+                        latestResponse: null, 
+                        q1: { sum: 0, count: 0, dist: {1:0, 2:0, 3:0, 4:0, 5:0} },
+                        q2: { sum: 0, count: 0, dist: {1:0, 2:0, 3:0, 4:0, 5:0} },
+                        q3: { sum: 0, count: 0, dist: {1:0, 2:0, 3:0, 4:0, 5:0} },
+                        improvements: {},
+                        socialComments: [],
+                        generalComments: [],
+                        rawComments: [] 
+                    };
+
+                    content.forEach(row => {
+                        if (row.length < 6) return;
+
+                        const date = row[0];
+                        const email = row[1];
+                        const q1 = parseInt(row[2]) || 0;
+                        const q2 = parseInt(row[3]) || 0;
+                        const q3 = parseInt(row[4]) || 0;
+                        const q4Raw = row[5] || '';
+                        const q5Raw = row[6] || '';
+                        const q6Raw = row[7] || '';
+
+                        stats.totalResponses++;
+                        
+                        if (date) {
+                            if (!stats.latestResponse || date > stats.latestResponse) {
+                                stats.latestResponse = date;
+                            }
+                        }
+
+                        if (q1 > 0) { stats.q1.sum += q1; stats.q1.count++; stats.q1.dist[q1] = (stats.q1.dist[q1] || 0) + 1; }
+                        if (q2 > 0) { stats.q2.sum += q2; stats.q2.count++; stats.q2.dist[q2] = (stats.q2.dist[q2] || 0) + 1; }
+                        if (q3 > 0) { stats.q3.sum += q3; stats.q3.count++; stats.q3.dist[q3] = (stats.q3.dist[q3] || 0) + 1; }
+
+                        if (q4Raw && q4Raw !== 'N/A' && q4Raw.toLowerCase() !== 'none') {
+                            q4Raw.split(',').forEach(tag => {
+                                const cleanTag = tag.trim();
+                                if (cleanTag) {
+                                    stats.improvements[cleanTag] = (stats.improvements[cleanTag] || 0) + 1;
+                                }
+                            });
+                        }
+
+                        const isJunk = (txt) => !txt || ['n/a', 'no', 'none', 'na', ''].includes(txt.toLowerCase().trim());
+                        
+                        if (!isJunk(q5Raw)) {
+                            stats.socialComments.push({ text: q5Raw, author: email, date: date, type: 'social' });
+                            stats.rawComments.push(q5Raw);
+                        }
+                        if (!isJunk(q6Raw)) {
+                            stats.generalComments.push({ text: q6Raw, author: email, date: date, type: 'general' });
+                            stats.rawComments.push(q6Raw);
+                        }
+                    });
+
+                    setData(stats);
+
+                    const analysis = [
+                        {
+                            id: 'delivery',
+                            category: 'Lead Times',
+                            keywords: ['delivery', 'lead time', 'ship', 'wait', 'late', 'time'],
+                            tag: 'Better delivery',
+                            recommendation: 'Review logistics & communicate realistic lead times.',
+                            count: 0,
+                            relevantComments: []
+                        },
+                        {
+                            id: 'pricing',
+                            category: 'Pricing',
+                            keywords: ['price', 'cost', 'expensive', 'increase', 'competitive', 'high'],
+                            tag: 'Better pricing',
+                            recommendation: 'Analyze market competitiveness & sales talking points.',
+                            count: 0,
+                            relevantComments: []
+                        },
+                        {
+                            id: 'training',
+                            category: 'Training',
+                            keywords: ['training', 'knowledge', 'csr', 'rep', 'info', 'tech', 'quotation'],
+                            tag: 'Product training',
+                            recommendation: 'Conduct product training for CSR support team.',
+                            count: 0,
+                            relevantComments: []
+                        }
+                    ];
+
+                    analysis.forEach(item => {
+                        if (stats.improvements[item.tag]) {
+                            item.count += stats.improvements[item.tag];
+                        }
+                    });
+
+                    stats.rawComments.forEach(comment => {
+                        const lowerC = comment.toLowerCase();
+                        analysis.forEach(item => {
+                            if (item.keywords.some(k => lowerC.includes(k))) {
+                                item.count++;
+                                if (item.relevantComments.length < 1 && comment.length < 150) {
+                                    item.relevantComments.push(comment);
+                                }
+                            }
+                        });
+                    });
+
+                    const actionableItems = analysis
+                        .filter(i => i.count > 0)
+                        .sort((a, b) => b.count - a.count)
+                        .map(item => ({
+                            ...item,
+                            priority: item.count > (stats.totalResponses * 0.3) ? 'High' : 'Medium'
+                        }));
+
+                    setSummaryItems(actionableItems);
+
+                } catch (e) {
+                    console.error("Failed to parse CSV", e);
+                }
+            }, [rawFile]);
+
+            const handleFileUpload = (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => setRawFile(e.target.result);
+                    reader.readAsText(file);
+                }
+            };
+
+            const triggerFileUpload = () => {
+                fileInputRef.current?.click();
+            };
+
+            if (!isAuthenticated) {
+                return (
+                    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+                        <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-8 text-center">
+                            <div className="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Lock className="w-8 h-8 text-blue-600" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-slate-800 mb-2">Internal Access Required</h2>
+                            <p className="text-slate-500 mb-8">Please enter the executive access code to view the Q4 Survey Results.</p>
+                            
+                            <form onSubmit={handleLogin} className="space-y-4">
+                                <input 
+                                    type="password" 
+                                    value={passwordInput}
+                                    onChange={(e) => setPasswordInput(e.target.value)}
+                                    placeholder="Enter Access Code"
+                                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-center text-lg tracking-widest"
+                                />
+                                {authError && <p className="text-red-500 text-sm">Incorrect access code.</p>}
+                                <button 
+                                    type="submit"
+                                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-lg transition-colors"
+                                >
+                                    Access Results
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!data) return <div className="p-10 text-center">Loading Analytics...</div>;
+
+            const getAvg = (metric) => (metric.count > 0 ? (metric.sum / metric.count).toFixed(1) : '0.0');
+            
+            const sortedImprovements = Object.entries(data.improvements)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 5);
+            const maxImprovementCount = sortedImprovements.length > 0 ? sortedImprovements[0][1] : 1;
+
+            return (
+                <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
+                    <header className="bg-slate-900 text-white pb-24">
+                        <div className="max-w-6xl mx-auto px-6 py-8">
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                                <div>
+                                    <h1 className="text-3xl font-bold tracking-tight">GWS Survey Results</h1>
+                                    <div className="mt-2 flex flex-col md:flex-row md:items-center text-slate-400 text-sm space-y-2 md:space-y-0 md:space-x-6">
+                                        <div className="flex items-center">
+                                            <FileText className="w-4 h-4 mr-2" />
+                                            <span>Q4 Survey Results</span>
+                                        </div>
+                                        {data.latestResponse && (
+                                            <div className="flex items-center text-emerald-400">
+                                                <Clock className="w-4 h-4 mr-2" />
+                                                <span>Last Synced: {data.latestResponse}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                {isAdmin && (
+                                    <div className="mt-4 md:mt-0 flex items-center space-x-3">
+                                        <button 
+                                            onClick={triggerFileUpload}
+                                            className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors border border-slate-700"
+                                        >
+                                            <Upload className="w-4 h-4 mr-2" />
+                                            <span className="text-sm font-medium">Load Full CSV</span>
+                                        </button>
+                                        <input 
+                                            type="file" 
+                                            accept=".csv" 
+                                            onChange={handleFileUpload} 
+                                            ref={fileInputRef}
+                                            className="hidden" 
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </header>
+
+                    <main className="max-w-6xl mx-auto px-6 -mt-16 pb-20">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                            <MetricCard title="Total Responses" value={data.totalResponses} subtext="Validated submissions" icon={Users} colorClass="text-slate-600 bg-slate-100" />
+                            <MetricCard title="Website Usability" value={getAvg(data.q1)} subtext="Avg. Score (1-5)" icon={Search} colorClass="text-blue-600 bg-blue-500" />
+                            <MetricCard title="Pricing Comp." value={getAvg(data.q2)} subtext="Avg. Score (1-5)" icon={TrendingUp} colorClass="text-emerald-600 bg-emerald-500" />
+                            <MetricCard title="Lead Times" value={getAvg(data.q3)} subtext="Avg. Score (1-5)" icon={CheckCircle2} colorClass="text-indigo-600 bg-indigo-500" />
+                        </div>
+
+                        {summaryItems.length > 0 && (
+                            <div className="mb-8">
+                                <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                                    <Lightbulb className="w-5 h-5 mr-2 text-amber-500" />
+                                    Executive Summary & Action Items
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {summaryItems.map((item) => (
+                                        <ActionItemCard 
+                                            key={item.id}
+                                            category={item.category}
+                                            count={item.count}
+                                            priority={item.priority}
+                                            recommendation={item.recommendation}
+                                            comments={item.relevantComments}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <DistributionChart title="Q1: Website Ease" data={data.q1.dist} color="bg-blue-500" lowLabel="Very Easy" highLabel="Very Difficult" />
+                                <DistributionChart title="Q2: Pricing" data={data.q2.dist} color="bg-emerald-500" lowLabel="Not Competitive" highLabel="Highly Competitive" />
+                                <DistributionChart title="Q3: Delivery" data={data.q3.dist} color="bg-indigo-500" lowLabel="Slow/Unreliable" highLabel="Fast/Reliable" />
+                            </div>
+
+                            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-full flex flex-col">
+                                <h4 className="text-slate-700 font-semibold mb-4 flex items-center">
+                                    <AlertCircle className="w-4 h-4 mr-2 text-amber-500" />
+                                    Top Requests (Q4)
+                                </h4>
+                                <div className="mt-2 flex-grow">
+                                    {sortedImprovements.map(([label, count]) => (
+                                        <ImprovementTag key={label} label={label} count={count} max={maxImprovementCount} />
+                                    ))}
+                                    {sortedImprovements.length === 0 && <p className="text-slate-400 text-sm italic">No improvement data available.</p>}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div>
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-bold text-slate-800 flex items-center">
+                                        <MessageSquare className="w-5 h-5 mr-2 text-purple-500" />
+                                        Social Media Content Requests
+                                    </h3>
+                                    <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-bold">{data.socialComments.length}</span>
+                                </div>
+                                <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                                    {data.socialComments.length > 0 ? (
+                                        data.socialComments.map((c, i) => <CommentCard key={i} {...c} />)
+                                    ) : (
+                                        <div className="p-8 text-center border-2 border-dashed border-slate-200 rounded-lg text-slate-400">No social media content requests found.</div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-bold text-slate-800 flex items-center">
+                                        <MessageSquare className="w-5 h-5 mr-2 text-emerald-500" />
+                                        Additional Comments & Feedback
+                                    </h3>
+                                    <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full text-xs font-bold">{data.generalComments.length}</span>
+                                </div>
+                                <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                                    {data.generalComments.length > 0 ? (
+                                        data.generalComments.map((c, i) => <CommentCard key={i} {...c} />)
+                                    ) : (
+                                        <div className="p-8 text-center border-2 border-dashed border-slate-200 rounded-lg text-slate-400">No additional comments found.</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
