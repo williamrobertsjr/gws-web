@@ -1,8 +1,10 @@
 <?php
-// This file is used to map tool types to their respective attributes for display in the WooCommerce product pages. Names should match the facet Name in facetWP.
+// This file is used to map tool types to their respective attributes for display in the WooCommerce / facetwp tool filter product pages. Names should match the facet Name in facetWP.
 return [
   'MILLING' => [
     'milling_types',
+    'series',
+    'family',
     'materials',
     'application',
     'coating',
@@ -17,6 +19,8 @@ return [
   ],
   'HOLEMAKING' => [
     'holemaking_types',
+    'series',
+    'family',
     'materials',
     'application',
     'coating',
@@ -45,11 +49,12 @@ return [
     'shank_dia_m_display',
     'step_dia',
     'style',
-    'thread',
     'torx_type'
   ],
   'SPECIALTY' => [
     'specialty_types',
+    'series',
+    'family',
     'materials',
     'application',
     'coating',
@@ -73,6 +78,8 @@ return [
   ],
   'INSERTS' => [
     'inserts_types',
+    'series',
+    'family',
     'materials',
     'edge_prep',
     'ic',
@@ -83,6 +90,8 @@ return [
   ],
   'THREADING' => [
     'threading_types',
+    'series',
+    'family',
     'materials',
     'application',
     'coating',

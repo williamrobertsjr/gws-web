@@ -1825,6 +1825,15 @@ a.facetwp-page:hover {
 .facetwp-pager .facetwp-facet {
   margin-bottom: 0
 }
+.facetwp-type-fselect .fs-option .fs-option-label {
+  color: var(--black);
+}
+.fs-wrap {
+  color: var(--black);
+}
+.fs-wrap.multiple {
+  width: 100%!important;
+}
 
 
 

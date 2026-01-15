@@ -123,35 +123,39 @@
         <img class="w-6/12 box-shadow" src="/wp-content/uploads/2024/01/RQ-Tool.png" alt=""> #}
     </div>
 
-    <div class="mt-8">
+    {# <div class="mt-8">
         <p class="text-sm uppercase text-pale-blue font-bold">Featured Series</p>
         <div class="mt-8 gap-x-4">
             {% include 'series-tiles.twig' with {'series_list': series_list} %}
         </div>
-    </div>
+    </div> #}
 
     <div class="mt-10 flex flex-col gap-y-6 lg:flex-row justify-between">
         <div class="flex flex-col w-full">
             <div id="quick-links" class="flex flex-col flex-grow p-8">
                 <p class="text-sm uppercase text-pale-blue font-bold">Quick Links</p>
                 {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
-                    <div class="flex flex-col gap-y-2 mt-8">
+                    <div class="flex flex-col lg:flex-row gap-x-4 mt-8">
                         <div class="gap-y-1 flex flex-col mb-4">
-                            <p class="font-bold text-pale-blue underline">Distributor Price Lists - 01/01/26</p>
-                            <a class="ps-2 text-white mb-0" href="/docs/pricing/GWS_PRICE_LIST_55_JAN_01_2026.xlsx">Price List - 55%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_JAN_01_2026.xlsx">Price List - 52.5%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_50_JAN_01_2026.xlsx">Price List - 50%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_JAN_01_2026.xlsx">Price List - 57.5%</a>
-                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_DIRECT_AUG_01_2025.xlsx">Price List - Direct</a>
+                            <p class="font-bold text-pale-blue underline text-lg">Distributor Price Lists - 01/01/26</p>
+                            <a class="ps-2 text-white mb-0" href="/docs/pricing/GWS_PRICE_LIST_55_JAN_01_2026.xlsx">Price List - Tier 1 - 55%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_JAN_01_2026.xlsx">Price List - Tier 2 - 52.5%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_50_JAN_01_2026.xlsx">Price List - Tier 3 - 50%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_JAN_01_2026.xlsx">Price List - MSC Industial - 57.5%</a>
+                            <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_DIRECT_AUG_01_2025.xlsx">Price List - Direct - 30%</a>
                             <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_JAN_01_2026.xlsx">GWS List Price</a>
                         </div>
-                        <a class="text-white" href="https://crm.gws.tools/SlxClient/Login.aspx">Infor CRM</a>
-                        {# <a class="text-white" href="https://gwstoolgroup.retool.com/apps/0c5528be-7b42-11ee-aec5-f3623936498f/*GWS%20Sales%20Dashboard*">GWS Sales Dashboard</a> #}
-                        <a class="text-white" href="https://access.paylocity.com/">Paylocity</a>
-                        {# <a class="text-white" href="https://gwstoolgroup.atlassian.net/servicedesk/customer/portal/3">Submit an IT Ticket</a> #}
-                        <a class="text-white" href="https://gwstoolgroup.itemorder.com/shop/home/">Swag Store</a>
-                        <a class="text-white" href="https://expense.certify.com/Login.aspx">Certify</a>
-                        <a class="text-white" href="/website-suggestions/">Website Suggestions</a>
+                        <div class="gap-y-1 flex flex-col mb-4">
+                            <p class="font-bold text-pale-blue underline text-lg">Employee Resources</p>
+                            <a class="text-white" href="https://sandvik.sharepoint.com/teams/gwssalessupport/" target="_blank">Sales Support Hub</a>
+                            <a class="text-white" href="https://crm.gws.tools/SlxClient/Login.aspx">Infor CRM</a>
+                            {# <a class="text-white" href="https://gwstoolgroup.retool.com/apps/0c5528be-7b42-11ee-aec5-f3623936498f/*GWS%20Sales%20Dashboard*">GWS Sales Dashboard</a> #}
+                            <a class="text-white" href="https://access.paylocity.com/">Paylocity</a>
+                            {# <a class="text-white" href="https://gwstoolgroup.atlassian.net/servicedesk/customer/portal/3">Submit an IT Ticket</a> #}
+                            <a class="text-white" href="https://gwstoolgroup.itemorder.com/shop/home/">Swag Store</a>
+                            <a class="text-white" href="https://expense.certify.com/Login.aspx">Certify</a>
+                            <a class="text-white" href="/website-suggestions/">Website Suggestions</a>
+                        </div>
 
                     </div>
                 {% else %}
@@ -167,6 +171,8 @@
                         {% else %}
                             {# <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
                         {% endif %}
+
+
                         <a class="text-white" href="/wp-content/uploads/2022/11/gws-code-of-conduct-business-partner-en-11-2022.pdf">Code of Conduct</a>
                         <a class="text-white" href="mailto:sales@gwstoolgroup.com">Email Sales Team</a>
                         <a class="text-white" href="tel:18774978665">Call GWS</a>
