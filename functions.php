@@ -286,10 +286,7 @@ add_action('wp_footer', function () {
     $user_company = get_user_meta($user_id, 'company', true); // <-- FIXED
     
     $exempt_companies = [
-        'Grainger',
         'US Tool Group',
-        'Ewie',
-        'EGC - Ewie',
     ];
     // Add any additional companies that should be exempt from the 7% price increase plus 20%
     $exempt_20 = [
@@ -578,6 +575,10 @@ function gws_clear_cart() {
 }
 
 function gws_enqueue_tier_scripts() {
+    // Only load for logged-in users
+    if (!is_user_logged_in()) {
+        return;
+    }
     // Make sure wc_cart_params is available site-wide
     if (function_exists('wc_enqueue_js')) {
         wp_enqueue_script('wc-cart-fragments'); // ensures wc_cart_params is defined
