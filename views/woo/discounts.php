@@ -177,7 +177,6 @@ function gws_handle_ajax_tier_price_switch() {
 
     $tier = sanitize_text_field($_GET['tier']);
 
-    // Begin: Add transient cache for cart pricing based on tier and cart hash
     $cart = WC()->cart;
     $cart_hash = md5(serialize($cart->get_cart()));
     $cache_key = 'tier_cart_prices_' . $tier . '_' . $cart_hash;
@@ -187,7 +186,6 @@ function gws_handle_ajax_tier_price_switch() {
         wp_send_json_success($cached);
         return;
     }
-    // End: Add transient cache for cart pricing
 
     $items = [];
     $original_total = 0;
@@ -197,6 +195,15 @@ function gws_handle_ajax_tier_price_switch() {
         $product = $cart_item['data'];
         $qty = (int) $cart_item['quantity'];
         $regular_price = (float) $product->get_meta('_regular_price', true);
+
+        // Check if product has no price (Call for Price)
+        if ($regular_price === '' || $regular_price === null || $regular_price <= 0) {
+            $items[$cart_item_key] = [
+                'discounted_price_html' => '<span class="call-for-price">Call for Price</span>',
+                'discounted_subtotal_html' => '<span class="call-for-price">Call for Price</span>',
+            ];
+            continue; // Skip totals calculation for Call for Price items
+        }
 
         // Get discounted price for the selected tier
         $discounted_price = gws_calculate_discounted_price($tier, $product);
@@ -217,13 +224,15 @@ function gws_handle_ajax_tier_price_switch() {
         'discounted_total_html' => wc_price($discounted_total),
     ];
 
-    set_transient($cache_key, $response, 300); // Cache for 5 minutes
+    set_transient($cache_key, $response, 300);
     wp_send_json_success($response);
 }
 
 function gws_calculate_discounted_price($tier, WC_Product $product) {
     $regular_price = (float) $product->get_meta('_regular_price', true);
-    if ($regular_price <= 0) return $regular_price;
+    
+    // Return 0 for "Call for Price" items (they won't affect quote totals)
+    if ($regular_price <= 0 || $regular_price === '') return 0;
 
     // Base discount rate by tier
     switch ($tier) {
@@ -254,8 +263,8 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
         // Roll back 7% increase
         $rate = 1 - ((1 - $rate) / 1.07);
     } elseif (($exempt_plus && $is_exempt) || ($is_privileged_role && $is_exempt_plus_tier)) {
-        // Apply 20% addition due to special exemption
-        $rate = (1 - ((1 - $rate) / 1.07) * 1.25);
+        // Apply 25% addition due to special exemption 
+        $rate = (1 - ((1 - $rate)) * 1.25);
     }
 
     $discounted = round($regular_price * (1 - $rate), 2);
@@ -288,6 +297,16 @@ function gws_handle_ajax_product_price_request() {
         if (! $product instanceof WC_Product) continue;
 
         $regular = (float) $product->get_meta('_regular_price', true);
+        
+        // Check if product has no price
+        if ($regular === '' || $regular === null || $regular <= 0) {
+            $results[$id] = [
+                'discounted_price_html' => '<span class="call-for-price">Call for Price</span>',
+                'regular_price_html' => '<span class="call-for-price">Call for Price</span>',
+            ];
+            continue;
+        }
+
         $discounted = gws_calculate_discounted_price($tier, $product);
 
         $results[$id] = [
@@ -299,3 +318,55 @@ function gws_handle_ajax_product_price_request() {
     wp_send_json_success($results);
 }
 
+
+// Handle "Call for Price" products (no price set or $0)
+add_filter('woocommerce_get_price_html', 'gws_call_for_price_display', 20, 2);
+function gws_call_for_price_display($price, $product) {
+    $regular_price = $product->get_meta('_regular_price', true);
+    
+    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
+        return '<span class="call-for-price">Call for Price</span>';
+    }
+    
+    return $price;
+}
+
+// Allow "Call for Price" products to be added to cart/quote
+add_filter('woocommerce_is_purchasable', 'gws_allow_no_price_in_quote', 10, 2);
+function gws_allow_no_price_in_quote($purchasable, $product) {
+    $regular_price = $product->get_meta('_regular_price', true);
+    
+    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
+        return true;
+    }
+    
+    return $purchasable;
+}
+
+// Show "Call for Price" in cart for products with no price or $0
+add_filter('woocommerce_cart_item_price', 'gws_cart_call_for_price', 5, 3);
+function gws_cart_call_for_price($price_html, $cart_item, $cart_item_key) {
+    $product = $cart_item['data'];
+    if (!$product instanceof WC_Product) return $price_html;
+    
+    $regular_price = $product->get_meta('_regular_price', true);
+    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
+        return '<span class="call-for-price">Call for Price</span>';
+    }
+    
+    return $price_html;
+}
+
+// Show "Call for Price" for cart subtotal
+add_filter('woocommerce_cart_item_subtotal', 'gws_cart_subtotal_call_for_price', 5, 3);
+function gws_cart_subtotal_call_for_price($subtotal_html, $cart_item, $cart_item_key) {
+    $product = $cart_item['data'];
+    if (!$product instanceof WC_Product) return $subtotal_html;
+    
+    $regular_price = $product->get_meta('_regular_price', true);
+    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
+        return '<span class="call-for-price">Call for Price</span>';
+    }
+    
+    return $subtotal_html;
+}

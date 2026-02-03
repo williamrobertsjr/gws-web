@@ -890,12 +890,12 @@ li {
 /***** Series Page *****/
 /**********************/
 #series-header,
-#product-header,
-.page-header {
-  padding-top: 220px;
+#product-header{
+  padding-top: 300px;
   padding-bottom: 120px;
 }
 .page-header {
+  padding-top: 250px;
   height: 550px;
 }
 .bg-diagonal {
@@ -956,10 +956,41 @@ img.series-image {
 #series-data-table .product-table_filter {
   margin-bottom: 10px;
 }
+#series-data-table label {
+    color: var(--black);
+}
+#series-data-table .dataTables_wrapper .dataTables_length select {
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: transparent;
+  color: inherit;
+  padding: 4px 20px 4px 8px;
+}
+#series-data-table select:not([size]) {
+  background-position: 2.25rem .65rem;
+}
 #product-table {
   border: 1px solid var(--gray);
 }
-
+#series-data-table a.paginate_button {
+  color: var(--black) !important;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.023);
+}
+#series-data-table .paginate_button.current {
+  color: var(--white) !important;
+  background-color: var(--black) !important;
+  border: 1px solid var(--black) !important;
+}
+#series-data-table .paginate_button:hover {
+  color: var(--white) !important;
+  background-color: var(--black) !important;
+}
+/* Remove background on pagination buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: unset;
+}
 /* Product Page */
 .icons img {
   max-width: 50px;
@@ -1138,7 +1169,7 @@ div#results-table_paginate {
 #milling-formulas-header {
   height: 550px;
   padding-bottom: 0;
-  padding-top: 230px;
+  padding-top: 250px;
   margin-bottom: 300px;
 }
 #milling-formulas-header div {

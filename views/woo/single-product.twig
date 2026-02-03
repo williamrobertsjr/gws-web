@@ -8,19 +8,6 @@
     <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }} pt-60 mx-auto text-white">
     {% set series = product.get_attribute('pa_series') %}
     <section class="w-full container mx-auto pb-20">
-       
-            {# <div>
-                <h1>{{ post.title }}</h1>
-                <h2>Post Meta</h2>
-                <ul>
-                    {% for key, value in post.meta %}
-                        <li>{{ key }}: {{ value }}</li>
-                    {% endfor %}
-                </ul>
-
-            </div> #}
-           
-            {# <div>helllloooo {{ dump('test') }}</div> #}
 
         <div class="flex">
             <div class="w-4/12 me-10">
@@ -33,7 +20,8 @@
             <div class="w-8/12">
                 <p class="mb-2">{{product.get_attribute('pa_tool-type')|capitalize}} > {{product.get_attribute('pa_sub-type')}} > {{product.get_attribute('pa_family')}} > <a href="/series-{{product.get_attribute('pa_series')}}">Series {{product.get_attribute('pa_series')}}</a></p>
                 <h1 class="entry-title text-5xl font-black text-pale-blue uppercase">{{ post.title }}</h1>
-                <p>{{post.meta('table_description')}}</p>
+                <p>{{post.meta('description')}}</p>
+                <p>{{post.post_excerpt}}</p>
                 <div class="flex items-start mt-1 gap-x-3">
                     <p class="text-2xl text-white price-cell" data-product-id="{{ product.id }}" style="padding-top:.25rem;">
                         {% set raw = product.get_price() %}
@@ -110,12 +98,14 @@
                         {% set applications = post.meta('app_icons')|split(', ') %}
                         <div class="icons flex flex-wrap py-4 px-2 gap-5">
                             {# Display each value in the list #}
-                            {% for value in applications if value %}
-                                {# <img class="w-3/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt=""> #}
-                                <div class="group relative w-3/12">
+                           {% for value in applications %}
+                                {% if value %}
+                                    {# <img class="w-3/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt=""> #}
+                                    <div class="group relative w-3/12">
                                         <img class="w-full mx-auto" src="/wp-content/themes/gws-web/images/icons/{{value}}_icon.png" alt="test">
                                         <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-sm text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
                                     </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>
@@ -126,12 +116,13 @@
                         <div class="icons flex flex-wrap gap-5 py-4 px-2">
                             {# Display each value in the list #}
                             {% if features is not empty %}
-                                {% for value in features if value%}
+                                {% for value in features %}
+                                    {% if value %}
                                     <div class="group relative w-3/12">
                                         <img class="w-full mx-auto" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
                                         <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-sm text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
                                     </div>
-                                    
+                                    {% endif %}
                                 {% endfor %}
                             {% endif %}
                         </div>

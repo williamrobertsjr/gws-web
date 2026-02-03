@@ -59,8 +59,10 @@
                     <div class="icons flex flex-wrap gap-5 pb-8">
                         {# Display each value in the list #}
                         {% if features is not empty %}
-                            {% for value in features if value%}
-                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                            {% for value in features %}
+                                {% if value %}
+                                    <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -72,8 +74,10 @@
                     <div class="icons flex flex-wrap gap-5">
                         {# Display each value in the list #}
                         {% if applications is not empty %}
-                            {% for value in applications if value %}
-                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                            {% for value in applications %}
+                                {% if value %}
+                                    <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>
