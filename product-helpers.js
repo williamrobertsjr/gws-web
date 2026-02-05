@@ -1,16 +1,66 @@
+const productTable = document.getElementById('product-table');
 
-let tableHeading = document.querySelectorAll('th');
-const productTable = document.getElementById('product-table')
-console.log(tableHeading)
 if(productTable) {
+    // Only get headings from the product table, not the entire page
+    const tableHeading = productTable.querySelectorAll('th');
+    
+    const series = productTable.dataset.series;
+    const tableCols = productTable.dataset.tableCols;
+    
     let table = new DataTable('#product-table', {
+        processing: true,
+        serverSide: true,
         pageLength: 25,
-    }); 
-} 
+        language: {
+            processing: '<div class="dt-loading"><div class="spinner"></div>Loading products...</div>'
+        },
+        ajax: {
+            url: '/wp-admin/admin-ajax.php',
+            type: 'GET',
+            data: function(d) {
+                d.action = 'get_series_products_dt';
+                d.series = series;
+                d.table_cols = tableCols;
+            }
+        },
+        columnDefs: [
+            {
+                targets: 0,
+                render: function(data, type, row) {
+                    return '<a class="table-link text-sm text-dark-blue font-bold" href="/product/' + data + '">' + data + '</a>';
+                }
+            }
+        ],
+        drawCallback: function() {
+            // Load stock for visible rows
+            document.querySelectorAll('.gws-live-stock').forEach(function(el) {
+                const sku = el.dataset.gwsSku;
+                if (!sku) return;
+                
+                fetch('/wp-json/gws/v1/stock/' + encodeURIComponent(sku))
+                    .then(r => r.json())
+                    .then(j => {
+                        el.textContent = j.found ? j.available : '—';
+                    })
+                    .catch(() => {
+                        el.textContent = '—';
+                    });
+            });
+        }
+    });
+    
+    // Add overlay effect during processing
+    table.on('processing.dt', function(e, settings, processing) {
+        if (processing) {
+            productTable.classList.add('table-loading');
+        } else {
+            productTable.classList.remove('table-loading');
+        }
+    });
 
-
-
-for ( heading of tableHeading ) {
+    // NOW process the headings - only for product table
+    for (let heading of tableHeading) {
+        // Your existing switch statement here...
     
      // Use the textContent or innerHTML of the heading for the switch
      switch (heading.textContent) { // or heading.innerHTML if you need HTML content
@@ -549,5 +599,4 @@ for ( att of attributes ) {
         default:
             console.log('Unknown att:', att.textContent);
     }
-
-}
+}}

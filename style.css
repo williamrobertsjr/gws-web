@@ -991,6 +991,40 @@ img.series-image {
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
   background: unset;
 }
+/* Table Loading Overlay */
+#product-table {
+    position: relative;
+}
+
+#product-table.table-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 10;
+}
+
+#product-table.table-loading tbody {
+    opacity: 0.3;
+}
+
+.dataTables_processing {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+
+
 /* Product Page */
 .icons img {
   max-width: 50px;

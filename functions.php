@@ -27,6 +27,9 @@ if ( file_exists($quote_email_path) ) {
     error_log('[WARNING] Missing file: gws-quote-email.php');
 }
 
+// Include AJAX product lookup logic for product tables
+require_once get_template_directory() . '/inc/products-ajax.php';
+
 // Include custom quote API logic
 // for getting part list prices from external API
 // and logging for admin users
@@ -575,7 +578,7 @@ function gws_clear_cart() {
 }
 
 function gws_enqueue_tier_scripts() {
-    // Only load for logged-in users
+    // Only load scripts for logged-in users - helps prevent bot overloading server by calling admin-ajax.php over and over
     if (!is_user_logged_in()) {
         return;
     }

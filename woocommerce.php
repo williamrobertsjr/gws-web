@@ -72,7 +72,10 @@ if (is_singular('product')) {
                 'terms' => $current_series,
             ]],
         ];
-        $context['related_products_table'] = wc_get_products($args);
+        // Related by series - just set up context, don't load products
+        $current_series = $product->get_attribute('pa_series');
+        $context['related_products_series'] = $current_series ?: '';
+        $context['related_products_table'] = []; // Empty - DataTables will load via AJAX
     } else {
         $context['related_products_table'] = [];
     }

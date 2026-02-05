@@ -28,16 +28,8 @@ if ($series_id) {
         $family_series_result = $stmt->get_result();
         $family_series = $family_series_result->fetch_all(MYSQLI_ASSOC);
 
-        // Fetch associated products
-        $product_stmt = $conn->prepare(
-            "SELECT p.*, r.QTY_ON_HAND
-             FROM `master_product_data` p
-             LEFT JOIN `rapid_quote` r on p.part = r.PN
-             WHERE p.series = ?");
-        $product_stmt->bind_param("s", $series_id);
-        $product_stmt->execute();
-        $product_result = $product_stmt->get_result();
-        $products = $product_result->fetch_all(MYSQLI_ASSOC);
+        // Don't load products here - DataTables will load via AJAX from WooCommerce
+        $products = [];
     } else {
         // $series_data = null;
         // $family_series = [];
