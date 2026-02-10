@@ -5,23 +5,23 @@
 
     {# {% do action('woocommerce_before_single_product') %} #}
     
-    <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }} pt-60 mx-auto text-white">
+    <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }} pt-96 md:pt-60 mx-auto text-white">
     {% set series = product.get_attribute('pa_series') %}
     <section class="w-full container mx-auto pb-20">
 
-        <div class="flex">
-            <div class="w-4/12 me-10">
+        <div class="flex flex-col md:flex-row">
+            <div class="w-full md:w-4/12 me-10 mb-10 md:mb-0">
                 <div class="aspect-square flex justify-center items-center p-4 bg-[#fff] rounded">
                     <img src="/wp-content/themes/gws-web/images/catalog_images/{{series}}_catalog.png" alt="" class="max-h-[300px] w-auto">
                 </div>
                 
             </div>
             {# Right Product Information #}
-            <div class="w-8/12">
+            <div class="w-full md:w-8/12">
                 <p class="mb-2">{{product.get_attribute('pa_tool-type')|capitalize}} > {{product.get_attribute('pa_sub-type')}} > {{product.get_attribute('pa_family')}} > <a href="/series-{{product.get_attribute('pa_series')}}">Series {{product.get_attribute('pa_series')}}</a></p>
                 <h1 class="entry-title text-5xl font-black text-pale-blue uppercase">{{ post.title }}</h1>
-                <p>{{post.meta('description')}}</p>
-                <p>{{post.post_excerpt}}</p>
+                {# <p>{{post.meta('description')}}</p> #}
+                <p class="my-4">{{post.post_excerpt}}</p>
                 <div class="flex items-start mt-1 gap-x-3">
                     <p class="text-2xl text-white price-cell" data-product-id="{{ product.id }}" style="padding-top:.25rem;">
                         {% set raw = product.get_price() %}
@@ -70,8 +70,8 @@
                         </button>
                     </form>
                 </div>    
-                <div class="flex mb-10">
-                    <div class="w-4/12 pe-4">
+                <div class="flex flex-wrap gap-y-8 md:gap-y-0 mb-10">
+                    <div class="w-full md:w-4/12 md:pe-4">
                         <h3>Attributes</h3>
                         <hr>
                         <div id="attributes-list" class=" mt-2 gap-y-1 flex flex-col">
@@ -91,7 +91,7 @@
                         </div>
 
                     </div>
-                    <div class="w-4/12 pe-4">
+                    <div class="w-full md:w-4/12 md:pe-4">
                         <h3>Applications</h3>
                         <hr>
                         {# Split the context variable into an array #}
@@ -109,7 +109,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="w-4/12 pe-4">
+                    <div class="w-full md:w-4/12 md:pe-4">
                         <h3>Features</h3>
                         <hr>
                         {% set features = post.meta('feat_icons')|split(', ') %}
@@ -197,7 +197,7 @@
 
 
     <section id="series-data-series" class="px-4 py-20">
-        <div class="container mx-auto">
+        <div class="md:container mx-auto">
             <h2 class="text-5xl md:text-6xl uppercase font-black text-light-blue mb-20">Series Data</h2>
             <div id="series-data-table">
                 {% include 'product-table.twig' %} 
