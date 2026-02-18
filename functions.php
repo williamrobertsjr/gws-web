@@ -127,6 +127,15 @@ function timber_set_product($post)
 
 remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail');
 
+// Customize SEO title for product category pages to show just Category name without 'Archives' 
+add_filter('wpseo_title', function($title) {
+    if (is_product_category()) {
+        $term = get_queried_object();
+        return $term->name . ' | ' . get_bloginfo('name');
+    }
+    return $title;
+});
+
 // Set Global Options conetext from ACF Pro options page
 add_filter('timber/context', function($context) {
     $context['options'] = get_fields('option');
