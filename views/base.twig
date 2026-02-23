@@ -23,10 +23,10 @@
 		{% endif %}
 		{{ function('wp_body_open') }}
 		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
-		<header class="header px-4 md:px-10 py-4 header-transparent">
+		<header class="header px-4 md:px-10 py-1 header-transparent">
 			{% block header %}
 				<div class="wrapper">
-					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center mb-3">
+					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center">
 					{% if userRole == 'administrator' or userRole == 'sales' %}
 						<div class="flex flex-col md:flex-row items-center gap-x-2">
 							<label for="tier-selector" class="text-white whitespace-nowrap">View pricing as:</label>
@@ -73,8 +73,8 @@
 							<div class="flex items-center">
 							
 								<div class="flex h-full">
-									<button class="btn dark-blue me-2"><a href="/cart">Rapid Quote</a></button>
-									<button class="btn light-blue me-2 hidden md:block"><a href="/custom-quote">Custom Quote</a></button>
+									<a href="/cart"><button class="btn dark-blue me-2">Rapid Quote</button></a>
+									<a href="/custom-quote"><button class="btn light-blue me-2 hidden md:block">Custom Quote</button></a>
 									<div class="ask-gws-btn-div relative">
 										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
 										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
@@ -104,7 +104,7 @@
 						</div>
 					</div>
 
-					<div class="bottom-header py-3 flex justify-center sm:justify-between">
+					<div class="bottom-header flex justify-center sm:justify-between">
 						<div class="flex flex-col md:flex-row gap-x-4 items-center">
 							{# <a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
 							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a> #}
@@ -151,8 +151,8 @@
 					</div>
 					<!-- Absolutely-positioned element (won't affect widths) -->
 					<div id="footerMenuTech" class="bg-black absolute p-4 flex gap-x-4 right-0 -top-[5.5rem] w-full hidden">
-					<a id="techSF" href="/speed-and-feeds" class="btn light-blue w-full text-center">Speed & Feeds</a>
-					<a id="techCalc" href="/milling-formulas" class="btn light-blue w-full text-center">Calculators</a>
+						<a id="techSF" href="/speed-and-feeds" class="btn light-blue w-full text-center">Speed & Feeds</a>
+						<a id="techCalc" href="/milling-formulas" class="btn light-blue w-full text-center">Calculators</a>
 					</div>
 
 					<!-- Column 3 -->
@@ -162,18 +162,23 @@
 						<button id="footerQuoteBtn" class="text-xs text-center mb-0 text-white">RFQ</button>
 					</div>
 					</div>
-					
 					<!-- Absolutely-positioned element (won't affect widths) -->
 					<div id="footerMenuQuote" class="bg-black absolute p-4 flex gap-x-4 right-0 -top-[5.5rem] w-full hidden">
-					<a id="quoteStandard" href="/cart" class="btn light-blue w-full text-center">Standard</a>
-					<a id="quoteCustom" href="/custom-quote" class="btn light-blue w-full text-center">Custom</a>
+						<a id="quoteStandard" href="/cart" class="btn light-blue w-full text-center">Standard</a>
+						<a id="quoteCustom" href="/custom-quote" class="btn light-blue w-full text-center">Custom</a>
 					</div>
+
 					<!-- Column 4 (hidden below 375px) -->
 					<div class="hidden min-[375px]:flex flex-1 basis-0 min-w-0 flex-col justify-center items-center">
-					<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
-						<i class="fa-solid fa-filter text-pale-blue"></i>
-						<a href="/products/milling" class="text-xs text-center">Tool Filter</a>
+						<div class="flex flex-col flex-1 w-full justify-center items-center gap-y-1 py-2 px-2 bg-[#333] rounded">
+							<i class="fa-solid fa-filter text-pale-blue"></i>
+							<button id="footerProductsBtn" class="text-xs text-center mb-0 text-white">Products</button>
+						</div>
 					</div>
+					<!-- Absolutely-positioned element (won't affect widths) -->
+					<div id="footerMenuFilter" class="bg-black absolute p-4 flex gap-x-4 right-0 -top-[5.5rem] w-full hidden">
+						<a id="seriesFilter" href="/all-series" class="btn light-blue w-full text-center">Series</a>
+						<a id="toolFilter" href="/products/milling" class="btn light-blue w-full text-center">Tools</a>
 					</div>
 
 					<!-- Column 5 -->
@@ -205,11 +210,17 @@
 			const footerMenuTech = document.getElementById('footerMenuTech');
 			const footerTechBtn = document.getElementById('footerTechBtn');
 
+			const footerMenuFilter = document.getElementById('footerMenuFilter');
+			const footerProductsBtn = document.getElementById('footerProductsBtn');
+
 			// Additional elements that should close the popover when clicked
 			const quoteStandard = document.getElementById('quoteStandard');
 			const quoteCustom = document.getElementById('quoteCustom');
 			const techSF = document.getElementById('techSF');
 			const techCalc = document.getElementById('techCalc');
+			const seriesFilter = document.getElementById('seriesFilter');
+			const toolFilter = document.getElementById('toolFilter');
+
 			// Toggle the menu when the "Quotes" button is clicked
 			footerQuoteBtn.addEventListener('click', () => {
 			footerMenuQuote.classList.toggle('hidden');
@@ -217,6 +228,9 @@
 			// Toggle the menu when the "Quotes" button is clicked
 			footerTechBtn.addEventListener('click', () => {
 			footerMenuTech.classList.toggle('hidden');
+			});
+			footerProductsBtn.addEventListener('click', () => {
+			footerMenuFilter.classList.toggle('hidden');
 			});
 
 			// Hide (or toggle) the menu when "Standard" or "Custom" is clicked
@@ -234,6 +248,13 @@
 			footerMenuTech.classList.toggle('hidden');
 			});
 
+			seriesFilter.addEventListener('click', () => {
+			footerMenuFilter.classList.toggle('hidden');
+			});
+			toolFilter.addEventListener('click', () => {
+			footerMenuFilter.classList.toggle('hidden');	
+			});	
+
 			document.addEventListener('click', (event) => {
 				// If the popover is currently NOT hidden...
 				if ((!footerMenuQuote.classList.contains('hidden') || !footerMenuTech.classList.contains('hidden'))) {
@@ -245,6 +266,10 @@
 					if (!footerMenuTech.contains(event.target) && event.target !== footerTechBtn) {
 						// then hide the popover
 						footerMenuTech.classList.add('hidden');
+					}
+					if (!footerMenuFilter.contains(event.target) && event.target !== footerProductsBtn) {
+						// then hide the popover
+						footerMenuFilter.classList.add('hidden');
 					}
 				}
 			});
