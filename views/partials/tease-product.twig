@@ -74,7 +74,7 @@
                         <h3 class="entry-title text-dark-blue text-xl font-black"><span class="text">EDP:</span> {{ post.title }}</h3>
                         <h3 class="text-black text-sm font-black uppercase">{% if series %} Series {{ series }}{% endif %}<span class="ms-1 capitalize text-light-blue font-semibold">{% if family %} {{ family }} {% endif %}</span></h3>
                     </div>
-                    <p class="text-black text-sm mt-0">{{product.get_description()}}</p>
+                    <p class="text-black text-sm mt-0">{{product.get_description()|title}}</p>
                     <p class="text-black text py-4">{{product.get_short_description()}}</p>
                     <div class="icons flex flex-wrap py-1 gap-1">
                         {# Display each material value in the list #}
