@@ -15,7 +15,7 @@
                 {% if series.family == 'Armory' %}
                     <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series|lower|replace({' ': '_'}) }}_tile.png" alt="">
                 {% else %}
-                    <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series }}_tile.png" alt="">
+                    <img class="tile-image" src="https://www.gwstoolgroup.com/wp-content/themes/gws-web/images/tile_images/{{ series.series }}_tile.png" alt="">
                 {% endif %}
                 
                 <div class="w-8/12 md:w-7/12 flex flex-col justify-between h-full">
@@ -56,12 +56,13 @@
                             's1': series.s1,
                             's2': series.s2,
                             'h1': series.h1,
-                            'h2': series.h2
+                            'h2': series.h2,
+                            'o': series.o
                         } %}
                         <div class="icons flex flex-wrap gap-2">
                             {% for key, item in materials %}
                                 {% if item %}
-                                    <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
+                                    <img class="w-4/12" src="https://www.gwstoolgroup.com/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
                                 {% endif %}
                             {% endfor %}
                         </div>
