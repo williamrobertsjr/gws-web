@@ -1,6 +1,18 @@
-<section id="htdr-hero" class="flex flex-col justify-center items-start relative md:min-h-[650px] lg:min-h-[750px] bg-black pb-20">
-        <div class="w-full px-8 max-w-[1900px] 2xl:container mx-auto">
-            <div id="htdr-hero-content" class="flex flex-col items-start mt-10 md:w-10/12 lg:w-8/12 xl:w-5/12">
+<section id="htdr-hero" class="flex flex-col justify-center items-start relative md:min-h-[650px] lg:min-h-[750px] bg-black pb-20 overflow-hidden">
+
+        {# Video background #}
+        <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop playsinline>
+            <source src="https://www.gwstoolgroup.com/media/airplane_takeoff.mp4" type="video/mp4">
+        </video>
+        <img src="https://www.gwstoolgroup.com/wp-content/uploads/2026/03/htdr-cf.png" 
+            alt="htdr-cf drill reamer" 
+            class="absolute end-[20%] -bottom-28 z-[2] h-full w-auto object-contain opacity-100">
+
+        {# Dark overlay so text stays readable #}
+        <div class="absolute inset-0 bg-[#0b1829]/70 z-[1]"></div>
+
+        <div class="w-full px-8 max-w-[1900px] 2xl:container mx-auto z-[2]">
+            <div id="htdr-hero-content" class="flex flex-col items-start mt-20 md:w-10/12 lg:w-8/12 xl:w-5/12">
                 <div>
                     <p class="text-medium bg-light-blue border-solid border-[1px] border-white px-4 py-1 text-sm inline-block mb-1">NEW</p>
                     <h2 class="text-4xl md:text-5xl text-pale-blue my-0">HTDR-CF</h2>
