@@ -452,6 +452,9 @@ div#input_35_16 label,
 div.gfield_description {
   color: var(--white) !important;
 }
+#gform_fields_47 .ginput_address_state {
+  width: 100%;
+}
 
 /*********************************/
 /********** 404 PAGE ************/
