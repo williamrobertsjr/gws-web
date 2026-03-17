@@ -7,11 +7,11 @@
 {% block content %}
 
 
-<section id="series-header" class="min-h-screen flex flex-col justify-center items-center bg-diagonal px-4">
+<section id="series-header" class="min-h-screen flex flex-col justify-center items-center bg-black px-4">
     <div class="container flex flex-col-reverse md:flex-row justify-between mx-auto">
         <div class="md:w-6/12">
             <div class="flex flex-col gap-y-2">
-                <h3>{{series_data.brand}}</h3>
+                {# <h3>{{series_data.brand}}</h3> #}
                 {% if series_data.family == 'Armory' %}
                     <h1 class="text-4xl md:text-6xl font-black uppercase text-pale-blue">{{series_data.series}}</h1> 
                 {% else %}
@@ -122,7 +122,9 @@
             {% endif %}
             </div>
         </div>
-
+        <div>
+        
+        </div>
     </div>
 </section>
 

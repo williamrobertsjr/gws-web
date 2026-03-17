@@ -1,8 +1,8 @@
 <div id="perfect-tool-cta" class="px-4 xl:px-20">
     <div class="heading text-center">
         <h2 class="text-5xl md:text-6xl font-black text-pale-blue">Find Your</h2>
-        <h2 class="text-6xl md:text-7xl font-black text-pale-blue"><span class="text-outline">Perfect</span> Tool</h2>
-        <p class="text-pale-blue my-10 text-xl md:text-2xl">///////////////////////////////////////</p>
+        <h2 class="text-6xl md:text-7xl font-black text-pale-blue"><span class="text-white">Perfect</span> Tool</h2>
+        <hr class="w-40 text-center mx-auto text-white mt-6">
     </div>
     <div class="flex flex-col md:flex-row gap-y-6 gap-x-4 mt-20">
         <div class="md:w-6/12">
