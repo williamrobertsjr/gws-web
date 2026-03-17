@@ -402,20 +402,25 @@ a.social-media:hover {
 .gfield_required.gfield_required_text {
   color: #ff6565 !important;
 }
-.gform_button.button {
+.gform_button.button,
+.gform-footer input[type="submit"] {
   display: flex;
   padding: 10px 15px;
   justify-content: center;
   align-items: center;
   gap: 10px;
   color: var(--white);
-  border-radius: 2px;
+  border-radius: 2px!important;
   font-size: 13px;
   font-weight: 600;
-  background-color: var(--light-blue);
+  background-color: var(--light-blue)!important;
 }
 .gform_button.button:hover {
   background-color: #6b97cc;
+  cursor: pointer;
+}
+.gform-footer input[type="submit"]:hover {
+  background-color: #6b97cc!important;
   cursor: pointer;
 }
 div#gform_confirmation_message_32,
