@@ -1,0 +1,21 @@
+{% extends "base.twig" %}
+{% block content %}
+
+<section class="py-48">
+    <div class="container mx-auto">
+        
+        <div class="flex flex-col lg:flex-row justify-between gap-y-10">
+            <div class="lg:w-6/12">
+                <img src="https://www.gwstoolgroup.com/wp-content/uploads/2026/03/htdrcf-test-tools.jpg" alt="" class="w-full h-auto">
+                <h1 class="text-5xl text-pale-blue uppercase font-black mt-10">Connect with Your Application Specialist</h1>
+                <p class="text-2xl mt-10">The HTDR-CF Drill-Reamer was built for one job — clean, precise holes in CFRP and composite stack materials with zero delamination. If you're working in aerospace structural assembly, our application specialists can verify fit for your specific application. Fill out this form and we'll connect you with your application specialist.</p>
+            </div>
+            <div class="lg:w-5/12">
+                <div class="border border-gray p-8">{{ function('gravity_form', 47, false, false, '', true) }}</div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}

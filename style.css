@@ -286,7 +286,10 @@ h2.products-menu-header:hover {
 span.mega-indicator {
   line-height: 0!important;
 }
-body:not(.home):not(.single-post):not(.single-industries) .header-transparent {
+/* body:not(.home):not(.single-post):not(.single-industries) .header-transparent {
+  border-bottom: 1px solid var(--gray);
+} */
+.header {
   border-bottom: 1px solid var(--gray);
 }
 h2.hero-tagline {
@@ -897,12 +900,12 @@ li {
 /**********************/
 #series-header,
 #product-header{
-  padding-top: 300px;
+  padding-top: 100px;
   padding-bottom: 120px;
 }
 .page-header {
-  padding-top: 250px;
-  height: 550px;
+  padding-top: 100px;
+  height: 400px;
 }
 .bg-diagonal {
   background-color: #262626;
@@ -1467,8 +1470,8 @@ span.igm_close {
 /****** WHO WE ARE  - ABOUT US ******/
 /***********************************/
 #who-we-are-header {
-  height: 700px;
-  padding-top: 220px;
+  height: 600px;
+  padding-top: 100px;
 }
 #who-we-are-header .hero-background {
   height: 600px;

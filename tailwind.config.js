@@ -15,6 +15,7 @@ module.exports = {
         'pale-blue': '#d1e3fa',
         'gray': '#a7a8a9',
         'dark-gray': '#333333',
+        'main-bg': '#323232',
       },
       backgroundColor: theme => ({
         ...theme('colors'),
