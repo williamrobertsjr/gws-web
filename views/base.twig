@@ -23,14 +23,14 @@
 		{% endif %}
 		{{ function('wp_body_open') }}
 		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
-		<header class="header px-4 md:px-10 py-1 header-transparet bg-black">
+		<header class="header px-4 md:px-10 py-1 header-transparet bg-black fixed top-0 left-0 right-0 z-[1000] transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
 			{% block header %}
 				<div class="wrapper">
 					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center">
 					{% if userRole == 'administrator' or userRole == 'sales' %}
 						<div class="flex flex-col md:flex-row items-center gap-x-2">
-							<label for="tier-selector" class="text-white whitespace-nowrap">View pricing as:</label>
-							<select id="tier-selector" class="border border-gray-300 px-2 py-1 rounded">
+							<label for="tier-selector" class="text-sm text-white whitespace-nowrap">View pricing as:</label>
+							<select id="tier-selector" class="text-sm border border-gray-300 px-2 py-1 rounded">
 								<option value="" disabled selected>Customer Tier</option>
 								<option value="default">None</option>
 								<option value="t1">T1</option>
@@ -55,7 +55,7 @@
 					
 						<p>|</p>
 						<div>
-							<p class="relative"><a href="/cart"><i class="fa-solid fa-basket-shopping text-2xl"></i><span id="cart-count" class="absolute -top-1 -right-2 bg-light-blue rounded-full py-1 px-2 flex justify-center items-center text-xs font-semibold">{{cart_count}}</span></a></p>
+							<p class="relative"><a href="/cart"><i class="fa-solid fa-basket-shopping text-xl"></i><span id="cart-count" class="absolute -top-1 -right-2 bg-light-blue rounded-full px-1 flex justify-center items-center text-xs font-semibold">{{cart_count}}</span></a></p>
 						</div>
 					</div>
 
@@ -203,6 +203,28 @@
 		{% endblock %}
 		
 		<script>
+			// Header Scroll Hide/Reveal Logic
+			// Scroll logic
+			const header = document.querySelector('.header');
+			const adminBar = document.getElementById('wpadminbar');
+			const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
+			const headerHeight = header.offsetHeight;
+			header.style.top = adminBarHeight + 'px';
+			document.getElementById('content').style.paddingTop = (headerHeight) + 'px';
+			const SCROLL_THRESHOLD = 50;
+			let lastScrollY = window.scrollY;
+			// Throttle scroll events using requestAnimationFrame for better performance
+			function onScroll() {
+			const currentScrollY = window.scrollY;
+			const delta = currentScrollY - lastScrollY;
+				if (Math.abs(delta) > SCROLL_THRESHOLD) {
+					header.classList.toggle('-translate-y-full', delta > 0);
+					lastScrollY = currentScrollY;
+				}
+			}
+			
+
+			window.addEventListener('scroll', onScroll, { passive: true });
 			// Quote Footer Pop Over
 			const footerMenuQuote = document.getElementById('footerMenuQuote');
 			const footerQuoteBtn = document.getElementById('footerQuoteBtn');
