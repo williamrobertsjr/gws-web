@@ -23,7 +23,7 @@
 		{% endif %}
 		{{ function('wp_body_open') }}
 		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
-		<header class="header px-4 md:px-10 py-1 header-transparet bg-black fixed top-0 left-0 right-0 z-[1000] transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
+		<header class="header px-4 md:px-10 py-1 header-transparet bg-black static md:fixed top-0 left-0 right-0 z-[1000] transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
 			{% block header %}
 				<div class="wrapper">
 					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center">
@@ -204,19 +204,33 @@
 		
 		<script>
 			// Header Scroll Hide/Reveal Logic
-			// Scroll logic
+			// Scroll logic adapted from https://www.joshwcomeau.com/snippets/javascript/throttle-scroll-events-with-requestanimationframe/
 			const header = document.querySelector('.header');
-			const adminBar = document.getElementById('wpadminbar');
-			const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
-			const headerHeight = header.offsetHeight;
-			header.style.top = adminBarHeight + 'px';
-			document.getElementById('content').style.paddingTop = (headerHeight) + 'px';
+
+			window.addEventListener('load', () => {
+				if (window.innerWidth < 768) return;
+
+				const adminBar = document.getElementById('wpadminbar');
+				const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
+				const headerHeight = header.offsetHeight;
+
+				header.style.top = adminBarHeight + 'px';
+				document.getElementById('content').style.paddingTop = headerHeight + 'px';
+			});
+			
 			const SCROLL_THRESHOLD = 50;
 			let lastScrollY = window.scrollY;
 			// Throttle scroll events using requestAnimationFrame for better performance
 			function onScroll() {
-			const currentScrollY = window.scrollY;
-			const delta = currentScrollY - lastScrollY;
+				// skip the hide/show behavior on mobile
+				if (window.innerWidth < 768) return;
+				const currentScrollY = window.scrollY;
+				const delta = currentScrollY - lastScrollY;
+				if (currentScrollY < header.offsetHeight) {
+					header.classList.remove('-translate-y-full');
+					lastScrollY = currentScrollY;
+					return;
+				}
 				if (Math.abs(delta) > SCROLL_THRESHOLD) {
 					header.classList.toggle('-translate-y-full', delta > 0);
 					lastScrollY = currentScrollY;
