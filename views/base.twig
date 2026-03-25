@@ -207,8 +207,12 @@
 			// Scroll logic adapted from https://www.joshwcomeau.com/snippets/javascript/throttle-scroll-events-with-requestanimationframe/
 			const header = document.querySelector('.header');
 
-			window.addEventListener('load', () => {
-				if (window.innerWidth < 768) return;
+			function updateLayout() {
+				if (window.innerWidth < 768) {
+					header.style.top = '';
+					document.getElementById('content').style.paddingTop = '';
+					return;
+				}
 
 				const adminBar = document.getElementById('wpadminbar');
 				const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
@@ -216,7 +220,10 @@
 
 				header.style.top = adminBarHeight + 'px';
 				document.getElementById('content').style.paddingTop = headerHeight + 'px';
-			});
+			}
+
+			window.addEventListener('load', updateLayout);
+			window.addEventListener('resize', updateLayout);
 			
 			const SCROLL_THRESHOLD = 50;
 			let lastScrollY = window.scrollY;
