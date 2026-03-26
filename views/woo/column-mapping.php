@@ -237,4 +237,8 @@ return [
         'woo_attribute' => 'pa_shank_dia_m_display',
         'label' => 'Shank (Metric)'
     ],
+    'thread_direction' => [
+        'woo_attribute' => 'pa_thread_direction',
+        'label' => 'Thread Direction'
+    ],
 ];
