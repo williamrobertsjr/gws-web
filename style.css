@@ -1867,6 +1867,9 @@ main.swp-rp-main {
 .filters .facetwp-facet {
   margin-bottom: 20px;
 }
+.facetwp-counter {
+  display: none;
+}
 .filters select.facetwp-dropdown {
   width: 100%;
   padding-left: 5px;
@@ -1887,7 +1890,6 @@ main.swp-rp-main {
 .facetwp-facet-cut_dia_in_display.facetwp-type-checkboxes > .facetwp-checkbox {
   position: relative; /* override any unexpected absolute */
 }
-
 a.facetwp-page {
     display: inline-block;
     color: var(--white);
@@ -1913,7 +1915,8 @@ a.facetwp-page:hover {
 .fs-wrap {
   color: var(--black);
 }
-.fs-wrap.multiple {
+.fs-wrap.multiple,
+.fs-wrap.single {
   width: 100%!important;
 }
 

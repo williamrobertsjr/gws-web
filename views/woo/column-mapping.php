@@ -163,7 +163,7 @@ return [
     ],
     'threading_types' => [
         'woo_attribute' => 'pa_threading_types',
-        'label' => 'Threading Type'
+        'label' => 'Product'
     ],
     'inserts_types' => [
         'woo_attribute' => 'pa_inserts_types',
@@ -211,7 +211,7 @@ return [
     ],
     'sub_sub_type' => [
         'woo_attribute' => 'pa_sub_sub_type',
-        'label' => 'Taps Sub Category'
+        'label' => 'Product Type'
     ],
     'pitch_classification' => [
         'woo_attribute' => 'pa_pitch_classification',
@@ -240,5 +240,9 @@ return [
     'thread_direction' => [
         'woo_attribute' => 'pa_thread_direction',
         'label' => 'Thread Direction'
+    ],
+    'threading_type' => [
+        // 'woo_attribute' => 'pa_thread_direction',
+        'label' => 'Product Type'
     ],
 ];
