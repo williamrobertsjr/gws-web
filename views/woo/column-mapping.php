@@ -186,8 +186,8 @@ return [
         'label' => 'Handle'
     ],
     'taps_chamfer_type' => [
-        'woo_attribute' => 'pa_taps-chamfer',
-        'label' => 'Chamfer Type'
+        'woo_attribute' => 'pa_taps_chamfer_type',
+        'label' => 'Chamfer'
     ],
     'application' => [
         'woo_attribute' => 'pa_application',
@@ -215,7 +215,7 @@ return [
     ],
     'pitch_classification' => [
         'woo_attribute' => 'pa_pitch_classification',
-        'label' => 'Pitch Classification'
+        'label' => 'Thread Classification'
     ],
     'taps_dia' => [
         'woo_attribute' => 'pa_taps_dia',
