@@ -15,11 +15,8 @@
     </div>
     <div id="bulk-add-feedback" class="text-white"></div>
     <div id="PDFQuote">
-      <div
-        id="pdf-header"
-        class="hidden print:flex items-center justify-between mb-6 border-b border-gray-300 pb-4"
-      >
-        <div class="flex items-center gap-x-4">
+      
+        {# <div class="flex items-center gap-x-4">
           <img
             src="https://www.gwstoolgroup.com/wp-content/uploads/2024/12/gws_email_logo.png"
             alt="GWS Tool Group"
@@ -36,7 +33,7 @@
           <p>gwstoolgroup.com</p>
           <p>(877) 497-8665</p>
         </div>
-      </div>
+      </div> #}
       <form
         action="{{ function('wc_get_cart_url') }}"
         method="post"
@@ -190,15 +187,27 @@
                       placeholder="Company Shipping Address"
                       value=""
                     ></textarea>
+                    <select 
+                      name="test-tools-shipping" 
+                      id="test-tools-shipping"
+                      class="w-full border px-2 py-2"
+                    >
+                      <option value="">Select Shipping Method</option>
+                      <option value="next_day">Next Day Air</option>
+                      <option value="2_day">2-Day Air</option>
+                      <option value="ground">Ground</option>
+                    </select>
                   </div>
                   <textarea
                     rows="3"
                     name="additional-comments"
                     id="additional-comments"
                     class="w-full border px-2 py-2"
-                    placeholder="Additional comments or instructions"
+                    placeholder="Add notes that will appear on the PDF quote..."
                   ></textarea>
                   <div>
+                  <p>orig: {{ cart_original_total|default('NULL') }}</p>
+                  <p>disc: {{ cart_discounted_total|default('NULL') }}</p>
                     <p class="text-black text-xl font-semibold mt-2">
                       Original Total:
                       <span class="line-through text-gray original-total">
@@ -258,21 +267,51 @@
     </div>
     </div>
   </div>
+  {# Modal for sales/admin to input customer email and message when sending quote #}
+  {% if userRole == 'administrator' or userRole == 'sales' %}
+    <div id="sales-email-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] px-4">
+      <div class="bg-white rounded-md w-full max-w-lg p-6 shadow-lg">
+        <h2 class="text-xl font-bold text-black mb-4">Email Quote to Customer</h2>
+        <div class="flex flex-col gap-y-3">
+          <input type="text" id="customer-name" class="w-full border px-3 py-2" placeholder="Customer name..." />
+          <input type="email" id="customer-email" class="w-full border px-3 py-2" placeholder="Customer email address..." />
+          <input type="text" id="customer-company" class="w-full border px-3 py-2" placeholder="Customer company..." />
+          <textarea rows="5" id="customer-message" class="w-full border px-3 py-2" placeholder="Write a personal message to the customer — this will be the body of the email they receive... (Optional)"></textarea>
+        <div class="flex gap-x-3 mt-6">
+          <button type="button" id="sales-modal-send" class="btn dark-blue flex-1">Send Quote</button>
+          <button type="button" id="sales-modal-cancel" class="btn black flex-1">Cancel</button>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 </section>
 <script>
   window.cartQuoteData = {
     role: '{{ userRoleDisplay|e('js') }}',
-    email: '{{ user.email|e('js') }}'
+    email: '{{ user.user_email|e('js') }}',
+    isSales: {{ (userRole == 'administrator' or userRole == 'sales') ? 'true' : 'false' }},
+    tierLabels: {
+      't1': '55%',
+      't2': '52.5%',
+      't3': '50%',
+      '57_5': '57.5%',
+      'MSC_PL': '57.5%',
+      'direct': '30%',
+      'exemptPlus': '55%',
+      'sales': 'Sales Team',
+      'administrator': 'Administrator'
+    }
   };
   window.currentUser = {
-    email: '{{ user.email|e('js') }}'
+    email: '{{ user.user_email|e('js') }}'
   };
 </script>
+
 <script src="/wp-content/themes/gws-web/js/cart-ajax.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{# <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script> #}
 <script src="/wp-content/themes/gws-web/views/woo/js/quote-form.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.css" />
+{# <script src="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.css" /> #}
 <script src="/wp-content/themes/gws-web/views/woo/js/quote-print.js"></script>
 
 {% endblock %}

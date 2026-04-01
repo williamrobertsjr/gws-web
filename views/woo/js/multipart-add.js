@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!bulkForm) return;
 
+  // Function to refresh cart table when items are added
   bulkForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -14,15 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
       .split("\n")
       .map((p) => p.trim())
       .filter(Boolean);
-
+    // Validate input
     if (partNumbers.length === 0) {
-      feedback.textContent = "Please enter at least one part number.";
+      showFeedback("Please enter at least one part number.");
       return;
     }
-
+    // Show loading state
     if (emptyCartMessage) emptyCartMessage.style.display = "none";
     if (loadingBar) loadingBar.classList.add("loading");
 
+    // Send AJAX request to add parts
     try {
       const res = await fetch("/wp-admin/admin-ajax.php", {
         method: "POST",
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await res.json();
 
+      // Handle response and update UI accordingly 
       if (data.success) {
         const result = data.data || data;
 
@@ -50,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
           messageHtml = result.message || "No valid parts found.";
         }
 
+        // Refresh cart table
         await refreshCartTable();
+        // Refresh cart count
         await refreshCartCount(); // new line here
 
         async function refreshCartCount() {
@@ -66,14 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Display feedback after table updates
-        feedback.innerHTML = messageHtml;
+        showFeedback(messageHtml);
         textarea.value = "";
       } else {
         feedback.innerHTML = data.message || "Something went wrong.";
       }
     } catch (err) {
       console.error(err);
-      feedback.textContent = "Error adding products. Try again.";
+      showFeedback("Error adding products. Try again.");
     } finally {
       if (loadingBar) loadingBar.classList.remove("loading");
     }
@@ -85,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearBtn.addEventListener("click", async () => {
       if (!confirm("Are you sure you want to clear all items from the quote?")) return;
 
-      feedback.textContent = "Clearing quote...";
+      showFeedback("Clearing quote...");
 
       try {
         const res = await fetch("/wp-admin/admin-ajax.php", {
@@ -97,14 +102,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
 
         if (data.success) {
-          feedback.textContent = "Quote cleared.";
+          showFeedback("Quote cleared.");
           await refreshCartTable();
+          await updatePricesByTier();
         } else {
-          feedback.textContent = "Could not clear quote.";
+          showFeedback("Could not clear quote.");
         }
       } catch (err) {
         console.error(err);
-        feedback.textContent = "Error clearing quote.";
+        showFeedback("Error clearing quote.");
       }
     });
   }
