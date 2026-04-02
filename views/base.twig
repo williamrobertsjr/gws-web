@@ -7,25 +7,28 @@
 {% endblock %}
 
 	<body class="{{body_class}}" data-template="base.twig">
-		{# Announcement Banner Logic #}
-		{% if top_banner and banner_start_date and banner_end_date %}
-			{% set current_date = "now"|date("Ymd") %}
-			{% set start_date = banner_start_date|date("Ymd") %}
-			{% set end_date = banner_end_date|date("Ymd") %}
-			
-			{% if current_date >= start_date and current_date <= end_date %}
-				<div id="announcement-banner" class="w-full mx-auto p-2 bg-light-blue">
-					<div class="w-10/12 mx-auto flex justify-center text-center">
-						<p class="text-white text-lg">{{ top_banner }}</p>
-					</div>
-				</div>
-			{% endif %}
-		{% endif %}
+		
 		{{ function('wp_body_open') }}
 		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
-		<header class="header px-4 md:px-10 py-1 header-transparet bg-black static md:fixed top-0 left-0 right-0 z-[1000] transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
+		<header class="header py-1 bg-black static md:fixed top-0 left-0 right-0 z-[1000] transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
+			{# Announcement Banner Logic #}
+			{% if top_banner and banner_start_date and banner_end_date %}
+				{% set current_date = "now"|date("Ymd") %}
+				{% set start_date = banner_start_date|date("Ymd") %}
+				{% set end_date = banner_end_date|date("Ymd") %}
+				
+				{% if current_date >= start_date and current_date <= end_date %}
+					<div id="announcement-banner" class="w-full mx-auto p-2 bg-light-blue">
+						<div class="w-10/12 mx-auto flex justify-center text-center">
+							<p class="text-white text-lg">{{ top_banner }}</p>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
+
+
 			{% block header %}
-				<div class="wrapper">
+				<div class="wrapper px-4 md:px-10">
 					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center">
 					{% if userRole == 'administrator' or userRole == 'sales' %}
 						<div class="flex flex-col md:flex-row items-center gap-x-2">
