@@ -1,5 +1,4 @@
 <?php
-// views/woo/discounts.php
 
 // Cache user tier per request
 function gws_get_user_tier() {
@@ -86,8 +85,6 @@ function gws_sidecart_discounted_price($price_html, $product) {
 // Override cart item price to show discounted price or "Call for Price"
 add_filter('woocommerce_cart_item_price', 'gws_override_cart_item_price_html', 10, 3);
 function gws_override_cart_item_price_html($price_html, $cart_item, $cart_item_key) {
-    if (! is_user_logged_in()) return $price_html;
-
     $product = $cart_item['data'];
     if (! $product instanceof WC_Product) return $price_html;
 
@@ -97,16 +94,15 @@ function gws_override_cart_item_price_html($price_html, $cart_item, $cart_item_k
         return '<span class="call-for-price">Call for Price</span>';
     }
 
+    if (! is_user_logged_in()) return $price_html;
+
     $discounted = gws_get_discounted_price_from_product($product);
     return wc_price($discounted);
 }
 
 
-// Override cart item subtotal to show discounted price or "Call for Price"
 add_filter('woocommerce_cart_item_subtotal', 'gws_override_cart_item_subtotal_html', 10, 3);
 function gws_override_cart_item_subtotal_html($subtotal_html, $cart_item, $cart_item_key) {
-    if (! is_user_logged_in()) return $subtotal_html;
-
     $product = $cart_item['data'];
     if (! $product instanceof WC_Product) return $subtotal_html;
 
@@ -115,6 +111,8 @@ function gws_override_cart_item_subtotal_html($subtotal_html, $cart_item, $cart_
     if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
         return '<span class="call-for-price">Call for Price</span>';
     }
+
+    if (! is_user_logged_in()) return $subtotal_html;
 
     $discounted = gws_get_discounted_price_from_product($product);
     $qty = (int) $cart_item['quantity'];
@@ -225,6 +223,9 @@ function gws_handle_ajax_tier_price_switch() {
         'original_total_html' => wc_price($original_total),
         'discounted_total_html' => wc_price($discounted_total),
     ];
+
+    // ADD THIS LINE for testing to log the items being returned in the AJAX response:
+    error_log('GWS AJAX tier switch items: ' . print_r($items, true));
 
     set_transient($cache_key, $response, 300);
     wp_send_json_success($response);
