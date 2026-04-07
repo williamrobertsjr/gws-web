@@ -67,7 +67,13 @@ function gws_sidecart_discounted_price($price_html, $product) {
     }
 
     $regular_price = (float) $product->get_meta('_regular_price', true);
-    $discounted    = gws_calculate_discounted_price( gws_get_user_tier(), $product );
+
+    // Call for Price
+    if ( $regular_price <= 0 ) {
+        return '<span class="call-for-price">Call for Price</span>';
+    }
+
+    $discounted = gws_calculate_discounted_price( gws_get_user_tier(), $product );
 
     if ( $discounted < $regular_price ) {
         return '<s class="text-gray-400 me-2">' . wc_price($regular_price) . '</s> ' . wc_price($discounted);
@@ -77,74 +83,69 @@ function gws_sidecart_discounted_price($price_html, $product) {
 }
 
 
-// Override cart item price to show discounted price
-// This is used in the cart and checkout pages to show the price for each item
-// It replaces the default WooCommerce price with the discounted price
-// This is necessary to ensure the cart reflects the discounted prices
+// Override cart item price to show discounted price or "Call for Price"
 add_filter('woocommerce_cart_item_price', 'gws_override_cart_item_price_html', 10, 3);
-
 function gws_override_cart_item_price_html($price_html, $cart_item, $cart_item_key) {
     if (! is_user_logged_in()) return $price_html;
 
     $product = $cart_item['data'];
     if (! $product instanceof WC_Product) return $price_html;
 
-    $regular_price = (float) $product->get_meta('_regular_price', true);
-    $discounted = gws_get_discounted_price_from_product($product);
+    $regular_price = $product->get_meta('_regular_price', true);
 
-    if ( $discounted < $regular_price ) {
-        return wc_price($discounted);
+    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
+        return '<span class="call-for-price">Call for Price</span>';
     }
 
+    $discounted = gws_get_discounted_price_from_product($product);
     return wc_price($discounted);
 }
 
 
-// Override cart item subtotal to show discounted price
-// This is used in the cart and checkout pages to show the subtotal for each item
-// It replaces the default WooCommerce subtotal with the discounted price
-// This is necessary to ensure the cart reflects the discounted prices
+// Override cart item subtotal to show discounted price or "Call for Price"
 add_filter('woocommerce_cart_item_subtotal', 'gws_override_cart_item_subtotal_html', 10, 3);
-
 function gws_override_cart_item_subtotal_html($subtotal_html, $cart_item, $cart_item_key) {
     if (! is_user_logged_in()) return $subtotal_html;
 
     $product = $cart_item['data'];
     if (! $product instanceof WC_Product) return $subtotal_html;
 
-    $regular_price = (float) $product->get_meta('_regular_price', true);
-    $discounted = gws_get_discounted_price_from_product($product);
-    $qty = (int) $cart_item['quantity'];
+    $regular_price = $product->get_meta('_regular_price', true);
 
-    if ( $discounted < $regular_price ) {
-        return wc_price($discounted * $qty);
+    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
+        return '<span class="call-for-price">Call for Price</span>';
     }
 
+    $discounted = gws_get_discounted_price_from_product($product);
+    $qty = (int) $cart_item['quantity'];
     return wc_price($discounted * $qty);
 }
 
 
 // Modify cart item prices before totals are calculated
-// This ensures the cart reflects the discounted prices
 add_action('woocommerce_before_calculate_totals', 'gws_modify_cart_item_prices', 10, 1);
 function gws_modify_cart_item_prices($cart) {
     if (is_admin() && !defined('DOING_AJAX')) return;
     if (!is_user_logged_in()) return;
 
     foreach ($cart->get_cart() as $cart_item) {
-        if (!isset($cart_item['data']) || !is_a($cart_item['data'], 'WC_Product')) continue;
-
         $product = $cart_item['data'];
-        $discounted = gws_get_discounted_price_from_product($product);
+        if (! $product instanceof WC_Product) continue;
 
+        $regular_price = $product->get_meta('_regular_price', true);
+
+        // Skip call-for-price products entirely
+        if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) continue;
+
+        $discounted = gws_get_discounted_price_from_product($product);
         if ($discounted !== null && $discounted < $product->get_regular_price()) {
             $product->set_price($discounted);
         }
     }
 }
 
+
 // Add a Twig function to get user role display
-// This is used in Twig templates to display the user role in percentage rathter than tier name
 add_filter('timber/twig', function ($twig) {
     $twig->addFunction(new \Twig\TwigFunction('get_user_role_display', 'get_user_role_display'));
     return $twig;
@@ -160,6 +161,8 @@ function get_user_role_display($role) {
     ];
     return $map[$role] ?? 'None';
 }
+
+
 // Handle AJAX tier switch to re-calculate prices in cart
 add_action('wp_ajax_get_discounted_prices_by_tier', 'gws_handle_ajax_tier_price_switch');
 add_action('wp_ajax_get_discounted_product_prices_by_tier', 'gws_handle_ajax_product_price_request');
@@ -197,15 +200,14 @@ function gws_handle_ajax_tier_price_switch() {
         $regular_price = (float) $product->get_meta('_regular_price', true);
 
         // Check if product has no price (Call for Price)
-        if ($regular_price === '' || $regular_price === null || $regular_price <= 0) {
+        if ($regular_price <= 0) {
             $items[$cart_item_key] = [
                 'discounted_price_html' => '<span class="call-for-price">Call for Price</span>',
                 'discounted_subtotal_html' => '<span class="call-for-price">Call for Price</span>',
             ];
-            continue; // Skip totals calculation for Call for Price items
+            continue;
         }
 
-        // Get discounted price for the selected tier
         $discounted_price = gws_calculate_discounted_price($tier, $product);
         $line_total = $discounted_price * $qty;
 
@@ -228,13 +230,13 @@ function gws_handle_ajax_tier_price_switch() {
     wp_send_json_success($response);
 }
 
+
 function gws_calculate_discounted_price($tier, WC_Product $product) {
     $regular_price = (float) $product->get_meta('_regular_price', true);
     
-    // Return 0 for "Call for Price" items (they won't affect quote totals)
-    if ($regular_price <= 0 || $regular_price === '') return 0;
+    // Return 0 for "Call for Price" items
+    if ($regular_price <= 0) return 0;
 
-    // Base discount rate by tier
     switch ($tier) {
         case 't1':         $rate = 0.55;  break;
         case 't2':         $rate = 0.525; break;
@@ -246,30 +248,25 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
         default:           $rate = 0.0;   break;
     }
 
-    // Optional meta flags or global conditions
     $is_advanced_perf = (bool) $product->get_meta('is_advanced_performance', true);
 
-    // These would ideally be defined in user meta, site options, or cookies
     $is_exempt          = isset($_COOKIE['specialCompanyExempt']) && in_array($_COOKIE['specialCompanyExempt'], ['true', true], true);
     $exempt_plus        = isset($_COOKIE['specialCompanyExemptPlus']) && in_array($_COOKIE['specialCompanyExemptPlus'], ['true', true], true);
     $user               = wp_get_current_user();
     $user_role          = $user->roles[0] ?? 'none';
     $is_privileged_role = in_array($user_role, ['administrator', 'sales'], true);
-    $is_special_tier     = $tier === 'MSC_PL';
+    $is_special_tier    = $tier === 'MSC_PL';
     $is_exempt_plus_tier = $tier === 'exemptPlus';
 
-    // Apply rollback logic
     if (($is_exempt || ($is_privileged_role && $is_special_tier)) && !$exempt_plus) {
-        // Roll back 7% increase
         $rate = 1 - ((1 - $rate) / 1.07);
     } elseif (($exempt_plus && $is_exempt) || ($is_privileged_role && $is_exempt_plus_tier)) {
-        // Apply 25% addition due to special exemption 
         $rate = (1 - ((1 - $rate)) * 1.25);
     }
 
-    $discounted = round($regular_price * (1 - $rate), 2);
-    return $discounted;
+    return round($regular_price * (1 - $rate), 2);
 }
+
 
 function gws_handle_ajax_product_price_request() {
     if (!is_user_logged_in()) {
@@ -298,11 +295,10 @@ function gws_handle_ajax_product_price_request() {
 
         $regular = (float) $product->get_meta('_regular_price', true);
         
-        // Check if product has no price
-        if ($regular === '' || $regular === null || $regular <= 0) {
+        if ($regular <= 0) {
             $results[$id] = [
                 'discounted_price_html' => '<span class="call-for-price">Call for Price</span>',
-                'regular_price_html' => '<span class="call-for-price">Call for Price</span>',
+                'regular_price_html'    => '<span class="call-for-price">Call for Price</span>',
             ];
             continue;
         }
@@ -311,7 +307,7 @@ function gws_handle_ajax_product_price_request() {
 
         $results[$id] = [
             'discounted_price_html' => wc_price($discounted),
-            'regular_price_html' => wc_price($regular),
+            'regular_price_html'    => wc_price($regular),
         ];
     }
 
@@ -319,7 +315,7 @@ function gws_handle_ajax_product_price_request() {
 }
 
 
-// Handle "Call for Price" products (no price set or $0)
+// Show "Call for Price" on product pages for $0 or unpriced products
 add_filter('woocommerce_get_price_html', 'gws_call_for_price_display', 20, 2);
 function gws_call_for_price_display($price, $product) {
     $regular_price = $product->get_meta('_regular_price', true);
@@ -341,32 +337,4 @@ function gws_allow_no_price_in_quote($purchasable, $product) {
     }
     
     return $purchasable;
-}
-
-// Show "Call for Price" in cart for products with no price or $0
-add_filter('woocommerce_cart_item_price', 'gws_cart_call_for_price', 5, 3);
-function gws_cart_call_for_price($price_html, $cart_item, $cart_item_key) {
-    $product = $cart_item['data'];
-    if (!$product instanceof WC_Product) return $price_html;
-    
-    $regular_price = $product->get_meta('_regular_price', true);
-    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
-        return '<span class="call-for-price">Call for Price</span>';
-    }
-    
-    return $price_html;
-}
-
-// Show "Call for Price" for cart subtotal
-add_filter('woocommerce_cart_item_subtotal', 'gws_cart_subtotal_call_for_price', 5, 3);
-function gws_cart_subtotal_call_for_price($subtotal_html, $cart_item, $cart_item_key) {
-    $product = $cart_item['data'];
-    if (!$product instanceof WC_Product) return $subtotal_html;
-    
-    $regular_price = $product->get_meta('_regular_price', true);
-    if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
-        return '<span class="call-for-price">Call for Price</span>';
-    }
-    
-    return $subtotal_html;
 }
