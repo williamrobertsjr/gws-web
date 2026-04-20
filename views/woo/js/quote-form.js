@@ -28,6 +28,7 @@
       testToolsContact: '#test-tools-contact',
       testToolsCompany: '#test-tools-company',
       testToolsAddress: '#test-tools-address',
+      testToolsShipping: '#test-tools-shipping',
       // modal
       salesModal: '#sales-email-modal',
       salesModalSend: '#sales-modal-send',
@@ -176,6 +177,13 @@
     const email = overrides.email || getValue(SELECTORS.email) || '';
     const company = overrides.company || getValue(SELECTORS.userCompany) || '';
     const customerMessage = overrides.message || '';
+    const shippingLabels = {
+      'next_day': 'Next Day Air',
+      '2_day': '2-Day Air',
+      'ground': 'Ground'
+    };
+    const shippingRaw = testToolsOn ? getValue(SELECTORS.testToolsShipping) : '';
+    const shippingMethod = shippingLabels[shippingRaw] || shippingRaw;
 
     // Collect items
     const items = [];
@@ -205,6 +213,7 @@
         testToolsContact: testToolsOn ? getValue(SELECTORS.testToolsContact) : '',
         testToolsCompany: testToolsOn ? getValue(SELECTORS.testToolsCompany) : '',
         testToolsAddress: testToolsOn ? getValue(SELECTORS.testToolsAddress) : '',
+        testToolsShipping: shippingMethod,
         items: items,
         totals: {
             original: originalTotal,
