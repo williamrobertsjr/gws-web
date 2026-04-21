@@ -112,6 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   bindCartQtyListeners();
+  window.bindCartQtyListeners = bindCartQtyListeners;
+  window.updatePricesByTier = updatePricesByTier;
 });
 
 function bindCartQtyListeners() {
@@ -124,6 +126,20 @@ function bindCartQtyListeners() {
       const quantity = input.value;
       // console.log('Firing fetch with:', { cartKey, quantity });
 
+      // If quantity is 0 or less, remove the item instead
+      if (quantity <= 0) {
+        if (confirm('Remove this item from your cart?')) {
+          // Trigger click on the remove button
+          const removeBtn = input.closest('tr').querySelector('.remove-item');
+          if (removeBtn) {
+            removeBtn.click();
+          }
+          } else {
+            // User canceled, reset to 1
+            input.value = 1;
+          }
+        return; // Don't proceed with update
+      }
       fetch('/wp-admin/admin-ajax.php', {
         method: 'POST',
         credentials: 'same-origin',
@@ -190,5 +206,5 @@ function bindCartQtyListeners() {
       handler();
     });
   });
+  
 }
-window.bindCartQtyListeners = bindCartQtyListeners;

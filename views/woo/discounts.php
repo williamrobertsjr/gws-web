@@ -150,11 +150,14 @@ add_filter('timber/twig', function ($twig) {
 });
 function get_user_role_display($role) {
     $map = [
-        't1' => '55%',
-        't2' => '52.5%',
-        't3' => '50%',
-        '57_5' => '57.5%',
-        'sales' => 'Sales Team',
+        't1'          => '55%',
+        't2'          => '52.5%',
+        't3'          => '50%',
+        '57_5'        => '57.5%',
+        'MSC_PL'      => '57.5%',
+        'direct'      => '30%',
+        'exemptPlus'  => '55%',
+        'sales'       => 'Sales Team',
         'administrator' => 'Administrator',
     ];
     return $map[$role] ?? 'None';
