@@ -32,6 +32,7 @@ add_action('init', function () {
             customer_name VARCHAR(255),
             customer_company VARCHAR(255),
             shipping_address TEXT,
+            shipping_method VARCHAR(50),
             comments TEXT,
             test_tools TINYINT(1),
             role_label VARCHAR(100),
@@ -386,7 +387,6 @@ function gws_handle_print_quote(WP_REST_Request $req) {
 // Handler: Send quote via email (SendGrid)
 // ---------------------------------------------------------------
 function gws_handle_send_quote(WP_REST_Request $req) {
-    error_log('gws_handle_send_quote called');
     $user = wp_get_current_user();
 
     // Basic info
@@ -428,6 +428,7 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             'customer_name'    => $test_tools ? sanitize_text_field($test_tools_info['contact']) : $name,
             'customer_company' => $test_tools ? sanitize_text_field($test_tools_info['company']) : $company,
             'shipping_address' => $shipping_address,
+            'shipping_method' => $test_tools ? $shipping_method : '',
             'comments'         => strip_tags($comments),
             'test_tools'       => $test_tools ? 1 : 0,
             'role_label'       => $role_label,
@@ -464,43 +465,41 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         $subject = "New Test Tools Request from {$name} - {$quote_id}";
         $body = '<html>
         <head>
-          <style>
+        <style>
             body { margin: 20px; font-family: Helvetica, Arial, sans-serif; }
-            h3   { margin-bottom: 10px; }
             p    { margin: 2px 0; font-size: 13px; }
             hr   { border: none; border-top: 1px solid #ddd; margin: 15px 0; }
-          </style>
+        </style>
         </head>
         <body>
-          <p>Please review this test tools request. If approved, please forward to sales@gwstoolgroup.com for processing.</p>
-          <br>
-          <p><strong>Quote ID:</strong> '      . esc_html($quote_id)   . '</p>
-          <p><strong>Requested by:</strong> '  . esc_html($name)       . ' | ' . esc_html($to_email) . '</p>
-          <p><strong>Date Issued:</strong> '   . esc_html($date_issued) . '</p>
-          <h3 style="margin:30px 0 10px; text-decoration:underline; font-weight:bold; font-size:14px;">Test Tools Information</h3>
-          <p><strong>Contact:</strong> '       . esc_html($test_tools_info['contact']) . '</p>
-          <p><strong>Company:</strong> '       . esc_html($test_tools_info['company']) . '</p>
-          <p><strong>Shipping Address:</strong><br>' . $testToolsAddress . '</p>
-          <p><strong>Shipping Method:</strong> ' . esc_html($shipping_method) . '</p>'
-          . ($comments ? '<p><strong>Comments:</strong><br>' . $comments . '</p>' : '') . '
-          <hr>
-          ' . $table_html . '
-          <hr>
-          <p style="font-size:12px; color:#999;">GWS Tool Group | (877) 497-8665 | sales@gwstoolgroup.com | gwstoolgroup.com</p>
+        <p style="font-size:15px; margin-bottom:15px;">
+            <strong>' . esc_html($sales_name) . '</strong> has submitted a test tools request (<strong>' . esc_html($quote_id) . '</strong>).
+            To <strong>approve</strong>, forward this email to <a href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>. To <strong>deny</strong>, reply to this email with your reason.
+        </p>
+        <p style="font-weight:bold; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px; margin:15px 0 10px;">Ship To</p>
+        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Contact:</span> ' . esc_html($test_tools_info['contact']) . '</p>
+        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Company:</span> ' . esc_html($test_tools_info['company']) . '</p>
+        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Address:</span> ' . $testToolsAddress . '</p>
+        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Shipping:</span> ' . esc_html($shipping_method) . '</p>'
+        . ($comments ? '<p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Comments:</span> ' . $comments . '</p>' : '') . '
+        <hr>
+        ' . $table_html . '
+        <hr>
+        <p style="font-size:12px; color:#999;">GWS Tool Group | (877) 497-8665 | sales@gwstoolgroup.com | gwstoolgroup.com</p>
         </body>
         </html>';
 
         // For test tools requests, we want emails routed first to sales VPs for approval then to sales@ once approved.
-        $east_region_emails = ['amie.greene@gwstoolgroup.com','scott.cross@gwstoolgroup.com','travis.coomer@gwstoolgroup.com','brian.mroz@gwstoolgroup.com','alex.meerovich@gwstoolgroup.com','cody.vancamp@gwstoolgroup.com','justin.phelps@gwstoolgroup.com','mike.littlejohn@gwstoolgroup.com','robert.redden@gwstoolgroup.com','lawrence.stenger@gwstoolgroup.com','billy@billyroberts.co'];
-        $west_region_emails = ['taylor.smale@gwstoolgroup.com','kent.carlsen@gwstoolgroup.com','brian.villa@gwstoolgroup.com','philip.fossee@gwstoolgroup.com','cesar.vazquez_c@gwstoolgroup.com','modesto.morales_c@gwstoolgroup.com','jarrett.stair@gwstoolgroup.com','jacob.furnace@gwstoolgroup.com','ricardo.corral@gwstoolgroup.com','phil.saltness@gwstoolgroup.com','jim.fite@gwstoolgroup.com','thad.riesenbeck@gwstoolgroup.com', 'williamroberts@gmail.com'];
+        $east_region_emails = ['amie.greene@gwstoolgroup.com','scott.cross@gwstoolgroup.com','travis.coomer@gwstoolgroup.com','brian.mroz@gwstoolgroup.com','alex.meerovich@gwstoolgroup.com','cody.vancamp@gwstoolgroup.com','justin.phelps@gwstoolgroup.com','mike.littlejohn@gwstoolgroup.com','robert.redden@gwstoolgroup.com','lawrence.stenger@gwstoolgroup.com'];
+        $west_region_emails = ['taylor.smale@gwstoolgroup.com','kent.carlsen@gwstoolgroup.com','brian.villa@gwstoolgroup.com','philip.fossee@gwstoolgroup.com','cesar.vazquez_c@gwstoolgroup.com','modesto.morales_c@gwstoolgroup.com','jarrett.stair@gwstoolgroup.com','jacob.furnace@gwstoolgroup.com','ricardo.corral@gwstoolgroup.com','phil.saltness@gwstoolgroup.com','jim.fite@gwstoolgroup.com','thad.riesenbeck@gwstoolgroup.com'];
 
         // Determine recipient based on sales person's region
         if (in_array(strtolower($sales_email), $east_region_emails)) {
-            // $to_vp = [['email' => 'justin.verburg@gwstoolgroup.com', 'name' => 'Justin Verburg']];
-            $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']]; // testing
+            $to_vp = [['email' => 'justin.verburg@gwstoolgroup.com', 'name' => 'Justin Verburg']];
+            // $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']]; // testing
         } elseif (in_array(strtolower($sales_email), $west_region_emails)) {
-            // $to_vp = [['email' => 'greg.gundrum@gwstoolgroup.com', 'name' => 'Greg Gundrum']];
-            $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']]; // testing
+            $to_vp = [['email' => 'greg.gundrum@gwstoolgroup.com', 'name' => 'Greg Gundrum']];
+            // $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']]; // testing
         } else {
             $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']];
         }
@@ -536,29 +535,27 @@ function gws_handle_send_quote(WP_REST_Request $req) {
     } else {
         // === REGULAR QUOTE (PDF attached) ===
 
-        $pdf_output = gws_generate_quote_pdf($quote_id, $name, $to_email, $comments, false, $table_html, $role_label, $test_tools_info, $company, $sales_name, $sales_email);
+        $pdf_output = gws_generate_quote_pdf($quote_id, $name, $to_email, $comments, false, $table_html, $role_label, $test_tools_info, $company, $customer_message ? $sales_name : '', $sales_email);
         $pdf_base64 = base64_encode($pdf_output);
         $subject    = "GWS Tool Group Quote: {$quote_id}";
 
         // --- Customer email body ---
         if ($customer_message) {
             $customer_body = '<div style="font-family:Helvetica,Arial,sans-serif;">'
-                . "<p style='font-size:14px; margin:5px 0px 10px;'>{$customer_message}</p>";
+                . "<p style='font-size:14px; margin:5px 0px 10px;'>" . nl2br($customer_message) . "</p>"
+                . "<hr>" 
+                . "<p style='font-size:14px; margin:5px 0px 2px;'>Your quote ({$quote_id}) is attached. If you have further questions or would like to put in a purchase order for this quote, please contact our sales team at sales@gwstoolgroup.com.</p>"
+                . "<p style='font-size:14px; margin:5px 0px 20px;'>Thank you,<br>GWS Tool Group</p>"
+                . "<img src='https://www.gwstoolgroup.com/wp-content/uploads/2025/03/GWS-Signature-2.0.png' alt='GWS Tool Group' style='margin-bottom:20px;'>"
+                . '</div>';
         } else {
             $customer_body = '<div style="font-family:Helvetica,Arial,sans-serif;">'
                 . "<p style='font-size:14px; margin:5px 0px 2px;'>Hello {$name},</p>"
-                . "<p style='font-size:14px; margin:5px 0px 2px;'>Your quote is attached. If you have further questions or would like to put in a purchase order for this quote, please contact our sales team at sales@gwstoolgroup.com.</p>";
+                . "<p style='font-size:14px; margin:5px 0px 2px;'>Your quote ({$quote_id}) is attached. If you have further questions or would like to put in a purchase order for this quote, please contact our sales team at sales@gwstoolgroup.com.</p>"
+                . "<p style='font-size:14px; margin:5px 0px 20px;'>Thank you,<br>GWS Tool Group</p>"
+                . "<img src='https://www.gwstoolgroup.com/wp-content/uploads/2025/03/GWS-Signature-2.0.png' alt='GWS Tool Group' style='margin-bottom:20px;'>"
+                . '</div>';
         }
-        $customer_body .= "<p style='font-weight:bold; margin-bottom:0px; text-decoration:underline;'>Quote Details:</p>"
-            . "<p style='font-size:13px; margin:0px;'><strong>Quote ID:</strong> {$quote_id}</p>"
-            . "<p style='font-size:13px; margin:0px;'><strong>Name:</strong> {$name}</p>"
-            . "<p style='font-size:13px; margin:0px;'><strong>Email:</strong> {$to_email}</p>"
-            . "<div style='margin: 5px 0 20px;'>"
-            . ($comments ? "<p style='margin:10px 0px; font-size:13px;'><strong>Comments:</strong><br>{$comments}</p>" : '')
-            . "</div>"
-            . "<p style='font-size:14px; margin:5px 0px 20px;'>Thank you,<br>GWS Tool Group</p>"
-            . "<img src='https://www.gwstoolgroup.com/wp-content/uploads/2025/03/GWS-Signature-2.0.png' alt='GWS Tool Group' style='margin-bottom:20px;'>"
-            . '</div>';
 
         // --- Sales notification body ---
         $sales_body = '<div style="font-family:Helvetica,Arial,sans-serif;">'
@@ -572,15 +569,18 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             . "<p style='font-size:13px; margin:0px;'><strong>Discount:</strong> {$role_label}</p>"
             . "<p style='font-size:13px; margin:0px;'><strong>Total:</strong> " . ($totals['discounted'] ?? '') . "</p>"
             . ($comments ? "<p style='margin:10px 0px; font-size:13px;'><strong>Comments:</strong><br>{$comments}</p>" : '')
-            . ($sales_name ? "<p style='font-size:13px; margin:10px 0px 0px;'><strong>Quoted By:</strong> {$sales_name}</p>" : '')
+            . ($sales_name && $sales_email ? "<p style='font-size:13px; margin:10px 0px 0px;'><strong>Quoted By:</strong> {$sales_name}</p>" : '')
             . '</div>';
 
         // --- Customer payload ---
+        $billy = 'billy.roberts@gwstoolgroup.com';
         $customer_personalization = [
             'to'      => [['email' => $to_email, 'name' => $name]],
             'subject' => $subject,
         ];
-
+        if (strtolower($to_email) !== strtolower($billy)) {
+            $customer_personalization['bcc'] = [['email' => $billy]];
+        }
         $payload = [
             'personalizations' => [$customer_personalization],
             'from'             => ['email' => 'no-reply@gwstoolgroup.com', 'name' => 'GWS Tool Group'],
@@ -595,10 +595,9 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         ];
 
         // --- Sales notification payload ---
-        $sales_cc_email = $customer_message && $sales_email ? $sales_email : 'williamroberts@gmail.com';
-        $sales_cc_name  = $customer_message && $sales_name  ? $sales_name  : 'Billy Roberts';
+        $sales_cc_email = $customer_message && $sales_email ? $sales_email : 'sales@gwstoolgroup.com';
+        $sales_cc_name  = $customer_message && $sales_name  ? $sales_name  : 'GWS Sales Team';
 
-        $billy            = 'billy.roberts@gwstoolgroup.com';
         $already_included = [strtolower($sales_cc_email)];
 
         $sales_personalization = [
