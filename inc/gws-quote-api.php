@@ -474,7 +474,7 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         <body>
         <p style="font-size:15px; margin-bottom:15px;">
             <strong>' . esc_html($sales_name) . '</strong> has submitted a test tools request (<strong>' . esc_html($quote_id) . '</strong>).
-            To <strong>approve</strong>, forward this email to <a href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>. To <strong>deny</strong>, reply to this email with your reason.
+            To <strong>approve</strong>, forward this email to <a href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>.<br>To <strong>deny</strong>, reply to this email with your reason — your reply will go directly to the sales rep.
         </p>
         <p style="font-weight:bold; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px; margin:15px 0 10px;">Ship To</p>
         <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Contact:</span> ' . esc_html($test_tools_info['contact']) . '</p>
@@ -490,8 +490,8 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         </html>';
 
         // For test tools requests, we want emails routed first to sales VPs for approval then to sales@ once approved.
-        $east_region_emails = ['amie.greene@gwstoolgroup.com','scott.cross@gwstoolgroup.com','travis.coomer@gwstoolgroup.com','brian.mroz@gwstoolgroup.com','alex.meerovich@gwstoolgroup.com','cody.vancamp@gwstoolgroup.com','justin.phelps@gwstoolgroup.com','mike.littlejohn@gwstoolgroup.com','robert.redden@gwstoolgroup.com','lawrence.stenger@gwstoolgroup.com'];
-        $west_region_emails = ['taylor.smale@gwstoolgroup.com','kent.carlsen@gwstoolgroup.com','brian.villa@gwstoolgroup.com','philip.fossee@gwstoolgroup.com','cesar.vazquez_c@gwstoolgroup.com','modesto.morales_c@gwstoolgroup.com','jarrett.stair@gwstoolgroup.com','jacob.furnace@gwstoolgroup.com','ricardo.corral@gwstoolgroup.com','phil.saltness@gwstoolgroup.com','jim.fite@gwstoolgroup.com','thad.riesenbeck@gwstoolgroup.com'];
+        $east_region_emails = ['amie.greene@gwstoolgroup.com','scott.cross@gwstoolgroup.com', 'travis@gwstoolgroup.com', 'brian.mroz@gwstoolgroup.com','alex.meerovich@gwstoolgroup.com','cody.vancamp@gwstoolgroup.com','justin.phelps@gwstoolgroup.com','mike.littlejohn@gwstoolgroup.com','robert.redden@gwstoolgroup.com','lawrence.stenger@gwstoolgroup.com'];
+        $west_region_emails = ['taylor.smale@gwstoolgroup.com','kent@gwstoolgroup.com','brian.villa@gwstoolgroup.com','philip.fossee@gwstoolgroup.com','cesar.vazquez@gwstoolgroup.com','modesto.morales_c@gwstoolgroup.com','jarrett.stair@gwstoolgroup.com','jacob.furnace@gwstoolgroup.com','ricardo.corral@gwstoolgroup.com','phil.saltness@gwstoolgroup.com','jim.fite@gwstoolgroup.com','thad.riesenbeck@gwstoolgroup.com'];
 
         // Determine recipient based on sales person's region
         if (in_array(strtolower($sales_email), $east_region_emails)) {
@@ -530,6 +530,26 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             'from'             => ['email' => 'no-reply@gwstoolgroup.com', 'name' => 'GWS Tool Group'],
             'reply_to'         => ['email' => $sales_email ?: 'sales@gwstoolgroup.com', 'name' => $sales_name],
             'content'          => [['type' => 'text/html', 'value' => $body]],
+        ];
+
+        // --- Sales person confirmation email ---
+        $confirmation_body = '<div style="font-family:Helvetica,Arial,sans-serif;">'
+            . "<p style='font-size:14px; margin:5px 0px 10px;'>Your test tools request (<strong>{$quote_id}</strong>) has been submitted for VP approval.</p>"
+            . "<p style='font-size:13px; margin:0px;'><strong>Contact:</strong> " . esc_html($test_tools_info['contact']) . "</p>"
+            . "<p style='font-size:13px; margin:0px;'><strong>Company:</strong> " . esc_html($test_tools_info['company']) . "</p>"
+            . "<p style='font-size:13px; margin:0px;'><strong>Shipping:</strong> " . esc_html($shipping_method) . "</p>"
+            . "<p style='font-size:14px; margin:15px 0px 5px;'>You will be notified once it has been reviewed.</p>"
+            . "<img src='https://www.gwstoolgroup.com/wp-content/uploads/2025/03/GWS-Signature-2.0.png' alt='GWS Tool Group' style='margin-top:20px;'>"
+            . '</div>';
+
+        $confirmation_payload = [
+            'personalizations' => [[
+                'to'      => [['email' => $sales_email, 'name' => $sales_name]],
+                'subject' => "Test Tools Request Submitted: {$quote_id}",
+            ]],
+            'from'     => ['email' => 'no-reply@gwstoolgroup.com', 'name' => 'GWS Tool Group'],
+            'reply_to' => ['email' => 'sales@gwstoolgroup.com'],
+            'content'  => [['type' => 'text/html', 'value' => $confirmation_body]],
         ];
 
     } else {
@@ -664,6 +684,22 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         $sales_code = wp_remote_retrieve_response_code($res_sales);
         if ($sales_code >= 300) {
             error_log('SendGrid sales notification error (' . $sales_code . '): ' . wp_remote_retrieve_body($res_sales));
+        }
+    }
+
+    // Send sales confirmation (test tools only)
+    if ($test_tools && $sales_email) {
+        $res_confirmation = wp_remote_post('https://api.sendgrid.com/v3/mail/send', [
+            'timeout' => 15,
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sendgrid_key,
+                'Content-Type'  => 'application/json',
+            ],
+            'body' => wp_json_encode($confirmation_payload),
+        ]);
+        $confirmation_code = wp_remote_retrieve_response_code($res_confirmation);
+        if ($confirmation_code >= 300) {
+            error_log('SendGrid confirmation error (' . $confirmation_code . '): ' . wp_remote_retrieve_body($res_confirmation));
         }
     }
 

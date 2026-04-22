@@ -19,18 +19,10 @@ require_once __DIR__ . '/src/StarterSite.php';
 // Include custom pricing logic
 require_once get_template_directory() . '/lib/part-pricing.php';
 
-// Include custom quote PDF + email logic
-$quote_email_path = get_template_directory() . '/inc/gws-quote-email.php';
-if ( file_exists($quote_email_path) ) {
-    require_once $quote_email_path;
-} else {
-    error_log('[WARNING] Missing file: gws-quote-email.php');
-}
-
 // Include AJAX product lookup logic for product tables
 require_once get_template_directory() . '/inc/products-ajax.php';
 
-// Include custom quote API logic
+// Include Rapid Quote API logic
 // for getting part list prices from external API
 // and logging for admin users
 // used for Rapid Quote form and bulk add-to-cart
