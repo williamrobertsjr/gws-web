@@ -543,7 +543,7 @@ function gws_handle_send_quote(WP_REST_Request $req) {
 
         // --- Sales person confirmation email ---
         $confirmation_body = '<div style="font-family:Helvetica,Arial,sans-serif;">'
-            . "<p style='font-size:14px; margin:5px 0px 10px;'>Your test tools request (<strong>{$quote_id}</strong>) has been " . ($is_vp_request ? 'submitted to the sales team for processing' : 'submitted for VP approval.')"</p>"
+            . "<p style='font-size:14px; margin:5px 0px 10px;'>Your test tools request (<strong>{$quote_id}</strong>) has been " . ($is_vp_request ? 'submitted to the sales team for processing.' : 'submitted for VP approval.') . "</p>"
             . "<p style='font-size:13px; margin:0px;'><strong>Contact:</strong> " . esc_html($test_tools_info['contact']) . "</p>"
             . "<p style='font-size:13px; margin:0px;'><strong>Company:</strong> " . esc_html($test_tools_info['company']) . "</p>"
             . "<p style='font-size:13px; margin:0px;'><strong>Shipping:</strong> " . esc_html($shipping_method) . "</p>"
