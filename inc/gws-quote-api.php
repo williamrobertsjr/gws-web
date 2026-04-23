@@ -462,7 +462,12 @@ function gws_handle_send_quote(WP_REST_Request $req) {
     // ---------------------------------------------------------------
     if ($test_tools) {
         // === TEST TOOLS REQUEST (no PDF, goes to sales team) ===
+        
         $subject = "New Test Tools Request from {$name} - {$quote_id}";
+        // Determine if sales rep is a VP for routing purposes
+        $east_vp = 'justin.verburg@gwstoolgroup.com';
+        $west_vp = 'greg.gundrum@gwstoolgroup.com';
+        $is_vp_request = (strtolower($sales_email) === strtolower($east_vp) || strtolower($sales_email) === strtolower($west_vp));
         $body = '<html>
         <head>
         <style>
@@ -471,16 +476,16 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             hr   { border: none; border-top: 1px solid #ddd; margin: 15px 0; }
         </style>
         </head>
-        <body>
-        <p style="font-size:15px; margin-bottom:15px;">
-            <strong>' . esc_html($sales_name) . '</strong> has submitted a test tools request (<strong>' . esc_html($quote_id) . '</strong>).
-            To <strong>approve</strong>, forward this email to <a href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>.<br>To <strong>deny</strong>, reply to this email with your reason — your reply will go directly to the sales rep.
-        </p>
-        <p style="font-weight:bold; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px; margin:15px 0 10px;">Ship To</p>
-        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Contact:</span> ' . esc_html($test_tools_info['contact']) . '</p>
-        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Company:</span> ' . esc_html($test_tools_info['company']) . '</p>
-        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Address:</span> ' . $testToolsAddress . '</p>
-        <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Shipping:</span> ' . esc_html($shipping_method) . '</p>'
+        <body>'
+        . ($is_vp_request
+            ? '<p style="font-size:15px; margin-bottom:15px;"><strong>' . esc_html($sales_name) . '</strong> has submitted a test tools request (<strong>' . esc_html($quote_id) . '</strong>). Please process this request.</p>'
+            : '<p style="font-size:15px; margin-bottom:15px;"><strong>' . esc_html($sales_name) . '</strong> has submitted a test tools request (<strong>' . esc_html($quote_id) . '</strong>). To <strong>approve</strong>, forward this email to <a href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>. To <strong>deny</strong>, reply to this email with your reason.</p>'
+            )
+        . ' <p style="font-weight:bold; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px; margin:15px 0 10px;">Ship To</p>
+            <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Contact:</span> ' . esc_html($test_tools_info['contact']) . '</p>
+            <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Company:</span> ' . esc_html($test_tools_info['company']) . '</p>
+            <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Address:</span> ' . $testToolsAddress . '</p>
+            <p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Shipping:</span> ' . esc_html($shipping_method) . '</p>'
         . ($comments ? '<p style="font-size:13px; margin:2px 0;"><span style="color:#666;">Comments:</span> ' . $comments . '</p>' : '') . '
         <hr>
         ' . $table_html . '
@@ -500,7 +505,11 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         } elseif (in_array(strtolower($sales_email), $west_region_emails)) {
             $to_vp = [['email' => 'greg.gundrum@gwstoolgroup.com', 'name' => 'Greg Gundrum']];
             // $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']]; // testing
+        } elseif (strtolower($sales_email) === strtolower($east_vp) || strtolower($sales_email) === strtolower($west_vp)) {
+            // If the sales rep is actually a VP, send to generic sales email for approval to avoid sending to themselves
+            $to_vp = [['email' => 'sales@gwstoolgroup.com', 'name' => 'GWS Tool Group']];
         } else {
+            // If sales rep's email isn't recognized, default to sending to Billy for manual routing
             $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']];
         }
 
@@ -514,16 +523,16 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             $test_tools_personalization['cc'] = [['email' => $sales_email, 'name' => $sales_name]];
         }
 
-        // BCC Billy on all test tools requests unless he's already receiving as VP or sales
-        $billy               = 'billy.roberts@gwstoolgroup.com';
-        $already_included_tt = [
-            strtolower('sales@gwstoolgroup.com'),
-            strtolower($sales_email),
-            strtolower($to_vp[0]['email'])  // add this
-        ];
-        if (!in_array(strtolower($billy), $already_included_tt)) {
-            $test_tools_personalization['bcc'] = [['email' => $billy]];
-        }
+        // // BCC Billy on all test tools requests unless he's already receiving as VP or sales
+        // $billy               = 'billy.roberts@gwstoolgroup.com';
+        // $already_included_tt = [
+        //     strtolower('sales@gwstoolgroup.com'),
+        //     strtolower($sales_email),
+        //     strtolower($to_vp[0]['email'])  // add this
+        // ];
+        // if (!in_array(strtolower($billy), $already_included_tt)) {
+        //     $test_tools_personalization['bcc'] = [['email' => $billy]];
+        // }
         // For test tools requests, we send a single email to the VP with details in the body and no PDF attachment
         $payload = [
             'personalizations' => [$test_tools_personalization],
@@ -534,7 +543,7 @@ function gws_handle_send_quote(WP_REST_Request $req) {
 
         // --- Sales person confirmation email ---
         $confirmation_body = '<div style="font-family:Helvetica,Arial,sans-serif;">'
-            . "<p style='font-size:14px; margin:5px 0px 10px;'>Your test tools request (<strong>{$quote_id}</strong>) has been submitted for VP approval.</p>"
+            . "<p style='font-size:14px; margin:5px 0px 10px;'>Your test tools request (<strong>{$quote_id}</strong>) has been " . ($is_vp_request ? 'submitted to the sales team for processing' : 'submitted for VP approval.')"</p>"
             . "<p style='font-size:13px; margin:0px;'><strong>Contact:</strong> " . esc_html($test_tools_info['contact']) . "</p>"
             . "<p style='font-size:13px; margin:0px;'><strong>Company:</strong> " . esc_html($test_tools_info['company']) . "</p>"
             . "<p style='font-size:13px; margin:0px;'><strong>Shipping:</strong> " . esc_html($shipping_method) . "</p>"
@@ -593,14 +602,14 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             . '</div>';
 
         // --- Customer payload ---
-        $billy = 'billy.roberts@gwstoolgroup.com';
+        // $billy = 'billy.roberts@gwstoolgroup.com';
         $customer_personalization = [
             'to'      => [['email' => $to_email, 'name' => $name]],
             'subject' => $subject,
         ];
-        if (strtolower($to_email) !== strtolower($billy)) {
-            $customer_personalization['bcc'] = [['email' => $billy]];
-        }
+        // if (strtolower($to_email) !== strtolower($billy)) {
+        //     $customer_personalization['bcc'] = [['email' => $billy]];
+        // }
         $payload = [
             'personalizations' => [$customer_personalization],
             'from'             => ['email' => 'no-reply@gwstoolgroup.com', 'name' => 'GWS Tool Group'],
@@ -625,9 +634,9 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             'subject' => "Quote Sent: {$quote_id} — {$name}" . ($company ? " ({$company})" : ''),
         ];
 
-        if (!in_array(strtolower($billy), $already_included)) {
-            $sales_personalization['bcc'] = [['email' => $billy]];
-        }
+        // if (!in_array(strtolower($billy), $already_included)) {
+        //     $sales_personalization['bcc'] = [['email' => $billy]];
+        // }
 
         $sales_payload = [
             'personalizations' => [$sales_personalization],
