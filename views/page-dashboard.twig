@@ -1,18 +1,22 @@
 {% extends "base.twig" %}
 {% block content %}
 
-<section id="user-dashboard" class="bg-black pb-36">
+<section id="user-dashboard" class="bg-black py-20">
     <div class="container mx-auto px-4">
-        <div id="profile-news" class="flex flex-col lg:flex-row gap-y-8 lg:gap-y-0 justify-between lg:items-stretch">
+        
+        <div id="profile-news" class="flex flex-col lg:flex-row gap-y-8 lg:gap-y-0 justify-between">
             <div id="user-profile" class="flex flex-col w-full lg:w-3/12">
-                <div class="flex flex-col flex-grow p-8 h-full">
-                    <p class="text-sm uppercase text-pale-blue font-bold">Profile</p>
-                    <img class="company-img pt-8 pb-5" src="/wp-content/uploads/2024/01/GWS-Logo-White-Small-Small.png" alt="">
-                    <p class="text-xl text-white">Hello,</p>
-                    <p class="text-2xl font-semibold">{{user.display_name}}</p>
-                    <div id="company-info" class="py-5">
+                <div class="flex flex-col flex-grow p-4 h-full">
+                    <p class="text-sm font-medium text-pale-blue uppercase tracking-widest">Profile</p>
+                    <div class="w-14 h-14 rounded-full flex items-center justify-center text-lg font-medium bg-[#1a3a5c] text-pale-blue my-4">
+                        {% set initials = user.first_name|first|upper ~ user.last_name|first|upper %}
+                        {{ initials }}
+                    </div>
+                    <p class="text-sm text-gray">Hello,</p>
+                    <p class="text-xl font-semibold">{{user.display_name}}</p>
+                    <div id="company-info" class="pt-5 flex flex-col flex-grow h-full">
             
-            
+                        {% set company = user.meta('company') %}
                         {% if userRole == 't1' %}
                         {% set userRole = '55%' %}
                         {% elseif userRole == 't2' %}
@@ -21,7 +25,6 @@
                         {% set userRole = '50%' %}
                         {% elseif userRole == '57_5' %}
                         {% set userRole = '57.5%' %}
-            
                         {% elseif userRole == 'sales' %}
                         {% set userRole = 'Sales Team' %}
                         {% elseif userRole == 'administrator' %}
@@ -29,62 +32,85 @@
                         {% else %}
                         {% set userRole = 'None' %}
                         {% endif %}
-            
-                        {# <p><span class="text-pale-blue font-bold">Company:</span> {{user.meta('user_company')}}</p> #}
-                        {% if userRole == '55%' or userRole == '52.5%' or userRole == '50%' or userRole == '57.5%' %}
-                            <p><span class="text-pale-blue font-semibold">Distributor Discount: </span>{{userRole}}</p>
-                        {% else %}
-                            <p><span class="text-pale-blue font-semibold">Account Type: </span>{{userRole}}</p>
+
+                        {% set priceListUrl = null %}
+                        {% if userRole == '55%' %}
+                            {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_55_JUNE_26.xlsx' %}
+                        {% elseif userRole == '52.5%' %}
+                            {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_52_5_JUNE_26.xlsx' %}
+                        {% elseif userRole == '50%' %}
+                            {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_50_JUNE_26.xlsx' %}
+                        {% elseif userRole == '57.5%' %}
+                            {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_57_5_JUNE_26.xlsx' %}
                         {% endif %}
+
             
-            
-                        {# <p>{{ new_tier }}</p> #}
+                        {% if userRole == '55%' or userRole == '52.5%' or userRole == '50%' or userRole == '57.5%' %}
+                            <div class="flex flex-col gap-y-3">
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Company</span><span class="float-right font-medium">{{company}}</span></p>
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Account type</span><span class="float-right font-medium">Distributor</span></p>
+                            </div>
+                            <hr class="text-gray my-4">
+                            <div class="flex flex-col flex-grow gap-y-3">
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Your discount</span><span class="float-right font-medium">{{userRole}} off list</span></p>
+                                <div class="flex flex-col flex-grow">
+                                    <p class="w-full text-sm"><span class="text-gray font-medium">Price list effective</span><span class="float-right font-medium">06/01/2026</span></p>
+                                    <div class="mt-auto"><button class="border border-gray rounded p-2 mt-3 w-full hover:bg-[#a7a8a940] hover:border-[#a7a8a940]"><a href="{{priceListUrl}}" class="text-white text-sm">Download your price list<i class="fa-solid fa-download ms-4"></i></a></button></div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="flex flex-col gap-y-3">
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Company</span><span class="float-right font-medium">{{company}}</span></p>
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Account type</span><span class="float-right font-medium">Sales Team</span></p>
+                            </div>
+                            <hr class="text-gray my-4">
+                            <div class="flex flex-col flex-grow">
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Price list effective</span><span class="float-right font-medium">06/01/2026</span></p>
+                                <div class="mt-auto">
+                                    <button class="border border-gray rounded p-2 mt-3 w-full hover:bg-[#a7a8a940] hover:border-[#a7a8a940] mt-auto"><a href="#quick-links" class="text-white text-sm">View price lists<i class="fa-solid fa-download ms-4"></i></a></button>
+                                </div>
+                            </div>
+                        {% endif %}
+
                     </div>
-                    <!-- User update section commented out -->
                 </div>
             </div>
-            <div id="dashboard-news" class="flex flex-col w-full lg:w-8/12">
-                <div class="flex flex-col p-8 h-full">
-                    <div class="flex justify-between">
-                        <p class="text-sm uppercase text-pale-blue font-bold">News</p>
-                        <div>
-                            {% if userRole == '55%' %}
-                                <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_55_JAN_01_2026.xlsx">Price List 06/20/24</a></button>
-                            {% elseif userRole == '52.5%' %}
-                                <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_52_5_JAN_01_2026.xlsx">Price List 06/20/24</a></button>
-                            {% elseif userRole == '50%' %}
-                                <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_50_JAN_01_2026.xlsx">Price List 06/20/24</a></button>
-                            {% elseif userRole == '57.5%' %}
-                                <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_57_5_JAN_01_2026.xlsx">Price List 08/05/24</a></button>
-                            {% else %}
-                                {# <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
-                            {% endif %}
-                            {# <button><a href="#"></a></button> #}
+            <div id="dashboard-news" class="flex flex-col w-full lg:w-8/12 min-w-0">
+                <div class="flex flex-col flex-grow p-4 h-full">
+                    <p class="text-sm font-medium text-pale-blue uppercase tracking-widest">News</p>
+                    <div class="dashboard-swiper swiper mt-4 overflow-hidden w-full h-full">
+                        <div class="swiper-wrapper">
+                            {% for post in dashboard_posts %}
+                                <div class="me-4 min-h-[250px] card swiper-slide relative group" style="background-image:url('{{post.thumbnail()}}'); background-color:rgba(0,0,0,.75); background-blend-mode: overlay; background-position: center; background-size: cover;">
+                                    <a href="{{post.link}}" class="absolute h-full w-full"></a>
+                                    <div class="card-conten p-5 h-full w-full flex flex-col justify-between">
+                                    
+                                        
+                                        <div>
+                                            <p class="text-xs uppercase font-semibold border border-white rounded-full inline-flex px-2 py-.5">{{ post.category() }}</p> 
+                                        </div>
+                                        <div>
+                                            <h3 class="text-xl font-semibold text-pale-blue mb-4">{{ post.title }}</h3>
+                                            <button><a href="{{post.link}}">Read More<i class="fa-solid fa-arrow-right-long mx-3 group-hover:translate-x-2"></i></a></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
                         </div>
                     </div>
-            
-                    <div class="flex flex-col gap-y-6 md:flex-row justify-between mt-8 gap-x-4">
-                        {% for item in post.meta('dashboard_news') %}
-                            {% if loop.index == 1 %}
-                                {% if userRole == '55%' %}
-                                    <a href="/docs/pricing/GWS_PRICE_LIST_55_JAN_01_2026.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                                {% elseif userRole == '52.5%' %}
-                                    <a href="/docs/pricing/GWS_PRICE_LIST_52_5_JAN_01_2026.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                                {% elseif userRole == '50%' %}
-                                    <a href="/docs/pricing/GWS_PRICE_LIST_50_JAN_01_2026.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                                {% elseif userRole == '57.5%' %}
-                                    <a href="/docs/pricing/GWS_PRICE_LIST_57_5_JAN_01_2026.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                                {% else %}
-                                    <a href="/docs/pricing/GWS_PRICE_LIST_JAN_01_2026.xlsx"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                                {% endif %}
-                            {% else %}
-                                <a href="{{item.news_link}}"><img class="dashboard-news-img" src="{{item.news_image.url}}" alt=""></a>
-                            {% endif %}
-                        {% endfor %}
+                    <div class="flex justify-between items-center my-4">
+                        <div class="swiper-controls flex gap-x-6">
+                                <i class="text-4xl font-bold text-pale-blue fa-solid fa-arrow-left-long prevEl"></i>
+                                <i class="text-4xl font-bold text-pale-blue fa-solid fa-arrow-right-long nextEl"></i>
+                        </div>
+                        <button><a class="btn dark-blue" href="/gws-blog">View More News</a></button>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <div class="flex flex-col lg:flex-row gap-y-6 justify-between mt-8 gap-x-4">
             <div id="rapid-quote-dash" class="w-full lg:w-6/12 box-shadow h-52 flex flex-col justify-end ps-8 pb-8">
                 <h3 class="text-4xl font-black uppercase">Rapid Quote</h3>
@@ -92,9 +118,6 @@
             </div>
             <div id="tool-filter-dash" class="w-full lg:w-6/12 box-shadow h-52 flex flex-col justify-end ps-8 pb-8">
                 <h3 class="text-4xl font-black uppercase">Tool Filter</h3>
-                {# <div>
-                <button class="btn dark-blue"><a href="/tool-filter">Search Parts</a></button>
-                </div>   #}
                 <div id="tool-filter-start" class="fit-content">
                         <div class="inline-flex items-center gap-3">
                             <select id="tool-filter-select" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -104,8 +127,7 @@
                                 <option value="/products/specialty">Specialty</option>
                                 <option value="/products/threading">Threading</option>
                                 <option value="/products/inserts">Inserts</option>
-                            </select>
-        
+                            </select>  
                             <!-- Loading spinner -->
                             <div id="tool-filter-spinner" class="hidden">
                                 <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -116,8 +138,6 @@
                         </div>
                     </div>
                 </div>
-            {# <img class="w-6/12 box-shadow" src="/wp-content/uploads/2024/01/RQ-dashboard.png" alt="">
-            <img class="w-6/12 box-shadow" src="/wp-content/uploads/2024/01/RQ-Tool.png" alt=""> #}
         </div>
         {# <div class="mt-8">
             <p class="text-sm uppercase text-pale-blue font-bold">Featured Series</p>
@@ -125,67 +145,166 @@
                 {% include 'series-tiles.twig' with {'series_list': series_list} %}
             </div>
         </div> #}
-        <div class="mt-10 flex flex-col gap-y-6 lg:flex-row justify-between">
-            <div class="flex flex-col w-full">
-                <div id="quick-links" class="flex flex-col flex-grow p-8">
-                    <p class="text-sm uppercase text-pale-blue font-bold">Quick Links</p>
-                    {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
-                        <div class="flex flex-col lg:flex-row gap-x-4 mt-8">
-                            <div class="gap-y-1 flex flex-col mb-4">
-                                <p class="font-bold text-pale-blue underline text-lg">Distributor Price Lists - 01/01/26</p>
-                                <a class="ps-2 text-white mb-0" href="/docs/pricing/GWS_PRICE_LIST_55_JAN_01_2026.xlsx">Price List - Tier 1 - 55%</a>
-                                <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_JAN_01_2026.xlsx">Price List - Tier 2 - 52.5%</a>
-                                <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_50_JAN_01_2026.xlsx">Price List - Tier 3 - 50%</a>
-                                <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_JAN_01_2026.xlsx">Price List - MSC Industial - 57.5%</a>
-                                <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_DIRECT_AUG_01_2025.xlsx">Price List - Direct - 30%</a>
-                                <a class="ps-2 text-white" href="/docs/pricing/GWS_PRICE_LIST_JAN_01_2026.xlsx">GWS List Price</a>
-                            </div>
-                            <div class="gap-y-1 flex flex-col mb-4">
-                                <p class="font-bold text-pale-blue underline text-lg">Employee Resources</p>
-                                <a class="text-white" href="https://sandvik.sharepoint.com/teams/gwssalessupport/" target="_blank">Sales Support Hub</a>
-                                <a class="text-white" href="https://crm.gws.tools/SlxClient/Login.aspx">Infor CRM</a>
-                                {# <a class="text-white" href="https://gwstoolgroup.retool.com/apps/0c5528be-7b42-11ee-aec5-f3623936498f/*GWS%20Sales%20Dashboard*">GWS Sales Dashboard</a> #}
-                                <a class="text-white" href="https://access.paylocity.com/">Paylocity</a>
-                                {# <a class="text-white" href="https://gwstoolgroup.atlassian.net/servicedesk/customer/portal/3">Submit an IT Ticket</a> #}
-                                <a class="text-white" href="https://gwstoolgroup.itemorder.com/shop/home/">Swag Store</a>
-                                <a class="text-white" href="https://expense.certify.com/Login.aspx">Certify</a>
-                                <a class="text-white" href="/website-suggestions/">Website Suggestions</a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="flex flex-col gap-y-2 mt-8">
-                            {% if userRole == '55%' %}
-                                <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_55_JAN_01_2026.xlsx">Price List</a>
-                            {% elseif userRole == '52.5%' %}
-                                <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_52_5_JAN_01_2026.xlsx">Price List</a>
-                            {% elseif userRole == '50%' %}
-                                <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_50_JAN_01_2026.xlsx">Price List</a>
-                            {% elseif userRole == '57.5%' %}
-                                <a class="text-white" href="/docs/pricing/GWS_PRICE_LIST_57_5_JAN_01_2026.xlsx">Price List</a>
-                            {% else %}
-                                {# <button class="btn light-blue"><a href="/docs/pricing/GWS_PRICE_LIST_50_2024.xlsx">New Price List - May 2024 Test</a></button>  #}
-                            {% endif %}
-                            <a class="text-white" href="/wp-content/uploads/2022/11/gws-code-of-conduct-business-partner-en-11-2022.pdf">Code of Conduct</a>
-                            <a class="text-white" href="mailto:sales@gwstoolgroup.com">Email Sales Team</a>
-                            <a class="text-white" href="tel:18774978665">Call GWS</a>
-                            <a class="text-white" href="/ask-customer-service">Ask Customer Service</a>
-                            <a class="text-white" href="/ask-an-engineer">Ask An Engineer</a>
-                        </div>
-                    {% endif %}
-        
-        
+
+
+    <div class="mt-10">
+        <div id="quick-links" class="bg-[#2a2a2a] rounded-xl p-6">
+            <p class="text-sm font-medium text-pale-blue uppercase tracking-widest mb-5">Quick Links</p>
+
+            {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
+
+            <div class="grid grid-cols-2 gap-6">
+
+                {# Price Lists #}
+                <div>
+                <p class="text-xs font-medium text-pale-blue uppercase tracking-wider mb-3">Price Lists — 01/01/2026</p>
+                <div class="flex flex-wrap gap-2">
+                    <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_55_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">55% off</span>
+                    <span class="text-xs text-gray-500">Tier 1</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_52_5_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">52.5% off</span>
+                    <span class="text-xs text-gray-500">Tier 2</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_50_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">50% off</span>
+                    <span class="text-xs text-gray-500">Tier 3</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_57_5_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">57.5% off</span>
+                    <span class="text-xs text-gray-500">MSC Industrial</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_DIRECT_AUG_01_2025.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">30% off</span>
+                    <span class="text-xs text-gray-500">Direct</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-white">List price</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
                 </div>
+                </div>
+
+                {# Employee Resources #}
+                <div class="pl-6 border-l border-[#444]">
+                <p class="text-xs font-medium text-pale-blue uppercase tracking-wider mb-3">Employee Resources</p>
+                <div class="flex flex-wrap gap-2">
+                    <a href="https://sandvik.sharepoint.com/teams/gwssalessupport/" target="_blank" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm text-gray-200">Sales Support Hub</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="https://crm.gws.tools/SlxClient/Login.aspx" target="_blank" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm text-gray-200">Infor CRM</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="https://access.paylocity.com/" target="_blank" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm text-gray-200">Paylocity</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="https://gwstoolgroup.itemorder.com/shop/home/" target="_blank" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm text-gray-200">Swag Store</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="https://expense.certify.com/Login.aspx" target="_blank" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm text-gray-200">Certify</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/website-suggestions/" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm text-gray-200">Website Suggestions</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+                </div>
+
             </div>
-            {# <div class="flex flex-col w-full lg:w-7/12">
-                <div id="dashboard-sales-map" class="flex flex-col flex-grow p-8 gap-y-8">
-                    <p class="text-sm uppercase text-pale-blue font-bold">Sales Rep Map</p>
-                    <div id="sales-map-dash">
-                        {{ map_content|raw }}
-                    </div>
-                </div>
-            </div> #}
+
+            {% else %}
+
+            {# Customer view — single relevant price list + support links #}
+            <div class="flex flex-wrap gap-2">
+                {% if userRole == '55%' %}
+                <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_55_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">55% off</span>
+                    <span class="text-xs text-gray-500">Your price list</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                {% elseif userRole == '52.5%' %}
+                <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_52_5_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">52.5% off</span>
+                    <span class="text-xs text-gray-500">Your price list</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                {% elseif userRole == '50%' %}
+                <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_50_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">50% off</span>
+                    <span class="text-xs text-gray-500">Your price list</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                {% elseif userRole == '57.5%' %}
+                <a href="/docs/pricing/2026/june/GWS_PRICE_LIST_57_5_JUNE_26.xlsx" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">57.5% off</span>
+                    <span class="text-xs text-gray-500">Your price list</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                {% endif %}
+
+                <a href="/wp-content/uploads/2022/11/gws-code-of-conduct-business-partner-en-11-2022.pdf" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                <span class="text-sm text-gray-200">Code of Conduct</span>
+                <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M2 12L12 2M12 2H6M12 2v6" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="mailto:sales@gwstoolgroup.com" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                <span class="text-sm text-gray-200">Email Sales Team</span>
+                </a>
+                <a href="tel:18774978665" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                <span class="text-sm text-gray-200">Call GWS</span>
+                </a>
+                <a href="/ask-customer-service" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                <span class="text-sm text-gray-200">Ask Customer Service</span>
+                </a>
+                <a href="/ask-an-engineer" class="inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                <span class="text-sm text-gray-200">Ask An Engineer</span>
+                </a>
+            </div>
+
+            {% endif %}
         </div>
+    </div>
+
+
     </div>
 </section>
 <script src="/wp-content/themes/gws-web/views/woo/js/filter-start.js" defer></script>
+<script>
+    const swiper = new Swiper('.dashboard-swiper', {
+        slidesPerView: 3,
+        spaceBetween: 12,
+        loop: true,
+    
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".nextEl",
+            prevEl: ".prevEl",
+        },
+        breakpoints: {
+            1300: {
+                slidesPerView: 3,
+            },
+            768: {
+                slidesPerView: 2,
+            },
+            0: {
+                slidesPerView: 1,
+            }
+        }
+    });
+</script>
 {% endblock %}

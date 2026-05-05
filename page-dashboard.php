@@ -39,6 +39,13 @@ $context['userRole'] = get_current_user_role();
 $context['map_content'] = $map_content;
 $context['series_list'] = $series_list;
 $context['new_tier'] = get_field('new_tier', 'user_'.$user_id);
+$context['dashboard_posts'] = Timber::get_posts([
+  'post_type' => array('post','case_studies', 'employee_spotlight'),
+  'posts_per_page' => 6,
+  'post_status'    => 'publish',
+  'orderby'        => 'date',
+  'order'          => 'DESC',
+]);
 Timber::render('page-dashboard.twig', $context); 
 
 ?>
