@@ -766,6 +766,17 @@ h1.single-title {
 #post-content p {
   margin-bottom: 1.41575rem !important;
 }
+
+#post-content .wp-caption-text {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+#post-content figure {
+  margin: 10px 0
+}
+
 #post-content ul {
   list-style-type: disc;
   margin-left: 40px;
