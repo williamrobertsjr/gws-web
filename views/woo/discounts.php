@@ -252,6 +252,18 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
         default:           $rate = 0.0;   break;
     }
 
+     // Apply category-specific adjustments for 57.5% tier only
+    if ( $tier === '57_5' ) {
+        $product_id = $product->get_id();
+        if ( has_term( 'round-tools', 'pa_brand', $product_id ) ) {
+                $rate = 1 - ( (1 - $rate) / 1.35 );
+            } elseif ( has_term( 'advanced-materials', 'pa_brand', $product_id ) ) {
+                $rate = 1 - ( (1 - $rate) / 1.035 );
+            } elseif ( has_term( 'threading', 'pa_brand', $product_id ) ) {
+                $rate = 1 - ( (1 - $rate) / 1.083 );
+            }
+    }
+
     $is_advanced_perf = (bool) $product->get_meta('is_advanced_performance', true);
 
     $is_exempt          = isset($_COOKIE['specialCompanyExempt']) && in_array($_COOKIE['specialCompanyExempt'], ['true', true], true);
@@ -267,7 +279,8 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
     } elseif (($exempt_plus && $is_exempt) || ($is_privileged_role && $is_exempt_plus_tier)) {
         $rate = (1 - ((1 - $rate)) * 1.25);
     }
-
+   
+   
     return round($regular_price * (1 - $rate), 2);
 }
 
