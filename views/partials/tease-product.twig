@@ -125,14 +125,18 @@
         </a>
 
         {# Right Column - Price and Quantity #}
-        <div id="tool-stock" class="w-full lg:w-1/4 ps-0 lg:ps-6 pe-0 lg:pe-2 mt-4 lg:mt-0 flex flex-col justify-between">
+        <div id="tool-stock" class="w-full lg:w-1/4 ps-0 lg:ps-6 pe-0 lg:pe-2 mt-4 lg:mt-0 flex flex-col justify-between">            
             <div class="lg:text-right">
-                {# {% do action('woocommerce_before_shop_loop_item_title') %}     #}
-                {# <p class="text-xs text-gray-500">Raw price: {{ product.get_price() }}</p> #}
-                <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ product.get_price_html()|raw }}</p>
-                {# <p class="text-black font-medium">{{ random(0, 100) }}<span class="text-sm font-regular"> In stock</span> </p> #}
+            <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ product.get_price_html()|raw }}</p>
+            {% if user %} 
                 <p class="text-black font-medium">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }} <span class="text-sm font-regular">In stock</span></p>
+            {% else %}
+                <p class="text-black text-sm">Log in to view stock.</p>
+            {% endif %}
             </div>
+            
+            
+            
             <div>
                 {# {% do action('woocommerce_single_product_summary') %} #}
                 <form class="flex flex-col items-stretch justify-between mb-0" method="post" enctype='multipart/form-data'>

@@ -72,14 +72,15 @@ function get_series_products_datatables() {
     
     // Format data for DataTables
     $data = [];
+    // Get table columns from request
+    $table_cols = explode(',', sanitize_text_field($_GET['table_cols'] ?? ''));
     foreach ($products as $row) {
         $product = wc_get_product($row->ID);
         if (!$product) continue;
         
         $row_data = [$row->sku]; // First column: SKU
         
-        // Get table columns from request
-        $table_cols = explode(',', sanitize_text_field($_GET['table_cols'] ?? ''));
+        
         
         // Add attribute columns
         foreach ($table_cols as $col) {
@@ -94,7 +95,11 @@ function get_series_products_datatables() {
         }
         
         // Add stock column (placeholder - will be loaded via JS)
-        $row_data[] = '<span class="gws-live-stock" data-gws-sku="' . esc_attr($row->sku) . '">...</span>';
+        if (is_user_logged_in()) {
+            $row_data[] = '<span class="gws-live-stock" data-gws-sku="' . esc_attr($row->sku) . '">...</span>';
+        } else {
+            $row_data[] = 'Log in to view stock.';
+        }
         
         $data[] = $row_data;
     }

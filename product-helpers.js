@@ -11,6 +11,7 @@ if(productTable) {
         processing: true,
         serverSide: true,
         pageLength: 25,
+        responsive: true,
         language: {
             processing: '<div class="dt-loading"><div class="spinner"></div>Loading products...</div>'
         },

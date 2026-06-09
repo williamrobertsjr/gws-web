@@ -33,7 +33,7 @@
                             </span>
                         </p>
                         {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
-                        {% if stock_data %}
+                        {% if stock_data and user %}
             
                             {% if stock_data.DURRIE_QTY_ON_HAND is not null %}
                               <div class="p-1">
@@ -50,7 +50,10 @@
                                     <p class="p-1 text-lg"><span class="font-bold product-stock">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
                                 </div>
                             {% endif %}
-            
+                        {% else %}
+                            <div class="bg-dark-blue px-2 text-white">
+                                <p class="p-1 text-sm">Log in to view stock.</p>
+                            </div>
                         {% endif %}
             
                     </div>

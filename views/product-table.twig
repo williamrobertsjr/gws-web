@@ -9,20 +9,22 @@
     {% set toolType = series_data.tool_type %}
 {% endif %}
 
-<table id="product-table" 
-       class="stripe row-border cell-border hover {{toolType}} {{series}}{% if not is_product_page %} dark{% endif %}"
-       data-series="{{series}}"
-       data-table-cols="{{tableCols|join(',')}}">
-    <thead>
-        <tr>
-            <th>Part</th>      
-            {% for col in tableCols %}
-                <th class="{{col}}">{{col}}</th>
-            {% endfor %}
-            <th>Stock</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- DataTables will populate via AJAX -->
-    </tbody>
-</table>
+<div class="w-full overflow-x-auto">
+    <table id="product-table"
+           class="!w-full stripe row-border cell-border hover {{toolType}} {{series}}{% if not is_product_page %} dark{% endif %}"
+           data-series="{{series}}"
+           data-table-cols="{{tableCols|join(',')}}">
+        <thead>
+            <tr>
+                <th>Part</th>
+                {% for col in tableCols %}
+                    <th class="{{col}}">{{col}}</th>
+                {% endfor %}
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- DataTables will populate via AJAX -->
+        </tbody>
+    </table>
+</div>
