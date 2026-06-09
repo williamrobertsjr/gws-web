@@ -1,7 +1,7 @@
 
 <?php
-// This is currently not used at this time. Will revisit later.
-
+// This file defines the mapping between our internal attribute keys and the corresponding WooCommerce product attribute slugs.
+// Used in /inc/products-ajax.php when processing product data for data tables
 return [
     // Core product details
     'part' => 'pa_part',
@@ -19,7 +19,7 @@ return [
     'sub_sub_type' => 'pa_sub-sub-type',
 
     // Descriptions
-    'part_description' => '',
+    'part_description' => 'pa_part-description',
     'series_description' => '',
     'subtitle' => '',
     'table_description' => '',
@@ -66,6 +66,7 @@ return [
     'taps_sub_cat' => 'pa_taps-sub-category',
     'thread_direction' => 'pa_thread-direction',
     'pitch_classification' => 'pa_pitch-classification',
+    'taps_thread_size' => 'pa_thread-size',
     'taps_thread_limit' => 'pa_thread-limit',
     'tap_taper' => 'pa_taper',
     'taps_plug' => 'pa_plug',
@@ -80,11 +81,13 @@ return [
     'taps_size' => 'pa_taps-size',
     'taps_pipe_tap_size' => 'pa_pipe-tap-size',
     'taps_coolant_duct_type' => 'pa_coolant-duct-type',
+    'taps_min_tap_drill_size' => 'pa_min-tap-drill-size',
+    'taps_max_tap_drill_size' => 'pa_max-tap-drill-size',
 
     // Additional tap attributes
     'taps_go_nogo' => '',
     'taps_taps_handle' => '',
-    'taps_amount' => '',
+    'taps_amount' => 'pa_taps-amount',
     'taps_size_1' => '',
     'taps_m_size' => 'pa_taps-metric-size',
     'taps_dia' => 'pa_taps-diameter',

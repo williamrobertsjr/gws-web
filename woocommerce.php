@@ -51,6 +51,18 @@ if (is_singular('product')) {
     $product = wc_get_product($context['post']->ID);
     $context['product'] = $product;
 
+    // Resolve product image (product-specific or fall back to series)
+    require_once get_template_directory() . '/inc/sku_image_map.php';
+    $sku = $product->get_sku();
+    $picture_name = $sku_image_map[$sku] ?? null;
+    $img_base = get_template_directory_uri() . '/images/catalog_images/';
+    $context['product_img'] = $picture_name && file_exists(get_template_directory() . '/images/catalog_images/' . $picture_name . '_catalog.png')
+        ? $img_base . $picture_name . '_catalog.png'
+        : $img_base . $product->get_attribute('pa_series') . '_catalog.png';
+    error_log('SKU: ' . $sku);
+    error_log('Picture name: ' . $picture_name);
+    error_log('Product img: ' . $context['product_img']);
+    error_log('File exists: ' . (file_exists(get_template_directory() . '/images/catalog_images/' . $picture_name . '_catalog.png') ? 'yes' : 'no'));
     // Extract product attributes
     $attributes = [];
     foreach ($product->get_attributes() as $attribute_name => $attribute) {
@@ -59,6 +71,7 @@ if (is_singular('product')) {
             : $attribute->get_options();
     }
     $context['attributes'] = $attributes;
+    $context['attributes']['pa_part-description'] = [$product->get_short_description()];
 
     // Related by series
     $current_series = $product->get_attribute('pa_series');
@@ -144,6 +157,14 @@ if (is_singular('product')) {
 
             // Get SKU or part number
             $sku = $wc_product ? $wc_product->get_sku() : null;
+
+            // Resolve tile image (product-specific or fall back to series)
+            require_once get_template_directory() . '/inc/sku_image_map.php';
+            $picture_name = $sku ? ($sku_image_map[$sku] ?? null) : null;
+            $img_base = get_template_directory_uri() . '/images/tile_images/';
+            $post->product_img = $picture_name && file_exists(get_template_directory() . '/images/tile_images/' . $picture_name . '_tile.png')
+                ? $img_base . $picture_name . '_tile.png'
+                : $img_base . $wc_product->get_attribute('pa_series') . '_tile.png';
 
             // Attach price to the post
             $post->list_price = $sku ? gws_get_part_list_price($sku) : null;

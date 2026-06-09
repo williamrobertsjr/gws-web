@@ -10,7 +10,7 @@ $cart_items = $cart->get_cart();
 
 $original_total = 0;
 $discounted_total = 0;
-
+require_once get_template_directory() . '/inc/sku_image_map.php';
 foreach ( $cart_items as $key => &$item ) {
     $product = $item['data'];
     $quantity = $item['quantity'];
@@ -21,6 +21,14 @@ foreach ( $cart_items as $key => &$item ) {
     $item['original_price'] = $original_price;
     $item['discounted_price'] = $discounted_price;
     $item['discounted_subtotal'] = $discounted_price * $quantity;
+    
+    // Resolve tile image
+    $sku = $product->get_sku();
+    $picture_name = $sku ? ($sku_image_map[$sku] ?? null) : null;
+    $img_base = get_template_directory_uri() . '/images/tile_images/';
+    $item['product_img'] = $picture_name && file_exists(get_template_directory() . '/images/tile_images/' . $picture_name . '_tile.png')
+        ? $img_base . $picture_name . '_tile.png'
+        : $img_base . $product->get_attribute('pa_series') . '_tile.png';
 
     $original_total += $original_price * $quantity;
     $discounted_total += $item['discounted_subtotal'];

@@ -30,6 +30,7 @@ function get_series_products_datatables() {
     // Base query for total count
     $where_clause = $wpdb->prepare(
         "WHERE p.post_type = 'product'
+         AND pm_sku.meta_value IN (SELECT part FROM master_product_data)
          AND p.post_status = 'publish'
          AND tt.taxonomy = 'pa_series'
          AND t.name = %s",
@@ -83,8 +84,12 @@ function get_series_products_datatables() {
         // Add attribute columns
         foreach ($table_cols as $col) {
             $col = trim($col);
-            $taxonomy = $attribute_mapping[$col] ?? '';
-            $value = $taxonomy ? $product->get_attribute($taxonomy) : '-';
+            if ($col === 'part_description') {
+                $value = $product->get_short_description() ?: '-';
+            } else {
+                $taxonomy = $attribute_mapping[$col] ?? '';
+                $value = $taxonomy ? $product->get_attribute($taxonomy) : '-';
+            }
             $row_data[] = $value ?: '-';
         }
         
