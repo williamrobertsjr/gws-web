@@ -809,10 +809,18 @@ li {
   padding-top: 3.75rem;
   background-color: var(--black);
 }
+#post-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--pale-blue);
+}
 
 #post-content h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  line-height: normal;
   font-weight: 700;
   text-transform: none;
   color: var(--pale-blue);
