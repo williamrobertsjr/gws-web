@@ -789,3 +789,18 @@ add_filter('gform_pre_send_email', function($email, $message_format, $notificati
 
     return $email;
 }, 10, 4);
+
+// Distributor autocomplete REST API routes and handlers
+require_once get_template_directory() . '/inc/distributor-autocomplete.php';
+function gws_enqueue_distributor_autocomplete() {
+    if (is_page('distributor-registration')) { // adjust slug to match your page
+        wp_enqueue_script(
+            'gws-distributor-autocomplete',
+            get_template_directory_uri() . '/js/distributor-autocomplete.js',
+            [],
+            '1.0.0',
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'gws_enqueue_distributor_autocomplete');

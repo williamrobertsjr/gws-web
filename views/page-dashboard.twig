@@ -25,6 +25,8 @@
                         {% set userRole = '50%' %}
                         {% elseif userRole == '57_5' %}
                         {% set userRole = '57.5%' %}
+                        {% elseif userRole == 'tier_57' %}
+                        {% set userRole = '57%' %}
                         {% elseif userRole == 'sales' %}
                         {% set userRole = 'Sales Team' %}
                         {% elseif userRole == 'administrator' %}
@@ -40,12 +42,14 @@
                             {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_52_5_JUNE_26.xlsx' %}
                         {% elseif userRole == '50%' %}
                             {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_50_JUNE_26.xlsx' %}
+                        {% elseif userRole == '57%' %}
+                            {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_57_JUNE_26.xlsx' %}
                         {% elseif userRole == '57.5%' %}
                             {% set priceListUrl = '/docs/pricing/2026/june/GWS_PRICE_LIST_57_5_JUNE_26.xlsx' %}
                         {% endif %}
 
             
-                        {% if userRole == '55%' or userRole == '52.5%' or userRole == '50%' or userRole == '57.5%' %}
+                        {% if userRole == '55%' or userRole == '52.5%' or userRole == '50%' or userRole == '57%' or userRole == '57.5%' %}
                             <div class="flex flex-col gap-y-3">
                                 <p class="w-full text-sm"><span class="text-gray font-medium">Company</span><span class="float-right font-medium">{{company}}</span></p>
                                 <p class="w-full text-sm"><span class="text-gray font-medium">Account type</span><span class="float-right font-medium">Distributor</span></p>

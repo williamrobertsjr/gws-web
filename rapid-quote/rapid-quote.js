@@ -90,6 +90,21 @@ document.addEventListener("DOMContentLoaded", function () {
     case "57_5":
       discountRate = 0.575;
       break;
+    case "57":
+      discountRate = 0.57;
+      break;
+    case "pl_55":
+      discountRate = 0.55;
+      break;
+    case "pl_57":
+      discountRate = 0.57;
+      break;
+    case "ploem_60":
+      discountRate = 0.60;
+      break;
+    case "ploem_65":
+      discountRate = 0.65;
+      break;
     case "MSC_PL":
       discountRate = 0.575;
       break;
