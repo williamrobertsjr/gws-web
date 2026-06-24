@@ -779,7 +779,8 @@ h1.single-title {
 
 #post-content ul {
   list-style-type: disc;
-  margin-left: 40px;
+  margin-left: 0;
+  padding-left: 1.25em;
   margin-top: 30px;
   margin-bottom: 30px;
 }
