@@ -276,18 +276,23 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
 
     $is_advanced_perf = (bool) $product->get_meta('is_advanced_performance', true);
 
-    $is_exempt          = isset($_COOKIE['specialCompanyExempt']) && in_array($_COOKIE['specialCompanyExempt'], ['true', true], true);
-    $exempt_plus        = isset($_COOKIE['specialCompanyExemptPlus']) && in_array($_COOKIE['specialCompanyExemptPlus'], ['true', true], true);
     $user               = wp_get_current_user();
     $user_role          = $user->roles[0] ?? 'none';
+    $user_company       = $user->exists() ? get_user_meta($user->ID, 'company', true) : '';
     $is_privileged_role = in_array($user_role, ['administrator', 'sales'], true);
     $is_special_tier    = $tier === 'MSC_PL';
     $is_exempt_plus_tier = $tier === 'exemptPlus';
 
-    if (($is_exempt || ($is_privileged_role && $is_special_tier)) && !$exempt_plus) {
+    $exempt_companies  = ['US Tool Group Test'];
+    $plus_25_companies = ['Ewie', 'EGC - Ewie', 'Ewie Company'];
+
+    $is_exempt  = in_array($user_company, $exempt_companies, true);
+    $is_plus_25 = in_array($user_company, $plus_25_companies, true);
+
+    if (($is_exempt || ($is_privileged_role && $is_special_tier)) && !$is_plus_25) {
         $rate = 1 - ((1 - $rate) / 1.07);
-    } elseif (($exempt_plus && $is_exempt) || ($is_privileged_role && $is_exempt_plus_tier)) {
-        $rate = (1 - ((1 - $rate)) * 1.25);
+    } elseif ($is_plus_25 || ($is_privileged_role && $is_exempt_plus_tier)) {
+        $rate = 1 - ((1 - $rate) * 1.25);
     }
    
    
