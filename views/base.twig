@@ -75,7 +75,7 @@
 					{# Top Header #}
 					<div class="top-header flex justify-center sm:justify-between">
 						<h1 class="hdr-logo" role="banner">
-							<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" alt=""></a>
+							<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" width="130" height="56" alt=""></a>
 						</h1>
 						<div class="md:flex items-center hidden">
 							<div class="flex items-center">
@@ -230,6 +230,7 @@
 				document.getElementById('content').style.paddingTop = headerHeight + 'px';
 			}
 
+			updateLayout();
 			window.addEventListener('load', updateLayout);
 			window.addEventListener('resize', updateLayout);
 			
