@@ -1,0 +1,51 @@
+{# Renders one Product Index category: Material > Shape > Line Item drill-down filters + tile grid. #}
+<div class="tool-cat product-index-cat flex flex-col" data-pi-category="{{ category.category_slug }}">
+    <div class="w-8/12 mb-6">
+        <h2 class="text-4xl uppercase font-bold text-pale-blue">{{ category.category }}</h2>
+        {% if category.description %}
+            <p class="">{{ category.description }}</p>
+        {% endif %}
+    </div>
+
+    {% if category.materials is not empty %}
+        <div class="pi-filters my-6">
+            <div class="pi-breadcrumb flex flex-wrap items-center gap-2 mb-4 text-sm">
+                <button type="button" class="pi-crumb-reset font-semibold text-pale-blue underline">All {{ category.category }}</button>
+                <span class="pi-crumb-material hidden text-white">/ <span class="pi-crumb-material-label text-white"></span></span>
+                {% if category.materials[0].shapes is defined %}
+                    <span class="pi-crumb-shape hidden text-white">/ <span class="pi-crumb-shape-label text-white"></span></span>
+                    <span class="pi-crumb-item hidden text-white">/ <span class="pi-crumb-item-label text-white"></span></span>
+                {% endif %}
+            </div>
+
+            <div class="pi-level pi-level-material flex flex-wrap gap-3">
+                {% for material in category.materials %}
+                    <button type="button" class="btn border border-[#8694a4] dark-blue pi-material-btn" data-material="{{ material.material_slug }}">{{ material.material }}</button>
+                {% endfor %}
+            </div>
+
+            {% for material in category.materials %}
+                {% if material.shapes is defined %}
+                    <div class="pi-level pi-level-shape flex flex-wrap gap-3 mt-4 hidden" data-material="{{ material.material_slug }}">
+                        {% for shape in material.shapes %}
+                            <button type="button" class="btn border border-[#8694a4] light-blue pi-shape-btn" data-shape="{{ shape.shape_slug }}">{{ shape.shape }}</button>
+                        {% endfor %}
+                    </div>
+                    {% for shape in material.shapes %}
+                        <div class="pi-level pi-level-item flex flex-wrap gap-3 mt-4 hidden" data-material="{{ material.material_slug }}" data-shape="{{ shape.shape_slug }}">
+                            {% for item in shape.items %}
+                                {% if item.series %}
+                                    <button type="button" class="btn border border-[#8694a4] black pi-item-btn" data-item="{{ item.slug }}">{{ item.label }}</button>
+                                {% else %}
+                                    <span class="btn border border-[#8694a4] opacity-50 cursor-not-allowed" title="No products available">{{ item.label }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% include 'series-tiles.twig' with {'series_list': category.series_list} %}
+</div>

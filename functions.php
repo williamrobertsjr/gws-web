@@ -190,6 +190,17 @@ add_action('template_redirect', function () {
   }
 });
 
+// ─────────────────────────────────────────────────────────────
+// Redirect legacy /product-index URL to /products, now that the
+// Product Index content lives on the Products page itself.
+// ─────────────────────────────────────────────────────────────
+add_action('template_redirect', function () {
+  if (is_page('product-index')) {
+    wp_redirect(home_url('/products'), 301);
+    exit;
+  }
+});
+
 // Function to modify permalink structure for sub type custom post types
 function tooltype_permalink_structure($post_link, $post, $leavename) {
     if (strpos($post_link, '%tool_type%') === FALSE) return $post_link;

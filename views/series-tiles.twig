@@ -9,7 +9,7 @@
         {% set additional_classes = series.tool_sub_type|replace({' ' : '', '/' : ''})|lower %}
     {% endif %}
 
-    <div class="single-tile-container grid-item w-full md:w-6/12 lg:w-4/12 p-2 {{ series.tool_type|lower }} {{ additional_classes }}">
+    <div class="single-tile-container grid-item w-full md:w-6/12 lg:w-4/12 p-2 {{ series.tool_type|lower }} {{ additional_classes }}{% if series.pi_materials %}{% for pi_material in series.pi_materials %} pi-{{ pi_material }}{% endfor %}{% endif %}{% if series.pi_shape %} pi-{{ series.pi_shape }}{% endif %}{% if series.pi_item %} pi-{{ series.pi_item }}{% endif %}">
         <a href="/series-{{ series.series }}" class="hvr-float block">
             <div class="series-tile flex flex-col justify-between px-5 py-6 w-full">
                 {% if series.family == 'Armory' %}

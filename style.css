@@ -159,6 +159,44 @@ li {
 .btn.black:hover {
   background-color: #2b2b2b;
 }
+.pi-tab-btn,
+.pi-material-btn,
+.pi-shape-btn,
+.pi-item-btn {
+  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.pi-material-btn.is-checked,
+.pi-shape-btn.is-checked,
+.pi-item-btn.is-checked,
+.pi-material-btn.is-checked:hover,
+.pi-shape-btn.is-checked:hover,
+.pi-item-btn.is-checked:hover {
+  background-color: var(--pale-blue);
+  color: var(--dark-blue);
+  font-weight: 700;
+}
+.pi-tab-btn {
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+}
+.pi-tab-btn.is-checked,
+.pi-tab-btn:hover {
+  color: var(--pale-blue);
+  border-bottom-color: var(--pale-blue);
+}
+.pi-tab-btn.is-checked {
+  font-weight: 700;
+}
+.pi-material-btn.pi-dimmed,
+.pi-shape-btn.pi-dimmed,
+.pi-item-btn.pi-dimmed {
+  opacity: 0.35;
+}
+.pi-material-btn.pi-dimmed:hover,
+.pi-shape-btn.pi-dimmed:hover,
+.pi-item-btn.pi-dimmed:hover {
+  opacity: 0.7;
+}
 .btn.white-outline {
   border: solid 2px var(--white);
   border-radius: 3px;
