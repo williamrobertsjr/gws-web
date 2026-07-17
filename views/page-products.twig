@@ -4,7 +4,10 @@
 {# {% include "page-header.twig" %} #}
 
 <div class="container mx-auto py-20 px-4 md:px-0">
-    <h1 class="text-6xl text-white font-black uppercase mb-8">Products</h1>
+    <div class="w-8/12">
+        <h1 class="text-6xl text-white font-black uppercase mb-4">Products</h1>
+        <p class=" text-xl mb-24">GWS Tool Group engineers high-performance carbide cutting tools for industries that hold to exacting standards — aerospace, medical, defense, and more. Browse our full standard line below, or if you already know exactly what you need, use our <a class="text-pale-blue underline" href="products/milling/">Tool Filter</a> to search by exact specifications or head to <a class="text-pale-blue underline" href="/rapid-quote">Rapid Quote</a> to get pricing in minutes.</p>
+    </div>
     <div class="pi-category-tabs flex flex-wrap gap-4 mb-12">
         {% for category in product_index_categories %}
             <button type="button" class="text-pale-blue text-md pi-tab-btn{% if loop.first %} is-checked{% endif %}" data-pi-tab="{{ category.category_slug }}">{{ category.category }}</button>
