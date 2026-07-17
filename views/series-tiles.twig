@@ -13,7 +13,7 @@
         <a href="/series-{{ series.series }}" class="hvr-float block">
             <div class="series-tile flex flex-col justify-between px-5 py-6 w-full">
                 {% if series.family == 'Armory' %}
-                    <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series|lower|replace({' ': '_'}) }}_tile.png" alt="">
+                    <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series|replace({' ': '_'}) }}_tile.png" alt="">
                 {% else %}
                     <img class="tile-image" src="https://www.gwstoolgroup.com/wp-content/themes/gws-web/images/tile_images/{{ series.series }}_tile.png" alt="">
                 {% endif %}

@@ -4,7 +4,7 @@
 {# {% include "page-header.twig" %} #}
 
 <div class="container mx-auto py-20 px-4 md:px-0">
-    <h1 class="text-6xl text-pale-blue font-black uppercase mb-8">Products</h1>
+    <h1 class="text-6xl text-white font-black uppercase mb-8">Products</h1>
     <div class="pi-category-tabs flex flex-wrap gap-4 mb-12">
         {% for category in product_index_categories %}
             <button type="button" class="text-pale-blue text-md pi-tab-btn{% if loop.first %} is-checked{% endif %}" data-pi-tab="{{ category.category_slug }}">{{ category.category }}</button>

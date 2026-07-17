@@ -123,14 +123,7 @@ $context['product_index_categories'] = [
         'inserts',
         'GWS Tool Group inserts cover PCD, PCBN, and ceramic grades engineered for high-performance turning and milling applications.'
     ),
-    gws_product_index_flat_category(
-        $conn,
-        'SPECIALTY',
-        'Burrs',
-        'burrs',
-        'GWS Tool Group burrs cover a full range of shapes and cuts for deburring, deflashing, and weld prep across ferrous and non-ferrous materials.',
-        'Burrs'
-    ),
+    gws_product_index_category($conn, get_template_directory() . '/views/woo/product-index-burrs.php'),
     gws_product_index_flat_category(
         $conn,
         'SPECIALTY',
