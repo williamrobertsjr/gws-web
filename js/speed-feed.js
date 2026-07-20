@@ -153,16 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 applyFilters(); // 500ms debounce for normal typing
             }
         });
-
-        // Backspace/Delete clears the entire input and re-runs filters immediately
-        seriesInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' || e.key === 'Delete') {
-                e.preventDefault();
-                seriesInput.value = '';
-                clearTimeout(searchTimeout);
-                runFiltersNow();
-            }
-        });
     } else {
         console.warn('#search-input not found in DOM');
     }
@@ -177,22 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 runFiltersNow();
             } else {
                 applyFilters(); // 500ms debounce for normal typing
-            }
-        });
-
-        // Backspace/Delete clears the entire input, aborts any fetch, resets filter, and re-runs immediately
-        partInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' || e.key === 'Delete') {
-                e.preventDefault();
-                partInput.value = '';
-                if (partFetchController) {
-                    partFetchController.abort();
-                    partFetchController = null;
-                }
-                partSeries = null;
-                forceNoSeries = false;
-                clearTimeout(searchTimeout);
-                runFiltersNow();
             }
         });
     } else {

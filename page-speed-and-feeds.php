@@ -9,7 +9,7 @@ include 'db_connection.php';
 
 
 
-$stmt = $conn->prepare("SELECT series, family from master_series_data WHERE speed_feed_page IS NOT NULL");
+$stmt = $conn->prepare("SELECT series, family, subtitle, tool_type, tool_sub_type from master_series_data WHERE speed_feed_page IS NOT NULL");
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -21,6 +21,24 @@ if ($result->num_rows > 0) {
 } else {
     $series_list = [];
 }
+
+// Group series into the same top-level categories used on the Products page
+// (Milling, Holemaking, Burrs, Miscellaneous). Burrs is pulled out of Specialty
+// to match how /products treats it as its own category.
+foreach ($series_list as &$series) {
+    $tool_type = strtoupper($series['tool_type'] ?? '');
+    if ($tool_type === 'MILLING') {
+        $category = 'milling';
+    } elseif ($tool_type === 'HOLEMAKING') {
+        $category = 'holemaking';
+    } elseif ($tool_type === 'SPECIALTY' && $series['tool_sub_type'] === 'Burrs') {
+        $category = 'burrs';
+    } else {
+        $category = 'miscellaneous';
+    }
+    $series['category'] = $category;
+}
+unset($series);
 
 // Prepare Timber context
 $context = Timber::context();
