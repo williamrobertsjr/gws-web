@@ -81,6 +81,10 @@ function gws_validate_distributor(WP_REST_Request $request) {
 
 
 // Server-side gatekeeper — runs at form submission, form 32 / field 11
+// Runs after the GF Autocomplete add-on's own generic gform_field_validation
+// filter, which rejects anything not in the field's stale, hardcoded
+// suggest_word list. We override its verdict here against the live
+// gws_distributors table, since that's the actual source of truth.
 add_filter('gform_field_validation_32_11', 'gws_validate_distributor_field', 10, 4);
 
 function gws_validate_distributor_field($result, $value, $form, $field) {
@@ -92,13 +96,16 @@ function gws_validate_distributor_field($result, $value, $form, $field) {
 
     $exists = $wpdb->get_var(
         $wpdb->prepare(
-            "SELECT COUNT(*) FROM gws_distributors 
+            "SELECT COUNT(*) FROM gws_distributors
              WHERE company_name = %s AND status = 'active'",
             trim($value)
         )
     );
 
-    if (!$exists) {
+    if ($exists) {
+        $result['is_valid'] = true;
+        $result['message'] = '';
+    } else {
         $result['is_valid'] = false;
         $result['message'] = 'Please select a valid company from the list. If your company isn\'t listed, email sales@gwstoolgroup.com to have it added.';
     }
