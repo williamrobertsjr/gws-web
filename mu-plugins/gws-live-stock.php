@@ -20,8 +20,8 @@ final class GWS_Live_Stock {
     const AVAILABLE_COL          = '';              // none
     const USE_AVAILABLE_DIRECT   = false;           // compute from QTY_ON_HAND
 
-    // Cache results in transients (seconds). Daily manual updates → 24h is fine; set lower if you want faster reflection.
-    const CACHE_TTL              = 86400; // 24 hours
+    // Cache results in transients (seconds). rapid_quote refreshes ~hourly via cron, so cache no longer than that.
+    const CACHE_TTL              = 3600; // 1 hour
 
     // Where to auto-render on PDP (position 25 is after price/title area).
     const PDP_HOOK_PRIORITY      = 25;
@@ -99,9 +99,16 @@ final class GWS_Live_Stock {
 
     /** Core lookup for both QTY_ON_HAND and DURRIE_QTY_ON_HAND by SKU. */
     public static function get_full_stock_by_sku(string $sku): ?array {
-        global $wpdb;
         $sku = trim($sku);
         if ($sku === '') return null;
+
+        $cache_key = 'gws_full_stock_' . md5($sku);
+        $cached = get_transient($cache_key);
+        if ($cached !== false) {
+            return $cached === 'na' ? null : $cached;
+        }
+
+        global $wpdb;
 
         $table   = self::table_name();
         $keyCol  = self::ident(self::KEY_COL, 'PN');
@@ -113,15 +120,19 @@ final class GWS_Live_Stock {
 
         $row = $wpdb->get_row($wpdb->prepare($sql, $sku), ARRAY_A);
 
-        if (!$row) return null;
+        $stock = null;
+        if ($row) {
+            $stock = [
+                'QTY_ON_HAND' => (int)($row['QTY_ON_HAND'] ?? 0),
+                'DURRIE_QTY_ON_HAND' => isset($row['DURRIE_QTY_ON_HAND']) ? (int)$row['DURRIE_QTY_ON_HAND'] : null,
+                'TOTAL_STOCK' => isset($row['DURRIE_QTY_ON_HAND'])
+                    ? (int)$row['QTY_ON_HAND'] + (int)$row['DURRIE_QTY_ON_HAND']
+                    : (int)$row['QTY_ON_HAND'],
+            ];
+        }
 
-        return [
-            'QTY_ON_HAND' => (int)($row['QTY_ON_HAND'] ?? 0),
-            'DURRIE_QTY_ON_HAND' => isset($row['DURRIE_QTY_ON_HAND']) ? (int)$row['DURRIE_QTY_ON_HAND'] : null,
-            'TOTAL_STOCK' => isset($row['DURRIE_QTY_ON_HAND'])
-                ? (int)$row['QTY_ON_HAND'] + (int)$row['DURRIE_QTY_ON_HAND']
-                : (int)$row['QTY_ON_HAND'],
-        ];
+        set_transient($cache_key, $stock === null ? 'na' : $stock, self::CACHE_TTL);
+        return $stock;
     }
 
     /** Shortcode: [gws_live_stock sku="ABC" show_label="1" id="foo" wrap="1"] */
