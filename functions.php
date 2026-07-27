@@ -22,6 +22,9 @@ require_once get_template_directory() . '/lib/part-pricing.php';
 // Include AJAX product lookup logic for product tables
 require_once get_template_directory() . '/inc/products-ajax.php';
 
+// Include Parts & Pricing data-download page logic (DataTables feed + CSV export)
+require_once get_template_directory() . '/inc/data-download.php';
+
 // Include Rapid Quote API logic
 // for getting part list prices from external API
 // and logging for admin users
@@ -621,6 +624,19 @@ function gws_enqueue_tier_scripts() {
     ]);
 }
 add_action('wp_enqueue_scripts', 'gws_enqueue_tier_scripts');
+
+// Load the parts/pricing DataTable + CSV download script only on the data-download page
+add_action('wp_enqueue_scripts', function () {
+    if (!is_page('data-download')) return;
+
+    wp_enqueue_script(
+        'gws-data-download',
+        get_template_directory_uri() . '/js/data-download.js',
+        ['jquery', 'tier-selector'],
+        null,
+        true
+    );
+});
 
 add_filter('timber/context', function ($context) {
     $context['userRole'] = '';
