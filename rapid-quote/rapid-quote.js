@@ -108,8 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
     case "MSC_PL":
       discountRate = 0.575;
       break;
-    case "direct":
+    case "direct_30":
       discountRate = 0.30;
+      break;
+    case "direct_42_5":
+      discountRate = 0.425;
       break;
     case "exemptPlus":
       discountRate = 0.55;

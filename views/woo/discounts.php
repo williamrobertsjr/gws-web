@@ -9,7 +9,7 @@ function gws_get_user_tier() {
     // Allow dropdown-selected tier via cookie to override view pricing
     if ( ! empty( $_COOKIE['gws_selected_tier'] ) ) {
         $candidate = sanitize_text_field( $_COOKIE['gws_selected_tier'] );
-        $allowed   = [ 't1', 't2', 't3', '57_5', '57', 'pl_55', 'pl_57', 'ploem_60', 'ploem_65', 'MSC_PL', 'direct', 'exemptPlus', 'default', 'none' ];
+        $allowed   = [ 't1', 't2', 't3', '57_5', '57', 'pl_55', 'pl_57', 'ploem_60', 'ploem_65', 'MSC_PL', 'direct_30', 'direct_42_5', 'exemptPlus', 'default', 'none' ];
         if ( in_array( $candidate, $allowed, true ) ) {
             $tier = ( $candidate === 'default' ) ? 'none' : $candidate;
             return $tier;
@@ -160,7 +160,8 @@ function get_user_role_display($role) {
         'ploem_60'    => '60%',
         'ploem_65'    => '65%',
         'MSC_PL'      => '57.5%',
-        'direct'      => '30%',
+        'direct_30'   => '30%',
+        'direct_42_5' => '42.5%',
         'exemptPlus'  => '55%',
         'sales'       => 'Sales Team',
         'administrator' => 'Administrator',
@@ -257,7 +258,8 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
         case 'ploem_60':   $rate = 0.60;  break;
         case 'ploem_65':   $rate = 0.65;  break;
         case 'MSC_PL':     $rate = 0.575; break;
-        case 'direct':     $rate = 0.30;  break;
+        case 'direct_30':   $rate = 0.30;  break;
+        case 'direct_42_5': $rate = 0.425; break;
         case 'exemptPlus': $rate = 0.55;  break;
         default:           $rate = 0.0;   break;
     }
