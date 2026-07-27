@@ -625,14 +625,28 @@ function gws_enqueue_tier_scripts() {
 }
 add_action('wp_enqueue_scripts', 'gws_enqueue_tier_scripts');
 
-// Load the parts/pricing DataTable + CSV download script only on the data-download page
+// Shared spinner/download handler for price-export buttons & links, used on
+// both the dashboard's Quick Links and the data-download page's button.
+add_action('wp_enqueue_scripts', function () {
+    if (!is_page('data-download') && !is_page('dashboard')) return;
+
+    wp_enqueue_script(
+        'gws-price-export-download',
+        get_template_directory_uri() . '/js/price-export-download.js',
+        [],
+        null,
+        true
+    );
+});
+
+// Load the parts/pricing DataTable + Excel download script only on the data-download page
 add_action('wp_enqueue_scripts', function () {
     if (!is_page('data-download')) return;
 
     wp_enqueue_script(
         'gws-data-download',
         get_template_directory_uri() . '/js/data-download.js',
-        ['jquery', 'tier-selector'],
+        ['jquery', 'tier-selector', 'gws-price-export-download'],
         null,
         true
     );

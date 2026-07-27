@@ -1,4 +1,4 @@
-// Parts & Pricing data-download page: server-side DataTable + CSV download.
+// Parts & Pricing data-download page: server-side DataTable + Excel download.
 document.addEventListener('DOMContentLoaded', function () {
   const tableEl = document.getElementById('parts-price-table');
   if (!tableEl) return;
@@ -21,12 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
     table.ajax.reload();
   });
 
-  const downloadBtn = document.getElementById('download-csv');
+  const downloadBtn = document.getElementById('download-xlsx');
   if (downloadBtn) {
-    downloadBtn.addEventListener('click', function () {
+    bindPriceExportDownload(downloadBtn, function () {
       const search = table.search();
-      const url = '/wp-admin/admin-post.php?action=gws_parts_price_export&search=' + encodeURIComponent(search);
-      window.location.href = url;
+      return '/wp-admin/admin-post.php?action=gws_parts_price_export&search=' + encodeURIComponent(search);
     });
   }
 });
