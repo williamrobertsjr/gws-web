@@ -2,7 +2,7 @@
 $context = Timber::context();
 
 if (!is_user_logged_in()) {
-    wp_redirect('https://staging.gwstoolgroup.com/sign-in');
+    wp_redirect(home_url('/sign-in'));
     exit;
 }
 
@@ -13,4 +13,4 @@ $context['isPrivileged'] = in_array($role, ['administrator', 'sales'], true);
 $context['tierLabel']    = get_user_role_display($role);
 $context['priceEffectiveDate'] = gws_dd_get_last_updated();
 
-Timber::render('page-data-download.twig', $context);
+Timber::render('page-pricing.twig', $context);

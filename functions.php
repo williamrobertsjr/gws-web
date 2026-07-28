@@ -626,9 +626,9 @@ function gws_enqueue_tier_scripts() {
 add_action('wp_enqueue_scripts', 'gws_enqueue_tier_scripts');
 
 // Shared spinner/download handler for price-export buttons & links, used on
-// both the dashboard's Quick Links and the data-download page's button.
+// both the dashboard's Quick Links and the pricing page's button.
 add_action('wp_enqueue_scripts', function () {
-    if (!is_page('data-download') && !is_page('dashboard')) return;
+    if (!is_page('pricing') && !is_page('dashboard')) return;
 
     wp_enqueue_script(
         'gws-price-export-download',
@@ -639,9 +639,9 @@ add_action('wp_enqueue_scripts', function () {
     );
 });
 
-// Load the parts/pricing DataTable + Excel download script only on the data-download page
+// Load the parts/pricing DataTable + Excel download script only on the pricing page
 add_action('wp_enqueue_scripts', function () {
-    if (!is_page('data-download')) return;
+    if (!is_page('pricing')) return;
 
     wp_enqueue_script(
         'gws-data-download',

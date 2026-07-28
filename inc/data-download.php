@@ -247,7 +247,7 @@ function gws_dd_handle_datatables_request() {
 add_action('admin_post_gws_parts_price_export', 'gws_dd_handle_price_export');
 function gws_dd_handle_price_export() {
     if (!is_user_logged_in()) {
-        wp_redirect('https://staging.gwstoolgroup.com/sign-in');
+        wp_redirect(home_url('/sign-in'));
         exit;
     }
 
