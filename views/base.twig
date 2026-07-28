@@ -10,7 +10,7 @@
 		
 		{{ function('wp_body_open') }}
 		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
-		<header class="header py-1 bg-black static md:fixed top-0 left-0 right-0 z-[1000] transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
+		<header class="header py-1 bg-black static md:fixed top-0 left-0 right-0 transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
 			{# Announcement Banner Logic #}
 			{% if top_banner and banner_start_date and banner_end_date %}
 				{% set current_date = "now"|date("Ymd") %}
@@ -113,15 +113,46 @@
 						</div>
 					</div>
 
-					<div class="bottom-header flex justify-center sm:justify-between">
+					<div class="bottom-header flex justify-center sm:justify-between mt-3">
 						<div class="flex flex-col md:flex-row gap-x-4 items-center">
 							{# <a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
 							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a> #}
 						</div>
-						{# Integrate Max Mega Menu with Theme if plugin is delete the menu will need a lot of work #}
-						<nav id="nav-main" class="nav-main" role="navigation">
-							{{ my_menu|raw }}
+						<nav id="mega-menu-trigger-bar" class="mega-menu-trigger-bar" role="navigation" aria-label="Primary">
+							<div class="mega-menu-trigger-bar-header">
+								<img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" width="130" height="56" alt="GWS Tool Group" class="mega-menu-trigger-bar-logo">
+								<button type="button" class="mega-menu-close" data-mega-menu-trigger-close aria-label="Close menu">
+									<i class="fa-solid fa-xmark"></i>
+								</button>
+							</div>
+							<button type="button" class="mega-menu-trigger" data-mega-menu-open="standard-tools">
+								<span>Standard Tools</span>
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
+							<button type="button" class="mega-menu-trigger" data-mega-menu-open="custom-tools">
+								<span>Custom Tools</span>
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
+							<button type="button" class="mega-menu-trigger" data-mega-menu-open="industries">
+								<span>Industries</span>
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
+							<button type="button" class="mega-menu-trigger" data-mega-menu-open="services">
+								<span>Services</span>
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
+							<button type="button" class="mega-menu-trigger" data-mega-menu-open="resources">
+								<span>Resources</span>
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
+							<button type="button" class="mega-menu-trigger" data-mega-menu-open="about">
+								<span>About</span>
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
 						</nav>
+						<button type="button" id="mega-menu-hamburger" class="mega-menu-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mega-menu-trigger-bar">
+							<i class="fa-solid fa-bars"></i>
+						</button>
 					</div>
 					
 				</div>
@@ -203,6 +234,8 @@
 
 
 		</section>
+
+		{% include 'partials/mega-menu.twig' %}
 
 		{% block footer %}
 			<footer id="footer">

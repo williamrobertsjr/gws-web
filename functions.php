@@ -93,6 +93,7 @@ Timber::$dirname = array( 'views', 'templates' );
 function enqueue_tailwind_output_styles() {
     wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
     wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/style.css', array('tailwind-output'), filemtime( get_template_directory() . '/style.css' ) );
+    wp_enqueue_style( 'mega-menu', get_template_directory_uri() . '/assets/css/mega-menu.css', array('custom-style'), filemtime( get_template_directory() . '/assets/css/mega-menu.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
 

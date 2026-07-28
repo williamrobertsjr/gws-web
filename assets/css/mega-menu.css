@@ -1,0 +1,488 @@
+/* Mega menu mechanism: trigger bar, overlay, one dropdown container with a
+   fixed height/width. Panel 1 (category column) and Panel 2 (subcategory
+   column, shared/swapped via JS) are plain children of the same track, so
+   the whole thing is always one box rather than two stitched-together ones. */
+
+:root {
+	--mega-menu-panel-width: 295px;
+	--mega-menu-z-overlay: 999998;
+	--mega-menu-z-dropdown: 999999;
+}
+
+/* The header carries a Tailwind z-index utility that output.css (a static
+   prebuild, not generated live) never actually compiled, so it was
+   stacking below the overlay/dropdown with no explicit z-index at all.
+   Setting it here keeps the trigger bar clickable while the menu is open,
+   without depending on a Tailwind rebuild. */
+.header {
+	z-index: 1000000;
+}
+
+/* Trigger bar */
+.mega-menu-trigger-bar {
+	display: none;
+	align-items: center;
+	gap: 2rem;
+}
+
+.mega-menu-trigger {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	background: none;
+	border: 0;
+	padding: 0.5rem 0;
+	color: var(--white);
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.mega-menu-trigger:hover,
+.mega-menu-trigger.is-active {
+	color: var(--pale-blue);
+}
+
+.mega-menu-trigger i {
+	display: none;
+}
+
+.mega-menu-trigger-bar-header {
+	display: none;
+}
+
+.mega-menu-hamburger {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: 0;
+	color: var(--white);
+	font-size: 20px;
+	padding: 0;
+	cursor: pointer;
+}
+
+/* Overlay */
+.mega-menu-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: var(--mega-menu-z-overlay);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.25s ease;
+}
+
+.mega-menu-overlay.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Dropdown: the single positioned/sized box. Fixed height+width so it never
+   resizes between menus or categories. */
+.mega-menu-dropdown {
+	position: fixed;
+	background: var(--black);
+	z-index: var(--mega-menu-z-dropdown);
+	overflow: hidden;
+	visibility: hidden;
+	transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-menu-dropdown.is-open {
+	visibility: visible;
+}
+
+.mega-menu-track {
+	display: flex;
+	height: 100%;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-menu-panel1,
+.mega-menu-panel2 {
+	height: 100%;
+	flex-shrink: 0;
+	overflow-y: auto;
+}
+
+.mega-menu-panel2 {
+	display: flex;
+	flex-direction: column;
+}
+
+.mega-menu-panel1-content {
+	display: none;
+	flex-direction: column;
+}
+
+.mega-menu-panel1-content.is-active {
+	display: flex;
+}
+
+.mega-menu-panel1-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 1.25rem 1.5rem;
+	background: var(--dark-gray);
+	color: var(--white);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mega-menu-panel1-header-left {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.mega-menu-panel1-title {
+	font-size: 16px;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: var(--pale-blue);
+}
+
+.mega-menu-close,
+.mega-menu-back {
+	background: none;
+	border: 0;
+	color: var(--white);
+	cursor: pointer;
+	padding: 0;
+	font-size: 16px;
+}
+
+.mega-menu-close:hover,
+.mega-menu-back:hover {
+	color: var(--pale-blue);
+}
+
+.mega-menu-panel1-list {
+	list-style: none;
+	margin: 0;
+}
+.mega-menu-panel1-list li {
+	margin: 0;
+	padding-left: 0;
+}
+
+.mega-menu-panel1-link {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 1.5rem;
+	color: var(--white);
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: 600;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	border-left: 3px solid transparent;
+}
+
+.mega-menu-panel1-link:hover,
+.mega-menu-panel1-link.is-active {
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--pale-blue);
+	border-left-color: var(--pale-blue);
+}
+
+.mega-menu-panel1-link i {
+	font-size: 13px;
+	color: var(--gray);
+}
+
+/* Panel 2 (shared, content swapped in via JS) */
+.mega-menu-panel2-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 1.25rem 1.5rem;
+	background: var(--dark-gray);
+	color: var(--pale-blue);
+	border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+}
+
+.mega-menu-panel2-header-left {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.mega-menu-panel2-title {
+	font-size: 16px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.mega-menu-panel2-list {
+	list-style: none;
+	margin: 0;
+	padding: 0.5rem 0;
+}
+
+.mega-menu-panel2-list li {
+	margin: 0;
+	padding-left: 0;
+}
+
+.mega-menu-panel2-list a {
+	display: block;
+	padding: 0.75rem 1.5rem;
+	color: var(--white);
+	text-decoration: none;
+	font-size: 14px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mega-menu-panel2-list a:hover {
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--pale-blue);
+}
+
+a.mega-menu-panel2-all {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.85rem 1.5rem;
+	font-weight: 700;
+	color: var(--white);
+	text-decoration: none;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	border-bottom: 0;
+}
+
+a.mega-menu-panel2-all:hover {
+	color: var(--pale-blue);
+	background: rgba(255, 255, 255, 0.06);
+}
+
+a.mega-menu-panel2-all i {
+	font-size: 13px;
+	color: var(--gray);
+}
+
+/* Product-index drill-down (Milling/Holemaking/Threading): Material buttons,
+   with the matching Shape list revealed in place -- mirrors /products' own
+   Material > Shape filter flow instead of a separate cascading panel. */
+.mega-menu-pi {
+	padding: 1rem 1.5rem;
+}
+
+.mega-menu-pi-materials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.mega-menu-pi-material-btn {
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 2px;
+	color: var(--white);
+	padding: 0.5rem 0.85rem;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.mega-menu-pi-material-btn:hover {
+	border-color: var(--pale-blue);
+	color: var(--pale-blue);
+}
+
+.mega-menu-pi-material-btn.is-active {
+	background: var(--dark-blue);
+	border-color: var(--pale-blue);
+	color: var(--pale-blue);
+}
+
+.mega-menu-pi-shapes {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.mega-menu-pi-shapes[hidden] {
+	display: none;
+}
+
+.mega-menu-pi-shapes a {
+	color: var(--white);
+	text-decoration: none;
+	font-size: 14px;
+	padding: 0.4rem 0;
+	border-bottom: 1px solid transparent;
+}
+
+.mega-menu-pi-shapes a:hover {
+	color: var(--pale-blue);
+	border-bottom-color: var(--pale-blue);
+}
+
+.mega-menu-pi-shapes a::after {
+	content: "\00b7";
+	margin-left: 0.5rem;
+	color: var(--gray);
+}
+
+.mega-menu-pi-shapes a:last-child::after {
+	content: "";
+	margin: 0;
+}
+
+body.mega-menu-is-open {
+	overflow: hidden;
+}
+
+/* Desktop: full-width dropdown, fixed height, anchored under the header.
+   Panel 1 (category column) and Panel 2 (subcategory column) sit side by
+   side inside it at all times — no sliding, just show/hide + content swap. */
+@media (min-width: 768px) {
+	.mega-menu-trigger-bar {
+		display: flex;
+	}
+
+	.mega-menu-hamburger {
+		display: none;
+	}
+
+	.mega-menu-dropdown {
+		left: 0;
+		right: 0;
+		height: auto;
+		max-height: 80vh;
+		overflow-y: auto;
+		box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.25);
+		transform: translateY(-8px);
+		opacity: 0;
+	}
+
+	.mega-menu-dropdown.is-open {
+		transform: translateY(0);
+		opacity: 1;
+	}
+
+	.mega-menu-track {
+		width: 100%;
+		height: auto;
+		transform: none !important;
+	}
+
+	.mega-menu-panel1,
+	.mega-menu-panel2 {
+		height: auto;
+	}
+
+	.mega-menu-panel1 {
+		width: var(--mega-menu-panel-width);
+		border-right: 1px solid rgba(255, 255, 255, 0.12);
+	}
+
+	.mega-menu-panel2 {
+		flex: 1 1 auto;
+	}
+
+	/* Flat menus (no subcategories) opt out via data-mega-menu-layout="flat"
+	   on their .mega-menu-panel1-content and span the full width themselves. */
+	.mega-menu-dropdown.is-flat .mega-menu-panel1 {
+		width: 100%;
+		border-right: 0;
+	}
+
+	.mega-menu-dropdown.is-flat .mega-menu-panel2 {
+		display: none;
+	}
+
+	.mega-menu-panel1-content[data-mega-menu-layout="flat"] .mega-menu-panel1-list {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		column-gap: 1.5rem;
+	}
+
+	/* No "back" concept when both columns are visible together, and Panel 1's
+	   own close is enough -- a second X on Panel 2 would be redundant since
+	   both panels are on screen at once. */
+	.mega-menu-back,
+	.mega-menu-panel2-header .mega-menu-close {
+		display: none;
+	}
+}
+
+/* Mobile: full-screen, left-slide behavior. Panel 1 and Panel 2 are the two
+   halves of a sliding track; only one is visible at a time. */
+@media (max-width: 767px) {
+	.mega-menu-trigger-bar {
+		display: none;
+		position: fixed;
+		inset: 0;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+		background: var(--black);
+		z-index: var(--mega-menu-z-dropdown);
+		overflow-y: auto;
+	}
+
+	.mega-menu-trigger-bar.is-open {
+		display: flex;
+	}
+
+	.mega-menu-trigger-bar-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.25rem 1.5rem;
+		background: var(--dark-gray);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		flex-shrink: 0;
+	}
+
+	.mega-menu-trigger-bar-logo {
+		height: 32px;
+		width: auto;
+	}
+
+	.mega-menu-trigger {
+		justify-content: space-between;
+		padding: 1rem 1.5rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		border-left: 3px solid transparent;
+	}
+
+	.mega-menu-trigger:hover,
+	.mega-menu-trigger.is-active {
+		background: rgba(255, 255, 255, 0.06);
+		border-left-color: var(--pale-blue);
+	}
+
+	.mega-menu-trigger i {
+		display: inline-block;
+		font-size: 13px;
+		color: var(--gray);
+	}
+
+	.mega-menu-dropdown {
+		inset: 0;
+	}
+
+	.mega-menu-track {
+		width: 200%;
+	}
+
+	.mega-menu-panel1,
+	.mega-menu-panel2 {
+		width: 50%;
+	}
+
+	.mega-menu-track.is-panel2 {
+		transform: translateX(-50%);
+	}
+}

@@ -1,0 +1,498 @@
+{#
+	Shared mega menu mechanism: one overlay, one dropdown container with a
+	fixed height/width. Panel 1 (category column, one block per top-nav
+	trigger, all sharing identical class names/structure) and Panel 2 (shared,
+	swapped in from the <template> blocks below) are plain children of the
+	same container/track rather than independently-positioned panels, so the
+	whole thing always reads as one box instead of two stitched-together ones.
+#}
+<div id="mega-menu-overlay" class="mega-menu-overlay" data-mega-menu-close hidden></div>
+
+<div id="mega-menu-dropdown" class="mega-menu-dropdown" hidden>
+<div class="mega-menu-track">
+<div id="mega-menu-panel1" class="mega-menu-panel1">
+
+	{# ---------------- Standard Tools ----------------
+		Mirrors /products' own taxonomy and drill-down (Category > Material > Shape),
+		pulled directly from master_series_data + views/woo/product-index-*.php (the
+		same source /products itself renders from -- see page-products.php). Shape
+		links point at /products#category/material/shape, which product-index-filter.js
+		reads on load and replays as clicks to land on that exact pre-filtered view.
+		Burrs and Miscellaneous have a Material tier but no Shape tier in the source
+		data, so their materials link straight to /products#category/material. Inserts
+		and Armory have no breakdown at all in the source data, so they link straight
+		to their /products tab. #}
+	<div class="mega-menu-panel1-content" data-mega-menu-panel1="standard-tools" hidden>
+		<div class="mega-menu-panel1-header">
+			<div class="mega-menu-panel1-header-left">
+				<button type="button" class="mega-menu-back" data-mega-menu-trigger-back aria-label="Back to main menu">
+					<i class="fa-solid fa-chevron-left"></i>
+				</button>
+				<span class="mega-menu-panel1-title">Standard Tools</span>
+			</div>
+			<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
+		<ul class="mega-menu-panel1-list">
+			<li>
+				<a href="#" class="mega-menu-panel1-link" data-menu-children="milling">
+					<span>Milling</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				<template data-panel2-content="milling">
+					<div class="mega-menu-panel2-header">
+						<div class="mega-menu-panel2-header-left">
+							<button type="button" class="mega-menu-back" data-mega-menu-back aria-label="Back">
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<span class="mega-menu-panel2-title">Milling</span>
+						</div>
+					<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					</div>
+					<div class="mega-menu-pi">
+						<div class="mega-menu-pi-materials">
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="steel">Steel</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="stainless">Stainless</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="cast-iron">Cast Iron</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="non-ferrous">Non-Ferrous</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="hrsa">HRSA</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="hardened-steel">Hardened Steel</button>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="steel" hidden>
+							<a href="/products#milling/steel/corner-chamfer">Corner Chamfer</a>
+							<a href="/products#milling/steel/ball-nose">Ball Nose</a>
+							<a href="/products#milling/steel/chamfer-mills">Chamfer Mills</a>
+							<a href="/products#milling/steel/corner-radius">Corner Radius</a>
+							<a href="/products#milling/steel/drill-mills">Drill/Mills</a>
+							<a href="/products#milling/steel/square">Square</a>
+							<a href="/products#milling/steel/micro-end-mills">Micro End Mills</a>
+							<a href="/products#milling/steel/square-and-radius">Square and Radius</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="stainless" hidden>
+							<a href="/products#milling/stainless/corner-radius">Corner Radius</a>
+							<a href="/products#milling/stainless/square-and-radius">Square and Radius</a>
+							<a href="/products#milling/stainless/ball-nose">Ball Nose</a>
+							<a href="/products#milling/stainless/corner-chamfer">Corner Chamfer</a>
+							<a href="/products#milling/stainless/square">Square</a>
+							<a href="/products#milling/stainless/micro-end-mills">Micro End Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="cast-iron" hidden>
+							<a href="/products#milling/cast-iron/square-and-radius">Square and Radius</a>
+							<a href="/products#milling/cast-iron/corner-chamfer">Corner Chamfer</a>
+							<a href="/products#milling/cast-iron/ball-nose">Ball Nose</a>
+							<a href="/products#milling/cast-iron/chamfer-mills">Chamfer Mills</a>
+							<a href="/products#milling/cast-iron/corner-radius">Corner Radius</a>
+							<a href="/products#milling/cast-iron/drill-mills">Drill/Mills</a>
+							<a href="/products#milling/cast-iron/square">Square</a>
+							<a href="/products#milling/cast-iron/micro-end-mills">Micro End Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="non-ferrous" hidden>
+							<a href="/products#milling/non-ferrous/ball-nose">Ball Nose</a>
+							<a href="/products#milling/non-ferrous/corner-chamfer">Corner Chamfer</a>
+							<a href="/products#milling/non-ferrous/corner-radius">Corner Radius</a>
+							<a href="/products#milling/non-ferrous/square">Square</a>
+							<a href="/products#milling/non-ferrous/square-and-radius">Square and Radius</a>
+							<a href="/products#milling/non-ferrous/chamfer-mills">Chamfer Mills</a>
+							<a href="/products#milling/non-ferrous/drill-mills">Drill/Mills</a>
+							<a href="/products#milling/non-ferrous/micro-end-mills">Micro End Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="hrsa" hidden>
+							<a href="/products#milling/hrsa/corner-radius">Corner Radius</a>
+							<a href="/products#milling/hrsa/square-and-radius">Square and Radius</a>
+							<a href="/products#milling/hrsa/corner-chamfer">Corner Chamfer</a>
+							<a href="/products#milling/hrsa/ball-nose">Ball Nose</a>
+							<a href="/products#milling/hrsa/square">Square</a>
+							<a href="/products#milling/hrsa/micro-end-mills">Micro End Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="hardened-steel" hidden>
+							<a href="/products#milling/hardened-steel/square-and-radius">Square and Radius</a>
+							<a href="/products#milling/hardened-steel/ball-nose">Ball Nose</a>
+							<a href="/products#milling/hardened-steel/chamfer-mills">Chamfer Mills</a>
+							<a href="/products#milling/hardened-steel/corner-radius">Corner Radius</a>
+							<a href="/products#milling/hardened-steel/drill-mills">Drill/Mills</a>
+							<a href="/products#milling/hardened-steel/square">Square</a>
+							<a href="/products#milling/hardened-steel/micro-end-mills">Micro End Mills</a>
+							<a href="/products#milling/hardened-steel/corner-chamfer">Corner Chamfer</a>
+						</div>
+					</div>
+					<a href="/products#milling" class="mega-menu-panel2-all">
+					<span>All Milling Tools</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				</template>
+			</li>
+			<li>
+				<a href="#" class="mega-menu-panel1-link" data-menu-children="holemaking">
+					<span>Holemaking</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				<template data-panel2-content="holemaking">
+					<div class="mega-menu-panel2-header">
+						<div class="mega-menu-panel2-header-left">
+							<button type="button" class="mega-menu-back" data-mega-menu-back aria-label="Back">
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<span class="mega-menu-panel2-title">Holemaking</span>
+						</div>
+					<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					</div>
+					<div class="mega-menu-pi">
+						<div class="mega-menu-pi-materials">
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="steel">Steel</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="stainless">Stainless</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="cast-iron">Cast Iron</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="non-ferrous">Non-Ferrous</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="hrsa">HRSA</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="hardened-steel">Hardened Steel</button>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="steel" hidden>
+							<a href="/products#holemaking/steel/drills">Drills</a>
+							<a href="/products#holemaking/steel/countersinks">Countersinks</a>
+							<a href="/products#holemaking/steel/drills-countersinks">Drills/Countersinks</a>
+							<a href="/products#holemaking/steel/reamers">Reamers</a>
+							<a href="/products#holemaking/steel/boring-bar">Boring Bar</a>
+							<a href="/products#holemaking/steel/chucking-reamers">Chucking Reamers</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="stainless" hidden>
+							<a href="/products#holemaking/stainless/drills">Drills</a>
+							<a href="/products#holemaking/stainless/reamers">Reamers</a>
+							<a href="/products#holemaking/stainless/boring-bar">Boring Bar</a>
+							<a href="/products#holemaking/stainless/chucking-reamers">Chucking Reamers</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="cast-iron" hidden>
+							<a href="/products#holemaking/cast-iron/drills">Drills</a>
+							<a href="/products#holemaking/cast-iron/countersinks">Countersinks</a>
+							<a href="/products#holemaking/cast-iron/drills-countersinks">Drills/Countersinks</a>
+							<a href="/products#holemaking/cast-iron/reamers">Reamers</a>
+							<a href="/products#holemaking/cast-iron/boring-bar">Boring Bar</a>
+							<a href="/products#holemaking/cast-iron/chucking-reamers">Chucking Reamers</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="non-ferrous" hidden>
+							<a href="/products#holemaking/non-ferrous/countersinks-aerospace">Countersinks - Aerospace</a>
+							<a href="/products#holemaking/non-ferrous/drills-aerospace">Drills - Aerospace</a>
+							<a href="/products#holemaking/non-ferrous/reverse-spot-facers-aerospace">Reverse Spot Facers - Aerospace</a>
+							<a href="/products#holemaking/non-ferrous/rivet-shavers-aerospace">Rivet Shavers - Aerospace</a>
+							<a href="/products#holemaking/non-ferrous/drills">Drills</a>
+							<a href="/products#holemaking/non-ferrous/countersinks">Countersinks</a>
+							<a href="/products#holemaking/non-ferrous/drills-countersinks">Drills/Countersinks</a>
+							<a href="/products#holemaking/non-ferrous/boring-bar">Boring Bar</a>
+							<a href="/products#holemaking/non-ferrous/chucking-reamers">Chucking Reamers</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="hrsa" hidden>
+							<a href="/products#holemaking/hrsa/drills">Drills</a>
+							<a href="/products#holemaking/hrsa/boring-bar">Boring Bar</a>
+							<a href="/products#holemaking/hrsa/chucking-reamers">Chucking Reamers</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="hardened-steel" hidden>
+							<a href="/products#holemaking/hardened-steel/countersinks">Countersinks</a>
+							<a href="/products#holemaking/hardened-steel/drills">Drills</a>
+							<a href="/products#holemaking/hardened-steel/drills-countersinks">Drills/Countersinks</a>
+							<a href="/products#holemaking/hardened-steel/reamers">Reamers</a>
+							<a href="/products#holemaking/hardened-steel/boring-bar">Boring Bar</a>
+							<a href="/products#holemaking/hardened-steel/chucking-reamers">Chucking Reamers</a>
+						</div>
+					</div>
+					<a href="/products#holemaking" class="mega-menu-panel2-all">
+					<span>All Holemaking Tools</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				</template>
+			</li>
+			<li>
+				<a href="#" class="mega-menu-panel1-link" data-menu-children="threading">
+					<span>Threading</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				<template data-panel2-content="threading">
+					<div class="mega-menu-panel2-header">
+						<div class="mega-menu-panel2-header-left">
+							<button type="button" class="mega-menu-back" data-mega-menu-back aria-label="Back">
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<span class="mega-menu-panel2-title">Threading</span>
+						</div>
+					<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					</div>
+					<div class="mega-menu-pi">
+						<div class="mega-menu-pi-materials">
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="steel">Steel</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="stainless">Stainless</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="cast-iron">Cast Iron</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="non-ferrous">Non-Ferrous</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="hrsa">HRSA</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="hardened-steel">Hardened Steel</button>
+							<button type="button" class="mega-menu-pi-material-btn" data-pi-material="general">General</button>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="steel" hidden>
+							<a href="/products#threading/steel/taps">Taps</a>
+							<a href="/products#threading/steel/drill-taps">Drill/Taps</a>
+							<a href="/products#threading/steel/dies">Dies</a>
+							<a href="/products#threading/steel/thread-mills">Thread Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="stainless" hidden>
+							<a href="/products#threading/stainless/taps">Taps</a>
+							<a href="/products#threading/stainless/thread-mills">Thread Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="cast-iron" hidden>
+							<a href="/products#threading/cast-iron/taps">Taps</a>
+							<a href="/products#threading/cast-iron/drill-taps">Drill/Taps</a>
+							<a href="/products#threading/cast-iron/dies">Dies</a>
+							<a href="/products#threading/cast-iron/thread-mills">Thread Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="non-ferrous" hidden>
+							<a href="/products#threading/non-ferrous/thread-mills">Thread Mills</a>
+							<a href="/products#threading/non-ferrous/taps">Taps</a>
+							<a href="/products#threading/non-ferrous/drill-taps">Drill/Taps</a>
+							<a href="/products#threading/non-ferrous/dies">Dies</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="hrsa" hidden>
+							<a href="/products#threading/hrsa/thread-mills">Thread Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="hardened-steel" hidden>
+							<a href="/products#threading/hardened-steel/drill-taps">Drill/Taps</a>
+							<a href="/products#threading/hardened-steel/dies">Dies</a>
+							<a href="/products#threading/hardened-steel/taps">Taps</a>
+							<a href="/products#threading/hardened-steel/thread-mills">Thread Mills</a>
+						</div>
+						<div class="mega-menu-pi-shapes" data-pi-shapes="general" hidden>
+							<a href="/products#threading/general/gages">Gages</a>
+							<a href="/products#threading/general/tap-extensions">Tap Extensions</a>
+							<a href="/products#threading/general/fluids">Fluids</a>
+						</div>
+					</div>
+					<a href="/products#threading" class="mega-menu-panel2-all">
+					<span>All Threading Tools</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				</template>
+			</li>
+			<li>
+				<a href="/products#inserts" class="mega-menu-panel1-link">
+					<span>Inserts</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="mega-menu-panel1-link" data-menu-children="burrs">
+					<span>Burrs</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				<template data-panel2-content="burrs">
+					<div class="mega-menu-panel2-header">
+						<div class="mega-menu-panel2-header-left">
+							<button type="button" class="mega-menu-back" data-mega-menu-back aria-label="Back">
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<span class="mega-menu-panel2-title">Burrs</span>
+						</div>
+					<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					</div>
+					<ul class="mega-menu-panel2-list">
+						<li><a href="/products#burrs/cylinder-shape">Cylinder Shape</a></li>
+						<li><a href="/products#burrs/ball-shape">Ball Shape</a></li>
+						<li><a href="/products#burrs/oval-egg-shape">Oval/Egg Shape</a></li>
+						<li><a href="/products#burrs/tree-shape">Tree Shape</a></li>
+						<li><a href="/products#burrs/flame-shape">Flame Shape</a></li>
+						<li><a href="/products#burrs/cone-shape">Cone Shape</a></li>
+						<li><a href="/products#burrs/taper-shape">Taper Shape</a></li>
+						<li><a href="/products#burrs" class="mega-menu-panel2-all">All Burrs</a></li>
+					</ul>
+				</template>
+			</li>
+			<li>
+				<a href="/products#armory" class="mega-menu-panel1-link">
+					<span>Armory</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="mega-menu-panel1-link" data-menu-children="miscellaneous">
+					<span>Miscellaneous</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				<template data-panel2-content="miscellaneous">
+					<div class="mega-menu-panel2-header">
+						<div class="mega-menu-panel2-header-left">
+							<button type="button" class="mega-menu-back" data-mega-menu-back aria-label="Back">
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<span class="mega-menu-panel2-title">Miscellaneous</span>
+						</div>
+					<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					</div>
+					<ul class="mega-menu-panel2-list">
+						<li><a href="/products#miscellaneous/blanks">Blanks</a></li>
+						<li><a href="/products#miscellaneous/engraving">Engraving</a></li>
+						<li><a href="/products#miscellaneous/id-grinding">ID Grinding</a></li>
+						<li><a href="/products#miscellaneous/routers">Routers</a></li>
+						<li><a href="/products#miscellaneous" class="mega-menu-panel2-all">All Miscellaneous</a></li>
+					</ul>
+				</template>
+			</li>
+			<li>
+				<a href="/products" class="mega-menu-panel1-link">
+					<span>Browse All Products</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+			</li>
+			<li>
+				<a href="/products/milling/" class="mega-menu-panel1-link">
+					<span>Search by Spec</span>
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	{# ---------------- Custom Tools ---------------- #}
+	<div class="mega-menu-panel1-content" data-mega-menu-panel1="custom-tools" hidden>
+		<div class="mega-menu-panel1-header">
+			<div class="mega-menu-panel1-header-left">
+				<button type="button" class="mega-menu-back" data-mega-menu-trigger-back aria-label="Back to main menu">
+					<i class="fa-solid fa-chevron-left"></i>
+				</button>
+				<span class="mega-menu-panel1-title">Custom Tools</span>
+			</div>
+			<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
+		<ul class="mega-menu-panel1-list">
+			<li>
+				<a href="#" class="mega-menu-panel1-link" data-menu-children="turning">
+					<span>Turning</span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				<template data-panel2-content="turning">
+					<div class="mega-menu-panel2-header">
+						<div class="mega-menu-panel2-header-left">
+							<button type="button" class="mega-menu-back" data-mega-menu-back aria-label="Back">
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<span class="mega-menu-panel2-title">Turning</span>
+						</div>
+					<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					</div>
+					<ul class="mega-menu-panel2-list">
+						<li><a href="/custom-tools/general/thriftedge/">ThriftEdge</a></li>
+						<li><a href="/custom-tools/general/thriftturn-and-thriftpoint/">ThriftTurn and ThriftPoint</a></li>
+						<li><a href="/custom-tools/general/thriftchange/">ThriftChange</a></li>
+						<li><a href="/custom-tools/general/thriftform/">ThriftForm</a></li>
+						<li><a href="/custom-tools/general/thriftshave/">ThriftShave</a></li>
+					</ul>
+				</template>
+			</li>
+		</ul>
+	</div>
+
+	{# ---------------- Industries (flat, no children) ---------------- #}
+	<div class="mega-menu-panel1-content" data-mega-menu-panel1="industries" data-mega-menu-layout="flat" hidden>
+		<div class="mega-menu-panel1-header">
+			<div class="mega-menu-panel1-header-left">
+				<button type="button" class="mega-menu-back" data-mega-menu-trigger-back aria-label="Back to main menu">
+					<i class="fa-solid fa-chevron-left"></i>
+				</button>
+				<span class="mega-menu-panel1-title">Industries</span>
+			</div>
+			<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
+		<ul class="mega-menu-panel1-list">
+			<li><a href="/industries/power-generation/" class="mega-menu-panel1-link">Power Generation</a></li>
+			<li><a href="/industries/oil-and-gas/" class="mega-menu-panel1-link">Oil and Gas</a></li>
+			<li><a href="/industries/medical/" class="mega-menu-panel1-link">Medical</a></li>
+			<li><a href="/industries/heavy-industrial/" class="mega-menu-panel1-link">Heavy Industrial</a></li>
+			<li><a href="/industries/general-industrial/" class="mega-menu-panel1-link">General Industrial</a></li>
+			<li><a href="/industries/automotive-i-c-e/" class="mega-menu-panel1-link">Automotive: I.C.E.</a></li>
+			<li><a href="/industries/automotive-non-i-c-e/" class="mega-menu-panel1-link">Automotive Non-I.C.E.</a></li>
+			<li><a href="/industries/armament/" class="mega-menu-panel1-link">Armament</a></li>
+			<li><a href="/industries/aerospace-space/" class="mega-menu-panel1-link">Aerospace: Space</a></li>
+			<li><a href="/industries/aerospace-engine/" class="mega-menu-panel1-link">Aerospace: Engine</a></li>
+			<li><a href="/industries/aerospace-defense/" class="mega-menu-panel1-link">Aerospace: Defense</a></li>
+			<li><a href="/industries/aerospace-commercial/" class="mega-menu-panel1-link">Aerospace: Commercial</a></li>
+		</ul>
+	</div>
+
+	{# ---------------- Services (flat, no children) ---------------- #}
+	<div class="mega-menu-panel1-content" data-mega-menu-panel1="services" data-mega-menu-layout="flat" hidden>
+		<div class="mega-menu-panel1-header">
+			<div class="mega-menu-panel1-header-left">
+				<button type="button" class="mega-menu-back" data-mega-menu-trigger-back aria-label="Back to main menu">
+					<i class="fa-solid fa-chevron-left"></i>
+				</button>
+				<span class="mega-menu-panel1-title">Services</span>
+			</div>
+			<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
+		<ul class="mega-menu-panel1-list">
+			<li><a href="/tool-coatings/" class="mega-menu-panel1-link">Tool Coatings</a></li>
+			<li><a href="/tool-reconditioning/" class="mega-menu-panel1-link">Tool Reconditioning</a></li>
+		</ul>
+	</div>
+
+	{# ---------------- Resources (flat, no children) ---------------- #}
+	<div class="mega-menu-panel1-content" data-mega-menu-panel1="resources" data-mega-menu-layout="flat" hidden>
+		<div class="mega-menu-panel1-header">
+			<div class="mega-menu-panel1-header-left">
+				<button type="button" class="mega-menu-back" data-mega-menu-trigger-back aria-label="Back to main menu">
+					<i class="fa-solid fa-chevron-left"></i>
+				</button>
+				<span class="mega-menu-panel1-title">Resources</span>
+			</div>
+			<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
+		<ul class="mega-menu-panel1-list">
+			<li><a href="/cart" class="mega-menu-panel1-link">Rapid Quote</a></li>
+			<li><a href="/speed-and-feeds/" class="mega-menu-panel1-link">Speed and Feeds</a></li>
+			<li><a href="/milling-formulas/" class="mega-menu-panel1-link">Milling Formulas</a></li>
+			<li><a href="/product-literature/" class="mega-menu-panel1-link">Product Literature</a></li>
+			<li><a href="/gws-blog/" class="mega-menu-panel1-link">GWS Blog</a></li>
+			<li><a href="/distributor-registration/" class="mega-menu-panel1-link">Distributor Registration</a></li>
+			<li><a href="/quality-compliance/" class="mega-menu-panel1-link">Quality/Compliance</a></li>
+		</ul>
+	</div>
+
+	{# ---------------- About (flat, no children) ---------------- #}
+	<div class="mega-menu-panel1-content" data-mega-menu-panel1="about" data-mega-menu-layout="flat" hidden>
+		<div class="mega-menu-panel1-header">
+			<div class="mega-menu-panel1-header-left">
+				<button type="button" class="mega-menu-back" data-mega-menu-trigger-back aria-label="Back to main menu">
+					<i class="fa-solid fa-chevron-left"></i>
+				</button>
+				<span class="mega-menu-panel1-title">About</span>
+			</div>
+			<button type="button" class="mega-menu-close" data-mega-menu-close aria-label="Close menu">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
+		<ul class="mega-menu-panel1-list">
+			<li><a href="/who-we-are/" class="mega-menu-panel1-link">Who We Are</a></li>
+			<li><a href="/sales-team/" class="mega-menu-panel1-link">Sales Team</a></li>
+			<li><a href="/executive-team/" class="mega-menu-panel1-link">Executive Team</a></li>
+			<li><a href="/our-background/" class="mega-menu-panel1-link">Our Background</a></li>
+			<li><a href="/locations/" class="mega-menu-panel1-link">Locations</a></li>
+			<li><a href="/careers/" class="mega-menu-panel1-link">Careers</a></li>
+		</ul>
+	</div>
+
+</div>
+
+<div id="mega-menu-panel2" class="mega-menu-panel2"></div>
+</div>
+</div>
