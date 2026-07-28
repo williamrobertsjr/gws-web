@@ -163,6 +163,7 @@ function get_user_role_display($role) {
         'direct_30'   => '30%',
         'direct_42_5' => '42.5%',
         'exemptPlus'  => '55%',
+        'tier_57'     => '57%',
         'sales'       => 'Sales Team',
         'administrator' => 'Administrator',
     ];

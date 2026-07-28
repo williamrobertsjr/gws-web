@@ -17,36 +17,20 @@
                     <div id="company-info" class="pt-5 flex flex-col flex-grow h-full">
             
                         {% set company = user.meta('company') %}
-                        {% if userRole == 't1' %}
-                        {% set userRole = '55%' %}
-                        {% elseif userRole == 't2' %}
-                        {% set userRole = '52.5%' %}
-                        {% elseif userRole == 't3' %}
-                        {% set userRole = '50%' %}
-                        {% elseif userRole == '57_5' %}
-                        {% set userRole = '57.5%' %}
-                        {% elseif userRole == 'tier_57' %}
-                        {% set userRole = '57%' %}
-                        {% elseif userRole == 'sales' %}
-                        {% set userRole = 'Sales Team' %}
-                        {% elseif userRole == 'administrator' %}
-                        {% set userRole = 'Administrator' %}
-                        {% else %}
-                        {% set userRole = 'None' %}
-                        {% endif %}
+                        {% set roleLabel = get_user_role_display(userRole) %}
 
                         {# Tier is resolved server-side from the logged-in user's role, so one URL works for everyone #}
                         {% set priceListUrl = '/wp-admin/admin-post.php?action=gws_parts_price_export' %}
 
-            
-                        {% if userRole == '55%' or userRole == '52.5%' or userRole == '50%' or userRole == '57%' or userRole == '57.5%' %}
+
+                        {% if roleLabel not in ['Administrator', 'Sales Team', 'None'] %}
                             <div class="flex flex-col gap-y-3">
                                 <p class="w-full text-sm"><span class="text-gray font-medium">Company</span><span class="float-right font-medium">{{company}}</span></p>
                                 <p class="w-full text-sm"><span class="text-gray font-medium">Account type</span><span class="float-right font-medium">Distributor</span></p>
                             </div>
                             <hr class="text-gray my-4">
                             <div class="flex flex-col flex-grow gap-y-3">
-                                <p class="w-full text-sm"><span class="text-gray font-medium">Your discount</span><span class="float-right font-medium">{{userRole}} off list</span></p>
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Your discount</span><span class="float-right font-medium">{{roleLabel}} off list</span></p>
                                 <div class="flex flex-col flex-grow">
                                     <p class="w-full text-sm"><span class="text-gray font-medium">Price list effective</span><span class="float-right font-medium">06/01/2026</span></p>
                                     <div class="mt-auto"><button class="border border-gray rounded p-2 mt-3 w-full hover:bg-[#a7a8a940] hover:border-[#a7a8a940]"><a href="{{priceListUrl}}" class="price-export-link text-white text-sm">Download your price list<i class="fa-solid fa-download ms-4"></i></a></button></div>
@@ -55,7 +39,7 @@
                         {% else %}
                             <div class="flex flex-col gap-y-3">
                                 <p class="w-full text-sm"><span class="text-gray font-medium">Company</span><span class="float-right font-medium">{{company}}</span></p>
-                                <p class="w-full text-sm"><span class="text-gray font-medium">Account type</span><span class="float-right font-medium">Sales Team</span></p>
+                                <p class="w-full text-sm"><span class="text-gray font-medium">Account type</span><span class="float-right font-medium">{{roleLabel}}</span></p>
                             </div>
                             <hr class="text-gray my-4">
                             <div class="flex flex-col flex-grow">
@@ -145,7 +129,7 @@
         <div id="quick-links" class="bg-[#2a2a2a] rounded-xl p-6">
             <p class="text-sm font-medium text-pale-blue uppercase tracking-widest mb-5">Quick Links</p>
 
-            {% if userRole == 'Administrator' or userRole == 'Sales Team' %}
+            {% if userRole == 'administrator' or userRole == 'sales' %}
 
             <div class="grid grid-cols-2 gap-6">
 
@@ -181,6 +165,36 @@
                     <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=direct_42_5" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
                     <span class="text-sm font-medium text-pale-blue">42.5% off</span>
                     <span class="text-xs text-gray-500">Direct 42.5</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=57" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">57% off</span>
+                    <span class="text-xs text-gray-500">REM</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=pl_55" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">55% off</span>
+                    <span class="text-xs text-gray-500">PL 55</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=pl_57" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">57% off</span>
+                    <span class="text-xs text-gray-500">PL 57</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=ploem_60" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">60% off</span>
+                    <span class="text-xs text-gray-500">PLOEM 60</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=ploem_65" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">65% off</span>
+                    <span class="text-xs text-gray-500">PLOEM 65</span>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=exemptPlus" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
+                    <span class="text-sm font-medium text-pale-blue">55% off</span>
+                    <span class="text-xs text-gray-500">Ewie, GEC, PSMI</span>
                     <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </a>
                     <a href="/wp-admin/admin-post.php?action=gws_parts_price_export&amp;tier=default" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
@@ -229,9 +243,9 @@
                resolved server-side from the logged-in user's role, so one URL
                covers every tier; the label still reflects their tier. #}
             <div class="flex flex-wrap gap-2">
-                {% if userRole in ['55%', '52.5%', '50%', '57%', '57.5%'] %}
+                {% if roleLabel not in ['None', 'Administrator', 'Sales Team'] %}
                 <a href="/wp-admin/admin-post.php?action=gws_parts_price_export" class="price-export-link inline-flex items-center gap-2 bg-[#333] border border-[#444] hover:border-pale-blue hover:bg-[#3d3d3d] rounded-full px-4 py-1.5 transition-colors no-underline">
-                    <span class="text-sm font-medium text-pale-blue">{{ userRole }} off</span>
+                    <span class="text-sm font-medium text-pale-blue">{{ roleLabel }} off</span>
                     <span class="text-xs text-gray-500">Your price list</span>
                     <svg width="11" height="11" viewBox="0 0 14 14" fill="none" class="opacity-30"><path d="M7 1v8M3 6l4 4 4-4M1 12h12" stroke="#f7f7f7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
