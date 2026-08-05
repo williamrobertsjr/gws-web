@@ -18,6 +18,44 @@
 	z-index: 1000000;
 }
 
+/* Desktop header layout: logo+nav on the left, account/tier row and quote
+   buttons+search on the right, as a 2x2 grid instead of 3 stacked full-width
+   rows. Scoped to .header .wrapper (not .wrapper alone, which is a generic
+   container class reused elsewhere on the site). DOM order is untouched, so
+   mobile (no grid here) still stacks in the original top-top-header -> logo
+   -> nav -> actions order. Each row's height is driven by CSS Grid's default
+   row-track sizing, so the left/right column naturally match height without
+   any manual alignment. */
+@media (min-width: 768px) {
+	.header .wrapper {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		column-gap: 2rem;
+	}
+
+	.header .wrapper .top-top-header {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	.header .wrapper .top-header {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.header .wrapper .bottom-header {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.header .wrapper .header-actions {
+		grid-column: 2;
+		grid-row: 2;
+		justify-content: flex-end;
+	}
+}
+
 /* Trigger bar */
 .mega-menu-trigger-bar {
 	display: none;
@@ -31,7 +69,7 @@
 	gap: 0.5rem;
 	background: none;
 	border: 0;
-	padding: 0.5rem 0;
+	/* padding: 0.5rem 0; */
 	color: var(--white);
 	font-size: 14px;
 	font-weight: 600;
@@ -72,12 +110,13 @@
 	z-index: var(--mega-menu-z-overlay);
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity 0.25s ease;
+	transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .mega-menu-overlay.is-open {
 	opacity: 1;
 	visibility: visible;
+	transition: opacity 0.25s ease, visibility 0s linear 0s;
 }
 
 /* Dropdown: the single positioned/sized box. Fixed height+width so it never
@@ -88,11 +127,12 @@
 	z-index: var(--mega-menu-z-dropdown);
 	overflow: hidden;
 	visibility: hidden;
-	transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.2s;
 }
 
 .mega-menu-dropdown.is-open {
 	visibility: visible;
+	transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
 }
 
 .mega-menu-track {
@@ -189,6 +229,20 @@
 	background: rgba(255, 255, 255, 0.06);
 	color: var(--pale-blue);
 	border-left-color: var(--pale-blue);
+}
+
+.mega-menu-panel1-link--featured {
+	color: var(--pale-blue);
+	background: rgba(209, 227, 250, 0.06);
+	border-left-color: var(--pale-blue);
+}
+
+.mega-menu-panel1-link--featured:hover {
+	background: rgba(209, 227, 250, 0.12);
+}
+
+.mega-menu-panel1-link--featured i {
+	color: var(--pale-blue);
 }
 
 .mega-menu-panel1-link i {
@@ -361,12 +415,13 @@ body.mega-menu-is-open {
 		max-height: 80vh;
 		overflow-y: auto;
 		box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.25);
-		transform: translateY(-8px);
+		transform-origin: top;
+		transform: translateY(-16px) scaleY(0.98);
 		opacity: 0;
 	}
 
 	.mega-menu-dropdown.is-open {
-		transform: translateY(0);
+		transform: translateY(0) scaleY(1);
 		opacity: 1;
 	}
 
@@ -446,7 +501,7 @@ body.mega-menu-is-open {
 	}
 
 	.mega-menu-trigger-bar-logo {
-		height: 32px;
+		height: 48px!important;
 		width: auto;
 	}
 

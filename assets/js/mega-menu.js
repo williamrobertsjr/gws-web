@@ -40,11 +40,18 @@
 		});
 	}
 
+	var pendingHideTimeout = null;
+
+	function cancelPendingHide() {
+		if (pendingHideTimeout) {
+			clearTimeout(pendingHideTimeout);
+			pendingHideTimeout = null;
+		}
+	}
+
 	function closeDropdown() {
 		overlay.classList.remove('is-open');
 		dropdown.classList.remove('is-open', 'is-flat');
-		overlay.setAttribute('hidden', '');
-		dropdown.setAttribute('hidden', '');
 		closePanel2();
 		panel1.querySelectorAll('.mega-menu-panel1-content.is-active').forEach(function (block) {
 			block.classList.remove('is-active');
@@ -53,6 +60,17 @@
 		document.querySelectorAll('.mega-menu-trigger.is-active').forEach(function (btn) {
 			btn.classList.remove('is-active');
 		});
+
+		// [hidden] maps to display:none, which would cut the close transition
+		// off instantly instead of letting it play. Wait for it to finish
+		// first. Cancelled/rescheduled on every open/close so a quick
+		// re-open before this fires doesn't hide the menu out from under it.
+		cancelPendingHide();
+		pendingHideTimeout = window.setTimeout(function () {
+			overlay.setAttribute('hidden', '');
+			dropdown.setAttribute('hidden', '');
+			pendingHideTimeout = null;
+		}, 220);
 	}
 
 	function closeMenu() {
@@ -101,6 +119,7 @@
 	}
 
 	function openPanel1(key) {
+		cancelPendingHide();
 		positionDropdown();
 
 		let isFlat = false;
@@ -125,10 +144,20 @@
 
 		overlay.removeAttribute('hidden');
 		dropdown.removeAttribute('hidden');
-		overlay.classList.add('is-open');
-		dropdown.classList.add('is-open');
 		document.body.classList.add('mega-menu-is-open');
 		closeMobileTriggerBar();
+
+		// Removing [hidden] and adding .is-open in the same tick gives the
+		// browser nothing to transition from -- it coalesces both into one
+		// frame and the open state just appears instantly. Forcing a real
+		// paint of the closed state first (double rAF) makes the transition
+		// actually run.
+		requestAnimationFrame(function () {
+			requestAnimationFrame(function () {
+				overlay.classList.add('is-open');
+				dropdown.classList.add('is-open');
+			});
+		});
 
 		if (isDesktop() && !isFlat) {
 			const activeBlock = panel1.querySelector('.mega-menu-panel1-content.is-active');

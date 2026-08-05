@@ -10,7 +10,7 @@
 		
 		{{ function('wp_body_open') }}
 		<a class="skip-link screen-reader-text" href="#content">{{ _e( 'Skip to content') }}</a>
-		<header class="header py-1 bg-black static md:fixed top-0 left-0 right-0 transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
+		<header class="header py-2 bg-black static md:fixed top-0 left-0 right-0 transition-transform !duration-[350ms] !ease-[cubic-bezier(0.4,0,0.2,1)]">
 			{# Announcement Banner Logic #}
 			{% if top_banner and banner_start_date and banner_end_date %}
 				{% set current_date = "now"|date("Ymd") %}
@@ -78,46 +78,9 @@
 						<h1 class="hdr-logo" role="banner">
 							<a class="hdr-logo-link" href="{{site.url}}" rel="home"><img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" width="130" height="56" alt=""></a>
 						</h1>
-						<div class="md:flex items-center hidden">
-							<div class="flex items-center">
-							
-								<div class="flex h-full">
-									<a href="/cart"><button class="btn dark-blue me-2">Rapid Quote</button></a>
-									<a href="/custom-quote"><button class="btn light-blue me-2 hidden md:block">Custom Quote</button></a>
-									<div class="ask-gws-btn-div relative">
-										<button class="btn black me-2 ask-gws-btn">Ask GWS</button>
-										<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
-											
-											<p class="w-full text-center">How Can We Help?</p>
-											<div class="flex flex-col gap-y-2">
-												<div class="flex gap-x-4">
-													<a href="/ask-an-engineer" class="btn dark-blue w-full">Ask an Engineer</a>
-													<a href="/ask-customer-service" class="btn light-blue w-full">Customer Service</a>
-												</div>
-												<div class="flex gap-x-4">
-													<a href="tel:18774978665" class="btn dark-blue w-full">Call GWS</a>
-													<a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full">Email GWS</a>
-												</div>
-												
-											</div>
-
-										</div>
-									</div>
-									
-								</div>
-
-								<div class="flex flex-col items-center">
-									{{ function('do_shortcode', '[searchwp_form id=1]') }}
-								</div>
-							</div>
-						</div>
 					</div>
 
-					<div class="bottom-header flex justify-center sm:justify-between mt-3">
-						<div class="flex flex-col md:flex-row gap-x-4 items-center">
-							{# <a href="tel:18774978665" class="text-sm hover:underline hover:text-pale-blue">1(877)497-8665</a>
-							<a href="mailto:sales@gwstoolgroup.com" class="text-sm hover:underline hover:text-pale-blue">sales@gwstoolgroup.com</a> #}
-						</div>
+					<div class="bottom-header flex justify-center mt-3">
 						<nav id="mega-menu-trigger-bar" class="mega-menu-trigger-bar" role="navigation" aria-label="Primary">
 							<div class="mega-menu-trigger-bar-header">
 								<img src="/wp-content/uploads/2023/12/GWS-Logo-White.png" width="130" height="56" alt="GWS Tool Group" class="mega-menu-trigger-bar-logo">
@@ -137,10 +100,6 @@
 								<span>Industries</span>
 								<i class="fa-solid fa-chevron-right"></i>
 							</button>
-							<button type="button" class="mega-menu-trigger" data-mega-menu-open="services">
-								<span>Services</span>
-								<i class="fa-solid fa-chevron-right"></i>
-							</button>
 							<button type="button" class="mega-menu-trigger" data-mega-menu-open="resources">
 								<span>Resources</span>
 								<i class="fa-solid fa-chevron-right"></i>
@@ -154,7 +113,41 @@
 							<i class="fa-solid fa-bars"></i>
 						</button>
 					</div>
-					
+
+					<div class="header-actions md:flex items-center hidden">
+						<div class="flex items-center gap-x-6">
+
+							<div class="flex h-full gap-x-3">
+								<a href="/cart"><button class="btn dark-blue">Rapid Quote</button></a>
+								<a href="/custom-quote"><button class="btn light-blue hidden md:block">Custom Quote</button></a>
+								<div class="ask-gws-btn-div relative">
+									<button class="btn black ask-gws-btn">Ask GWS</button>
+									<div id="ask-gws-popover" class="animate__animated flex flex-col gap-y-3 hidden z-20">
+
+										<p class="w-full text-center">How Can We Help?</p>
+										<div class="flex flex-col gap-y-2">
+											<div class="flex gap-x-4">
+												<a href="/ask-an-engineer" class="btn dark-blue w-full">Ask an Engineer</a>
+												<a href="/ask-customer-service" class="btn light-blue w-full">Customer Service</a>
+											</div>
+											<div class="flex gap-x-4">
+												<a href="tel:18774978665" class="btn dark-blue w-full">Call GWS</a>
+												<a href="mailto:sales@gwstoolgroup.com" class="btn light-blue w-full">Email GWS</a>
+											</div>
+
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+
+							<div class="flex flex-col items-center">
+								{{ function('do_shortcode', '[searchwp_form id=1]') }}
+							</div>
+						</div>
+					</div>
+
 				</div>
 			{% endblock %}
 		</header>
@@ -249,6 +242,11 @@
 			// Scroll logic adapted from https://www.joshwcomeau.com/snippets/javascript/throttle-scroll-events-with-requestanimationframe/
 			const header = document.querySelector('.header');
 
+			function getAdminBarHeight() {
+				const adminBar = document.getElementById('wpadminbar');
+				return adminBar ? adminBar.offsetHeight : 0;
+			}
+
 			function updateLayout() {
 				if (window.innerWidth < 768) {
 					header.style.top = '';
@@ -256,8 +254,7 @@
 					return;
 				}
 
-				const adminBar = document.getElementById('wpadminbar');
-				const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
+				const adminBarHeight = getAdminBarHeight();
 				const headerHeight = header.offsetHeight;
 
 				header.style.top = adminBarHeight + 'px';
@@ -267,7 +264,22 @@
 			updateLayout();
 			window.addEventListener('load', updateLayout);
 			window.addEventListener('resize', updateLayout);
-			
+
+			// Hiding the header via a plain -100% transform only clears its own
+			// height -- since it's pinned `top: <admin bar height>` rather than
+			// top: 0, that leaves a strip exactly as tall as the admin bar still
+			// on screen (and, since the header's z-index sits above the admin
+			// bar's, visibly overlapping it). Translating by header height +
+			// admin bar height instead clears it fully either way.
+			function setHeaderHidden(hidden) {
+				if (!hidden) {
+					header.style.transform = '';
+					return;
+				}
+				const amount = header.offsetHeight + getAdminBarHeight();
+				header.style.transform = 'translateY(-' + amount + 'px)';
+			}
+
 			const SCROLL_THRESHOLD = 50;
 			let lastScrollY = window.scrollY;
 			// Throttle scroll events using requestAnimationFrame for better performance
@@ -277,16 +289,16 @@
 				const currentScrollY = window.scrollY;
 				const delta = currentScrollY - lastScrollY;
 				if (currentScrollY < header.offsetHeight) {
-					header.classList.remove('-translate-y-full');
+					setHeaderHidden(false);
 					lastScrollY = currentScrollY;
 					return;
 				}
 				if (Math.abs(delta) > SCROLL_THRESHOLD) {
-					header.classList.toggle('-translate-y-full', delta > 0);
+					setHeaderHidden(delta > 0);
 					lastScrollY = currentScrollY;
 				}
 			}
-			
+
 
 			window.addEventListener('scroll', onScroll, { passive: true });
 			// Quote Footer Pop Over
