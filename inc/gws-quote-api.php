@@ -207,7 +207,7 @@ function gws_generate_quote_pdf($quote_id, $name, $email, $comments, $test_tools
         . ($comments   ? '<p><strong>Comments:</strong><br>' . $comments . '</p>' : '') . '
         <hr>
         ' . $table_html . '
-        <p style="font-size:12px; font-style:italic;">This quote is good for 15 days from the date issued.</p>
+        <p style="font-size:12px; font-style:italic;">This quote is good for 30 days from the date issued.</p>
         <hr>
         <p style="font-size:12px; color:#999;">GWS Tool Group | (877) 497-8665 | sales@gwstoolgroup.com | gwstoolgroup.com</p>
     </body>
