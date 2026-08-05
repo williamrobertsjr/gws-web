@@ -26,7 +26,7 @@
           <p id="stockUpdated" class="text-sm text-gray-300 my-2">Stock data last updated: {{ rapid_quote_last_updated }} EST.</p>
         {% endif %}
         <div class="flex flex-col gap-y-2">
-          <div class="w-full">
+          <div class="w-full cart-table-wrap">
             <table
               id="cart-table"
               class="w-full table-auto border-collapse mb-8 bg-[#f0f0f0] border-white relative rounded-[2px] p-4"
@@ -45,8 +45,8 @@
               </thead>
               <tbody>
                 {% if cart_items is empty %}
-                  <tr>
-                    <td colspan="7" class="text-center py-8 text-gray-500 text-lg">
+                  <tr class="cart-empty-row">
+                    <td colspan="8" class="text-center py-8 text-gray-500 text-lg">
                       <p class="text-black">No products in quote.</p>
                     </td>
                   </tr>
@@ -55,7 +55,7 @@
                     {% set product = item.data %}
                     {% set series = product.get_attribute('pa_series') %}
                     <tr data-cart-key="{{ item.key }}" class="border-[#d2d2d2] border-b-[1px] bg-white hover:bg-gray-100">
-                      <td class="p-4 text-center">
+                      <td class="p-4 text-center cart-product-cell">
                         <div id="toolImage" class="mx-auto">
                           <img
                             src="{{ item.product_img }}"
@@ -67,15 +67,15 @@
                           <a href="/product/{{product.get_name}}/" class="text-black" target="_blank">{{ product.get_name }}</a>
                         </div>
                       </td>
-                      <td class="p-4 text-black text-sm">
+                      <td class="p-4 text-black text-sm cart-desc-cell">
                         <span>{{ product.get_short_description|raw }}</span>
                         <span class="text-xs">{{ function('do_shortcode', '[gws_stocking_status sku="' ~ product.sku ~ '" show_label=0]') }}</span>
                       </td>
-                      <td class="p-4 list-price-cell">
+                      <td class="p-4 list-price-cell" data-label="List">
                         {{ function('wc_price', product.get_meta('_regular_price', true)) }}
                       </td>
-                      <td class="p-4 price-cell">{{ function('wc_price', item.discounted_price) }}</td>
-                      <td class="p-4 text-sm text-black">
+                      <td class="p-4 price-cell" data-label="Net">{{ function('wc_price', item.discounted_price) }}</td>
+                      <td class="p-4 text-sm text-black stock-cell" data-label="Stock">
                         {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
                         {% if stock_data %}
                           {% if stock_data.DURRIE_QTY_ON_HAND is not null %}
@@ -89,7 +89,7 @@
                           {% endif %}
                         {% endif %}
                       </td>
-                      <td class="p-4">
+                      <td class="p-4" data-label="Quantity">
                         <input
                           type="number"
                           class="cart-qty-input w-16 border px-2 py-1"
@@ -98,15 +98,16 @@
                           data-cart-key="{{ item.key }}"
                         />
                       </td>
-                      <td class="line-subtotal p-4">
+                      <td class="line-subtotal p-4" data-label="Total">
                         {# <s class="text-gray-400 me-2">{{ function('wc_price', item.original_price * item.quantity) }}</s> #}
                         {{ function('wc_price', item.discounted_subtotal) }}
                       </td>
-                      <td id="closeBtnCol" class="p-4">
+                      <td id="closeBtnCol" class="p-4 cart-remove-cell">
                         <button
                           type="button"
                           class="remove-item text-red-500"
                           data-cart-key="{{ item.key }}"
+                          aria-label="Remove {{ product.get_name }} from quote"
                         >
                           ×
                         </button>
@@ -127,7 +128,7 @@
                   Your distributor discount is
                   <span id="userRole" class="underline font-semibold">{{ userRoleDisplay }}</span>.
                 </p>
-                <div class="flex md:flex-col gap-y-4 mt-4">
+                <div class="flex flex-col gap-y-4 mt-4">
                   <input id="user-name" type="hidden" name="userName" value="{{ user.display_name }}" />
                   <input id="user-email" type="hidden" name="userEmail" value="{{ user.user_email }}" />
                   <input id="user-company" type="hidden" name="userCompany" value="{{ user.company }}" />
@@ -184,8 +185,6 @@
                     placeholder="Add notes that will appear on the PDF quote..."
                   ></textarea>
                   <div>
-                  <p>orig: {{ cart_original_total|default('NULL') }}</p>
-                  <p>disc: {{ cart_discounted_total|default('NULL') }}</p>
                     <p class="text-black text-xl font-semibold mt-2">
                       Original Total:
                       <span class="line-through text-gray original-total">
@@ -255,9 +254,10 @@
           <input type="email" id="customer-email" class="w-full border px-3 py-2" placeholder="Customer email address..." />
           <input type="text" id="customer-company" class="w-full border px-3 py-2" placeholder="Customer company..." />
           <textarea rows="5" id="customer-message" class="w-full border px-3 py-2" placeholder="Write a personal message to the customer — this will be the body of the email they receive... (Optional)"></textarea>
-        <div class="flex gap-x-3 mt-6">
-          <button type="button" id="sales-modal-send" class="btn dark-blue flex-1">Send Quote</button>
-          <button type="button" id="sales-modal-cancel" class="btn black flex-1">Cancel</button>
+          <div class="flex flex-col sm:flex-row gap-x-3 gap-y-3 mt-6">
+            <button type="button" id="sales-modal-send" class="btn dark-blue flex-1">Send Quote</button>
+            <button type="button" id="sales-modal-cancel" class="btn black flex-1">Cancel</button>
+          </div>
         </div>
       </div>
     </div>
