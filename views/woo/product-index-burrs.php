@@ -15,7 +15,7 @@ return [
     'flat' => true,
     'materials' => [
         [
-            'material' => 'Cylinder Shape',
+            'material' => 'Cylinder Shape (SA, SB, SC)',
             'material_slug' => 'cylinder-shape',
             'items' => [
                 [
@@ -36,7 +36,7 @@ return [
             ],
         ],
         [
-            'material' => 'Ball Shape',
+            'material' => 'Ball Shape (SD)',
             'material_slug' => 'ball-shape',
             'items' => [
                 [
@@ -47,7 +47,7 @@ return [
             ],
         ],
         [
-            'material' => 'Oval/Egg Shape',
+            'material' => 'Oval/Egg Shape (SE)',
             'material_slug' => 'oval-egg-shape',
             'items' => [
                 [
@@ -58,7 +58,7 @@ return [
             ],
         ],
         [
-            'material' => 'Tree Shape',
+            'material' => 'Tree Shape (SF, SG)',
             'material_slug' => 'tree-shape',
             'items' => [
                 [
@@ -74,7 +74,7 @@ return [
             ],
         ],
         [
-            'material' => 'Flame Shape',
+            'material' => 'Flame Shape (SH)',
             'material_slug' => 'flame-shape',
             'items' => [
                 [
@@ -85,7 +85,7 @@ return [
             ],
         ],
         [
-            'material' => 'Cone Shape',
+            'material' => 'Cone Shape (SJ, SK, SM, SN)',
             'material_slug' => 'cone-shape',
             'items' => [
                 [
@@ -111,7 +111,7 @@ return [
             ],
         ],
         [
-            'material' => 'Taper Shape',
+            'material' => 'Taper Shape (SL)',
             'material_slug' => 'taper-shape',
             'items' => [
                 [
