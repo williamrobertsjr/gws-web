@@ -25,12 +25,18 @@
                     {# <p>{{post.meta('description')}}</p> #}
                     <p class="my-4">{{post.post_excerpt}}</p>
                     <div class="flex items-start mt-1 gap-x-3">
-                        <p class="text-2xl text-white price-cell" data-product-id="{{ product.id }}" style="padding-top:.25rem;">
-                            {% set raw = product.get_price() %}
-                            {% set price = raw|replace({',':''}) %}
-                            <span class="discounted-price font-bold text-white">
-                                {{ (price is empty or price == '0' or price == '0.00') ? '$--' : function('wc_price', price) }}
-                            </span>
+                        <p class="text-2xl text-white" style="padding-top:.25rem;">
+                            {% if list_price <= 0 %}
+                                <span class="discounted-price font-bold text-white">$--</span>
+                            {% else %}
+                                {% if net_price and net_price < list_price %}
+                                    {# <s class="list-price text-lg text-gray-400 me-2">{{ function('wc_price', list_price)|raw }}</s> #}
+                                {% endif %}
+                                {# .price-cell + data-product-id lets the sales/admin tier selector swap just the net price #}
+                                <span class="discounted-price price-cell font-bold text-white" data-product-id="{{ product.get_id }}">
+                                    {{ function('wc_price', net_price ?: list_price)|raw }}
+                                </span>
+                            {% endif %}
                         </p>
                         {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
                         {% if stock_data and user %}

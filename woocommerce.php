@@ -51,6 +51,16 @@ if (is_singular('product')) {
     $product = wc_get_product($context['post']->ID);
     $context['product'] = $product;
 
+    // Tier pricing is rendered server-side here: the sitewide woocommerce_product_get_price
+    // filters are disabled (see views/woo/discounts.php), and the tier JS only fires for the
+    // sales/admin tier selector, so a distributor would otherwise see list price. Uses the
+    // same resolver as the cart so the product page and the quote always agree.
+    $list_price = (float) $product->get_meta('_regular_price', true);
+    $context['list_price'] = $list_price;
+    $context['net_price'] = ( is_user_logged_in() && $list_price > 0 )
+        ? gws_calculate_discounted_price( gws_get_user_tier(), $product )
+        : null;
+
     // Resolve product image (product-specific or fall back to series)
     require_once get_template_directory() . '/inc/sku_image_map.php';
     $sku = $product->get_sku();

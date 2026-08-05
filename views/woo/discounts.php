@@ -143,9 +143,35 @@ function gws_modify_cart_item_prices($cart) {
 }
 
 
-// Add a Twig function to get user role display
+/**
+ * Price HTML for product tiles and loops: the logged-in user's net price, list
+ * price for guests, "Call for Price" when the product has no price.
+ *
+ * Product loops can't use get_price_html() for this — the sitewide
+ * woocommerce_product_get_price filters above are disabled, so it renders list
+ * price for every tier. Uses the same resolver as the cart so tiles, the product
+ * page, and the quote all agree.
+ */
+function gws_tier_price_html( WC_Product $product ) {
+    $list = (float) $product->get_meta( '_regular_price', true );
+
+    if ( $list <= 0 ) {
+        return '<span class="call-for-price">Call for Price</span>';
+    }
+
+    if ( ! is_user_logged_in() ) {
+        return wc_price( $list );
+    }
+
+    $net = gws_calculate_discounted_price( gws_get_user_tier(), $product );
+
+    return wc_price( $net > 0 ? $net : $list );
+}
+
+// Add Twig functions for user role display and tier-aware loop pricing
 add_filter('timber/twig', function ($twig) {
     $twig->addFunction(new \Twig\TwigFunction('get_user_role_display', 'get_user_role_display'));
+    $twig->addFunction(new \Twig\TwigFunction('gws_tier_price_html', 'gws_tier_price_html'));
     return $twig;
 });
 function get_user_role_display($role) {

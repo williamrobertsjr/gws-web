@@ -127,7 +127,8 @@
         {# Right Column - Price and Quantity #}
         <div id="tool-stock" class="w-full lg:w-1/4 ps-0 lg:ps-6 pe-0 lg:pe-2 mt-4 lg:mt-0 flex flex-col justify-between">            
             <div class="lg:text-right">
-            <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ product.get_price_html()|raw }}</p>
+            {# Net price for the user's tier; .price-cell + data-product-id lets the sales/admin tier selector swap it #}
+            <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ gws_tier_price_html(product)|raw }}</p>
             {% if user %} 
                 <p class="text-black font-medium">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }} <span class="text-sm font-regular">In stock</span></p>
             {% else %}
