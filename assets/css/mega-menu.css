@@ -408,6 +408,18 @@ body.mega-menu-is-open {
 		display: none;
 	}
 
+	/* Matches the .pi-tab-btn hover underline on /products' own category
+	   tabs (style.css). Desktop only -- mobile's trigger buttons already
+	   have their own distinct hover treatment (left border accent). */
+	.mega-menu-trigger {
+		border-bottom: 2px solid transparent;
+	}
+
+	.mega-menu-trigger:hover,
+	.mega-menu-trigger.is-active {
+		border-bottom-color: var(--pale-blue);
+	}
+
 	.mega-menu-dropdown {
 		left: 0;
 		right: 0;
