@@ -352,19 +352,15 @@ function add_company_column( $columns ) {
 }
 add_filter( 'manage_users_columns', 'add_company_column' );
 
-// 'company' is the canonical key used by the discount logic and quote API;
-// 'user_company' and Woo's 'billing_company' are fallbacks for the few users missing it
+// 'company' is the single source of truth: the registration form writes it and the
+// discount logic and quote API read it. Woo's 'billing_company' is a per-order
+// address field and deliberately not consulted here.
 function display_company_column_content( $value, $column_name, $user_id ) {
     if ( $column_name !== 'company' ) {
         return $value;
     }
-    foreach ( array( 'company', 'user_company', 'billing_company' ) as $key ) {
-        $company = trim( (string) get_user_meta( $user_id, $key, true ) );
-        if ( $company !== '' ) {
-            return esc_html( $company );
-        }
-    }
-    return '&mdash;';
+    $company = trim( (string) get_user_meta( $user_id, 'company', true ) );
+    return $company !== '' ? esc_html( $company ) : '&mdash;';
 }
 add_action( 'manage_users_custom_column', 'display_company_column_content', 10, 3 );
 
@@ -435,7 +431,7 @@ function search_users_by_company( $query ) {
     }
 
     $company_where = $wpdb->prepare(
-        "$wpdb->users.ID IN ( SELECT user_id FROM $wpdb->usermeta WHERE meta_key IN ( 'company', 'user_company', 'billing_company' ) AND meta_value LIKE %s )",
+        "$wpdb->users.ID IN ( SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'company' AND meta_value LIKE %s )",
         '%' . $wpdb->esc_like( $search ) . '%'
     );
 
