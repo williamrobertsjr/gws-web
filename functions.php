@@ -481,9 +481,9 @@ function custom_user_profile_fields($user) {
     <h3>Additional Profile Information</h3>
     <table class="form-table">
         <tr>
-            <th><label for="user_company">Company</label></th>
+            <th><label for="company">Company</label></th>
             <td>
-                <input type="text" name="user_company" id="user_company" value="<?php echo esc_attr(get_the_author_meta('user_company', $user->ID)); ?>" class="regular-text" /><br />
+                <input type="text" name="company" id="company" value="<?php echo esc_attr(get_the_author_meta('company', $user->ID)); ?>" class="regular-text" /><br />
                 <span class="description">Please enter your company name.</span>
             </td>
         </tr>
@@ -499,7 +499,11 @@ function save_custom_user_profile_fields($user_id) {
         return false;
     }
 
-    update_user_meta($user_id, 'user_company', $_POST['user_company']);
+    // 'company' is the key the registration form, discount logic and quote API all use.
+    // this field wrote 'user_company' until Aug 2026, so edits here never reached pricing.
+    if (isset($_POST['company'])) {
+        update_user_meta($user_id, 'company', sanitize_text_field(wp_unslash($_POST['company'])));
+    }
 }
 
 
