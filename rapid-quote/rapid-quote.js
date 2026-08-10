@@ -130,14 +130,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const isSpecialTier = tier === 'MSC_PL';
   const isExemptPlusTier = tier === 'exemptPlus';
 
-  // Apply rollback if either condition is true
+  // Must stay in sync with gws_calculate_discounted_price() in views/woo/discounts.php,
+  // or Rapid Quote and the product page quote different prices for the same user.
   if ((isExempt || (isPrivilegedRole && isSpecialTier)) && !exemptPlus) {
     console.log("Rolling back 7% increase due to exemption or sales/admin override.");
     discountRate = 1 - ((1 - discountRate) / 1.07);
-  } else if ((exemptPlus && isExempt) || (isPrivilegedRole && isExemptPlusTier)) {
-    console.log("Applying 25% addition due to special exemption.");
-    discountRate = (1 - ((1 - discountRate) / 1.07) * 1.25);
-  }  
+  } else if (exemptPlus || (isPrivilegedRole && isExemptPlusTier)) {
+    // tier discount, then ADD 25% to the resulting price: list * (1 - rate) * 1.25.
+    // a surcharge, so no 7% rollback is applied here.
+    console.log("Adding 25% to the tier price for this company.");
+    discountRate = 1 - ((1 - discountRate) * 1.25);
+  }
   return discountRate;
 };
 
