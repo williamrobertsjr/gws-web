@@ -302,11 +302,11 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
     $is_special_tier    = $tier === 'MSC_PL';
     $is_exempt_plus_tier = $tier === 'exemptPlus';
 
-    $exempt_companies  = ['US Tool Group Test'];
-    $plus_25_companies = ['Ewie', 'EGC - Ewie', 'Ewie Company'];
-
-    $is_exempt  = in_array($user_company, $exempt_companies, true);
-    $is_plus_25 = in_array($user_company, $plus_25_companies, true);
+    // shared with the Rapid Quote flags in functions.php -- see inc/pricing-exempt-companies.php.
+    // this list used to read 'US Tool Group Test', which matched no user, so the four real
+    // 'US Tool Group' users were exempt in Rapid Quote but not here.
+    $is_exempt  = in_array($user_company, gws_exempt_companies(), true);
+    $is_plus_25 = in_array($user_company, gws_plus_25_companies(), true);
 
     if (($is_exempt || ($is_privileged_role && $is_special_tier)) && !$is_plus_25) {
         $rate = 1 - ((1 - $rate) / 1.07);

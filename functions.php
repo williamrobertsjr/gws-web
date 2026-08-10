@@ -44,6 +44,10 @@ add_action('init', function() {
     }
 });
 
+// Shared company pricing-exemption lists, used by both the Rapid Quote JS flags below
+// and views/woo/discounts.php. Must load first so both call sites see the same values.
+require_once get_template_directory() . '/inc/pricing-exempt-companies.php';
+
 // Load discounts logic for WooCommerce and distributor tiers sitewide
 require_once get_template_directory() . '/views/woo/discounts.php';
 
@@ -304,17 +308,9 @@ add_action('wp_footer', function () {
     $user_id = get_current_user_id();
     $user_company = get_user_meta($user_id, 'company', true); // <-- FIXED
     
-    $exempt_companies = [
-        'US Tool Group',
-    ];
-    // Add any additional companies that should be exempt from the 7% price increase plus 20%
-    $exempt_20 = [
-        'Ewie',
-        'EGC - Ewie',
-    ];
-    
-    $is_exempt = in_array($user_company, $exempt_companies) ? 'true' : 'false';
-    $exempt_plus = in_array($user_company, $exempt_20) ? 'true' : 'false';
+    // shared with views/woo/discounts.php -- see inc/pricing-exempt-companies.php
+    $is_exempt   = in_array($user_company, gws_exempt_companies(), true) ? 'true' : 'false';
+    $exempt_plus = in_array($user_company, gws_plus_25_companies(), true) ? 'true' : 'false';
     echo "<script>window.specialCompanyExemptPlus = {$exempt_plus};</script>";
     echo "<script>window.specialCompanyExempt = {$is_exempt};</script>";
 });
