@@ -345,6 +345,49 @@ function make_role_column_sortable( $columns ) {
 }
 add_filter( 'manage_users_sortable_columns', 'make_role_column_sortable' );
 
+// add a company column to the users admin dashboard
+function add_company_column( $columns ) {
+    $columns['company'] = 'Company';
+    return $columns;
+}
+add_filter( 'manage_users_columns', 'add_company_column' );
+
+// 'company' is the canonical key used by the discount logic and quote API;
+// 'user_company' and Woo's 'billing_company' are fallbacks for the few users missing it
+function display_company_column_content( $value, $column_name, $user_id ) {
+    if ( $column_name !== 'company' ) {
+        return $value;
+    }
+    foreach ( array( 'company', 'user_company', 'billing_company' ) as $key ) {
+        $company = trim( (string) get_user_meta( $user_id, $key, true ) );
+        if ( $company !== '' ) {
+            return esc_html( $company );
+        }
+    }
+    return '&mdash;';
+}
+add_action( 'manage_users_custom_column', 'display_company_column_content', 10, 3 );
+
+function make_company_column_sortable( $columns ) {
+    $columns['company'] = 'company';
+    return $columns;
+}
+add_filter( 'manage_users_sortable_columns', 'make_company_column_sortable' );
+
+// sort on the 'company' meta key only, keeping users without it in the list
+function sort_users_by_company( $query ) {
+    if ( ! is_admin() || $query->get( 'orderby' ) !== 'company' ) {
+        return;
+    }
+    $query->set( 'meta_query', array(
+        'relation'       => 'OR',
+        'company_clause' => array( 'key' => 'company', 'compare' => 'EXISTS' ),
+        array( 'key' => 'company', 'compare' => 'NOT EXISTS' ),
+    ) );
+    $query->set( 'orderby', 'company_clause' );
+}
+add_action( 'pre_get_users', 'sort_users_by_company' );
+
 
 function redirect_lostpassword_page() {
     // Avoid undefined index notices on PHP 8.0+
