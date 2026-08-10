@@ -388,6 +388,64 @@ function sort_users_by_company( $query ) {
 }
 add_action( 'pre_get_users', 'sort_users_by_company' );
 
+// the users search only covers wp_users columns, so company meta is invisible to it.
+// stash the columns core settled on so we can rebuild its search clause verbatim below.
+function user_search_columns_store( $columns = null ) {
+    static $stored = array();
+    if ( $columns !== null ) {
+        $stored = $columns;
+    }
+    return $stored;
+}
+function capture_user_search_columns( $columns, $search, $query ) {
+    user_search_columns_store( $columns );
+    return $columns;
+}
+add_filter( 'user_search_columns', 'capture_user_search_columns', 999, 3 );
+
+function search_users_by_company( $query ) {
+    global $wpdb;
+
+    $raw = $query->get( 'search' );
+    if ( ! is_admin() || ! is_string( $raw ) || $raw === '' ) {
+        return;
+    }
+    $columns = user_search_columns_store();
+    if ( ! $columns ) {
+        return;
+    }
+
+    // mirror how core derives the wildcard mode and trims the term
+    $leading  = strpos( $raw, '*' ) === 0;
+    $trailing = substr( $raw, -1 ) === '*';
+    if ( $leading && $trailing ) {
+        $wild = 'both';
+    } elseif ( $leading ) {
+        $wild = 'leading';
+    } elseif ( $trailing ) {
+        $wild = 'trailing';
+    } else {
+        $wild = false;
+    }
+    $search = $wild ? trim( $raw, '*' ) : $raw;
+
+    $original = $query->get_search_sql( $search, $columns, $wild );
+    if ( strpos( $query->query_where, $original ) === false ) {
+        return; // core built it differently than expected; leave the query alone
+    }
+
+    $company_where = $wpdb->prepare(
+        "$wpdb->users.ID IN ( SELECT user_id FROM $wpdb->usermeta WHERE meta_key IN ( 'company', 'user_company', 'billing_company' ) AND meta_value LIKE %s )",
+        '%' . $wpdb->esc_like( $search ) . '%'
+    );
+
+    // widen core's search group in place rather than appending an OR to the whole
+    // WHERE, so the role filters and include/exclude clauses keep applying
+    $widened            = ' AND (' . substr( $original, 6, -1 ) . ' OR ' . $company_where . ')';
+    $query->query_where = str_replace( $original, $widened, $query->query_where );
+}
+add_action( 'pre_user_query', 'search_users_by_company' );
+
 
 function redirect_lostpassword_page() {
     // Avoid undefined index notices on PHP 8.0+
