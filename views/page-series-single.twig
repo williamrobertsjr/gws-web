@@ -40,7 +40,7 @@
                         <li><i class="fa-solid fa-plus pe-3"></i>{{ value }}</li> 
                     {% endfor %}
                     {% if series_data.speed_feed_page  is not null %}
-                        <li><i class="fa-solid fa-plus pe-3"></i><a class="text-pale-blue underline uppercase"  href="/wp-content/themes/gws-web/speed_and_feed/{{series_data.series}}_sf.pdf" target="_blank">View Speed and Feed</a></li> 
+                        <li><i class="fa-solid fa-plus pe-3"></i><a class="text-pale-blue underline uppercase"  href="/docs/speed_and_feed/{{series_data.series}}_sf.pdf" target="_blank">View Speed and Feed</a></li> 
                     {% endif %}
                     {% if series_data.family == 'Armory' %}
                         {% set series_parts = series_data.series|split(' ') %}

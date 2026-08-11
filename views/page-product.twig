@@ -49,7 +49,7 @@
                                 <p><span class="font-bold {{ field }}">{{ field }}</span>: {{ attribute(product_data, field)|default('-') ?: '-' }}</p>
                             {% endfor %}
                             {% if product_data.speed_feed_page is not null %}
-                                <p><a class="text-pale-blue underline uppercase"  href="/wp-content/themes/gws-web/speed_and_feed/{{product_data.series}}_sf.pdf" target="_blank">View Speed and Feed</a></p>
+                                <p><a class="text-pale-blue underline uppercase"  href="/docs/speed_and_feed/{{product_data.series}}_sf.pdf" target="_blank">View Speed and Feed</a></p>
                             {% endif %}
                         </div>
                     </div>
