@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 {% block content %}
 <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js" defer></script>
-<script src="/wp-content/themes/gws-web/js/speed-feed.js" defer></script>
+<script src="{{ site.theme.link }}/assets/js/speed-feed.js" defer></script>
 <section class="page-header bg-black">
     <div class="container mx-auto flex flex-col justify-center md:ps-10 hero-background animate__animated animate__fadeInDown" style="background: url('{{post.thumbnail}}'); background-size: cover; background-position: center;">
         <h1 class="text-4xl md:text-7xl font-black text-white uppercase">{{post.title}}</h1>

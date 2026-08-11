@@ -674,7 +674,7 @@ function get_discounted_product_prices_by_tier() {
 
 add_action('wp_enqueue_scripts', function () {
     if (is_cart()) {
-        wp_enqueue_script('custom-cart-ajax', get_template_directory_uri() . '/js/cart-ajax.js', ['jquery'], null, true);
+        wp_enqueue_script('custom-cart-ajax', get_template_directory_uri() . '/assets/js/cart-ajax.js', ['jquery'], null, true);
         wp_localize_script('custom-cart-ajax', 'wc_cart_params', ['ajax_url' => admin_url('admin-ajax.php')]);
     }
 });
@@ -700,7 +700,7 @@ function gws_enqueue_tier_scripts() {
 
     wp_enqueue_script(
         'tier-selector',
-        get_template_directory_uri() . '/js/tier-selector.js',
+        get_template_directory_uri() . '/assets/js/tier-selector.js',
         [],
         null,
         true
@@ -708,7 +708,7 @@ function gws_enqueue_tier_scripts() {
 
     wp_enqueue_script(
         'cart-pricing',
-        get_template_directory_uri() . '/js/cart-pricing.js',
+        get_template_directory_uri() . '/assets/js/cart-pricing.js',
         ['tier-selector'], // depends on tier-selector
         null,
         true
@@ -728,7 +728,7 @@ add_action('wp_enqueue_scripts', function () {
 
     wp_enqueue_script(
         'gws-price-export-download',
-        get_template_directory_uri() . '/js/price-export-download.js',
+        get_template_directory_uri() . '/assets/js/price-export-download.js',
         [],
         null,
         true
@@ -741,7 +741,7 @@ add_action('wp_enqueue_scripts', function () {
 
     wp_enqueue_script(
         'gws-data-download',
-        get_template_directory_uri() . '/js/data-download.js',
+        get_template_directory_uri() . '/assets/js/data-download.js',
         ['jquery', 'tier-selector', 'gws-price-export-download'],
         null,
         true
@@ -933,7 +933,7 @@ function gws_enqueue_distributor_autocomplete() {
     if (is_page('distributor-registration')) { // adjust slug to match your page
         wp_enqueue_script(
             'gws-distributor-autocomplete',
-            get_template_directory_uri() . '/js/distributor-autocomplete.js',
+            get_template_directory_uri() . '/assets/js/distributor-autocomplete.js',
             [],
             '1.0.0',
             true

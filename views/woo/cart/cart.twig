@@ -299,9 +299,9 @@
 {# cart-ajax.js is enqueued in functions.php on is_cart(); loading it here too
    double-bound its delegated body click listener and duplicated cart AJAX calls. #}
 {# <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script> #}
-<script src="/wp-content/themes/gws-web/views/woo/js/quote-form.js"></script>
+<script src="{{ site.theme.link }}/assets/js/quote-form.js"></script>
 {# <script src="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.css" /> #}
-<script src="/wp-content/themes/gws-web/views/woo/js/quote-print.js"></script>
+<script src="{{ site.theme.link }}/assets/js/quote-print.js"></script>
 
 {% endblock %}
