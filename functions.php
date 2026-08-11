@@ -79,9 +79,6 @@ add_filter('timber/twig/environment/options', function ($options) {
 
 Timber\Timber::init();
 
-// Sets the directories (inside your theme) to find .twig files.
-Timber::$dirname = [ 'templates', 'views' ];
-
 new StarterSite();
 
 if ( ! class_exists( 'Timber' ) ) {
@@ -92,7 +89,8 @@ if ( ! class_exists( 'Timber' ) ) {
     return;
 }
 
-Timber::$dirname = array( 'views', 'templates' );
+// Sets the directories (inside your theme) to find .twig files.
+Timber::$dirname = array( 'views' );
 
 function enqueue_tailwind_output_styles() {
     wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
