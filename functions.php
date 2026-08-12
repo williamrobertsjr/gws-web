@@ -92,8 +92,21 @@ if ( ! class_exists( 'Timber' ) ) {
 // Sets the directories (inside your theme) to find .twig files.
 Timber::$dirname = array( 'views' );
 
+/**
+ * Stylesheets live in assets/css/, except style.css.
+ *
+ * style.css has to stay at the theme root: WordPress reads the theme header
+ * (Theme Name, etc.) from <theme>/style.css, and it is also the Tailwind input
+ * that package.json's build:css compiles into assets/css/output.css.
+ *
+ * Because Tailwind copies non-directive CSS straight through, output.css already
+ * contains everything in style.css. Both are enqueued below, so those rules ship
+ * twice. Dropping the 'custom-style' enqueue would fix that, but only after
+ * running `npm run build:css` -- output.css is gitignored and can lag style.css,
+ * and loading it second is currently what masks a stale build.
+ */
 function enqueue_tailwind_output_styles() {
-    wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/output.css', array(), filemtime( get_template_directory() . '/output.css' ) );
+    wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/assets/css/output.css', array(), filemtime( get_template_directory() . '/assets/css/output.css' ) );
     wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/style.css', array('tailwind-output'), filemtime( get_template_directory() . '/style.css' ) );
     wp_enqueue_style( 'mega-menu', get_template_directory_uri() . '/assets/css/mega-menu.css', array('custom-style'), filemtime( get_template_directory() . '/assets/css/mega-menu.css' ) );
 }
