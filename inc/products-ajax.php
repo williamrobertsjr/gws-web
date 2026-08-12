@@ -25,7 +25,7 @@ function get_series_products_datatables() {
     }
     
     // Get attribute mapping
-    $attribute_mapping = include get_template_directory() . '/views/woo/attribute-mapping.php';
+    $attribute_mapping = include get_template_directory() . '/inc/attribute-mapping.php';
     
     // Base query for total count
     $where_clause = $wpdb->prepare(

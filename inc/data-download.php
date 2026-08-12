@@ -42,7 +42,7 @@ function gws_dd_get_last_updated() {
  * Map of tier code (WP role, or gws_selected_tier cookie value for sales/admin)
  * to the discount view that holds its net/qty pricing. Null means "no discount
  * view — show list price only". Percentages verified against the rate switch in
- * gws_calculate_discounted_price() (views/woo/discounts.php).
+ * gws_calculate_discounted_price() (inc/discounts.php).
  */
 function gws_dd_tier_view_map() {
     $period = GWS_PRICE_PERIOD;
@@ -70,7 +70,7 @@ function gws_dd_tier_view_map() {
 
 /**
  * Resolve the tier to price this request with. Unlike gws_get_user_tier()
- * (views/woo/discounts.php), the gws_selected_tier cookie override is only
+ * (inc/discounts.php), the gws_selected_tier cookie override is only
  * honored for administrator/sales — everyone else always gets their own
  * role's tier, since this feeds a downloadable price sheet rather than a
  * live cart display.

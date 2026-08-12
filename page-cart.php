@@ -10,7 +10,7 @@ $cart_items = $cart->get_cart();
 
 $original_total = 0;
 $discounted_total = 0;
-require_once get_template_directory() . '/inc/sku_image_map.php';
+require_once get_template_directory() . '/inc/data/sku_image_map.php';
 foreach ( $cart_items as $key => &$item ) {
     $product = $item['data'];
     $quantity = $item['quantity'];

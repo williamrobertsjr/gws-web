@@ -10,26 +10,19 @@ $context = Timber::context();
 $context['sidebar'] = Timber::get_widgets('shop-sidebar');
 // Load attribute mapping
 // This is used to map the attribute names to the labels used in the product page
-$attribute_mapping_path = get_template_directory() . '/views/woo/attribute-mapping.php';
+$attribute_mapping_path = get_template_directory() . '/inc/attribute-mapping.php';
 $context['attribute_mapping'] = file_exists($attribute_mapping_path)
     ? include $attribute_mapping_path
     : [];
 
 // Load column mapping
 // This is used to map the attribute names to the columns used in the product table and the filter
-$context['column_mapping'] = include get_template_directory() . '/views/woo/column-mapping.php';
+$context['column_mapping'] = include get_template_directory() . '/inc/column-mapping.php';
 
-
-// Load filter label mapping
-// This is used to map the attribute names to the labels used in the filter
-$filter_label_path = get_template_directory() . '/views/woo/filter-label-mapping.php';
-$context['filter_labels'] = file_exists($filter_label_path)
-    ? include $filter_label_path
-    : [];
 
 // Load tool data mapping (filters per tool_type)
 // This is used to map the tool_type to the filters used in the filter
-$tool_data_path = get_template_directory() . '/views/woo/tool-type-mapping.php';
+$tool_data_path = get_template_directory() . '/inc/tool-type-mapping.php';
 $context['tool_data'] = file_exists($tool_data_path)
     ? include $tool_data_path
     : [];
@@ -52,7 +45,7 @@ if (is_singular('product')) {
     $context['product'] = $product;
 
     // Tier pricing is rendered server-side here: the sitewide woocommerce_product_get_price
-    // filters are disabled (see views/woo/discounts.php), and the tier JS only fires for the
+    // filters are disabled (see inc/discounts.php), and the tier JS only fires for the
     // sales/admin tier selector, so a distributor would otherwise see list price. Uses the
     // same resolver as the cart so the product page and the quote always agree.
     $list_price = (float) $product->get_meta('_regular_price', true);
@@ -62,7 +55,7 @@ if (is_singular('product')) {
         : null;
 
     // Resolve product image (product-specific or fall back to series)
-    require_once get_template_directory() . '/inc/sku_image_map.php';
+    require_once get_template_directory() . '/inc/data/sku_image_map.php';
     $sku = $product->get_sku();
     $picture_name = $sku_image_map[$sku] ?? null;
     $img_base = get_template_directory_uri() . '/images/catalog_images/';
@@ -169,7 +162,7 @@ if (is_singular('product')) {
             $sku = $wc_product ? $wc_product->get_sku() : null;
 
             // Resolve tile image (product-specific or fall back to series)
-            require_once get_template_directory() . '/inc/sku_image_map.php';
+            require_once get_template_directory() . '/inc/data/sku_image_map.php';
             $picture_name = $sku ? ($sku_image_map[$sku] ?? null) : null;
             $img_base = get_template_directory_uri() . '/images/tile_images/';
             $post->product_img = $picture_name && file_exists(get_template_directory() . '/images/tile_images/' . $picture_name . '_tile.png')

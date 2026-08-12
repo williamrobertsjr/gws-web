@@ -6,7 +6,7 @@
 // rated for both Steel and Cast Iron), so each tile is tagged with ALL of its material slugs
 // (pi_materials) plus its shape (pi_shape, from master_series_data.tool_sub_type) and its single
 // line-item slug (pi_item). The drill-down filters the grid client-side via Isotope's compound
-// class selectors. Categories are added here as their views/woo/product-index-{category}.php data
+// class selectors. Categories are added here as their inc/data/product-index-{category}.php data
 // files are built.
 //
 // This intentionally does not touch the WooCommerce/FacetWP category archives at
@@ -113,9 +113,9 @@ function gws_product_index_flat_category($conn, $tool_type, $category, $category
 $context = Timber::context();
 
 $context['product_index_categories'] = [
-    gws_product_index_category($conn, get_template_directory() . '/views/woo/product-index-milling.php'),
-    gws_product_index_category($conn, get_template_directory() . '/views/woo/product-index-holemaking.php'),
-    gws_product_index_category($conn, get_template_directory() . '/views/woo/product-index-threading.php'),
+    gws_product_index_category($conn, get_template_directory() . '/inc/data/product-index-milling.php'),
+    gws_product_index_category($conn, get_template_directory() . '/inc/data/product-index-holemaking.php'),
+    gws_product_index_category($conn, get_template_directory() . '/inc/data/product-index-threading.php'),
     gws_product_index_flat_category(
         $conn,
         'INSERTS',
@@ -123,7 +123,7 @@ $context['product_index_categories'] = [
         'inserts',
         'GWS Tool Group inserts cover PCD, PCBN, and ceramic grades engineered for high-performance turning and milling applications.'
     ),
-    gws_product_index_category($conn, get_template_directory() . '/views/woo/product-index-burrs.php'),
+    gws_product_index_category($conn, get_template_directory() . '/inc/data/product-index-burrs.php'),
     gws_product_index_flat_category(
         $conn,
         'SPECIALTY',
@@ -132,7 +132,7 @@ $context['product_index_categories'] = [
         'Custom solid carbide tooling engineered for defense manufacturing -- charging handles, receivers, barrel nuts, and other defense-system-specific applications.',
         'Armory'
     ),
-    gws_product_index_category($conn, get_template_directory() . '/views/woo/product-index-miscellaneous.php'),
+    gws_product_index_category($conn, get_template_directory() . '/inc/data/product-index-miscellaneous.php'),
 ];
 
 Timber::render('page-products.twig', $context);

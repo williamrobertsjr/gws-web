@@ -3,7 +3,7 @@
  * Single source of truth for the company-based pricing exemptions.
  *
  * These lists were previously duplicated in functions.php (which feeds the Rapid Quote
- * JS) and views/woo/discounts.php (which prices WooCommerce), and they had drifted:
+ * JS) and inc/discounts.php (which prices WooCommerce), and they had drifted:
  * discounts.php carried 'US Tool Group Test', which matched no user at all, so the four
  * real 'US Tool Group' users got the 7% rollback in Rapid Quote but not on product
  * pages. Defining them once is what stops that recurring.
