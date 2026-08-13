@@ -6,7 +6,43 @@ Any changes outside of public_html should be documented here.
 
 ---
 
-## 1. Private files directory
+## 1. Theme dependencies and build
+
+A fresh clone will not run until these are in place. All three are gitignored, so
+they persist on existing servers but are absent from a new checkout.
+
+```
+composer install              # vendor/ -- without it the autoloader at
+                              # functions.php:8 fails and Timber never loads
+npm install                   # node_modules/
+npm run build:css             # style.css -> assets/css/output.css
+```
+
+`style.css` is both the WordPress theme header file and the Tailwind input, which
+is why it stays at the theme root rather than moving into `assets/css/`.
+
+> **Note:** `assets/css/output.css` is gitignored, so a deploy does not carry it.
+> If styling looks wrong after deploying, run `npm run build:css`.
+
+---
+
+## 2. Theme images
+
+`wp-content/themes/gws-web/images/` (~178 MB) is gitignored -- too large to
+version, and referenced directly by template `<img>` tags.
+
+**Copy from production:**
+```
+wp-content/themes/gws-web/images/
+├── brands/
+├── catalog_images/
+├── icons/
+└── tile_images/
+```
+
+---
+
+## 3. Private files directory
 
 Price lists, CSVs, and other gated data files live outside the web root so they require a login to download.
 
@@ -25,7 +61,7 @@ After copying, verify a download link works for a logged-in user, e.g.:
 
 ---
 
-## 2. Rapid quote update scripts
+## 4. Rapid quote update scripts
 
 The hourly stock update scripts also live outside the web root.
 
@@ -41,7 +77,7 @@ private_html/scripts/
 
 ---
 
-## 3. Cron job
+## 5. Cron job
 
 Add to the server crontab (`crontab -e`):
 
@@ -54,7 +90,19 @@ Add to the server crontab (`crontab -e`):
 
 ---
 
-## 4. Files already handled by git deploy or Cloudways clone
+## 6. After deploying
+
+Breeze caches rendered HTML. A deploy that moves or renames assets can leave
+cached pages pointing at the old paths, which shows up as an unstyled or
+partly broken site:
+
+```
+wp breeze purge --cache=all
+```
+
+---
+
+## 7. Files already handled by git deploy or Cloudways clone
 
 These do NOT need manual setup — they come along automatically:
 
@@ -66,11 +114,14 @@ These do NOT need manual setup — they come along automatically:
 
 ---
 
-## 5. What lives where (summary)
+## 8. What lives where (summary)
 
 | Location | What's there | Managed by |
 |---|---|---|
 | `public_html/` | WordPress + theme | Cloudways git deploy |
+| `wp-content/themes/gws-web/images/` | Product tiles, catalog art, icons, brand logos | Manual / copy from production |
+| `wp-content/themes/gws-web/assets/css/output.css` | Compiled Tailwind | `npm run build:css` |
+| `wp-content/themes/gws-web/vendor/`, `node_modules/` | Dependencies | `composer install`, `npm install` |
 | `public_html/docs/quality/` | ISO certs, compliance PDFs | Manual / public |
 | `public_html/docs/speed_and_feed/` | Speed & feed charts | Manual / public |
 | `private_html/docs-data/pricing/` | Price lists (login required) | Manual |

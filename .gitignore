@@ -1,12 +1,36 @@
-wordpress/
+# Every entry here is a file that exists on the server but deliberately is not
+# in the repo. If you clone this theme fresh, see DEPLOYMENT.md for what you
+# need to install or copy across before the site will run.
+
+# Dependencies. Reinstall rather than commit.
+#   composer install
+#   npm install
 vendor/
-rapid-quote/db_connection.php
-db_connection.php
-single-subtypes.php
-views/single-subtypes.twig
 node_modules/
-single-subtypes.php
-.vscode/
-views/page-email-test.twig
+
+# WordPress install used only as the PHPUnit fixture -- tests/bootstrap.php
+# installs the theme into wordpress/wp-content/themes/. Not theme source, and
+# re-downloadable. (Currently WP 6.8.3; live runs 7.0.2.)
+wordpress/
+
+# Database credentials. These stay on the server and are not overwritten by
+# Cloudways git deploys -- see DEPLOYMENT.md.
+db_connection.php
+rapid-quote/db_connection.php
+
+# Compiled Tailwind output, built from style.css (which IS tracked).
+#   npm run build:css   ->   assets/css/output.css
+# Matches at any depth, so it covers assets/css/output.css.
 output.css
+
+# Theme images, ~178 MB. Too large to version; copied from production when
+# setting up a new server -- see DEPLOYMENT.md.
 images/
+
+# Editor settings.
+.vscode/
+
+# Unfinished template for the private 'email-test' page. Nothing renders it:
+# there is no page-email-test.php, so WP falls back to page.twig. Kept only
+# because it looks like work in progress -- safe to delete.
+views/page-email-test.twig
