@@ -26,7 +26,7 @@
                 {% endif %}
                 
                 <div class="my-5 lg:w-6/12">
-                    <img src="/wp-content/themes/gws-web/images/brands/brand_{{series_data.family|lower}}_white.png" alt="">
+                    <img src="{{ site.theme.link }}/images/brands/brand_{{series_data.family|lower}}_white.png" alt="">
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                         {% if features is not empty %}
                             {% for value in features %}
                                 {% if value %}
-                                    <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                    <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -76,7 +76,7 @@
                         {% if applications is not empty %}
                             {% for value in applications %}
                                 {% if value %}
-                                    <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                    <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -104,7 +104,7 @@
                         {# Display each value in the list #}
                         {% for key, item in materials %}
                             {% if item is not null %}
-                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
+                                <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ key|upper }}_icon.png" alt="">
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -116,9 +116,9 @@
         <div class="md:w-5/12 mb-6">
             <div class="gallery-container mx-auto">
             {% if series_data.family == 'Armory' %}
-                <img class="mx-auto series-image" src="/wp-content/themes/gws-web/images/catalog_images/{{series_data.series|lower|replace({' ': '_'})}}_catalog.png" alt="{{series_data.series|lower}} tool image">
+                <img class="mx-auto series-image" src="{{ site.theme.link }}/images/catalog_images/{{series_data.series|lower|replace({' ': '_'})}}_catalog.png" alt="{{series_data.series|lower}} tool image">
             {% else %}
-                <img class="mx-auto series-image" src="/wp-content/themes/gws-web/images/catalog_images/{{ series_data.series }}_catalog.png" alt="{{series_data.series}} tool image">
+                <img class="mx-auto series-image" src="{{ site.theme.link }}/images/catalog_images/{{ series_data.series }}_catalog.png" alt="{{series_data.series}} tool image">
             {% endif %}
             </div>
         </div>

@@ -83,7 +83,7 @@
                         {% for key, item in materials %}
                             {% if item is not empty and item|lower != 'null' %}
                             <div class="group relative w-fit z-50">
-                                <img class="w-full !max-w-[35px] {{ key }}" src="/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
+                                <img class="w-full !max-w-[35px] {{ key }}" src="{{ site.theme.link }}/images/icons/{{ key|upper }}_icon.png" alt="">
 
                                 <div class="w-[90vw] sm:min-w-[300px] max-w-max absolute flex flex-col left-0 top-full mt-1 opacity-0 group-hover:opacity-100 transition-all duration-150 bg-white px-2 py-1 gap-y-3 text-sm text-black rounded shadow z-50 pointer-events-none group-hover:pointer-events-auto">
                                     <div class="border-b-2 border-gray border-0">
@@ -113,7 +113,7 @@
                             {% for value in features %}
                                 {% if value and value != 'NULL' %}
                                     <div class="group relative">
-                                        <img class="w-full mx-auto !max-w-[35px]" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                        <img class="w-full mx-auto !max-w-[35px]" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
                                         <span class="group-hover:opacity-100 transition-opacity bg-white px-1 text-xs text-black absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-20">{{value|capitalize}}</span>
                                     </div>   
                                 {% endif %}

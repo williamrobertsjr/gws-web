@@ -37,7 +37,7 @@
         <div class="grid-item {{ series.category }} px-4 h-full" data-series="{{ series.series }}">
             <a href="/docs/speed_and_feed/{{series.series}}_sf.pdf" class="flex flex-col justify-between bg-white rounded h-full p-4 hvr-float">
                 <div class="flex h-full">
-                    <img src="/wp-content/themes/gws-web/images/tile_images/{{series.series}}_tile.png" alt="Series {{series.series}}" class="max-h-[100px] w-auto self-center object-contain" loading="lazy">
+                    <img src="{{ site.theme.link }}/images/tile_images/{{series.series}}_tile.png" alt="Series {{series.series}}" class="max-h-[100px] w-auto self-center object-contain" loading="lazy">
                     <div class="flex flex-col justify-start pe-4">
                         <p class="text-dark-blue font-bold underline mb-0 seriesName">Series {{series.series}} {{series.family}}</p>
                         <p class="text-black text-sm leading-normal">{{series.subtitle|title}}</p>

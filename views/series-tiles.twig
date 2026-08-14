@@ -13,9 +13,9 @@
         <a href="/series-{{ series.series }}" class="hvr-float block">
             <div class="series-tile flex flex-col justify-between px-5 py-6 w-full">
                 {% if series.family == 'Armory' %}
-                    <img class="tile-image" src="/wp-content/themes/gws-web/images/tile_images/{{ series.series|replace({' ': '_'}) }}_tile.png" alt="">
+                    <img class="tile-image" src="{{ site.theme.link }}/images/tile_images/{{ series.series|replace({' ': '_'}) }}_tile.png" alt="">
                 {% else %}
-                    <img class="tile-image" src="https://www.gwstoolgroup.com/wp-content/themes/gws-web/images/tile_images/{{ series.series }}_tile.png" alt="">
+                    <img class="tile-image" src="https://www.gwstoolgroup.com{{ site.theme.link }}/images/tile_images/{{ series.series }}_tile.png" alt="">
                 {% endif %}
                 
                 <div class="w-8/12 md:w-7/12 flex flex-col justify-between h-full">
@@ -35,7 +35,7 @@
                         <div class="series-tile-features flex flex-wrap gap-2">
                         {% for value in features %}
                             {% if value %}
-                                <img class="w-4/12" src="/wp-content/themes/gws-web/images/icons/{{ value }}_icon.png" alt="">
+                                <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -62,13 +62,13 @@
                         <div class="icons flex flex-wrap gap-2">
                             {% for key, item in materials %}
                                 {% if item %}
-                                    <img class="w-4/12" src="https://www.gwstoolgroup.com/wp-content/themes/gws-web/images/icons/{{ key|upper }}_icon.png" alt="">
+                                    <img class="w-4/12" src="https://www.gwstoolgroup.com{{ site.theme.link }}/images/icons/{{ key|upper }}_icon.png" alt="">
                                 {% endif %}
                             {% endfor %}
                         </div>
                     </div>
                     <div class="series-tile-brand w-8/12">
-                        <img src="/wp-content/themes/gws-web/images/brands/brand_{{ series.family|lower }}.png" alt="">
+                        <img src="{{ site.theme.link }}/images/brands/brand_{{ series.family|lower }}.png" alt="">
                     </div>
                 </div>
             </div>
