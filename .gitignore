@@ -34,3 +34,8 @@ images/
 # there is no page-email-test.php, so WP falls back to page.twig. Kept only
 # because it looks like work in progress -- safe to delete.
 views/page-email-test.twig
+
+# Audit CSVs for the master_product_data cleanup, ~1.8 MB and rewritten on every
+# run of scripts/migrate_product_data.php. Regenerate rather than commit:
+#   php scripts/migrate_product_data.php && php scripts/audit_master_product_data.php
+scripts/audit/*.csv
