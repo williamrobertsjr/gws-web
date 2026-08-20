@@ -15,7 +15,7 @@
                 {% if series.family == 'Armory' %}
                     <img class="tile-image" src="{{ site.theme.link }}/images/tile_images/{{ series.series|replace({' ': '_'}) }}_tile.png" alt="">
                 {% else %}
-                    <img class="tile-image" src="https://www.gwstoolgroup.com{{ site.theme.link }}/images/tile_images/{{ series.series }}_tile.png" alt="">
+                    <img class="tile-image" src="{{ site.theme.link }}/images/tile_images/{{ series.series }}_tile.png" alt="">
                 {% endif %}
                 
                 <div class="w-8/12 md:w-7/12 flex flex-col justify-between h-full">
@@ -62,7 +62,7 @@
                         <div class="icons flex flex-wrap gap-2">
                             {% for key, item in materials %}
                                 {% if item %}
-                                    <img class="w-4/12" src="https://www.gwstoolgroup.com{{ site.theme.link }}/images/icons/{{ key|upper }}_icon.png" alt="">
+                                    <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ key|upper }}_icon.png" alt="">
                                 {% endif %}
                             {% endfor %}
                         </div>
