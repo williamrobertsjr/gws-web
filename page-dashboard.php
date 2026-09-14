@@ -7,7 +7,8 @@ $userRole = get_current_user_role();
 
 // Check if the user role is 'none' and redirect
 if ( !is_user_logged_in()) {
-    wp_redirect(home_url('/sign-in'));
+    $current_url = home_url( $_SERVER['REQUEST_URI'] );
+    wp_redirect( esc_url_raw( add_query_arg( 'redirect_to', $current_url, home_url( '/sign-in' ) ) ) );
     exit; // Always call exit after wp_redirect
 }
 

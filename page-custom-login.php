@@ -6,6 +6,7 @@ $context = Timber::context();
 
 // Add query parameters to the context for login failures
 $context['login_failed'] = isset($_GET['login']) && $_GET['login'] == 'failed';
+$context['redirect_to'] = gws_get_login_return_url();
 
 
 Timber::render('page-custom-login.twig', $context); 

@@ -68,18 +68,54 @@ function save_custom_user_profile_fields($user_id) {
 }
 
 
+// Returns $candidate if it's safe to send a user back to (same site, and not
+// the homepage or /sign-in itself), otherwise ''.
+function gws_sanitize_login_redirect( $candidate ) {
+    if ( empty( $candidate ) ) {
+        return '';
+    }
+
+    $candidate = wp_validate_redirect( $candidate, '' );
+
+    if ( empty( $candidate ) ) {
+        return '';
+    }
+
+    $excluded = array(
+        untrailingslashit( home_url( '/' ) ),
+        untrailingslashit( home_url( '/sign-in' ) ),
+    );
+
+    if ( in_array( untrailingslashit( strtok( $candidate, '?' ) ), $excluded, true ) ) {
+        return '';
+    }
+
+    return $candidate;
+}
+
+// Where to send someone back to after they land on /sign-in: an explicit
+// ?redirect_to= (set when a gated page bounces them here). This page is
+// served from a full-page cache (Breeze), so we deliberately don't fall back
+// to $_SERVER['HTTP_REFERER'] here — that would bake whichever visitor's
+// referrer last regenerated the cache into the HTML for every visitor after.
+// The plain "clicked sign in from page X" case is instead handled client-side
+// in page-custom-login.twig, which reads document.referrer per-visitor.
+function gws_get_login_return_url() {
+    if ( ! empty( $_GET['redirect_to'] ) ) {
+        return gws_sanitize_login_redirect( wp_unslash( $_GET['redirect_to'] ) );
+    }
+
+    return '';
+}
+
 function custom_login_redirect_role_based( $redirect_to, $request, $user ) {
-    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-        // Check for admins
-        if ( in_array( 'administrator', $user->roles ) ) {
-            return home_url('/dashboard');
-        } else {
-            // Non-admin users
-            return home_url('/dashboard/');
-        }
-    } else {
+    if ( ! isset( $user->roles ) || ! is_array( $user->roles ) ) {
         return $redirect_to;
     }
+
+    $return_url = gws_sanitize_login_redirect( $request );
+
+    return ! empty( $return_url ) ? $return_url : home_url( '/dashboard' );
 }
 add_filter('login_redirect', 'custom_login_redirect_role_based', 10, 3);
 
@@ -89,7 +125,7 @@ function my_front_end_login_fail( $username ) {
    $referrer = $_SERVER['HTTP_REFERER'];  // where did the post submission come from?
    // if there's a valid referrer, and it's not the default log-in screen
    if ( !empty($referrer) && !strstr($referrer,'wp-login') && !strstr($referrer,'wp-admin') ) {
-      wp_redirect( $referrer . '?login=failed' );  // let's append some information (login=failed) to the URL for the theme to use
+      wp_redirect( add_query_arg( 'login', 'failed', $referrer ) );  // let's append some information (login=failed) to the URL for the theme to use
       exit;
    }
 }

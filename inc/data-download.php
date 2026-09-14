@@ -247,7 +247,12 @@ function gws_dd_handle_datatables_request() {
 add_action('admin_post_gws_parts_price_export', 'gws_dd_handle_price_export');
 function gws_dd_handle_price_export() {
     if (!is_user_logged_in()) {
-        wp_redirect(home_url('/sign-in'));
+        $sign_in_url = home_url('/sign-in');
+        $return_url  = wp_get_referer();
+        if ( $return_url ) {
+            $sign_in_url = add_query_arg( 'redirect_to', $return_url, $sign_in_url );
+        }
+        wp_redirect( esc_url_raw( $sign_in_url ) );
         exit;
     }
 

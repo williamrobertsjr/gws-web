@@ -12,6 +12,8 @@
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form name="loginform" id="loginform" class="space-y-6" action="{{ site.url }}/wp-login.php" method="POST">
 
+                <input type="hidden" id="login-redirect-to" name="redirect_to" value="{{ redirect_to }}">
+
                 {% if login_failed %}
                     <div class="error-message">
                         <p class="text-red-500">The username or password you entered is incorrect. Please try again.</p>
@@ -45,6 +47,46 @@
                 </div>
             </div>
             </form>
+
+            <script>
+            (function () {
+                // This page is served from a full-page cache (Breeze), so any
+                // referrer-based value PHP rendered may be a stale snapshot from
+                // whoever's visit last populated the cache, not this visitor's.
+                // An explicit ?redirect_to= on the URL bypasses the cache (query
+                // strings aren't cached), so it's trustworthy as-is; only the
+                // plain-referrer fallback needs recomputing client-side.
+                if ( new URLSearchParams( window.location.search ).has( 'redirect_to' ) ) {
+                    return;
+                }
+
+                var referrer = document.referrer;
+                if ( ! referrer ) {
+                    return;
+                }
+
+                var referrerUrl;
+                try {
+                    referrerUrl = new URL( referrer );
+                } catch ( e ) {
+                    return;
+                }
+
+                if ( referrerUrl.origin !== window.location.origin ) {
+                    return;
+                }
+
+                var excludedPaths = [ '/', '/sign-in', '/sign-in/' ];
+                if ( excludedPaths.indexOf( referrerUrl.pathname ) !== -1 ) {
+                    return;
+                }
+
+                var input = document.getElementById( 'login-redirect-to' );
+                if ( input ) {
+                    input.value = referrer;
+                }
+            })();
+            </script>
 
             <p class="mt-10 text-center text-sm text-gray-400">
             Don't have an account?
