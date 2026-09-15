@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
       }
 
-      fetch("https://www.gwstoolgroup.com/wp-json/rapid-quote/v1/submit-quote", {
+      fetch("/wp-json/rapid-quote/v1/submit-quote", {
           method: "POST",
           body: data,
       })

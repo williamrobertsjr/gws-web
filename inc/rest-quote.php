@@ -6,10 +6,11 @@
  * so hook registration order is unchanged.
  */
 
+require_once __DIR__ . '/part-number.php';
 
 // Rapid Quote handle quote submission
 function handle_quote_submission( WP_REST_Request $request ) {
-    global $wpdb; 
+    global $wpdb;
 
     $parts = $request->get_param('part');
     $partsArray = explode("\n", $parts);
@@ -21,17 +22,27 @@ function handle_quote_submission( WP_REST_Request $request ) {
         return new WP_REST_Response(array('error' => 'No parts provided'), 400);
     }
 
-    $placeholders = implode(', ', array_fill(0, count($partsArray), '%s'));
-    $query = $wpdb->prepare("SELECT * FROM `rapid_quote` WHERE PN IN ($placeholders) ORDER BY PN", $partsArray);
+    // Match case- and dash-insensitively (e.g. "450-100781a" and "450100781A"
+    // both match "450-100781A"), but always return/display the canonical PN
+    // as stored in rapid_quote.
+    $normalizedInputs = array_map('gws_normalize_part_number', $partsArray);
+
+    $placeholders = implode(', ', array_fill(0, count($normalizedInputs), '%s'));
+    $query = $wpdb->prepare("SELECT * FROM `rapid_quote` WHERE REPLACE(REPLACE(UPPER(PN), '-', ''), ' ', '') IN ($placeholders) ORDER BY PN", $normalizedInputs);
     $results = $wpdb->get_results($query);
 
-    // Create an array of found parts
-    $foundParts = array_map(function($item) {
-        return $item->PN; // Assuming 'PN' is the part number in your results
+    // Normalized set of PNs that were found, to compare against normalized inputs
+    $foundNormalized = array_map(function($item) {
+        return gws_normalize_part_number($item->PN);
     }, $results);
 
-    // Identify missing parts
-    $missingParts = array_diff($partsArray, $foundParts);
+    // Identify missing parts, reporting back the user's original typed value
+    $missingParts = array();
+    foreach ($partsArray as $index => $original) {
+        if (!in_array($normalizedInputs[$index], $foundNormalized, true)) {
+            $missingParts[] = $original;
+        }
+    }
     // Convert the missing parts array to a string with spaces after commas
     $missingPartsString = implode(', ', $missingParts);
     // Prepare the response

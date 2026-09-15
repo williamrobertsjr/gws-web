@@ -6,6 +6,7 @@
  * so hook registration order is unchanged.
  */
 
+require_once get_template_directory() . '/inc/part-number.php';
 
 // Bulk add to cart via AJAX (multipart add)
 add_action('wp_ajax_bulk_add_to_cart', 'gws_bulk_add_to_cart');
@@ -45,29 +46,35 @@ function gws_bulk_add_to_cart() {
         wp_send_json_error(['message' => 'Too many parts. Please limit to 50 at a time.'], 400);
     }
 
+    // Match case- and dash-insensitively (e.g. "450-100781a" and "450100781A"
+    // both match "450-100781A"), but add to cart and report back using the
+    // canonical SKU as stored in postmeta.
+    $normalizedSkus = array_map('gws_normalize_part_number', $skus);
+
     global $wpdb;
-    $placeholders = implode(',', array_fill(0, count($skus), '%s'));
+    $placeholders = implode(',', array_fill(0, count($normalizedSkus), '%s'));
     $query = "
         SELECT meta_value AS sku, post_id
         FROM {$wpdb->postmeta}
         WHERE meta_key = '_sku'
-        AND meta_value IN ($placeholders)
+        AND REPLACE(REPLACE(UPPER(meta_value), '-', ''), ' ', '') IN ($placeholders)
     ";
-    $prepared = $wpdb->prepare($query, $skus);
+    $prepared = $wpdb->prepare($query, $normalizedSkus);
     $results = $wpdb->get_results($prepared);
 
     $sku_map = [];
     foreach ($results as $row) {
-        $sku_map[$row->sku] = (int) $row->post_id;
+        $sku_map[gws_normalize_part_number($row->sku)] = ['sku' => $row->sku, 'post_id' => (int) $row->post_id];
     }
 
     $added = [];
     $not_found = [];
 
     foreach ($skus as $sku) {
-        if (isset($sku_map[$sku])) {
-            WC()->cart->add_to_cart($sku_map[$sku], 1);
-            $added[] = $sku;
+        $normalized = gws_normalize_part_number($sku);
+        if (isset($sku_map[$normalized])) {
+            WC()->cart->add_to_cart($sku_map[$normalized]['post_id'], 1);
+            $added[] = $sku_map[$normalized]['sku'];
         } else {
             $not_found[] = $sku;
         }
