@@ -230,11 +230,18 @@ function gws_build_quote_table_html($items = [], $totals = [], $test_tools = fal
         foreach (WC()->cart->get_cart() as $cart_item) {
             $p          = $cart_item['data'];
             $qty        = (int) $cart_item['quantity'];
-            $name       = $p ? $p->get_name() : '';
-            $list       = $p ? wc_price((float) $p->get_meta('_regular_price', true)) : '';
-            $line_total = isset($cart_item['line_total']) ? (float) $cart_item['line_total'] : 0.0;
-            $net        = $qty ? wc_price($line_total / $qty) : wc_price(0);
-            $subtotal   = wc_price($line_total);
+            $name              = $p ? $p->get_name() : '';
+            $regular_price     = $p ? (float) $p->get_meta('_regular_price', true) : 0.0;
+            $is_call_for_price = $regular_price <= 0;
+            $line_total        = isset($cart_item['line_total']) ? (float) $cart_item['line_total'] : 0.0;
+
+            if ($is_call_for_price) {
+                $list = $net = $subtotal = '<span class="call-for-price">Call for Price</span>';
+            } else {
+                $list     = wc_price($regular_price);
+                $net      = $qty ? wc_price($line_total / $qty) : wc_price(0);
+                $subtotal = wc_price($line_total);
+            }
             $items[]    = [
                 'part'     => $name,
                 'desc'     => '',
@@ -272,9 +279,14 @@ function gws_build_quote_table_html($items = [], $totals = [], $test_tools = fal
         <?php foreach ($items as $it): ?>
           <?php
           if ($test_tools) {
-              $listPrice          = floatval(preg_replace('/[^0-9.]/', '', $it['list'] ?? '0'));
-              $qty                = floatval($it['qty'] ?? 0);
-              $calculatedSubtotal = wc_price($listPrice * $qty);
+              $is_call_for_price = stripos($it['list'] ?? '', 'call for price') !== false;
+              if ($is_call_for_price) {
+                  $calculatedSubtotal = '<span class="call-for-price">Call for Price</span>';
+              } else {
+                  $listPrice          = floatval(preg_replace('/[^0-9.]/', '', $it['list'] ?? '0'));
+                  $qty                = floatval($it['qty'] ?? 0);
+                  $calculatedSubtotal = wc_price($listPrice * $qty);
+              }
           } else {
               $calculatedSubtotal = $it['subtotal'] ?? '';
           }

@@ -72,9 +72,19 @@
                         <span class="text-xs">{{ function('do_shortcode', '[gws_stocking_status sku="' ~ product.sku ~ '" show_label=0]') }}</span>
                       </td>
                       <td class="p-4 list-price-cell" data-label="List">
-                        {{ function('wc_price', product.get_meta('_regular_price', true)) }}
+                        {% if item.is_call_for_price %}
+                          <span class="call-for-price">Call for Price</span>
+                        {% else %}
+                          {{ function('wc_price', product.get_meta('_regular_price', true)) }}
+                        {% endif %}
                       </td>
-                      <td class="p-4 price-cell" data-label="Net">{{ function('wc_price', item.discounted_price) }}</td>
+                      <td class="p-4 price-cell" data-label="Net">
+                        {% if item.is_call_for_price %}
+                          <span class="call-for-price">Call for Price</span>
+                        {% else %}
+                          {{ function('wc_price', item.discounted_price) }}
+                        {% endif %}
+                      </td>
                       <td class="p-4 text-sm text-black stock-cell" data-label="Stock">
                         {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
                         {% if stock_data %}
@@ -100,7 +110,11 @@
                       </td>
                       <td class="line-subtotal p-4" data-label="Total">
                         {# <s class="text-gray-400 me-2">{{ function('wc_price', item.original_price * item.quantity) }}</s> #}
-                        {{ function('wc_price', item.discounted_subtotal) }}
+                        {% if item.is_call_for_price %}
+                          <span class="call-for-price">Call for Price</span>
+                        {% else %}
+                          {{ function('wc_price', item.discounted_subtotal) }}
+                        {% endif %}
                       </td>
                       <td id="closeBtnCol" class="p-4 cart-remove-cell">
                         <button

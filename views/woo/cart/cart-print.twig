@@ -29,6 +29,7 @@
         {% set product = item.data %}
         {% set series = product.get_attribute('pa_series') %}
         {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
+        {% set is_call_for_price = product.get_meta('_regular_price', true) <= 0 %}
         <tr class="border-b border-gray-200">
           <td class="p-3 text-sm">
             <a href="/product/{{ product.get_name }}/" class="text-black font-semibold" target="_blank">{{ product.get_name }}</a>
@@ -37,10 +38,18 @@
             {{ product.get_short_description|raw }}
           </td>
           <td class="p-3 text-sm">
-            {{ function('wc_price', product.get_meta('_regular_price', true)) }}
+            {% if is_call_for_price %}
+              <span class="call-for-price">Call for Price</span>
+            {% else %}
+              {{ function('wc_price', product.get_meta('_regular_price', true)) }}
+            {% endif %}
           </td>
           <td class="p-3 text-sm">
-            {{ function('wc_price', item.discounted_price) }}
+            {% if is_call_for_price %}
+              <span class="call-for-price">Call for Price</span>
+            {% else %}
+              {{ function('wc_price', item.discounted_price) }}
+            {% endif %}
           </td>
           <td class="p-3 text-sm">
             {% if stock_data %}

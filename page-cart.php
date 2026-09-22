@@ -17,11 +17,13 @@ foreach ( $cart_items as $key => &$item ) {
 
     $original_price = (float) $product->get_meta('_regular_price', true);
     $discounted_price = gws_get_discounted_price_from_product( $product );
+    $is_call_for_price = $original_price <= 0;
 
     $item['original_price'] = $original_price;
     $item['discounted_price'] = $discounted_price;
     $item['discounted_subtotal'] = $discounted_price * $quantity;
-    
+    $item['is_call_for_price'] = $is_call_for_price;
+
     // Resolve tile image
     $sku = $product->get_sku();
     $picture_name = $sku ? ($sku_image_map[$sku] ?? null) : null;
@@ -30,8 +32,10 @@ foreach ( $cart_items as $key => &$item ) {
         ? $img_base . $picture_name . '_tile.png'
         : $img_base . $product->get_attribute('pa_series') . '_tile.png';
 
-    $original_total += $original_price * $quantity;
-    $discounted_total += $item['discounted_subtotal'];
+    if ( ! $is_call_for_price ) {
+        $original_total += $original_price * $quantity;
+        $discounted_total += $item['discounted_subtotal'];
+    }
 }
 
 // Get raw table update time (likely in UTC)

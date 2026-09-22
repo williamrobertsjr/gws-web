@@ -216,6 +216,12 @@ function gws_dd_handle_datatables_request() {
 
     $data = [];
     foreach ($rows as $row) {
+        $is_call_for_price = $row->list_price === null || (float) $row->list_price <= 0;
+        $format = function ($value) use ($is_call_for_price) {
+            if ($is_call_for_price) return 'Call for Price';
+            return $value !== null ? number_format((float) $value, 2) : '-';
+        };
+
         $data[] = [
             $row->part,
             $row->series,
@@ -223,16 +229,16 @@ function gws_dd_handle_datatables_request() {
             $row->family,
             $row->brand,
             $row->full_description,
-            $row->list_price !== null ? number_format((float) $row->list_price, 2) : '-',
-            $row->net_price !== null ? number_format((float) $row->net_price, 2) : '-',
-            $row->qty_1 !== null ? number_format((float) $row->qty_1, 2) : '-',
-            $row->qty_2 !== null ? number_format((float) $row->qty_2, 2) : '-',
-            $row->qty_3 !== null ? number_format((float) $row->qty_3, 2) : '-',
-            $row->qty_6 !== null ? number_format((float) $row->qty_6, 2) : '-',
-            $row->qty_9 !== null ? number_format((float) $row->qty_9, 2) : '-',
-            $row->qty_12 !== null ? number_format((float) $row->qty_12, 2) : '-',
-            $row->qty_24 !== null ? number_format((float) $row->qty_24, 2) : '-',
-            $row->qty_48 !== null ? number_format((float) $row->qty_48, 2) : '-',
+            $format($row->list_price),
+            $format($row->net_price),
+            $format($row->qty_1),
+            $format($row->qty_2),
+            $format($row->qty_3),
+            $format($row->qty_6),
+            $format($row->qty_9),
+            $format($row->qty_12),
+            $format($row->qty_24),
+            $format($row->qty_48),
         ];
     }
 
@@ -278,22 +284,28 @@ function gws_dd_handle_price_export() {
 
     $rowNum = 2;
     foreach ($rows as $row) {
+        $is_call_for_price = $row->list_price === null || (float) $row->list_price <= 0;
+        $cellValue = function ($value) use ($is_call_for_price) {
+            if ($is_call_for_price) return 'Call for Price';
+            return $value !== null ? (float) $value : null;
+        };
+
         $sheet->setCellValueExplicit("A{$rowNum}", $row->part, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
         $sheet->setCellValue("B{$rowNum}", $row->series);
         $sheet->setCellValue("C{$rowNum}", $row->tool_type);
         $sheet->setCellValue("D{$rowNum}", $row->family);
         $sheet->setCellValue("E{$rowNum}", $row->brand);
         $sheet->setCellValue("F{$rowNum}", $row->full_description);
-        $sheet->setCellValue("G{$rowNum}", $row->list_price !== null ? (float) $row->list_price : null);
-        $sheet->setCellValue("H{$rowNum}", $row->net_price !== null ? (float) $row->net_price : null);
-        $sheet->setCellValue("I{$rowNum}", $row->qty_1 !== null ? (float) $row->qty_1 : null);
-        $sheet->setCellValue("J{$rowNum}", $row->qty_2 !== null ? (float) $row->qty_2 : null);
-        $sheet->setCellValue("K{$rowNum}", $row->qty_3 !== null ? (float) $row->qty_3 : null);
-        $sheet->setCellValue("L{$rowNum}", $row->qty_6 !== null ? (float) $row->qty_6 : null);
-        $sheet->setCellValue("M{$rowNum}", $row->qty_9 !== null ? (float) $row->qty_9 : null);
-        $sheet->setCellValue("N{$rowNum}", $row->qty_12 !== null ? (float) $row->qty_12 : null);
-        $sheet->setCellValue("O{$rowNum}", $row->qty_24 !== null ? (float) $row->qty_24 : null);
-        $sheet->setCellValue("P{$rowNum}", $row->qty_48 !== null ? (float) $row->qty_48 : null);
+        $sheet->setCellValue("G{$rowNum}", $cellValue($row->list_price));
+        $sheet->setCellValue("H{$rowNum}", $cellValue($row->net_price));
+        $sheet->setCellValue("I{$rowNum}", $cellValue($row->qty_1));
+        $sheet->setCellValue("J{$rowNum}", $cellValue($row->qty_2));
+        $sheet->setCellValue("K{$rowNum}", $cellValue($row->qty_3));
+        $sheet->setCellValue("L{$rowNum}", $cellValue($row->qty_6));
+        $sheet->setCellValue("M{$rowNum}", $cellValue($row->qty_9));
+        $sheet->setCellValue("N{$rowNum}", $cellValue($row->qty_12));
+        $sheet->setCellValue("O{$rowNum}", $cellValue($row->qty_24));
+        $sheet->setCellValue("P{$rowNum}", $cellValue($row->qty_48));
         $rowNum++;
     }
 

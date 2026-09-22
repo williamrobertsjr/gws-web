@@ -27,8 +27,11 @@ function ajax_update_cart_item() {
 
     $totals = [];
     if ($item) {
+        $regular_price = (float) $item['data']->get_meta('_regular_price', true);
         $totals[$key] = [
-            'subtotal' => wc_price($item['line_subtotal']),
+            'subtotal' => $regular_price <= 0
+                ? '<span class="call-for-price">Call for Price</span>'
+                : wc_price($item['line_subtotal']),
         ];
     }
 

@@ -157,8 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const partNumber = $(this.node()).attr('data-part-number'); // Get part number from row attribute
         const partData = partsData.found_parts.find(part => part.PN === partNumber);
         console.log(`Part Data:`, partData)
-        if (partData && seriesWithCallPrice.includes(partData.SERIES)) {
-            // Set price fields to "Call" for specific series
+        if ((partData && seriesWithCallPrice.includes(partData.SERIES)) || !listPrice || listPrice <= 0) {
+            // Set price fields to "Call for Price" for specific series or unpriced parts
             row[4] = "Call for Price";
             row[5] = "Call for Price";
             row[6] = "Call for Price";
