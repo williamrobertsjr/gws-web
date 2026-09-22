@@ -16,7 +16,7 @@
                         <img src="{{ product_img }}" alt="" class="max-h-[300px] w-auto">
                         {# <img src="{{ site.theme.link }}/images/catalog_images/{{series}}_catalog.png" alt="" class="max-h-[300px] w-auto"> #}
                     </div>
-            
+                    
                 </div>
                 {# Right Product Information #}
                 <div class="w-full md:w-8/12">
@@ -97,6 +97,9 @@
                                         </p>
                                     {% endif %}
                                 {% endfor %}
+                                <div class="mt-4">
+                                    <a href="/docs/speed_and_feed/{{product.get_attribute('pa_series')}}_sf.pdf" class="btn light-blue" target="_blank">Speed and Feed<i class="fa-regular fa-file-pdf ms-4"></i></a>
+                                </div>
                             </div>
                         </div>
                         <div class="w-full md:w-4/12 md:pe-4">
