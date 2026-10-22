@@ -507,8 +507,8 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         </html>';
 
         // For test tools requests, we want emails routed first to sales VPs for approval then to sales@ once approved.
-        $east_region_emails = ['amie.greene@gwstoolgroup.com','scott.cross@gwstoolgroup.com', 'travis@gwstoolgroup.com', 'brian.mroz@gwstoolgroup.com','alex.meerovich@gwstoolgroup.com','cody.vancamp@gwstoolgroup.com','justin.phelps@gwstoolgroup.com','mike.littlejohn@gwstoolgroup.com','robert.redden@gwstoolgroup.com','lawrence.stenger@gwstoolgroup.com'];
-        $west_region_emails = ['taylor.smale@gwstoolgroup.com','kent@gwstoolgroup.com','brian.villa@gwstoolgroup.com','philip.fossee@gwstoolgroup.com','cesar.vazquez@gwstoolgroup.com','modesto.morales_c@gwstoolgroup.com','jarrett.stair@gwstoolgroup.com','jacob.furnace@gwstoolgroup.com','ricardo.corral@gwstoolgroup.com','phil.saltness@gwstoolgroup.com','jim.fite@gwstoolgroup.com','thad.riesenbeck@gwstoolgroup.com'];
+        $east_region_emails = ['amie.greene@gwstoolgroup.com','scott.cross@gwstoolgroup.com', 'travis@gwstoolgroup.com', 'brian.mroz@gwstoolgroup.com','alex.meerovich@gwstoolgroup.com','cody.vancamp@gwstoolgroup.com','justin.phelps@gwstoolgroup.com','mike.littlejohn@gwstoolgroup.com','robert.redden@gwstoolgroup.com','lawrence.stenger@gwstoolgroup.com', 'dan@durrie.com', 'jason.a.davis@gwstoolgroup.com'];
+        $west_region_emails = ['taylor.smale@gwstoolgroup.com','kent.carlsen@gwstoolgroup.com','brian.villa@gwstoolgroup.com','philip.fossee@gwstoolgroup.com','cesar.vazquez@gwstoolgroup.com','modesto.morales_c@gwstoolgroup.com','jarrett.stair@gwstoolgroup.com','jacob.furnace@gwstoolgroup.com','ricardo.corral@gwstoolgroup.com','phil.saltness@gwstoolgroup.com','jim.fite@gwstoolgroup.com','thad.riesenbeck@gwstoolgroup.com'];
 
         // National accounts reps aren't tied to a region, so send to both VPs
         $national_accounts_emails = ['ryan.morin@gwstoolgroup.com','shea.gibson@gwstoolgroup.com'];
