@@ -510,8 +510,16 @@ function gws_handle_send_quote(WP_REST_Request $req) {
         $east_region_emails = ['amie.greene@gwstoolgroup.com','scott.cross@gwstoolgroup.com', 'travis@gwstoolgroup.com', 'brian.mroz@gwstoolgroup.com','alex.meerovich@gwstoolgroup.com','cody.vancamp@gwstoolgroup.com','justin.phelps@gwstoolgroup.com','mike.littlejohn@gwstoolgroup.com','robert.redden@gwstoolgroup.com','lawrence.stenger@gwstoolgroup.com'];
         $west_region_emails = ['taylor.smale@gwstoolgroup.com','kent@gwstoolgroup.com','brian.villa@gwstoolgroup.com','philip.fossee@gwstoolgroup.com','cesar.vazquez@gwstoolgroup.com','modesto.morales_c@gwstoolgroup.com','jarrett.stair@gwstoolgroup.com','jacob.furnace@gwstoolgroup.com','ricardo.corral@gwstoolgroup.com','phil.saltness@gwstoolgroup.com','jim.fite@gwstoolgroup.com','thad.riesenbeck@gwstoolgroup.com'];
 
+        // National accounts reps aren't tied to a region, so send to both VPs
+        $national_accounts_emails = ['ryan.morin@gwstoolgroup.com','shea.gibson@gwstoolgroup.com'];
+
         // Determine recipient based on sales person's region
-        if (in_array(strtolower($sales_email), $east_region_emails)) {
+        if (in_array(strtolower($sales_email), $national_accounts_emails)) {
+            $to_vp = [
+                ['email' => $east_vp, 'name' => 'Justin Verburg'],
+                ['email' => $west_vp, 'name' => 'Greg Gundrum'],
+            ];
+        } elseif (in_array(strtolower($sales_email), $east_region_emails)) {
             $to_vp = [['email' => 'justin.verburg@gwstoolgroup.com', 'name' => 'Justin Verburg']];
             // $to_vp = [['email' => 'billy.roberts@gwstoolgroup.com', 'name' => 'Billy Roberts']]; // testing
         } elseif (in_array(strtolower($sales_email), $west_region_emails)) {
@@ -530,8 +538,8 @@ function gws_handle_send_quote(WP_REST_Request $req) {
             'subject' => $subject,
         ];
         // CC sales rep only if they're not already the VP recipient
-        $vp_email = strtolower($to_vp[0]['email']);
-        if ($sales_email && strtolower($sales_email) !== $vp_email) {
+        $vp_emails = array_map('strtolower', array_column($to_vp, 'email'));
+        if ($sales_email && !in_array(strtolower($sales_email), $vp_emails)) {
             $test_tools_personalization['cc'] = [['email' => $sales_email, 'name' => $sales_name]];
         }
 
