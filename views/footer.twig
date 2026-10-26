@@ -15,11 +15,9 @@
                     <a class="text-pale-blue text-xl font-light" href="mailto:sales@gwstoolgroup.com">sales@gwstoolgroup.com</a>
                 </div>
                 <div class="flex items-center">
-                   {% if user %}
-                        <button class="btn light-blue me-0 md:me-16"><a href="/dashboard">My Dashboard</a></button>
-                    {% else %}
-                        <button class="btn light-blue me-0 md:me-16"><a href="/sign-in">Login</a></button>
-                    {% endif %}
+                   {# Both buttons render for every visitor; auto-price-fetch.js toggles which is hidden via gws_visitor_state (logged_in), so the HTML itself is identical for everyone and the page can be cached #}
+                   <button data-auth-nav="in" class="btn light-blue me-0 md:me-16 hidden"><a href="/dashboard">My Dashboard</a></button>
+                   <button data-auth-nav="out" class="btn light-blue me-0 md:me-16"><a href="/sign-in">Login</a></button>
                 </div>
             </div>
 

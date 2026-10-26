@@ -14,16 +14,14 @@
  * (Theme Name, etc.) from <theme>/style.css, and it is also the Tailwind input
  * that package.json's build:css compiles into assets/css/output.css.
  *
- * Because Tailwind copies non-directive CSS straight through, output.css already
- * contains everything in style.css. Both are enqueued below, so those rules ship
- * twice. Dropping the 'custom-style' enqueue would fix that, but only after
- * running `npm run build:css` -- output.css is gitignored and can lag style.css,
- * and loading it second is currently what masks a stale build.
+ * style.css itself is not enqueued -- Tailwind copies non-directive CSS
+ * straight through, so output.css already contains everything in it. Only
+ * enqueue output.css here; after editing style.css, run `npm run build:css`
+ * before deploying, since output.css is gitignored and can otherwise lag.
  */
 function enqueue_tailwind_output_styles() {
     wp_enqueue_style( 'tailwind-output', get_template_directory_uri() . '/assets/css/output.css', array(), filemtime( get_template_directory() . '/assets/css/output.css' ) );
-    wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/style.css', array('tailwind-output'), filemtime( get_template_directory() . '/style.css' ) );
-    wp_enqueue_style( 'mega-menu', get_template_directory_uri() . '/assets/css/mega-menu.css', array('custom-style'), filemtime( get_template_directory() . '/assets/css/mega-menu.css' ) );
+    wp_enqueue_style( 'mega-menu', get_template_directory_uri() . '/assets/css/mega-menu.css', array('tailwind-output'), filemtime( get_template_directory() . '/assets/css/mega-menu.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_tailwind_output_styles' );
 

@@ -16,6 +16,9 @@ ob_start();
 woocommerce_mini_cart();
 $context['mini_cart'] = ob_get_clean();
 $context['cart_url'] = wc_get_cart_url();
-$context['cart_count'] = WC()->cart->get_cart_contents_count();
+// Real count is fetched client-side on load (see assets/js/auto-price-fetch.js
+// + functions.php's get_cart_count ajax action) so this page's HTML stays the
+// same for every visitor and can be page-cached.
+$context['cart_count'] = 0;
 
 // wp_nav_menu( array('theme_location' => 'primary', 'menu_class' => 'nav-menu'));

@@ -51,11 +51,15 @@ require_once get_template_directory() . '/inc/pricing-exempt-companies.php';
 // Load discounts logic for WooCommerce and distributor tiers sitewide
 require_once get_template_directory() . '/inc/discounts.php';
 
-// Add cart count and URL to Timber context
+// Cart URL to Timber context. Cart count used to be computed here too, but
+// that meant every page's HTML differed by visitor (and by session, for
+// guests with items in a cart), which kept Breeze from ever caching
+// product/series pages for logged-in traffic. auto-price-fetch.js now fetches
+// the real count from get_cart_count below on every page load, for every
+// visitor, so views/base.twig's #cart-count can render a fixed "0" and still
+// be correct by the time the page is interactive.
 add_filter('timber/context', function ($context) {
     if ( class_exists('WooCommerce') && ! is_admin() ) {
-        WC()->initialize_cart();
-        $context['cart_count'] = WC()->cart->get_cart_contents_count();
         $context['cart_url'] = wc_get_cart_url();
     }
     return $context;

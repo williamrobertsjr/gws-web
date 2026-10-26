@@ -192,18 +192,31 @@ final class GWS_Live_Stock {
         });
     }
 
-    /** REST: /wp-json/gws/v1/stock/{sku} → { sku, available, found } */
+    /**
+     * REST: /wp-json/gws/v1/stock/{sku} → { sku, available, found, qty_on_hand,
+     * durrie_qty_on_hand, total_stock }
+     *
+     * qty_on_hand/durrie_qty_on_hand/total_stock were added so single-product.twig's
+     * CA/IL stock breakdown (previously baked server-side, login-gated) can be
+     * fetched client-side instead -- keeping the page's HTML the same for every
+     * visitor so it can be cached. available/found are unchanged for the
+     * existing product-helpers.js consumer.
+     */
     public static function register_rest() {
         register_rest_route('gws/v1', '/stock/(?P<sku>[^/]+)', [
             'methods'  => 'GET',
             'permission_callback' => '__return_true',
             'callback' => function($req){
                 $sku = sanitize_text_field($req['sku']);
-                $avail = self::get_available_by_sku($sku);
+                $stock = self::get_full_stock_by_sku($sku);
+
                 return [
                     'sku' => $sku,
-                    'available' => (int)($avail ?? 0),
-                    'found' => $avail !== null,
+                    'available' => $stock ? max(0, (int)$stock['QTY_ON_HAND']) : 0,
+                    'found' => $stock !== null,
+                    'qty_on_hand' => $stock['QTY_ON_HAND'] ?? null,
+                    'durrie_qty_on_hand' => $stock['DURRIE_QTY_ON_HAND'] ?? null,
+                    'total_stock' => $stock['TOTAL_STOCK'] ?? null,
                 ];
             }
         ]);

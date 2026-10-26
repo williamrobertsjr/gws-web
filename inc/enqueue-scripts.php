@@ -7,21 +7,23 @@
  */
 
 
+// Tier-pricing scripts load for every visitor, not just logged-in ones: once a
+// page is served from the page cache, whichever visitor's request happened to
+// populate that cache entry decides what's in the shared HTML. Gating the
+// script tag itself on is_user_logged_in() would mean a logged-in user who
+// gets served a guest-populated cache entry never receives the script that
+// fixes their price. The real gate is the gws_logged_in cookie check inside
+// the scripts themselves (see auto-price-fetch.js, inc/login.php) -- a
+// guest's browser loads the same static JS but never fires the ajax calls.
 function gws_enqueue_tier_scripts() {
-    // Only load scripts for logged-in users - helps prevent bot overloading server by calling admin-ajax.php over and over
-    if (!is_user_logged_in()) {
-        return;
-    }
-    // Make sure wc_cart_params is available site-wide
-    if (function_exists('wc_enqueue_js')) {
-        wp_enqueue_script('wc-cart-fragments'); // ensures wc_cart_params is defined
-    }
-
+    // filemtime() versioning so browsers fetch the new file as soon as it
+    // changes, instead of serving a stale cached copy indefinitely (these had
+    // no cache-busting version at all before).
     wp_enqueue_script(
         'tier-selector',
         get_template_directory_uri() . '/assets/js/tier-selector.js',
         [],
-        null,
+        filemtime(get_template_directory() . '/assets/js/tier-selector.js'),
         true
     );
 
@@ -29,7 +31,15 @@ function gws_enqueue_tier_scripts() {
         'cart-pricing',
         get_template_directory_uri() . '/assets/js/cart-pricing.js',
         ['tier-selector'], // depends on tier-selector
-        null,
+        filemtime(get_template_directory() . '/assets/js/cart-pricing.js'),
+        true
+    );
+
+    wp_enqueue_script(
+        'auto-price-fetch',
+        get_template_directory_uri() . '/assets/js/auto-price-fetch.js',
+        ['tier-selector'], // reuses tier-selector's window.gwsRefreshPrices
+        filemtime(get_template_directory() . '/assets/js/auto-price-fetch.js'),
         true
     );
 
@@ -76,10 +86,4 @@ add_filter('timber/context', function ($context) {
     }
 
     return $context;
-});
-
-// Disable WooCommerce cart fragments for performance
-add_action('wp_enqueue_scripts', function() {
-    wp_dequeue_script('wc-cart-fragments');
-    wp_deregister_script('wc-cart-fragments');
 });

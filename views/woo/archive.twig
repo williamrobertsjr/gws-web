@@ -1,5 +1,4 @@
 {% extends 'base.twig' %}
-{% set userRoleDisplay = get_user_role_display(userRole) %}
 {% block content %}
 {# <pre>{{ dump(tool_type, tool_data|keys) }}</pre> #}
 <section class="pt-80 md:pt-[100px] px-4 bg-black pb-36">
@@ -17,7 +16,8 @@
                 <p><a class="hover:under hover:text-pale-blue" href="/products/inserts">Inserts</a></p>
             </div>
             <h1 class="text-4xl md:text-6xl uppercase"><a href="/products/{{title|lower}}" class="text-pale-blue font-black">{{title}}</a></h1>
-            <p class="mt-4 text-sm">Your distributor discount: <span class="font-semibold no-underline text-pale-blue">{{userRoleDisplay}}.</span></p>
+            {# Filled client-side by auto-price-fetch.js via gws_visitor_state so this renders identically for every visitor and the page can be cached #}
+            <p class="mt-4 text-sm">Your distributor discount: <span id="discount-tier-label" class="font-semibold no-underline text-pale-blue">Log in to see your discount</span>.</p>
         </div>
     </div>
 

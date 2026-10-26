@@ -22,16 +22,24 @@ function get_current_user_role() {
 // This will be used in rapid-quote.js to determine if the user is exempt from the 7% price increase
 // The user meta key is 'company' and the values are compared against a predefined list of exempt companies
 // The script will set window.specialCompanyExempt to true or false based on the user's company
+//
+// Only rapid-quote.js reads these globals, and it's only enqueued on the
+// Rapid Quote page -- which Breeze already excludes from its page cache
+// (breeze-exclude-urls). Everywhere else these printed into every page's
+// <head>/<footer> regardless of login state, which blocked Breeze from ever
+// caching product/series pages for logged-in visitors. Scoping the real
+// per-visitor value to the one page that actually uses it keeps rapid-quote.js
+// untouched while letting other pages render an identical, cacheable shell.
 
 add_action('wp_footer', function () {
-    if (!is_user_logged_in()) {
+    if (!is_page('rapid-quote') || !is_user_logged_in()) {
         echo "<script>window.specialCompanyExempt = false;</script>";
         return;
     }
 
     $user_id = get_current_user_id();
     $user_company = get_user_meta($user_id, 'company', true); // <-- FIXED
-    
+
     // shared with inc/discounts.php -- see inc/pricing-exempt-companies.php
     $is_exempt   = in_array($user_company, gws_exempt_companies(), true) ? 'true' : 'false';
     $exempt_plus = in_array($user_company, gws_plus_25_companies(), true) ? 'true' : 'false';
@@ -41,6 +49,8 @@ add_action('wp_footer', function () {
 
 add_action('wp_head', 'print_user_role');
 function print_user_role() {
+   if (!is_page('rapid-quote')) return;
+
    $user_role = get_current_user_role();
    if ($user_role !== false) {
        echo "<script>var userRole = '$user_role';</script>";

@@ -146,3 +146,43 @@ function custom_password_reset_confirmation() {
     }
 }
 add_action( 'login_message', 'custom_password_reset_confirmation' );
+
+/**
+ * Readable-by-JS marker cookie for "this browser has an active WP session".
+ *
+ * Core WordPress sets wordpress_logged_in_* with httponly=true
+ * (wp-includes/pluggable.php, wp_set_auth_cookie()), so client-side scripts
+ * can never read it -- confirmed directly against this install, not assumed.
+ * auto-price-fetch.js needs *some* fast, no-request signal to decide whether
+ * to fetch personalized price/stock/nav data, since the page itself must
+ * render identically for every visitor to stay cacheable. This cookie exists
+ * only for that check -- no user id or session data, just a flag -- and is
+ * only ever set/cleared here, at the moment of login/logout, never computed
+ * per-pageview (doing that on every request would reintroduce the exact
+ * per-visitor server-side work this was meant to eliminate).
+ *
+ * Existing sessions created before this shipped won't have it until the user
+ * logs out and back in.
+ */
+add_action('wp_login', function () {
+    setcookie('gws_logged_in', '1', [
+        'expires'  => time() + 30 * DAY_IN_SECONDS,
+        'path'     => '/',
+        'secure'   => is_ssl(),
+        'httponly' => false,
+        'samesite' => 'Lax',
+    ]);
+});
+
+// Priority 5: custom_logout_redirect() above (default priority 10) calls
+// exit() after its redirect, which would otherwise stop this from ever
+// running.
+add_action('wp_logout', function () {
+    setcookie('gws_logged_in', '', [
+        'expires'  => time() - YEAR_IN_SECONDS,
+        'path'     => '/',
+        'secure'   => is_ssl(),
+        'httponly' => false,
+        'samesite' => 'Lax',
+    ]);
+}, 5);

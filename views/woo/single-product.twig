@@ -1,8 +1,6 @@
 {% extends "base.twig" %}
 
 {% block content %}
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-
     {# {% do action('woocommerce_before_single_product') %} #}
     
     <article itemscope itemtype="https://schema.org/Product" class="single-product-details {{ post.class }}  mx-auto text-white">
@@ -29,39 +27,18 @@
                             {% if list_price <= 0 %}
                                 <span class="discounted-price font-bold text-white call-for-price">Call for Price</span>
                             {% else %}
-                                {% if net_price and net_price < list_price %}
-                                    {# <s class="list-price text-lg text-gray-400 me-2">{{ function('wc_price', list_price)|raw }}</s> #}
-                                {% endif %}
-                                {# .price-cell + data-product-id lets the sales/admin tier selector swap just the net price #}
+                                {# .price-cell + data-product-id lets auto-price-fetch.js (and the sales/admin tier selector) swap in the real net price client-side, so this stays the same list-price markup for every visitor and the page can be cached #}
                                 <span class="discounted-price price-cell font-bold text-white" data-product-id="{{ product.get_id }}">
-                                    {{ function('wc_price', net_price ?: list_price)|raw }}
+                                    {{ function('wc_price', list_price)|raw }}
                                 </span>
                             {% endif %}
                         </p>
-                        {% set stock_data = function('GWS_Live_Stock::get_full_stock_by_sku', product.sku) %}
-                        {% if stock_data and user %}
-            
-                            {% if stock_data.DURRIE_QTY_ON_HAND is not null %}
-                              <div class="p-1">
-                                <div class="bg-dark-blue px-2 text-white">
-                                    <p class="mb-0 text-lg"><span class="font-bold product-stock mb-2">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
-                                </div>
-                                <div class="flex gap-x-2 px-2">
-                                  <p class="text-sm"><span class="font-medium">CA</span>: {{ stock_data.QTY_ON_HAND|number_format(0) }}</p>
-                                  <p class="text-sm"><span class="font-medium">IL</span>: {{ stock_data.DURRIE_QTY_ON_HAND|number_format(0) }}</p>
-                                </div>
-                              </div>
-                            {% else %}
-                                <div class="bg-dark-blue px-2 text-white">
-                                    <p class="p-1 text-lg"><span class="font-bold product-stock">Stock</span>: {{ stock_data.TOTAL_STOCK|number_format(0) }}</p>
-                                </div>
-                            {% endif %}
-                        {% else %}
+                        {# Real stock is fetched client-side from /wp-json/gws/v1/stock/{sku} by auto-price-fetch.js for logged-in visitors, so this default stays identical for every visitor and the page can be cached #}
+                        <div data-stock-sku="{{ product.sku }}">
                             <div class="bg-dark-blue px-2 text-white">
                                 <p class="p-1 text-sm">Log in to view stock.</p>
                             </div>
-                        {% endif %}
-            
+                        </div>
                     </div>
                     <div>
                         {# <p>{{post.meta('table_description')}}</p> #}

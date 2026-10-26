@@ -172,10 +172,31 @@ function gws_tier_price_html( $product ) {
     return wc_price( $net > 0 ? $net : $list );
 }
 
+/**
+ * List-price-only equivalent of gws_tier_price_html(), for templates that must
+ * render the same markup for every visitor so the page stays cacheable. JS
+ * fills in the real tier/company price afterward for logged-in visitors via
+ * get_discounted_product_prices_by_tier (see assets/js/auto-price-fetch.js).
+ */
+function gws_guest_price_html( $product ) {
+    if ( ! $product instanceof WC_Product ) {
+        return '';
+    }
+
+    $list = (float) $product->get_meta( '_regular_price', true );
+
+    if ( $list <= 0 ) {
+        return '<span class="call-for-price">Call for Price</span>';
+    }
+
+    return wc_price( $list );
+}
+
 // Add Twig functions for user role display and tier-aware loop pricing
 add_filter('timber/twig', function ($twig) {
     $twig->addFunction(new \Twig\TwigFunction('get_user_role_display', 'get_user_role_display'));
     $twig->addFunction(new \Twig\TwigFunction('gws_tier_price_html', 'gws_tier_price_html'));
+    $twig->addFunction(new \Twig\TwigFunction('gws_guest_price_html', 'gws_guest_price_html'));
     return $twig;
 });
 function get_user_role_display($role) {
@@ -329,12 +350,12 @@ function gws_handle_ajax_product_price_request() {
         return;
     }
 
-    if (!isset($_GET['tier'], $_GET['product_ids'])) {
+    if (!isset($_GET['product_ids'])) {
         wp_send_json_error('Missing parameters');
         return;
     }
 
-    $tier = sanitize_text_field($_GET['tier']);
+    $tier = !empty($_GET['tier']) ? sanitize_text_field($_GET['tier']) : gws_get_user_tier();
     $ids = array_map('absint', explode(',', $_GET['product_ids'] ?? ''));
 
     if (empty($ids)) {
@@ -386,10 +407,30 @@ function gws_call_for_price_display($price, $product) {
 add_filter('woocommerce_is_purchasable', 'gws_allow_no_price_in_quote', 10, 2);
 function gws_allow_no_price_in_quote($purchasable, $product) {
     $regular_price = $product->get_meta('_regular_price', true);
-    
+
     if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
         return true;
     }
-    
+
     return $purchasable;
+}
+
+/**
+ * Login state, discount-tier label, and tier-selector visibility for the
+ * global header/footer. Registered for guests too so the client always gets a
+ * definitive answer instead of assuming -- the page cache serves the same
+ * logged-out shell to everyone, so this is what tells a logged-in visitor's
+ * browser to repaint the nav/tier-selector client-side (see base.twig).
+ */
+add_action('wp_ajax_gws_visitor_state', 'gws_handle_visitor_state');
+add_action('wp_ajax_nopriv_gws_visitor_state', 'gws_handle_visitor_state');
+function gws_handle_visitor_state() {
+    $logged_in = is_user_logged_in();
+    $role      = $logged_in ? get_current_user_role() : null;
+
+    wp_send_json_success([
+        'logged_in'         => $logged_in,
+        'role_display'      => $logged_in ? get_user_role_display($role) : null,
+        'show_tier_selector' => in_array($role, ['administrator', 'sales'], true),
+    ]);
 }

@@ -30,7 +30,8 @@
 			{% block header %}
 				<div class="wrapper px-4 md:px-10">
 					<div class="top-top-header flex flex-col sm:flex-row justify-end gap-x-4 items-center">
-					{% if userRole == 'administrator' or userRole == 'sales' %}
+					{# Visibility toggled client-side by auto-price-fetch.js via gws_visitor_state (show_tier_selector) so this renders identically for every visitor and the page can be cached #}
+					<div id="tier-selector-wrap" class="hidden">
 						<div class="flex flex-col md:flex-row items-center gap-x-2">
 							<label for="tier-selector" class="text-sm text-white whitespace-nowrap">Discount Tier:</label>
 							<select id="tier-selector" class="text-sm border border-gray-300 px-2 py-1 rounded">
@@ -50,21 +51,23 @@
 								<option value="exemptPlus">Ewie, GEC - Ewie, PSMI</option>
 							</select>
 						</div>
-					{% endif %}
+					</div>
 					<div class="flex items-center my-2 gap-x-2">
-						{% if user %}
+						{# Both branches render for every visitor; auto-price-fetch.js swaps hidden/contents via gws_visitor_state (logged_in), so the HTML itself is identical for everyone and the page can be cached. "contents" (not a plain show) keeps these <p>/<a> as direct flex children instead of nesting them in a block wrapper. #}
+						<div data-auth-nav="in" data-auth-display="contents" class="hidden">
 							<p class="hidden md:block">|</p>
 							<a href="/dashboard" class="text-sm hover:underline whitespace-nowrap">My Dashboard</a>
 							<p>|</p>
 							<a href="/wp-login.php?action=logout" class="text-sm hover:underline whitespace-nowrap">Log Out</a>
-						{% else %}
+						</div>
+						<div data-auth-nav="out" data-auth-display="contents" class="contents">
 							<p class="hidden md:block">|</p>
 							<a href="/sign-in" class="text-sm hover:underline">Sign In</a>
-						{% endif %}
-					
+						</div>
+
 						<p>|</p>
 						<div>
-							<p class="relative"><a href="/cart"><i class="fa-solid fa-basket-shopping text-xl"></i><span id="cart-count" class="absolute -top-1 -right-2 bg-light-blue rounded-full px-1 flex justify-center items-center text-xs font-semibold">{{cart_count}}</span></a></p>
+							<p class="relative"><a href="/cart"><i class="fa-solid fa-basket-shopping text-xl"></i><span id="cart-count" class="absolute -top-1 -right-2 bg-light-blue rounded-full px-1 flex justify-center items-center text-xs font-semibold">{{cart_count|default(0)}}</span></a></p>
 						</div>
 					</div>
 

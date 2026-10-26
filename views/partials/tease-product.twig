@@ -127,13 +127,11 @@
         {# Right Column - Price and Quantity #}
         <div id="tool-stock" class="w-full lg:w-1/4 ps-0 lg:ps-6 pe-0 lg:pe-2 mt-4 lg:mt-0 flex flex-col justify-between">            
             <div class="lg:text-right">
-            {# Net price for the user's tier; .price-cell + data-product-id lets the sales/admin tier selector swap it #}
-            <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ gws_tier_price_html(product)|raw }}</p>
-            {% if user %} 
-                <p class="text-black font-medium">{{ function('do_shortcode', '[gws_live_stock sku="' ~ product.sku ~ '" show_label=0 wrap=0]') }} <span class="text-sm font-regular">In stock</span></p>
-            {% else %}
-                <p class="text-black text-sm">Log in to view stock.</p>
-            {% endif %}
+            {# List price for every visitor by default; .price-cell + data-product-id lets auto-price-fetch.js (and the sales/admin tier selector) swap in the real net price client-side, so this renders identically for everyone and the page can be cached #}
+            <p class="text-xl text-dark-blue font-bold price-cell" data-product-id="{{ product.get_id }}">{{ gws_guest_price_html(product)|raw }}</p>
+            {# Visibility + value filled client-side by auto-price-fetch.js (gws_visitor_state + the existing /wp-json/gws/v1/stock endpoint) #}
+            <p data-auth-nav="in" class="hidden text-black font-medium"><span class="gws-live-stock" data-gws-sku="{{ product.sku }}">—</span> <span class="text-sm font-regular">In stock</span></p>
+            <p data-auth-nav="out" class="text-black text-sm">Log in to view stock.</p>
             </div>
             
             

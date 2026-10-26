@@ -1700,229 +1700,17 @@ main.swp-rp-main {
   transform: translateY(-8px);
 }
 
-/* Custom Quote Styles */
-
-.newCustomForm {
-  margin-top: -60px !important;
-}
-.newCustomForm .gfield {
-  overflow: auto;
-  padding: 20px;
-  margin: 0 !important;
-}
-.newCustomForm .gform_fields .tabMenuBox {
-  border-radius: 5px;
-  background: var(--black);
-  color: #ffffff;
-}
-#input_16_1 {
-  margin-left: 0 !important;
-}
+/* Legacy Gravity Forms markup resets (apply to all forms) */
 .gform_legacy_markup_wrapper .gfield_radio li label {
   padding: 5px;
 }
-.newCustomForm input {
-  background: #ffffff;
-}
-.newCustomForm .tabMenu.gfield {
-  margin: 0 !important;
-  color: #000000;
-  overflow: hidden;
-  background: transparent !important;
-}
-.gfield.toolDrawing {
-  float: left;
-  margin-right: 2% !important;
-  float: right;
-  width: 48%;
-}
-.tabMenu {
-  width: 100% !important;
-  padding: 0 !important;
-}
-.tabMenuBox li {
-  height: 190px;
-}
-.tabMenuBox img {
-  width: 150px !important;
-}
-.tabMenuBox img.big {
-  width: auto !important;
-  height: auto !important;
-}
-.newCustomForm li {
-  padding-top: 30px !important;
-}
-.gfield.tabMenu {
-  background: #ffffff !important;
-}
-.tabMenu .gfield_radio li label {
-  padding: 6px 20px;
-  box-shadow: inset 0px 10px 10px 0px #00000026;
-  border-radius: 5px 5px 0px 0px !important;
-  margin: 0;
-}
-.tabMenu li {
-  background: #ffffff;
-  color: var(--black);
-  float: left;
-  width: auto;
-  font-size: 18px;
-  margin-right: 6px !important;
-  padding: 0 !important;
-  margin-bottom: 0 !important;
-}
-.tabMenu input[type="radio"] {
-  display: none !important;
-}
-.tabMenu label {
-  padding: 5px !important;
-  max-width: 100% !important;
-}
-#input_16_1 li {
-  margin-right: 10px !important;
-  border-radius: 5px 5px 0 0;
-  margin-bottom: 0 !important;
-}
-.tabMenu .gchoice_select_all,
-.tabMenu ul.gfield_checkbox li input[type="checkbox"]:checked + label,
-.tabMenu ul.gfield_radio li input[type="radio"]:checked + label {
-  background: var(--black) !important;
-  color: #ffffff !important;
-  margin: 0;
-  box-shadow: inset 0px 10px 10px 0px #0000002e;
-}
-.newCustomForm input[type="radio"] {
-  display: none !important;
-}
-.newCustomForm .tabMenuBox .gfield_radio li {
-  float: left;
-  width: 20%;
-}
-.newCustomForm .gfield.specs {
-  padding-top: 50px !important;
-}
-.newCustomForm .specInput {
-  /* float: left; */
-  display: inline-block;
-  clear: none !important;
-  padding: 5px 0 !important;
-  margin: 4px 2% 0 0 !important;
-  width: 48%;
-  background: #efefef;
-  border-radius: 2px;
-  min-height: 36px;
-}
-.newCustomForm .gfield {
-  background: #e2e2e259;
-  padding: 0px 20px 20px 20px;
-  margin: 0;
-}
-.newCustomForm .gsection {
-  background: transparent;
-}
-.newCustomForm #field_61_22 {
-  clear: left !important;
-}
-.newCustomForm #field_16_28 {
-  overflow: hidden;
-}
-.newCustomForm .specInput.specMed {
-  width: 49.5%;
-  min-height: 118px;
-  margin-right: 0.5% !important;
-}
-.newCustomForm .specInput.specLarge {
-  width: 97%;
-}
 .gform_legacy_markup_wrapper h2.gsection_title {
   padding: unset;
-}
-.newCustomForm h2 {
-  padding: 5px 20px !important;
-}
-.newCustomForm .specInput.specLarge {
-  width: 47%;
-}
-.newCustomForm .specInput.specLarge .textarea {
-  background: #ffffff;
-  margin-left: 1%;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  width: 98% !important;
-}
-.newCustomForm .specInput.specMed .textarea {
-  background: #ffffff;
-  margin-left: 1%;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  width: 98% !important;
-}
-.newCustomForm .specInput label {
-  padding: 7px 0 0 7px !important;
-  margin: 0 !important;
-  float: left;
-  font-size: 12px;
-  width: 48%;
-}
-.newCustomForm .specInput input,
-.newCustomForm .specInput select {
-  float: left !important;
-  padding: 0 !important;
-  margin: 0 2% 0 0 !important;
-  width: 48% !important;
-  background: #ffffff;
-  border-radius: 2px;
-}
-.newCustomForm .ginput_container {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-.newCustomForm .ginput_container_fileupload,
-.newCustomForm .ginput_container_fileupload,
-.newCustomForm .ginput_container_fileupload input {
-  clear: both !important;
-  width: 98% !important;
-  margin-left: 1% !important;
-}
-.newCustomForm #field_61_158 .ginput_container_fileupload,
-.newCustomForm #field_61_158 .ginput_container_fileupload,
-.newCustomForm #field_61_158 .ginput_container_fileupload input {
-  clear: none !important;
-  width: 58% !important;
-  margin-left: 1% !important;
-  background: transparent;
-  color: #fff;
-  margin-left: 20px !important;
-}
-.newCustomForm h2.gsection_title {
-  /* float: left; */
-  background: var(--black);
-  color: #ffffff !important;
-  width: auto;
-  padding: 10px 20px !important;
-  margin: 0 !important;
-  display: inline-block;
-  border-radius: 5px 5px 0 0;
-  font-size: 16px;
-  box-shadow: inset 0px 10px 10px 0px #0000002e;
-}
-.newCustomForm .gsection {
-  margin: 0 !important;
-  border-bottom: 5px solid var(--black);
-  padding: 40px 0 0 0 !important;
-}
-.newCustomForm .button {
-  border-radius: 5px;
 }
 .gform_legacy_markup_wrapper ul.gform_fields li.gfield {
   width: 100%;
   overflow: hidden;
 }
-.newCustomForm select {
-  color: var(--black);
-}
-
 .gform_legacy_markup_wrapper
   input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not(
     [type="button"]
@@ -1930,9 +1718,74 @@ main.swp-rp-main {
   color: var(--black);
 }
 
-#input_16_288 label {
-  border: solid 1px;
-  padding: 2px 6px;
+/*********************************/
+/****** Custom Quote Forms ******/
+/*********************************/
+.customQuoteForm .gform_fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.customQuoteForm .gfield {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.customQuoteForm .gsection {
+  border-bottom: none !important;
+  padding: 0 !important;
+  margin: 30px 0 0 0 !important;
+}
+.customQuoteForm h2.gsection_title,
+.customQuoteForm h3.gsection_title {
+  display: inline-block;
+  background: var(--light-blue);
+  color: #ffffff !important;
+  padding: 8px 24px !important;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.customQuoteForm .gfield_label,
+.customQuoteForm label {
+  color: var(--white) !important;
+  font-weight: 500;
+  margin-bottom: 6px !important;
+}
+.customQuoteForm input[type="text"],
+.customQuoteForm input[type="email"],
+.customQuoteForm input[type="tel"],
+.customQuoteForm input[type="number"],
+.customQuoteForm select,
+.customQuoteForm textarea {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+.customQuoteForm input:focus,
+.customQuoteForm select:focus,
+.customQuoteForm textarea:focus {
+  outline: none;
+  border-color: var(--light-blue);
+  box-shadow: 0 0 0 2px rgba(69, 124, 191, 0.35);
+}
+.customQuoteForm .gfield_checkbox li label,
+.customQuoteForm .gfield_radio li label {
+  color: var(--white) !important;
+}
+.customQuoteForm .gfield_html {
+  color: var(--dark-blue) !important;
+}
+.customQuoteForm .gfield_html a {
+  color: var(--dark-blue) !important;
+  text-decoration: underline;
+}
+.customQuoteForm .gform_footer input[type="submit"],
+.customQuoteForm .gform_button.button {
+  background-color: var(--light-blue) !important;
 }
 
 /*********************************

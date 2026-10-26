@@ -1,12 +1,21 @@
-// Listen for tierChanged and update product prices via AJAX
-document.addEventListener('tierChanged', function (e) {
-  const tier = e.detail.tier;
+// Fetch discounted prices for every visible price cell and patch the DOM.
+// Shared by the manual tier-switch dropdown below and by auto-price-fetch.js,
+// which calls this with no tier on page load so the server resolves the
+// current visitor's actual tier -- keeps a single fetch-and-patch
+// implementation instead of two copies that could drift.
+window.gwsRefreshPrices = function (tier) {
   const priceCells = document.querySelectorAll('.price-cell[data-product-id]');
   const ids = Array.from(priceCells).map(el => el.dataset.productId).join(',');
 
   if (!ids) return;
 
-  fetch(`/wp-admin/admin-ajax.php?action=get_discounted_product_prices_by_tier&tier=${tier}&product_ids=${ids}`)
+  const params = new URLSearchParams({
+    action: 'get_discounted_product_prices_by_tier',
+    product_ids: ids,
+  });
+  if (tier) params.set('tier', tier);
+
+  fetch(`/wp-admin/admin-ajax.php?${params.toString()}`)
     .then(res => res.json())
     .then(data => {
       if (data.success && data.data) {
@@ -19,6 +28,11 @@ document.addEventListener('tierChanged', function (e) {
       }
     })
     .catch(err => console.error('Price update error:', err));
+};
+
+// Listen for tierChanged and update product prices via AJAX
+document.addEventListener('tierChanged', function (e) {
+  window.gwsRefreshPrices(e.detail.tier);
 });
 // tier-selector.js
 // This script manages the tier selection for sales team and stores the selected tier in localStorage.
