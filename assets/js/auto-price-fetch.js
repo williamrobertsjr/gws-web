@@ -40,18 +40,26 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .catch(function (err) { console.error('Visitor state error:', err); });
 
-  // Simple "In stock" badges (archive/series tiles) -- reuses the same
-  // .gws-live-stock/data-gws-sku convention product-helpers.js uses for the
-  // product table, so one stock endpoint serves both.
+  // Simple "In stock" badges (archive/series tiles) -- batched into one
+  // request for the whole page instead of one fetch per tile, reusing the
+  // same .gws-live-stock/data-gws-sku convention product-helpers.js uses for
+  // the product table.
+  var stockEls = {};
   document.querySelectorAll('.gws-live-stock[data-gws-sku]').forEach(function (el) {
     var sku = el.dataset.gwsSku;
-    fetch('/wp-json/gws/v1/stock/' + encodeURIComponent(sku))
+    if (sku) stockEls[sku] = el;
+  });
+  var stockSkus = Object.keys(stockEls);
+  if (stockSkus.length) {
+    fetch('/wp-json/gws/v1/stock-batch?skus=' + encodeURIComponent(stockSkus.join(',')))
       .then(function (res) { return res.json(); })
-      .then(function (stock) {
-        el.textContent = stock.found ? stock.available : '—';
+      .then(function (results) {
+        Object.keys(results).forEach(function (sku) {
+          if (stockEls[sku]) stockEls[sku].textContent = results[sku].found ? results[sku].available : '—';
+        });
       })
       .catch(function () {});
-  });
+  }
 
   // Full CA/IL stock breakdown (single product page).
   document.querySelectorAll('[data-stock-sku]').forEach(function (el) {

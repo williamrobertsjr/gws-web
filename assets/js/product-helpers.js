@@ -33,20 +33,28 @@ if(productTable) {
             }
         ],
         drawCallback: function() {
-            // Load stock for visible rows
+            // Load stock for visible rows in one batched request instead of
+            // one fetch per row (was up to pageLength individual round trips
+            // per draw, serialized by the browser's per-host connection cap).
+            const elsBySku = {};
             document.querySelectorAll('.gws-live-stock').forEach(function(el) {
                 const sku = el.dataset.gwsSku;
-                if (!sku) return;
-                
-                fetch('/wp-json/gws/v1/stock/' + encodeURIComponent(sku))
-                    .then(r => r.json())
-                    .then(j => {
-                        el.textContent = j.found ? j.available : '—';
-                    })
-                    .catch(() => {
-                        el.textContent = '—';
-                    });
+                if (sku) elsBySku[sku] = el;
             });
+
+            const skus = Object.keys(elsBySku);
+            if (!skus.length) return;
+
+            fetch('/wp-json/gws/v1/stock-batch?skus=' + encodeURIComponent(skus.join(',')))
+                .then(r => r.json())
+                .then(results => {
+                    Object.entries(results).forEach(([sku, j]) => {
+                        if (elsBySku[sku]) elsBySku[sku].textContent = j.found ? j.available : '—';
+                    });
+                })
+                .catch(() => {
+                    skus.forEach(sku => { elsBySku[sku].textContent = '—'; });
+                });
         }
     });
     

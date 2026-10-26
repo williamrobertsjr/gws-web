@@ -220,6 +220,36 @@ final class GWS_Live_Stock {
                 ];
             }
         ]);
+
+        /**
+         * REST: /wp-json/gws/v1/stock-batch?skus=A,B,C → { [sku]: {available, found, ...} }
+         *
+         * The series table (product-helpers.js) and archive tiles (auto-price-fetch.js)
+         * were each firing one request per visible row/tile on every load -- up to 25+
+         * individual HTTP round trips, serialized by the browser's per-host connection
+         * limit. This lets them fetch the whole page's worth in one request instead.
+         */
+        register_rest_route('gws/v1', '/stock-batch', [
+            'methods'  => 'GET',
+            'permission_callback' => '__return_true',
+            'callback' => function($req){
+                $skus = array_filter(array_map('sanitize_text_field', explode(',', (string) $req->get_param('skus'))));
+                $results = [];
+
+                foreach ($skus as $sku) {
+                    $stock = self::get_full_stock_by_sku($sku);
+                    $results[$sku] = [
+                        'available' => $stock ? max(0, (int)$stock['QTY_ON_HAND']) : 0,
+                        'found' => $stock !== null,
+                        'qty_on_hand' => $stock['QTY_ON_HAND'] ?? null,
+                        'durrie_qty_on_hand' => $stock['DURRIE_QTY_ON_HAND'] ?? null,
+                        'total_stock' => $stock['TOTAL_STOCK'] ?? null,
+                    ];
+                }
+
+                return $results;
+            }
+        ]);
     }
 
     /** Auto-render on PDP under price; variation-safe via JS update when a variation is selected. */
