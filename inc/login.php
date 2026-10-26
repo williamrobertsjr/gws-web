@@ -157,16 +157,34 @@ add_action( 'login_message', 'custom_password_reset_confirmation' );
  * to fetch personalized price/stock/nav data, since the page itself must
  * render identically for every visitor to stay cacheable. This cookie exists
  * only for that check -- no user id or session data, just a flag -- and is
- * only ever set/cleared here, at the moment of login/logout, never computed
- * per-pageview (doing that on every request would reintroduce the exact
- * per-visitor server-side work this was meant to eliminate).
- *
- * Existing sessions created before this shipped won't have it until the user
- * logs out and back in.
+ * set/cleared here at the moment of login/logout, AND self-healed on 'init'
+ * below for sessions that predate this cookie or otherwise drifted. The
+ * self-heal is safe to run per-request: Breeze's page cache short-circuits
+ * (via advanced-cache.php, before WordPress itself loads) on any actual
+ * cache HIT, so 'init' only ever fires here for requests that were already
+ * going to run PHP anyway -- a cache MISS, or a role/page that isn't cached
+ * (e.g. administrators, by design) -- never for a served-from-cache page.
  */
 add_action('wp_login', function () {
     setcookie('gws_logged_in', '1', [
         'expires'  => time() + 30 * DAY_IN_SECONDS,
+        'path'     => '/',
+        'secure'   => is_ssl(),
+        'httponly' => false,
+        'samesite' => 'Lax',
+    ]);
+});
+
+add_action('init', function () {
+    $should_be_set = is_user_logged_in();
+    $is_set = isset($_COOKIE['gws_logged_in']) && $_COOKIE['gws_logged_in'] === '1';
+
+    if ($should_be_set === $is_set) {
+        return;
+    }
+
+    setcookie('gws_logged_in', $should_be_set ? '1' : '', [
+        'expires'  => $should_be_set ? time() + 30 * DAY_IN_SECONDS : time() - YEAR_IN_SECONDS,
         'path'     => '/',
         'secure'   => is_ssl(),
         'httponly' => false,
