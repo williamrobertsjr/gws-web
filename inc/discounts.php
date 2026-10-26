@@ -152,7 +152,11 @@ function gws_modify_cart_item_prices($cart) {
  * price for every tier. Uses the same resolver as the cart so tiles, the product
  * page, and the quote all agree.
  */
-function gws_tier_price_html( WC_Product $product ) {
+function gws_tier_price_html( $product ) {
+    if ( ! $product instanceof WC_Product ) {
+        return '';
+    }
+
     $list = (float) $product->get_meta( '_regular_price', true );
 
     if ( $list <= 0 ) {
