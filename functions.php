@@ -19,6 +19,8 @@ require_once __DIR__ . '/src/StarterSite.php';
 // Include custom pricing logic
 require_once get_template_directory() . '/lib/part-pricing.php';
 
+require_once get_template_directory() . '/lib/sku-image-map.php';
+
 // Include AJAX product lookup logic for product tables
 require_once get_template_directory() . '/inc/products-ajax.php';
 

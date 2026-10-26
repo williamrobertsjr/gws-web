@@ -53,9 +53,8 @@ if (is_singular('product')) {
     $context['list_price'] = $list_price;
 
     // Resolve product image (product-specific or fall back to series)
-    require_once get_template_directory() . '/inc/data/sku_image_map.php';
     $sku = $product->get_sku();
-    $picture_name = $sku_image_map[$sku] ?? null;
+    $picture_name = gws_get_sku_image_map()[$sku] ?? null;
     $img_base = get_template_directory_uri() . '/images/catalog_images/';
     $context['product_img'] = $picture_name && file_exists(get_template_directory() . '/images/catalog_images/' . $picture_name . '_catalog.png')
         ? $img_base . $picture_name . '_catalog.png'
@@ -150,17 +149,28 @@ if (is_singular('product')) {
         $my_query = new WP_Query($args);
         $timber_products = Timber::get_posts($my_query);
 
-        // Attach WC product objects
-        $products = [];
+        // Attach WC product objects. Resolve SKUs first so the image map and
+        // price lookups can each run once for the whole page instead of once
+        // per product (was: a fresh uncached master_price_data query, plus a
+        // rebuild of the 21k-entry image map, on every single tile).
+        $wc_products_by_post = [];
+        $skus = [];
         foreach ($timber_products as $post) {
             $wc_product = wc_get_product($post->ID);
-            $post->wc_product = $wc_product;
+            $wc_products_by_post[$post->ID] = $wc_product;
+            $skus[$post->ID] = $wc_product ? $wc_product->get_sku() : null;
+        }
 
-            // Get SKU or part number
-            $sku = $wc_product ? $wc_product->get_sku() : null;
+        $sku_image_map = gws_get_sku_image_map();
+        $list_prices = gws_get_part_list_prices(array_values($skus));
+
+        $products = [];
+        foreach ($timber_products as $post) {
+            $wc_product = $wc_products_by_post[$post->ID];
+            $post->wc_product = $wc_product;
+            $sku = $skus[$post->ID];
 
             // Resolve tile image (product-specific or fall back to series)
-            require_once get_template_directory() . '/inc/data/sku_image_map.php';
             $picture_name = $sku ? ($sku_image_map[$sku] ?? null) : null;
             $img_base = get_template_directory_uri() . '/images/tile_images/';
             $post->product_img = $picture_name && file_exists(get_template_directory() . '/images/tile_images/' . $picture_name . '_tile.png')
@@ -168,7 +178,7 @@ if (is_singular('product')) {
                 : $img_base . $wc_product->get_attribute('pa_series') . '_tile.png';
 
             // Attach price to the post
-            $post->list_price = $sku ? gws_get_part_list_price($sku) : null;
+            $post->list_price = $sku ? ($list_prices[$sku] ?? null) : null;
 
             $products[] = $post;
         }
