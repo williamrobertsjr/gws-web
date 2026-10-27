@@ -250,6 +250,134 @@ function gws_dd_handle_datatables_request() {
     ]);
 }
 
+/**
+ * Cached XLSX exports.
+ *
+ * Each tier's file is built once, streamed to disk with OpenSpout (flat memory,
+ * unlike PhpSpreadsheet which held ~512MB for the ~30k-row catalog), and reused
+ * until the price table changes. The cache key includes the table's updated_at
+ * from gws_data_table_updates, so editing master_price_data_{period} in the DB
+ * (triggers fire even for direct MySQL edits) makes the next download rebuild —
+ * no manual re-upload of per-tier spreadsheets.
+ */
+function gws_dd_export_dir() {
+    $dir = trailingslashit(wp_upload_dir()['basedir']) . 'gws-price-exports';
+    if (!is_dir($dir)) {
+        wp_mkdir_p($dir);
+        file_put_contents($dir . '/index.php', "<?php // Silence is golden.\n");
+    }
+    return $dir;
+}
+
+/**
+ * Cache file path for a tier. The name carries an HMAC so files can't be fetched
+ * by guessing a URL under uploads/ — downloads must go through the handler.
+ * Returns [path, prefix]; prefix is shared by all versions of this tier's file.
+ */
+function gws_dd_export_path($tier) {
+    $stamp  = (string) gws_dd_get_last_updated_raw();
+    $prefix = 'prices-' . sanitize_file_name($tier) . '-' . substr(hash_hmac('sha256', $tier, wp_salt('auth')), 0, 16);
+    $key    = substr(md5(GWS_PRICE_PERIOD . '|' . $stamp), 0, 12);
+    return [gws_dd_export_dir() . "/{$prefix}-{$key}.xlsx", $prefix];
+}
+
+function gws_dd_get_last_updated_raw() {
+    global $wpdb;
+    return $wpdb->get_var($wpdb->prepare(
+        "SELECT updated_at FROM gws_data_table_updates WHERE table_name = %s",
+        'master_price_data_' . GWS_PRICE_PERIOD
+    )) ?: 'none';
+}
+
+/**
+ * Write the tier's workbook to $path, fetching rows in chunks so neither the
+ * result set nor the writer holds the whole catalog in memory.
+ */
+function gws_dd_write_export($tier, $search, $path) {
+    $options = new \OpenSpout\Writer\XLSX\Options();
+    // Part, Series, Tool Type, Family, Brand, Description
+    foreach ([12, 10, 12, 20, 14, 45] as $i => $w) {
+        $options->setColumnWidth($w, $i + 1);
+    }
+    $options->setColumnWidthForRange(11, 7, 16);
+    $writer = new \OpenSpout\Writer\XLSX\Writer($options);
+    $writer->openToFile($path);
+    $writer->getCurrentSheet()->setName('Parts & Pricing');
+
+    $bold = (new \OpenSpout\Common\Entity\Style\Style())->withFontBold(true);
+    $num  = (new \OpenSpout\Common\Entity\Style\Style())->withFormat('0.00');
+
+    $writer->addRow(\OpenSpout\Common\Entity\Row::fromValuesWithStyle([
+        'Part', 'Series', 'Tool Type', 'Family', 'Brand', 'Description',
+        'List Price', 'Net Price', 'Qty 1+', 'Qty 2+', 'Qty 3+', 'Qty 6+', 'Qty 9+', 'Qty 12+', 'Qty 24+', 'Qty 48+',
+    ], $bold));
+
+    $chunk  = 2000;
+    $offset = 0;
+    do {
+        [$rows,] = gws_dd_query($tier, $search, 'part', 'asc', $chunk, $offset);
+
+        foreach ($rows as $row) {
+            $is_call_for_price = $row->list_price === null || (float) $row->list_price <= 0;
+            $price = function ($value) use ($is_call_for_price, $num) {
+                if ($is_call_for_price) return \OpenSpout\Common\Entity\Cell::fromValue('Call for Price');
+                if ($value === null)    return \OpenSpout\Common\Entity\Cell::fromValue(null);
+                return \OpenSpout\Common\Entity\Cell::fromValue((float) $value, $num);
+            };
+
+            // Part is the primary lookup key and often has leading zeros ("00002") —
+            // pass it as an explicit string cell so they survive.
+            $writer->addRow(new \OpenSpout\Common\Entity\Row([
+                new \OpenSpout\Common\Entity\Cell\StringCell((string) $row->part),
+                \OpenSpout\Common\Entity\Cell::fromValue($row->series),
+                \OpenSpout\Common\Entity\Cell::fromValue($row->tool_type),
+                \OpenSpout\Common\Entity\Cell::fromValue($row->family),
+                \OpenSpout\Common\Entity\Cell::fromValue($row->brand),
+                \OpenSpout\Common\Entity\Cell::fromValue($row->full_description),
+                $price($row->list_price), $price($row->net_price),
+                $price($row->qty_1), $price($row->qty_2), $price($row->qty_3), $price($row->qty_6),
+                $price($row->qty_9), $price($row->qty_12), $price($row->qty_24), $price($row->qty_48),
+            ]));
+        }
+
+        $offset += $chunk;
+        $got = count($rows);
+        unset($rows);
+    } while ($got === $chunk);
+
+    $writer->close();
+}
+
+/**
+ * Return the cached file for $tier, building it first if the price table has
+ * changed since the last build. Builds to a temp file and renames, so a
+ * concurrent download never serves a half-written workbook.
+ */
+function gws_dd_ensure_export($tier) {
+    [$path, $prefix] = gws_dd_export_path($tier);
+    if (is_file($path)) return $path;
+
+    @set_time_limit(300);
+    $tmp = $path . '.' . wp_generate_password(8, false) . '.tmp';
+    gws_dd_write_export($tier, '', $tmp);
+    rename($tmp, $path);
+
+    // Drop superseded versions of this tier's file.
+    foreach (glob(gws_dd_export_dir() . "/{$prefix}-*.xlsx") ?: [] as $old) {
+        if ($old !== $path) @unlink($old);
+    }
+    return $path;
+}
+
+function gws_dd_send_file($path, $tier) {
+    nocache_headers();
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="gws-parts-pricing-' . sanitize_file_name($tier) . '-' . date('Y-m-d') . '.xlsx"');
+    header('Content-Length: ' . filesize($path));
+    while (ob_get_level()) ob_end_clean();
+    readfile($path);
+}
+
 add_action('admin_post_gws_parts_price_export', 'gws_dd_handle_price_export');
 function gws_dd_handle_price_export() {
     if (!is_user_logged_in()) {
@@ -265,71 +393,31 @@ function gws_dd_handle_price_export() {
     $tier   = gws_dd_resolve_tier_for_export();
     $search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
 
-    [$rows,] = gws_dd_query($tier, $search, 'part', 'asc', null, 0);
-
-    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-    $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setTitle('Parts & Pricing');
-
-    $headers = [
-        'Part', 'Series', 'Tool Type', 'Family', 'Brand', 'Description',
-        'List Price', 'Net Price', 'Qty 1+', 'Qty 2+', 'Qty 3+', 'Qty 6+', 'Qty 9+', 'Qty 12+', 'Qty 24+', 'Qty 48+',
-    ];
-    $sheet->fromArray($headers, null, 'A1');
-    $sheet->getStyle('A1:P1')->getFont()->setBold(true);
-
-    // Part is the primary lookup key and often contains leading zeros (e.g. "00002") —
-    // force it to text so Excel doesn't reinterpret it as a number and drop them.
-    $sheet->getStyle('A:A')->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
-
-    $rowNum = 2;
-    foreach ($rows as $row) {
-        $is_call_for_price = $row->list_price === null || (float) $row->list_price <= 0;
-        $cellValue = function ($value) use ($is_call_for_price) {
-            if ($is_call_for_price) return 'Call for Price';
-            return $value !== null ? (float) $value : null;
-        };
-
-        $sheet->setCellValueExplicit("A{$rowNum}", $row->part, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-        $sheet->setCellValue("B{$rowNum}", $row->series);
-        $sheet->setCellValue("C{$rowNum}", $row->tool_type);
-        $sheet->setCellValue("D{$rowNum}", $row->family);
-        $sheet->setCellValue("E{$rowNum}", $row->brand);
-        $sheet->setCellValue("F{$rowNum}", $row->full_description);
-        $sheet->setCellValue("G{$rowNum}", $cellValue($row->list_price));
-        $sheet->setCellValue("H{$rowNum}", $cellValue($row->net_price));
-        $sheet->setCellValue("I{$rowNum}", $cellValue($row->qty_1));
-        $sheet->setCellValue("J{$rowNum}", $cellValue($row->qty_2));
-        $sheet->setCellValue("K{$rowNum}", $cellValue($row->qty_3));
-        $sheet->setCellValue("L{$rowNum}", $cellValue($row->qty_6));
-        $sheet->setCellValue("M{$rowNum}", $cellValue($row->qty_9));
-        $sheet->setCellValue("N{$rowNum}", $cellValue($row->qty_12));
-        $sheet->setCellValue("O{$rowNum}", $cellValue($row->qty_24));
-        $sheet->setCellValue("P{$rowNum}", $cellValue($row->qty_48));
-        $rowNum++;
+    if ($search === '') {
+        gws_dd_send_file(gws_dd_ensure_export($tier), $tier);
+        exit;
     }
 
-    if ($rowNum > 2) {
-        $sheet->getStyle("G2:P" . ($rowNum - 1))->getNumberFormat()->setFormatCode('0.00');
-    }
-
-    // Fixed widths instead of setAutoSize() -- autosize forces PhpSpreadsheet to
-    // measure every cell in each column, which roughly triples export time on a
-    // ~30k-row catalog (tested: ~45s with autosize vs. ~15s with fixed widths).
-    $widths = [
-        'A' => 12, 'B' => 10, 'C' => 12, 'D' => 20, 'E' => 14, 'F' => 45,
-        'G' => 11, 'H' => 11, 'I' => 9, 'J' => 9, 'K' => 9, 'L' => 9,
-        'M' => 9, 'N' => 9, 'O' => 9, 'P' => 9,
-    ];
-    foreach ($widths as $col => $width) {
-        $sheet->getColumnDimension($col)->setWidth($width);
-    }
-
-    nocache_headers();
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="gws-parts-pricing-' . sanitize_file_name($tier) . '-' . date('Y-m-d') . '.xlsx"');
-
-    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-    $writer->save('php://output');
+    // Filtered exports aren't cached (unbounded set of search terms).
+    $tmp = wp_tempnam('gws-export');
+    gws_dd_write_export($tier, $search, $tmp);
+    gws_dd_send_file($tmp, $tier);
+    @unlink($tmp);
     exit;
+}
+
+/**
+ * wp gws price-export warm — pre-build every tier's file so the first download
+ * after a price update isn't the one that waits. Safe to re-run; up-to-date
+ * files are skipped.
+ */
+if (defined('WP_CLI') && WP_CLI) {
+    WP_CLI::add_command('gws price-export warm', function () {
+        foreach (array_keys(gws_dd_tier_view_map()) as $tier) {
+            $t = microtime(true);
+            gws_dd_ensure_export($tier);
+            WP_CLI::log(sprintf('%-12s ok (%.1fs)', $tier, microtime(true) - $t));
+        }
+        WP_CLI::success('Price exports are current.');
+    });
 }
