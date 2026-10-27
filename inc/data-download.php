@@ -283,10 +283,23 @@ function gws_dd_export_path($tier) {
 
 function gws_dd_get_last_updated_raw() {
     global $wpdb;
-    return $wpdb->get_var($wpdb->prepare(
+    $table = 'master_price_data_' . GWS_PRICE_PERIOD;
+
+    // Tracking table + triggers may not exist in every environment (production
+    // doesn't have them yet) — probe quietly instead of logging a DB error.
+    $suppress = $wpdb->suppress_errors(true);
+    $stamp = $wpdb->get_var($wpdb->prepare(
         "SELECT updated_at FROM gws_data_table_updates WHERE table_name = %s",
-        'master_price_data_' . GWS_PRICE_PERIOD
-    )) ?: 'none';
+        $table
+    ));
+    $wpdb->suppress_errors($suppress);
+    if ($stamp) return $stamp;
+
+    // No tracking row: fingerprint the table contents instead, so the cache
+    // still invalidates when prices change (a constant key would serve stale
+    // files forever). CHECKSUM TABLE on ~30k rows is a fast scan.
+    $row = $wpdb->get_row("CHECKSUM TABLE `{$table}`", ARRAY_N);
+    return $row ? 'cs' . $row[1] : 'none';
 }
 
 /**
