@@ -5,17 +5,25 @@
 // visitor -- see inc/enqueue-scripts.php for why this can't be gated behind
 // is_user_logged_in() server-side once caching is on.
 document.addEventListener('DOMContentLoaded', function () {
-  // Cart count: fetched for everyone, since a guest can have items in a WC
-  // session without ever logging in.
-  fetch('/wp-admin/admin-ajax.php?action=get_cart_count')
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-      if (data.success && data.data && data.data.count !== undefined) {
-        var el = document.getElementById('cart-count');
-        if (el) el.textContent = data.data.count;
-      }
-    })
-    .catch(function () {});
+  // Cart count: a guest can have items in a WC session without ever logging
+  // in, so this isn't gated by gws_logged_in alone -- but a brand-new visitor
+  // with no cookies at all (e.g. Lighthouse's fresh test browser) definitely
+  // has no cart, so skip the request entirely rather than firing it on every
+  // single pageview regardless of whether there's anything to check.
+  var hasAnySession = document.cookie.split('; ').some(function (c) {
+    return c.indexOf('gws_logged_in=1') === 0 || c.indexOf('woocommerce_') === 0 || c.indexOf('wp_woocommerce_session_') === 0;
+  });
+  if (hasAnySession) {
+    fetch('/wp-admin/admin-ajax.php?action=get_cart_count')
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.success && data.data && data.data.count !== undefined) {
+          var el = document.getElementById('cart-count');
+          if (el) el.textContent = data.data.count;
+        }
+      })
+      .catch(function () {});
+  }
 
   // Everything below only applies to logged-in visitors. WordPress's own
   // session cookie (wordpress_logged_in_*) is httponly and can't be read
