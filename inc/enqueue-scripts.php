@@ -77,6 +77,18 @@ add_action('wp_enqueue_scripts', function () {
     );
 });
 
+// wc-cart-pdf enqueues its checkout-block filter script on every page (its only
+// guard is that wc-blocks-checkout is registered, which is always true), which
+// drags ~40 WP/WooCommerce block scripts (React, wp-data, wp-components, ...)
+// onto pages that have no cart or checkout block. Only keep it where it's used.
+// Priority 100: the plugin enqueues during enqueue_block_assets, which fires
+// inside wp_enqueue_scripts at priority 10.
+add_action('wp_enqueue_scripts', function () {
+    if (function_exists('is_cart') && (is_cart() || is_checkout())) return;
+
+    wp_dequeue_script('wc-cart-pdf-checkout-filters');
+}, 100);
+
 add_filter('timber/context', function ($context) {
     $context['userRole'] = '';
 
