@@ -3,6 +3,19 @@
 
 {# {% include "page-header.twig" %} #}
 
+{# Deep links (e.g. /products/#milling/steel/corner-chamfer) are filtered client-side after the
+   page loads, so without this the visitor sees the full unfiltered grid flash by first. Hide the
+   grids for hash URLs until product-index-filter.js has applied the filter (it removes the class);
+   the timeout is a safety net so a script failure can never leave the page blank. Runs in the
+   browser per visitor, so it's safe under the full-page cache. #}
+<style>.pi-deeplink .tiles-grid{visibility:hidden}</style>
+<script>
+    if (location.hash.length > 1) {
+        document.documentElement.classList.add('pi-deeplink');
+        setTimeout(function () { document.documentElement.classList.remove('pi-deeplink'); }, 4000);
+    }
+</script>
+
 <div class="container mx-auto py-20 px-4 md:px-0">
     <div class="w-8/12">
         <h1 class="text-6xl text-white font-black uppercase mb-4">Products</h1>
@@ -23,6 +36,6 @@
 </div>
 
 
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="https://unpkg.com/isotope-layout@3.0.6/dist/isotope.pkgd.min.js" defer></script>
 <script src="{{ site.theme.link }}/assets/js/product-index-filter.js" defer></script>
 {% endblock %}

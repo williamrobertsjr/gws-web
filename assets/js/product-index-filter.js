@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     var initializedSections = new WeakSet();
 
+    // True while a #hash deep link (e.g. #milling/steel/corner-chamfer) is being replayed.
+    // Replaying clicks each button level in turn, and each click would otherwise run its own
+    // Isotope layout over every tile in the category (with a 0.4s animation) -- so while this is
+    // set, applyFilter only records the filter it wants and the one real layout runs at the end.
+    var restoring = false;
+
     // Keeps the current filter state in the URL hash (e.g. #milling/non-ferrous/ball-nose/2-flute-ball-nose)
     // via replaceState, so clicking a tile then hitting the browser Back button restores exactly
     // where you left off (a fresh page load re-reads the hash and replays the clicks), and the
@@ -56,8 +62,18 @@ document.addEventListener('DOMContentLoaded', function () {
         var iso = new Isotope(grid, {
             itemSelector: '.grid-item',
             layoutMode: 'fitRows',
-            fitRows: { gutter: 0 }
+            fitRows: { gutter: 0 },
+            // On a deep link, skip laying out the unfiltered grid first -- _piFlush below does
+            // the single layout once the hash has been replayed.
+            initLayout: !restoring
         });
+
+        var pendingSelector = null;
+        categorySection._piFlush = function () {
+            if (pendingSelector === null) return;
+            iso.arrange({ filter: pendingSelector });
+            pendingSelector = null;
+        };
 
         var shapeLevels = categorySection.querySelectorAll('.pi-level-shape');
         var itemLevels = categorySection.querySelectorAll('.pi-level-item');
@@ -80,7 +96,11 @@ document.addEventListener('DOMContentLoaded', function () {
             var selector = classes.length
                 ? classes.map(function (c) { return '.pi-' + c; }).join('')
                 : '*';
-            iso.arrange({ filter: selector });
+            if (restoring) {
+                pendingSelector = selector;
+            } else {
+                iso.arrange({ filter: selector });
+            }
             updateHash([categorySlug, materialSlug, shapeSlug, itemSlug]);
         }
 
@@ -284,16 +304,27 @@ document.addEventListener('DOMContentLoaded', function () {
     var hashTabButton = hashTabSlug && document.querySelector('.pi-tab-btn[data-pi-tab="' + hashTabSlug + '"]');
 
     if (hashTabButton) {
-        showTab(hashTabSlug);
-        var hashPanel = document.querySelector('.pi-tab-panel[data-pi-tab="' + hashTabSlug + '"]');
-        var hashSection = hashPanel && hashPanel.querySelector('.product-index-cat');
-        if (hashSection) {
-            restoreFromHash(hashSection, hashParts[1], hashParts[2], hashParts[3]);
+        var hashSection = null;
+        restoring = true;
+        try {
+            showTab(hashTabSlug);
+            var hashPanel = document.querySelector('.pi-tab-panel[data-pi-tab="' + hashTabSlug + '"]');
+            hashSection = hashPanel && hashPanel.querySelector('.product-index-cat');
+            if (hashSection) {
+                restoreFromHash(hashSection, hashParts[1], hashParts[2], hashParts[3]);
+            }
+        } finally {
+            restoring = false;
+            if (hashSection && hashSection._piFlush) hashSection._piFlush();
+            // Reveals the grid -- page-products.twig hides it for deep links until this point.
+            document.documentElement.classList.remove('pi-deeplink');
         }
     } else {
         var initialPanel = document.querySelector('.pi-tab-panel:not(.hidden)');
         if (initialPanel) {
             initialPanel.querySelectorAll('.product-index-cat').forEach(initCategorySection);
         }
+        // A hash that isn't one of our tabs (e.g. an unrelated #anchor) still got the grid hidden.
+        document.documentElement.classList.remove('pi-deeplink');
     }
 });
