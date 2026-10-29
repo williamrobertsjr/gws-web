@@ -62,6 +62,8 @@ function gws_dd_tier_view_map() {
         'direct_42_5' => null,
         'exemptPlus' => "discount_55_25_{$period}",
         'tier_57'    => "discount_57_{$period}",
+        // t1 view with the +25% company surcharge applied in gws_dd_query(); see gws_plus_25_companies().
+        't1_plus25'  => "discount_55_{$period}",
         'customer'   => null,
         'default'    => null,
         'none'       => null,
@@ -91,7 +93,15 @@ function gws_dd_resolve_tier() {
         if (array_key_exists($candidate, $map)) return $candidate;
     }
 
-    return array_key_exists($role, $map) ? $role : 'default';
+    $tier = array_key_exists($role, $map) ? $role : 'default';
+
+    // Same condition as gws_calculate_discounted_price(): tier price * 1.25 for these companies.
+    if ($tier === 't1' && !$is_privileged
+        && in_array(get_user_meta($user->ID, 'company', true), gws_plus_25_companies(), true)) {
+        return 't1_plus25';
+    }
+
+    return $tier;
 }
 
 /**
@@ -191,6 +201,15 @@ function gws_dd_query($tier, $search, $order_col, $order_dir, $limit = null, $of
     $rows = $args
         ? $wpdb->get_results($wpdb->prepare($sql, $args))
         : $wpdb->get_results($sql);
+
+    // The +25% surcharge is a multiplier on the tier price, not a separate view. List price is untouched.
+    if ($tier === 't1_plus25') {
+        foreach ($rows as $row) {
+            foreach (['net_price', 'qty_1', 'qty_2', 'qty_3', 'qty_6', 'qty_9', 'qty_12', 'qty_24', 'qty_48'] as $col) {
+                if ($row->$col !== null) $row->$col = round((float) $row->$col * 1.25, 2);
+            }
+        }
+    }
 
     return [$rows, $total];
 }
