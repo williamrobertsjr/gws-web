@@ -1,0 +1,45 @@
+{% extends "base.twig" %}
+{% block content %}
+
+{% include "page-header.twig" %}
+
+<section class="container mx-auto py-24 px-4">
+    <div class="max-w-3xl mx-auto mb-16 text-center">
+        <p class="text-white text-lg">Tell us what you're looking to build and we'll get you a quote. Pick the category below that best matches your request to get started.</p>
+    </div>
+
+    <div class="flex flex-wrap gap-8 justify-center">
+
+        <a href="{{ site.url }}/custom-quote-advanced-materials/" class="quote-category-card w-full md:w-5/12 lg:w-3/12 block bg-black border border-dark-gray rounded-md p-8 hover:border-light-blue transition-colors">
+            <h3 class="text-xl font-bold text-pale-blue uppercase mb-3">Advanced Materials</h3>
+            <p class="text-white text-sm mb-6">Thriftchange/Thriftedge, circular sizing tools, round tools, and DT cutoff tooling.</p>
+            <span class="btn light-blue">Start Request</span>
+        </a>
+
+        <a href="{{ site.url }}/custom-quote-holemaking/" class="quote-category-card w-full md:w-5/12 lg:w-3/12 block bg-black border border-dark-gray rounded-md p-8 hover:border-light-blue transition-colors">
+            <h3 class="text-xl font-bold text-pale-blue uppercase mb-3">Holemaking</h3>
+            <p class="text-white text-sm mb-6">Drills and custom holemaking tools, including tolerance, GD&amp;T, and coating requirements.</p>
+            <span class="btn light-blue">Start Request</span>
+        </a>
+
+        <a href="{{ site.url }}/custom-quote-inserts/" class="quote-category-card w-full md:w-5/12 lg:w-3/12 block bg-black border border-dark-gray rounded-md p-8 hover:border-light-blue transition-colors">
+            <h3 class="text-xl font-bold text-pale-blue uppercase mb-3">Inserts</h3>
+            <p class="text-white text-sm mb-6">Standard, custom, and special-form inserts across carbide, PCD, CBN, and ceramic grades.</p>
+            <span class="btn light-blue">Start Request</span>
+        </a>
+
+        <a href="{{ site.url }}/custom-quote-milling/" class="quote-category-card w-full md:w-5/12 lg:w-3/12 block bg-black border border-dark-gray rounded-md p-8 hover:border-light-blue transition-colors">
+            <h3 class="text-xl font-bold text-pale-blue uppercase mb-3">Milling Tools</h3>
+            <p class="text-white text-sm mb-6">Solid carbide, indexable, and brazed-carbide milling tools for plunging and profiling.</p>
+            <span class="btn light-blue">Start Request</span>
+        </a>
+
+        <a href="{{ site.url }}/custom-quote-tapping/" class="quote-category-card w-full md:w-5/12 lg:w-3/12 block bg-black border border-dark-gray rounded-md p-8 hover:border-light-blue transition-colors">
+            <h3 class="text-xl font-bold text-pale-blue uppercase mb-3">Tapping Tools</h3>
+            <p class="text-white text-sm mb-6">Thread specs, tap style, and application details for custom tapping tools.</p>
+            <span class="btn light-blue">Start Request</span>
+        </a>
+
+    </div>
+</section>
+{% endblock %}
