@@ -1787,6 +1787,47 @@ main.swp-rp-main {
 .customQuoteForm .gform_button.button {
   background-color: var(--light-blue) !important;
 }
+/* Tool Category picker: radio choices shown as cards */
+.customQuoteForm .quote-category-choice .gfield_radio {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.customQuoteForm .quote-category-choice .gchoice {
+  position: relative;
+}
+.customQuoteForm .quote-category-choice .gchoice input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.customQuoteForm .quote-category-choice .gchoice label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  max-width: none;
+  margin: 0 !important;
+  padding: 12px 16px;
+  background: var(--black);
+  border: 1px solid var(--dark-gray);
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.customQuoteForm .quote-category-choice .gchoice label:hover {
+  border-color: var(--light-blue);
+}
+.customQuoteForm .quote-category-choice .gchoice input[type="radio"]:checked + label {
+  background: var(--light-blue);
+  border-color: var(--light-blue);
+}
+.customQuoteForm .quote-category-choice .gchoice input[type="radio"]:focus-visible + label {
+  box-shadow: 0 0 0 2px var(--pale-blue);
+}
 
 /*********************************
 ******** Sub Type Styles *********
