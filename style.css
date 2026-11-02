@@ -1730,22 +1730,65 @@ main.swp-rp-main {
   margin: 0 !important;
   padding: 0 !important;
 }
+/* Numbered step headers (01 Start, 02 Geometry, ...). Counted with CSS so
+   steps hidden by conditional logic don't leave gaps in the numbering. */
+.customQuoteForm .gform_fields {
+  counter-reset: cq-step;
+}
 .customQuoteForm .gsection {
   border-bottom: none !important;
-  padding: 0 !important;
-  margin: 30px 0 0 0 !important;
+  border-top: 1px solid var(--dark-gray) !important;
+  padding: 28px 0 0 0 !important;
+  margin: 24px 0 0 0 !important;
+}
+.customQuoteForm .gsection:first-child {
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
 .customQuoteForm h2.gsection_title,
 .customQuoteForm h3.gsection_title {
-  display: inline-block;
-  background: var(--light-blue);
-  color: #ffffff !important;
-  padding: 8px 24px !important;
-  border-radius: 999px;
-  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--white) !important;
+  font-size: 22px;
   font-weight: 600;
-  letter-spacing: 0.02em;
   text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.customQuoteForm .gsection_title::before {
+  counter-increment: cq-step;
+  content: counter(cq-step, decimal-leading-zero);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 2px solid var(--light-blue);
+  border-radius: 6px;
+  color: var(--light-blue);
+  font-size: 16px;
+  font-weight: 700;
+}
+.customQuoteForm .gsection_description {
+  color: var(--gray) !important;
+  margin: 8px 0 0 58px;
+}
+/* Later steps stay visible but locked until a tool category is chosen */
+.customQuoteForm.cq-locked .gfield:not(.cq-step-1) {
+  opacity: 0.35;
+  pointer-events: none;
+}
+.customQuoteForm.cq-locked .gsection:not(.cq-step-1) .gsection_title::after {
+  content: "Choose a tool category first";
+  margin-left: auto;
+  color: var(--gray);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .customQuoteForm .gfield_label,
 .customQuoteForm label {
@@ -1788,20 +1831,20 @@ main.swp-rp-main {
   background-color: var(--light-blue) !important;
 }
 /* Tool Category picker: radio choices shown as cards */
-.customQuoteForm .quote-category-choice .gfield_radio {
+.customQuoteForm :is(.quote-category-choice, .quote-mode-choice, .quote-units-choice) .gfield_radio {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 12px;
 }
-.customQuoteForm .quote-category-choice .gchoice {
+.customQuoteForm :is(.quote-category-choice, .quote-mode-choice, .quote-units-choice) .gchoice {
   position: relative;
 }
-.customQuoteForm .quote-category-choice .gchoice input[type="radio"] {
+.customQuoteForm :is(.quote-category-choice, .quote-mode-choice, .quote-units-choice) .gchoice input[type="radio"] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
-.customQuoteForm .quote-category-choice .gchoice label {
+.customQuoteForm :is(.quote-category-choice, .quote-mode-choice, .quote-units-choice) .gchoice label {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1818,15 +1861,273 @@ main.swp-rp-main {
   cursor: pointer;
   transition: border-color 0.15s, background-color 0.15s;
 }
-.customQuoteForm .quote-category-choice .gchoice label:hover {
+.customQuoteForm :is(.quote-category-choice, .quote-mode-choice, .quote-units-choice) .gchoice label:hover {
   border-color: var(--light-blue);
 }
-.customQuoteForm .quote-category-choice .gchoice input[type="radio"]:checked + label {
+.customQuoteForm :is(.quote-category-choice, .quote-mode-choice, .quote-units-choice) .gchoice input[type="radio"]:checked + label {
   background: var(--light-blue);
   border-color: var(--light-blue);
 }
-.customQuoteForm .quote-category-choice .gchoice input[type="radio"]:focus-visible + label {
+.customQuoteForm :is(.quote-category-choice, .quote-mode-choice, .quote-units-choice) .gchoice input[type="radio"]:focus-visible + label {
   box-shadow: 0 0 0 2px var(--pale-blue);
+}
+.customQuoteForm .quote-units-choice .gfield_radio {
+  grid-template-columns: repeat(2, minmax(0, 160px));
+}
+.customQuoteForm .quote-units-choice .gchoice label {
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* Modify a standard tool: EDP look-up and edited-value highlight */
+.customQuoteForm .cq-lookup-btn {
+  margin-top: 10px;
+}
+.customQuoteForm .cq-lookup-status {
+  margin-top: 8px;
+  color: var(--pale-blue);
+  font-size: 14px;
+}
+.customQuoteForm .cq-lookup-status.is-error {
+  color: #f2a7a7;
+}
+.customQuoteForm .gfield.cq-changed input,
+.customQuoteForm .gfield.cq-changed select {
+  border-color: var(--light-blue) !important;
+  box-shadow: inset 4px 0 0 var(--light-blue);
+}
+.customQuoteForm .gfield.cq-changed .gfield_label::after {
+  content: "Changed";
+  margin-left: 8px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--light-blue);
+  color: #ffffff;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.customQuoteForm .cq-guide-link {
+  margin-top: 8px;
+  color: var(--pale-blue);
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+/* Work Material: ISO swatch beside the select */
+.customQuoteForm .quote-material-select .ginput_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.customQuoteForm .cq-swatch {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 4px;
+  background: var(--black) center / cover no-repeat;
+  border: 1px solid var(--dark-gray);
+}
+.customQuoteForm .cq-swatch.is-empty {
+  background-image: none;
+}
+
+/* Side panel */
+.cq-panel-inner {
+  position: sticky;
+  top: 120px;
+  padding: 20px;
+  background: var(--black);
+  border: 1px solid var(--dark-gray);
+  border-radius: 6px;
+}
+.cq-panel-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 4px;
+}
+.cq-panel-diagram img {
+  max-height: 320px;
+  width: auto;
+}
+#cq-diagram-empty {
+  color: var(--black-med, #5f6166);
+  font-size: 14px;
+  text-align: center;
+}
+.cq-panel-title {
+  margin-bottom: 10px;
+  color: var(--pale-blue);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.cq-summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+.cq-summary dt {
+  color: var(--gray);
+}
+.cq-summary dd {
+  color: var(--white);
+  text-align: right;
+  word-break: break-word;
+}
+.cq-fit {
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  background: var(--dark-gray);
+  color: var(--white);
+}
+.cq-fit.is-best {
+  background: #1f5e35;
+}
+.cq-fit.is-good {
+  background: #2d4b70;
+}
+.cq-specs-to-go {
+  margin-bottom: 12px;
+  color: var(--pale-blue);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Series Selection Guide modal */
+body.cq-modal-open {
+  overflow: hidden;
+}
+.cq-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  background: rgba(0, 0, 0, 0.7);
+  overflow-y: auto;
+}
+.cq-modal[hidden] {
+  display: none;
+}
+.cq-modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  padding: 32px;
+  background: var(--main-bg-color);
+  border: 1px solid var(--dark-gray);
+  border-radius: 8px;
+  color: var(--white);
+}
+.cq-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  color: var(--white);
+  font-size: 28px;
+  line-height: 1;
+}
+.cq-modal-title {
+  margin-bottom: 20px;
+  color: var(--pale-blue);
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.cq-guide-q {
+  margin: 18px 0 10px;
+  font-weight: 600;
+}
+.cq-guide-hint {
+  color: var(--gray);
+  font-size: 14px;
+}
+.cq-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+}
+.cq-swatch-btn,
+.cq-op-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--black);
+  border: 1px solid var(--dark-gray);
+  border-radius: 6px;
+  color: var(--white);
+  font-size: 13px;
+  text-align: left;
+}
+.cq-swatch-btn img {
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+.cq-ops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cq-swatch-btn:hover,
+.cq-op-btn:hover {
+  border-color: var(--light-blue);
+}
+.cq-swatch-btn.is-active,
+.cq-op-btn.is-active {
+  background: var(--light-blue);
+  border-color: var(--light-blue);
+}
+.cq-results {
+  margin-top: 24px;
+}
+.cq-result-group + .cq-result-group {
+  margin-top: 20px;
+}
+.cq-result-group h3 {
+  color: var(--pale-blue);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.cq-result-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+.cq-result-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--black);
+  border: 1px solid var(--dark-gray);
+  border-radius: 6px;
+}
+.cq-result-card img {
+  width: 56px;
+  height: 120px;
+  flex: none;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 4px;
+}
+.cq-result-card p {
+  margin: 4px 0 10px;
+  color: var(--gray);
+  font-size: 13px;
 }
 
 /*********************************

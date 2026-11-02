@@ -55,6 +55,8 @@
                                 {{ __('Add to Quote', 'woocommerce')}}
                             </button>
                         </form>
+                        {# Opens the custom quote form with this tool's dimensions loaded (assets/js/custom-quote.js) #}
+                        <a href="/custom-quote/?edp={{ product.sku|url_encode }}" class="btn white-outline inline-block mt-4">Modify This Tool<i class="fa-solid fa-pencil ms-3"></i></a>
                     </div>
                     <div class="flex flex-wrap gap-y-8 md:gap-y-0 mb-6">
                         <div class="w-full md:w-4/12 md:pe-4">

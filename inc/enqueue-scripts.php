@@ -77,6 +77,20 @@ add_action('wp_enqueue_scripts', function () {
     );
 });
 
+// Custom quote workbench: steps, part lookup, series guide (inc/custom-quote.php)
+add_action('wp_enqueue_scripts', function () {
+    if (!is_page('custom-quote')) return;
+
+    wp_enqueue_script(
+        'gws-custom-quote',
+        get_template_directory_uri() . '/assets/js/custom-quote.js',
+        ['jquery'],
+        null,
+        true
+    );
+    wp_localize_script('gws-custom-quote', 'gwsCustomQuote', gws_cq_client_data());
+});
+
 // wc-cart-pdf enqueues its checkout-block filter script on every page (its only
 // guard is that wc-blocks-checkout is registered, which is always true), which
 // drags ~40 WP/WooCommerce block scripts (React, wp-data, wp-components, ...)

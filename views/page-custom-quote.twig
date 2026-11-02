@@ -4,12 +4,46 @@
 {% include "page-header.twig" %}
 
 <section class="container mx-auto py-24 px-4">
-    <div class="max-w-3xl mx-auto mb-12">
-        <p class="text-white text-lg">Tell us what you're looking to build and we'll get you a quote. Pick a tool category to see the details we need, or upload a print and skip the specs. Only contact info and work material are required &mdash; our team will follow up on anything missing.</p>
+    <div class="max-w-6xl mx-auto mb-12">
+        <p class="text-white text-lg max-w-3xl">Modify one of our standard tools or design a special, and we'll get you a quote. Only contact info and work material are required &mdash; our team will follow up on anything missing.</p>
     </div>
 
-    <div class="max-w-3xl mx-auto">
-        {{ function('gravity_form', 55, false, false, false, null, true) }}
+    <div class="cq-workbench max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="lg:col-span-2">
+            {{ function('gravity_form', 55, false, false, false, null, true) }}
+        </div>
+
+        {# Filled in by assets/js/custom-quote.js #}
+        <aside class="cq-panel" aria-label="Your tool">
+            <div class="cq-panel-inner">
+                <div class="cq-panel-diagram">
+                    <img id="cq-diagram" src="" alt="" hidden>
+                    <p id="cq-diagram-empty">Pick a tool type or series to see its drawing.</p>
+                </div>
+                <h3 class="cq-panel-title">Your Tool</h3>
+                <dl id="cq-summary" class="cq-summary"></dl>
+                <p id="cq-material-fit" class="cq-fit" hidden></p>
+                <p id="cq-specs-to-go" class="cq-specs-to-go"></p>
+                <button type="button" id="cq-submit-proxy" class="btn light-blue w-full">Request Quote</button>
+            </div>
+        </aside>
     </div>
 </section>
+
+<div id="cq-guide" class="cq-modal" role="dialog" aria-modal="true" aria-labelledby="cq-guide-title" hidden>
+    <div class="cq-modal-box">
+        <button type="button" class="cq-modal-close" data-cq-close aria-label="Close">&times;</button>
+        <h2 id="cq-guide-title" class="cq-modal-title">Series Selection Guide</h2>
+
+        <p class="cq-guide-q">What are you machining?</p>
+        <div id="cq-guide-materials" class="cq-swatches"></div>
+
+        <div id="cq-guide-op-wrap">
+            <p class="cq-guide-q">Which operation will this tool perform?</p>
+            <div id="cq-guide-ops" class="cq-ops"></div>
+        </div>
+
+        <div id="cq-guide-results" class="cq-results" aria-live="polite"></div>
+    </div>
+</div>
 {% endblock %}
