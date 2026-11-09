@@ -48,13 +48,34 @@ const MIG_TYPE_TABLE = [
     'INSERTS'    => 'inserts_attributes',
     'SPECIALTY'  => 'specialty_attributes',
     'ARMORY'     => 'armory_attributes',
+    'TURNING'    => 'turning_attributes',
+];
+
+/** Pounds to kilograms (exact, by international definition). */
+const MIG_LB_TO_KG = 0.45359237;
+
+/**
+ * ISO 1832 insert shape letter -> shape name, for turning_attributes.INSERT_SHAPE.
+ * Only the letters present in the holder data are mapped; an unmapped letter is
+ * left NULL rather than guessed.
+ */
+const MIG_INSERT_SHAPES = [
+    'R' => 'Round',
+    'S' => 'Square',
+    'C' => 'Diamond 80',
+    'D' => 'Diamond 55',
+    'T' => 'Triangle',
+    'V' => 'Diamond 35',
+    'W' => 'Trigon 80',
 ];
 
 /**
  * Per-type attribute mapping.
- *   'dim'  => [target, legacy_column, unit, has_display]
- *   'text' => [target, legacy_column]
- *   'bool' => [target, legacy_column]
+ *   'dim'   => [target, legacy_column, unit, has_display]
+ *   'text'  => [target, legacy_column]
+ *   'bool'  => [target, legacy_column]
+ *   'mass'  => [target, legacy_column] pounds in, kg stored, _DISPLAY keeps the pounds
+ *   'shape' => [target, legacy_column] insert shape name from the first letter of the column
  */
 const MIG_TYPE_ATTRS = [
     'milling_attributes' => [
@@ -132,6 +153,20 @@ const MIG_TYPE_ATTRS = [
         // but grade-sibling part numbers for Blanks.
     ],
     'armory_attributes' => [],
+    // Holder dimensions arrive in inches. KAPR is NULL in the source for holders
+    // of round inserts (no fixed cutting edge angle), so it needs no special case.
+    'turning_attributes' => [
+        ['dim',   'LF',   'lf',  DIM_UNIT_MM,  true],
+        ['dim',   'LH',   'lh',  DIM_UNIT_MM,  true],
+        ['dim',   'HF',   'hf',  DIM_UNIT_MM,  true],
+        ['dim',   'H',    'h',   DIM_UNIT_MM,  true],
+        ['dim',   'B',    'b',   DIM_UNIT_MM,  true],
+        ['dim',   'WF',   'wf',  DIM_UNIT_MM,  true],
+        ['dim',   'KAPR', 'kapr', DIM_UNIT_DEG, false],
+        ['mass',  'WT',   'weight'],
+        ['text',  'INSERT_FIT',   'holder_insert'],
+        ['shape', 'INSERT_SHAPE', 'holder_insert'],
+    ],
 ];
 
 /**
@@ -186,6 +221,7 @@ function mig_target_tables()
         'holemaking_attributes',
         'threading_attributes',
         'inserts_attributes',
+        'turning_attributes',
         'specialty_attributes',
         'armory_attributes',
         'product_core',
@@ -470,6 +506,24 @@ function mig_build_type_attributes($table, array $row, $part, $toolType,
             $v = mig_bool($raw);
             if ($v !== null) {
                 $out[$tgt] = $v;
+                $any = true;
+            }
+            continue;
+        }
+        if ($kind === 'mass') {
+            $v = mig_str($raw);
+            if ($v !== null && is_numeric($v)) {
+                $out[$tgt] = round((float) $v * MIG_LB_TO_KG, 4);
+                $out[$tgt . '_DISPLAY'] = $v;
+                $any = true;
+            }
+            continue;
+        }
+        if ($kind === 'shape') {
+            $v = mig_str($raw);
+            $letter = $v === null ? null : strtoupper($v[0]);
+            if ($letter !== null && isset(MIG_INSERT_SHAPES[$letter])) {
+                $out[$tgt] = MIG_INSERT_SHAPES[$letter];
                 $any = true;
             }
             continue;

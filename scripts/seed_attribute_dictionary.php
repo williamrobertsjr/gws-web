@@ -144,6 +144,20 @@ $D = [
     ['HTH', 'specialty_attributes', 'Height', 'HTH', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'height', null],
     ['S', 'specialty_attributes', 'Thickness', 'S', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'thickness', null],
     ['W1', 'specialty_attributes', 'Width', 'W1', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'width', null],
+
+    // ---- turning_attributes (holders). ISO codes are the ones on the product data sheet. ----
+    ['LF', 'turning_attributes', 'Func. Length (LF)', 'LF', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'lf', 'Functional length; distinct from OAL'],
+    ['LH', 'turning_attributes', 'Head Length (LH)', 'LH', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'lh', 'Head length; NULL where the source says NA (4 DSDNN holders)'],
+    ['HF', 'turning_attributes', 'Func. Height (HF)', 'HF', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'hf', 'Functional height'],
+    ['H', 'turning_attributes', 'Shank Height (H)', 'H', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'h', 'Shank height'],
+    ['B', 'turning_attributes', 'Shank Width (B)', 'B', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'b', 'Shank width'],
+    ['WF', 'turning_attributes', 'Func. Width (WF)', 'WF', 'ISO 13399', 'Y', 'MM', 'MMT', 4, 1, 'wf', 'Functional width'],
+    ['KAPR', 'turning_attributes', 'Lead Angle (KAPR)', 'KAPR', 'ISO 13399', 'Y', 'DEG', 'DD', 4, 1, 'kapr',
+     'Tool cutting edge angle. NULL for holders of round inserts (no fixed angle); the round shape is in INSERT_SHAPE'],
+    ['WT', 'turning_attributes', 'Weight', 'WT', 'ISO 13399', 'Y', 'KG', 'KGM', 4, 0, 'weight', 'Weight of item; source is pounds, stored as kg'],
+    ['WT_DISPLAY', 'turning_attributes', 'Weight', null, null, 'N', null, null, null, 0, 'weight', 'Source value in pounds'],
+    ['INSERT_FIT', 'turning_attributes', 'Insert', null, null, 'N', null, null, null, 0, 'holder_insert', 'Insert(s) the holder takes, as catalogued (e.g. RCGX/RPGX 35)'],
+    ['INSERT_SHAPE', 'turning_attributes', 'Insert Shape', null, 'ISO 1832', 'Y', null, null, null, 0, 'holder_insert', 'Derived from the first letter of INSERT_FIT; carries the Round that the source had in the KAPR column'],
 ];
 
 /**

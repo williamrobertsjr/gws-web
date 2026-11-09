@@ -330,6 +330,34 @@ if(productTable) {
         case 'iso_code':
             heading.innerText = 'ISO Code';
             break;
+        // Turning holders: show the descriptive name
+        case 'lf':
+            heading.innerText = 'Functional Length';
+            break;
+        case 'lh':
+            heading.innerText = 'Head Length';
+            break;
+        case 'hf':
+            heading.innerText = 'Functional Height';
+            break;
+        case 'h':
+            heading.innerText = 'Shank Height';
+            break;
+        case 'b':
+            heading.innerText = 'Shank Width';
+            break;
+        case 'wf':
+            heading.innerText = 'Functional Width';
+            break;
+        case 'kapr':
+            heading.innerText = 'Tool Cutting Edge Angle';
+            break;
+        case 'weight':
+            heading.innerText = 'Weight (lb)';
+            break;
+        case 'holder_insert':
+            heading.innerText = 'Insert';
+            break;
         default:
             console.log('Unknown heading:', heading.textContent);
     }
@@ -605,6 +633,34 @@ for ( att of attributes ) {
             att.innerText = 'ISO Code';
             break;
 
+        // Turning holders: show the descriptive name
+        case 'lf':
+            att.innerText = 'Functional Length';
+            break;
+        case 'lh':
+            att.innerText = 'Head Length';
+            break;
+        case 'hf':
+            att.innerText = 'Functional Height';
+            break;
+        case 'h':
+            att.innerText = 'Shank Height';
+            break;
+        case 'b':
+            att.innerText = 'Shank Width';
+            break;
+        case 'wf':
+            att.innerText = 'Functional Width';
+            break;
+        case 'kapr':
+            att.innerText = 'Tool Cutting Edge Angle';
+            break;
+        case 'weight':
+            att.innerText = 'Weight (lb)';
+            break;
+        case 'holder_insert':
+            att.innerText = 'Insert';
+            break;
         default:
             console.log('Unknown att:', att.textContent);
     }

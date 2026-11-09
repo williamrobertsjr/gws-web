@@ -415,7 +415,7 @@ check('no mapped column is entirely empty (' . count($emptyCols) . ' empty)',
 echo "\n=== 8. Source table untouched ===\n";
 
 $sum = mig_checksum($conn, 'master_product_data');
-$expected = '3199538653';
+$expected = '3871505488'; // after adding the 54 turning holders + 9 holder columns, 3-decimal strings (was 3199538653)
 check("master_product_data checksum is $expected (got $sum)", (string) $sum === $expected,
       'A different checksum means either the source was written to, or it was legitimately '
       . "edited upstream. Confirm which before trusting the migration's no-op claim.");

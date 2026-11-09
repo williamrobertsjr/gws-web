@@ -195,6 +195,33 @@ CREATE TABLE IF NOT EXISTS `inserts_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 -- -----------------------------------------------------------------------------
+-- turning_attributes (turning tool holders; ceramic insert holders first)
+-- Lengths are stored in mm from inch source values; WT in kg from pounds.
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `turning_attributes` (
+  `PART`          varchar(13) COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `LF`            decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 LF - Functional length (mm)',
+  `LF_DISPLAY`    varchar(32)  DEFAULT NULL,
+  `LH`            decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 LH - Head length (mm); NULL where the source says NA',
+  `LH_DISPLAY`    varchar(32)  DEFAULT NULL,
+  `HF`            decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 HF - Functional height (mm)',
+  `HF_DISPLAY`    varchar(32)  DEFAULT NULL,
+  `H`             decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 H - Shank height (mm)',
+  `H_DISPLAY`     varchar(32)  DEFAULT NULL,
+  `B`             decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 B - Shank width (mm)',
+  `B_DISPLAY`     varchar(32)  DEFAULT NULL,
+  `WF`            decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 WF - Functional width (mm)',
+  `WF_DISPLAY`    varchar(32)  DEFAULT NULL,
+  `KAPR`          decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 KAPR - Tool cutting edge angle (degrees); NULL for round-insert holders, which have no fixed angle',
+  `WT`            decimal(9,4) DEFAULT NULL COMMENT 'ISO 13399 WT - Weight of item (kg), converted from pounds',
+  `WT_DISPLAY`    varchar(32)  DEFAULT NULL,
+  `INSERT_FIT`    varchar(25)  DEFAULT NULL COMMENT 'Insert(s) the holder takes, as catalogued, e.g. RNGN 45; no ISO code',
+  `INSERT_SHAPE`  varchar(16)  DEFAULT NULL COMMENT 'Shape of the insert the holder takes, derived from the first letter of INSERT_FIT (ISO 1832)',
+  PRIMARY KEY (`PART`),
+  CONSTRAINT `fk_turning_part` FOREIGN KEY (`PART`) REFERENCES `product_core` (`PART`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- -----------------------------------------------------------------------------
 -- specialty_attributes
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `specialty_attributes` (
