@@ -245,4 +245,14 @@ return [
         // 'woo_attribute' => 'pa_thread_direction',
         'label' => 'Product Type'
     ],
+    // Turning tool holders. No WooCommerce attributes exist for these yet, so no 'woo_attribute'.
+    'lf' => ['label' => 'Functional Length'],
+    'lh' => ['label' => 'Head Length'],
+    'hf' => ['label' => 'Functional Height'],
+    'h' => ['label' => 'Shank Height'],
+    'b' => ['label' => 'Shank Width'],
+    'wf' => ['label' => 'Functional Width'],
+    'kapr' => ['label' => 'Tool Cutting Edge Angle'],
+    'weight' => ['label' => 'Weight (lb)'],
+    'holder_insert' => ['label' => 'Insert'],
 ];

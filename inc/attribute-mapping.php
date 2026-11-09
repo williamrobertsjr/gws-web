@@ -135,4 +135,16 @@ return [
     'data_fields' => 'pa_data-fields',
     'wireframe' => 'pa_wireframe',
     'LIST_PRICE' => '',
+    // Turning holder dimensions. Deliberately NOT pa_* taxonomies: these are local product
+    // attributes (no terms), because continuous values as taxonomy terms are unsortable and
+    // explode the term count. Written by scripts/sync_woo_products.php.
+    'lf' => 'lf',
+    'lh' => 'lh',
+    'hf' => 'hf',
+    'h' => 'h',
+    'b' => 'b',
+    'wf' => 'wf',
+    'kapr' => 'kapr',
+    'weight' => 'weight',
+    'holder_insert' => 'holder_insert',
 ];
