@@ -129,9 +129,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Series with their own tier discounts (CD/CX/DN); mirrors gws_apply_series_override() in inc/discounts.php.
   // Applied before the rollback/surcharge below so they wrap the overridden rate.
-  const seriesOverrides = window.gwsSeriesOverrides || { series: [], rates: {} };
-  if (seriesOverrides.series.includes(String(series)) && Object.prototype.hasOwnProperty.call(seriesOverrides.rates, tier)) {
-    discountRate = seriesOverrides.rates[tier];
+  const seriesOverrides = window.gwsSeriesOverrides || { rates: {} };
+  const seriesRates = (seriesOverrides.rates || {})[String(series)];
+  if (seriesRates && Object.prototype.hasOwnProperty.call(seriesRates, tier)) {
+    discountRate = seriesRates[tier];
   }
 
   const isExempt = window.specialCompanyExempt === true || window.specialCompanyExempt === 'true';
