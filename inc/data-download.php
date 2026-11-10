@@ -202,6 +202,36 @@ function gws_dd_query($tier, $search, $order_col, $order_dir, $limit = null, $of
         ? $wpdb->get_results($wpdb->prepare($sql, $args))
         : $wpdb->get_results($sql);
 
+    // CD / CX / DN use their own tier discounts, not the view's multiplier. Recompute those
+    // rows from the master table's list columns (the views only hold net values).
+    $override_rate = gws_series_discount_overrides()['rates'][preg_replace('/_plus25$/', '', $tier)] ?? null;
+    if ($override_rate !== null) {
+        $o = gws_series_discount_overrides();
+        // exemptPlus's view already has the +25% surcharge baked in, so mirror it here.
+        $factor = (1 - $override_rate) * ($tier === 'exemptPlus' ? 1.25 : 1);
+        $list_cols = ['net_price' => 'LIST_PRICE', 'qty_1' => 'LIST_QTY_1', 'qty_2' => 'LIST_QTY_2', 'qty_3' => 'LIST_QTY_3',
+                      'qty_6' => 'LIST_QTY_6', 'qty_9' => 'LIST_QTY_9', 'qty_12' => 'LIST_QTY_12', 'qty_24' => 'LIST_QTY_24', 'qty_48' => 'LIST_QTY_48'];
+        $parts = [];
+        foreach ($rows as $row) {
+            if (in_array((string) $row->series, $o['series'], true)) $parts[] = $row->part;
+        }
+        if ($parts) {
+            $ph = implode(',', array_fill(0, count($parts), '%s'));
+            $sel = implode(', ', array_map(fn($c) => "`{$c}`", $list_cols));
+            $lists = [];
+            foreach ($wpdb->get_results($wpdb->prepare("SELECT part, {$sel} FROM `master_price_data_{$period}` WHERE part IN ({$ph})", $parts), ARRAY_A) as $l) {
+                $lists[$l['part']] = $l;
+            }
+            foreach ($rows as $row) {
+                if (!isset($lists[$row->part])) continue;
+                foreach ($list_cols as $out => $src) {
+                    $v = $lists[$row->part][$src];
+                    $row->$out = ($v === null || $v === '') ? $row->$out : round((float) $v * $factor, 2);
+                }
+            }
+        }
+    }
+
     // The +25% surcharge is a multiplier on the tier price, not a separate view. List price is untouched.
     if ($tier === 't1_plus25') {
         foreach ($rows as $row) {
@@ -296,7 +326,7 @@ function gws_dd_export_dir() {
 function gws_dd_export_path($tier) {
     $stamp  = (string) gws_dd_get_last_updated_raw();
     $prefix = 'prices-' . sanitize_file_name($tier) . '-' . substr(hash_hmac('sha256', $tier, wp_salt('auth')), 0, 16);
-    $key    = substr(md5(GWS_PRICE_PERIOD . '|' . $stamp), 0, 12);
+    $key    = substr(md5(GWS_PRICE_PERIOD . '|' . $stamp . '|series-ovr1'), 0, 12);
     return [gws_dd_export_dir() . "/{$prefix}-{$key}.xlsx", $prefix];
 }
 

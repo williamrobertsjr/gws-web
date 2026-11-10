@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Updated calculateDiscount function
-  const calculateDiscount = (tier, isAdvancedPerformance) => {
+  const calculateDiscount = (tier, isAdvancedPerformance, series) => {
   let discountRate;
 
   switch (tier) {
@@ -91,6 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
       discountRate = 0.575;
       break;
     case "57":
+      discountRate = 0.57;
+      break;
+    case "tier_57":
       discountRate = 0.57;
       break;
     case "pl_55":
@@ -124,13 +127,20 @@ document.addEventListener("DOMContentLoaded", function () {
       discountRate = isAdvancedPerformance = 0;
   }
 
+  // Series with their own tier discounts (CD/CX/DN); mirrors gws_apply_series_override() in inc/discounts.php.
+  // Applied before the rollback/surcharge below so they wrap the overridden rate.
+  const seriesOverrides = window.gwsSeriesOverrides || { series: [], rates: {} };
+  if (seriesOverrides.series.includes(String(series)) && Object.prototype.hasOwnProperty.call(seriesOverrides.rates, tier)) {
+    discountRate = seriesOverrides.rates[tier];
+  }
+
   const isExempt = window.specialCompanyExempt === true || window.specialCompanyExempt === 'true';
   const exemptPlus = window.specialCompanyExemptPlus === true || window.specialCompanyExemptPlus === 'true';
   const isPrivilegedRole = userRole === 'administrator' || userRole === 'sales';
   const isSpecialTier = tier === 'MSC_PL';
   const isExemptPlusTier = tier === 'exemptPlus';
 
-  // Must stay in sync with gws_calculate_discounted_price() in views/woo/discounts.php,
+  // Must stay in sync with gws_calculate_discounted_price() in inc/discounts.php,
   // or Rapid Quote and the product page quote different prices for the same user.
   if ((isExempt || (isPrivilegedRole && isSpecialTier)) && !exemptPlus) {
     console.log("Rolling back 7% increase due to exemption or sales/admin override.");
@@ -164,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
             row[6] = "Call for Price";
         } else {
             // Compute new prices based on the level and quantity
-            const discount = calculateDiscount(userTier); // Assume this function returns a discount rate
+            const discount = calculateDiscount(userTier, undefined, partData ? partData.SERIES : undefined); // Assume this function returns a discount rate
             const netPrice = listPrice * (1 - discount);
             const totalPrice = netPrice * qtyInput;
 
@@ -543,4 +553,4 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Exempt Status on DOM load:', window.specialCompanyExempt);
   console.log('Exempt Plus Status on DOM load:', window.specialCompanyExemptPlus);
-});
+});
