@@ -39,3 +39,8 @@ views/page-email-test.twig
 # run of scripts/migrate_product_data.php. Regenerate rather than commit:
 #   php scripts/migrate_product_data.php && php scripts/audit_master_product_data.php
 scripts/audit/*.csv
+
+# Local tooling, not theme source
+.agents/
+skills-lock.json
+.claude/settings.local.json
