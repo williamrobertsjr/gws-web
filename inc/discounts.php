@@ -9,7 +9,7 @@ function gws_get_user_tier() {
     // Allow dropdown-selected tier via cookie to override view pricing
     if ( ! empty( $_COOKIE['gws_selected_tier'] ) ) {
         $candidate = sanitize_text_field( $_COOKIE['gws_selected_tier'] );
-        $allowed   = [ 't1', 't2', 't3', '57_5', '57', 'pl_55', 'pl_57', 'ploem_60', 'ploem_65', 'MSC_PL', 'direct_30', 'direct_42_5', 'exemptPlus', 'default', 'none' ];
+        $allowed   = [ 't1', 't2', 't3', '57_5', '57', 'tier_57', 'pl_55', 'pl_57', 'ploem_60', 'ploem_65', 'MSC_PL', 'direct_30', 'direct_42_5', 'exemptPlus', 'default', 'none' ];
         if ( in_array( $candidate, $allowed, true ) ) {
             $tier = ( $candidate === 'default' ) ? 'none' : $candidate;
             return $tier;
@@ -241,7 +241,7 @@ function gws_handle_ajax_tier_price_switch() {
 
     $cart = WC()->cart;
     $cart_hash = md5(serialize($cart->get_cart()));
-    $cache_key = 'tier_cart_prices_' . $tier . '_' . $cart_hash;
+    $cache_key = 'tier_cart_prices_v2_' . $tier . '_' . $cart_hash;
 
     $cached = get_transient($cache_key);
     if ($cached !== false) {
@@ -293,6 +293,44 @@ function gws_handle_ajax_tier_price_switch() {
 }
 
 
+/**
+ * Series with their own discount structure (CD, CX, DN turning toolholders).
+ * For these series the tier's normal % off list is replaced by the rate below.
+ * Tiers not listed (customer / guest / none) keep list price. This is the only
+ * copy of these numbers: rapid-quote.js reads it via window.gwsSeriesOverrides
+ * and the price export (inc/data-download.php) calls the helper below.
+ */
+function gws_series_discount_overrides() {
+    return [
+        'series' => ['CD', 'CX', 'DN'],
+        'rates'  => [
+            'direct_30'   => 0.10,
+            'direct_42_5' => 0.15,
+            '57_5'        => 0.25, // MSC
+            'MSC_PL'      => 0.25, // MSC (sales/admin preview)
+            'ploem_60'    => 0.20,
+            'ploem_65'    => 0.20,
+            't3'          => 0.20,
+            't2'          => 0.20,
+            't1'          => 0.20,
+            'exemptPlus'  => 0.20,
+            '57'          => 0.25,
+            'tier_57'     => 0.25,
+            'pl_55'       => 0.20,
+            'pl_57'       => 0.25,
+        ],
+    ];
+}
+
+/** Returns the override rate for tier+series, or $rate unchanged when none applies. */
+function gws_apply_series_override($tier, $series, $rate) {
+    $o = gws_series_discount_overrides();
+    if (in_array((string) $series, $o['series'], true) && isset($o['rates'][$tier])) {
+        return $o['rates'][$tier];
+    }
+    return $rate;
+}
+
 function gws_calculate_discounted_price($tier, WC_Product $product) {
     $regular_price = (float) $product->get_meta('_regular_price', true);
     
@@ -305,6 +343,7 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
         case 't3':         $rate = 0.50;  break;
         case '57_5':       $rate = 0.575; break;
         case '57':         $rate = 0.57;  break;
+        case 'tier_57':    $rate = 0.57;  break;
         case 'pl_55':      $rate = 0.55;  break;
         case 'pl_57':      $rate = 0.57;  break;
         case 'ploem_60':   $rate = 0.60;  break;
@@ -315,6 +354,10 @@ function gws_calculate_discounted_price($tier, WC_Product $product) {
         case 'exemptPlus': $rate = 0.55;  break;
         default:           $rate = 0.0;   break;
     }
+
+    // CD / CX / DN have their own tier discounts. Applied before the company
+    // rollback/surcharge below so those wrap the overridden rate.
+    $rate = gws_apply_series_override($tier, $product->get_attribute('pa_series'), $rate);
 
 
 

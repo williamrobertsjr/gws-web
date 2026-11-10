@@ -47,6 +47,11 @@ add_action('wp_footer', function () {
     echo "<script>window.specialCompanyExempt = {$is_exempt};</script>";
 });
 
+add_action('wp_head', function () {
+    if (!is_page('rapid-quote')) return;
+    echo '<script>window.gwsSeriesOverrides = ' . wp_json_encode(gws_series_discount_overrides()) . ';</script>';
+});
+
 add_action('wp_head', 'print_user_role');
 function print_user_role() {
    if (!is_page('rapid-quote')) return;
