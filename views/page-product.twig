@@ -53,6 +53,7 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% if product_data.app_icons|trim is not empty %}
                     <div class="w-full md:w-5/12 xl:w-3/12">
                         <h3 class="text-lg font-bold text-pale-blue">Applications</h3>
                         <hr>
@@ -65,6 +66,8 @@
                                 {% endfor %}
                         </div>
                     </div>
+                    {% endif %}
+                    {% if product_data.feat_icons|trim is not empty %}
                     <div class="w-full xl:w-3/12">
                         <h3 class="text-lg font-bold text-pale-blue">Features</h3>
                         <hr>
@@ -78,7 +81,17 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% endif %}
                 </div>
+                {% set has_materials = [
+                    product_data.p1, product_data.p2, product_data.p3,
+                    product_data.m1, product_data.m2,
+                    product_data.k1, product_data.k2,
+                    product_data.n1, product_data.n2,
+                    product_data.s1, product_data.s2,
+                    product_data.h1, product_data.h2
+                ]|join('')|trim is not empty %}
+                {% if has_materials %}
                 <div class="w-full mt-10">
                     <h3 class="text-lg font-bold text-pale-blue">Work Materials</h3>
                     <hr>
@@ -107,6 +120,7 @@
                         {% endfor %}
                     </div>
                 </div>
+                {% endif %}
             </div>
 
         </div>

@@ -79,6 +79,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% if post.meta('app_icons')|trim is not empty %}
                         <div class="w-full md:w-4/12 md:pe-4">
                             <h3 class="text-lg font-bold text-pale-blue pb-4">Applications</h3>
                             <hr>
@@ -97,6 +98,8 @@
                                 {% endfor %}
                             </div>
                         </div>
+                        {% endif %}
+                        {% if post.meta('feat_icons')|trim is not empty %}
                         <div class="w-full md:w-4/12 md:pe-4">
                             <h3 class="text-lg font-bold text-pale-blue pb-4">Features</h3>
                             <hr>
@@ -115,7 +118,17 @@
                                 {% endif %}
                             </div>
                         </div>
+                        {% endif %}
                     </div>
+                    {% set has_materials = [
+                        post.meta('p1'), post.meta('p2'), post.meta('p3'),
+                        post.meta('m1'), post.meta('m2'),
+                        post.meta('k1'), post.meta('k2'),
+                        post.meta('n1'), post.meta('n2'),
+                        post.meta('s1'), post.meta('s2'),
+                        post.meta('h1'), post.meta('h2')
+                    ]|join('')|replace({'NULL': ''})|trim is not empty %}
+                    {% if has_materials %}
                     <div>
                         <h3 class="text-lg font-bold text-pale-blue pb-4">Work Materials</h3>
                         <hr>
@@ -144,6 +157,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

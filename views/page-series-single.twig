@@ -51,37 +51,50 @@
                 </ul>
             </div>
 
+            {% set has_materials = [
+                series_data.p1, series_data.p2, series_data.p3,
+                series_data.m1, series_data.m2,
+                series_data.k1, series_data.k2,
+                series_data.n1, series_data.n2,
+                series_data.s1, series_data.s2,
+                series_data.h1, series_data.h2
+            ]|join('')|trim is not empty %}
+            {% set has_features = series_data.feat_icons|trim is not empty %}
+            {% set has_applications = series_data.app_icons|trim is not empty %}
+
+            {% if has_features or has_applications or has_materials %}
             <div class="series-features flex flex-wrap justify-between gap-x-5">
+                {% if has_features %}
                 <div class="features lg:w-6/12">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Features</h3>
                     {# Split the context variable into an array #}
                     {% set features = series_data.feat_icons|trim|split(', ') %}
                     <div class="icons flex flex-wrap gap-5 pb-8">
                         {# Display each value in the list #}
-                        {% if features is not empty %}
-                            {% for value in features %}
-                                {% if value %}
-                                    <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                        {% for value in features %}
+                            {% if value %}
+                                <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
+                {% endif %}
+                {% if has_applications %}
                 <div class="applications w-full lg:w-5/12">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Applications</h3>
                     {# Split the context variable into an array #}
                     {% set applications = series_data.app_icons|trim|split(', ') %}
                     <div class="icons flex flex-wrap gap-5">
                         {# Display each value in the list #}
-                        {% if applications is not empty %}
-                            {% for value in applications %}
-                                {% if value %}
-                                    <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                        {% for value in applications %}
+                            {% if value %}
+                                <img class="w-4/12" src="{{ site.theme.link }}/images/icons/{{ value }}_icon.png" alt="">
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
+                {% endif %}
+                {% if has_materials %}
                 <div class="work-materials w-full">
                     <h3 class="text-lg font-bold text-pale-blue pb-4">Work Materials</h3>
                     {# Split the context variable into an object #}
@@ -110,7 +123,9 @@
                     </div>
 
                 </div>
+                {% endif %}
             </div>
+            {% endif %}
 
         </div>
         <div class="md:w-5/12 mb-6">
