@@ -241,7 +241,7 @@ function gws_handle_ajax_tier_price_switch() {
 
     $cart = WC()->cart;
     $cart_hash = md5(serialize($cart->get_cart()));
-    $cache_key = 'tier_cart_prices_v2_' . $tier . '_' . $cart_hash;
+    $cache_key = 'tier_cart_prices_' . substr(md5(wp_json_encode(gws_series_discount_overrides())), 0, 8) . '_' . $tier . '_' . $cart_hash;
 
     $cached = get_transient($cache_key);
     if ($cached !== false) {
@@ -295,38 +295,49 @@ function gws_handle_ajax_tier_price_switch() {
 
 /**
  * Series with their own discount structure (CD, CX, DN turning toolholders).
- * For these series the tier's normal % off list is replaced by the rate below.
- * Tiers not listed (customer / guest / none) keep list price. This is the only
- * copy of these numbers: rapid-quote.js reads it via window.gwsSeriesOverrides
- * and the price export (inc/data-download.php) calls the helper below.
+ * The source of truth is the series_discount_overrides table (series, tier,
+ * discount_pct), which the discount_XX_{period} views also join, so the export,
+ * the cart and Rapid Quote all read the same numbers. See
+ * scripts/schema/series_discount_overrides.sql. Tiers with no row (customer /
+ * guest / none) keep list price. rapid-quote.js reads this via window.gwsSeriesOverrides.
+ *
+ * Returns ['series' => [...], 'rates' => [series => [tier => rate 0..1]]]. If the table
+ * doesn't exist yet (migration not run on this environment) it falls back to the
+ * same values so pricing stays correct, and logs once.
  */
 function gws_series_discount_overrides() {
-    return [
-        'series' => ['CD', 'CX', 'DN'],
-        'rates'  => [
-            'direct_30'   => 0.10,
-            'direct_42_5' => 0.15,
-            '57_5'        => 0.25, // MSC
-            'MSC_PL'      => 0.25, // MSC (sales/admin preview)
-            'ploem_60'    => 0.20,
-            'ploem_65'    => 0.20,
-            't3'          => 0.20,
-            't2'          => 0.20,
-            't1'          => 0.20,
-            'exemptPlus'  => 0.20,
-            '57'          => 0.25,
-            'tier_57'     => 0.25,
-            'pl_55'       => 0.20,
-            'pl_57'       => 0.25,
-        ],
-    ];
+    static $cache = null;
+    if ($cache !== null) return $cache;
+
+    global $wpdb;
+    $suppress = $wpdb->suppress_errors(true);
+    $rows = $wpdb->get_results("SELECT series, tier, discount_pct FROM series_discount_overrides", ARRAY_A);
+    $failed = ($rows === null || $wpdb->last_error !== '');
+    $wpdb->suppress_errors($suppress);
+
+    if ($failed) {
+        error_log('GWS: series_discount_overrides table missing; using built-in CD/CX/DN defaults. Run scripts/schema/series_discount_overrides.sql.');
+        $rates = ['direct_30' => 10, 'direct_42_5' => 15, '57_5' => 25, 'MSC_PL' => 25, 'ploem_60' => 20, 'ploem_65' => 20,
+                  't3' => 20, 't2' => 20, 't1' => 20, 'exemptPlus' => 20, '57' => 25, 'tier_57' => 25, 'pl_55' => 20, 'pl_57' => 25];
+        $rows = [];
+        foreach (['CD', 'CX', 'DN'] as $s) foreach ($rates as $t => $pct) $rows[] = ['series' => $s, 'tier' => $t, 'discount_pct' => $pct];
+    }
+
+    $series = [];
+    $rates  = [];
+    foreach ($rows as $r) {
+        $series[$r['series']] = true;
+        $rates[$r['series']][$r['tier']] = (float) $r['discount_pct'] / 100;
+    }
+    $cache = ['series' => array_keys($series), 'rates' => $rates];
+    return $cache;
 }
 
 /** Returns the override rate for tier+series, or $rate unchanged when none applies. */
 function gws_apply_series_override($tier, $series, $rate) {
     $o = gws_series_discount_overrides();
-    if (in_array((string) $series, $o['series'], true) && isset($o['rates'][$tier])) {
-        return $o['rates'][$tier];
+    if (isset($o['rates'][(string) $series][$tier])) {
+        return $o['rates'][(string) $series][$tier];
     }
     return $rate;
 }
