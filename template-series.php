@@ -46,7 +46,9 @@ if ($series_id) {
     $context['series_data'] = $series_data;
     $context['family_series'] = $family_series; // Pass the family series to Twig
     $context['products'] = $products; // Pass the product data to Twig
-    $context['page_title'] = 'Testing';
+    $context['page_title'] = ($series_data['family'] === 'Armory' ? '' : 'Series ') . $series_data['series'];
+    // <title>, meta description and canonical are set in inc/seo.php
+    gws_seo_register_series($series_data);
     // Render with Twig template
     Timber::render('page-series-single.twig', $context);
 } else {

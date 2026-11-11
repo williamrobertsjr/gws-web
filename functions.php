@@ -107,6 +107,7 @@ Timber::$dirname = array( 'views' );
  */
 require_once get_template_directory() . '/inc/theme-setup.php';
 require_once get_template_directory() . '/inc/rewrites.php';
+require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/rest-quote.php';
 require_once get_template_directory() . '/inc/user-roles.php';
 require_once get_template_directory() . '/inc/admin-users.php';
