@@ -104,6 +104,12 @@ if (is_singular('product')) {
 
     $context['is_product_page'] = true;
 
+    // Optional per-series table column list; empty means the table uses data_fields.
+    global $wpdb;
+    $context['table_fields'] = (string) $wpdb->get_var($wpdb->prepare(
+        'SELECT table_fields FROM master_series_data WHERE series = %s', $sf_series
+    ));
+
     Timber::render('views/woo/single-product.twig', $context);
 
 

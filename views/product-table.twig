@@ -1,10 +1,10 @@
 {% if is_product_page %}
-    {% set tableCols = attributes['pa_data-fields'][0]|split(',') %}
+    {% set tableCols = (table_fields ?: attributes['pa_data-fields'][0])|split(',') %}
     {% set series = product.get_attribute('pa_series') %}
     {% set toolType = product.get_attribute('pa_tool-type') %}
 {% else %}
     {# Series pages #}
-    {% set tableCols = series_data.data_fields|split(',') %}
+    {% set tableCols = (series_data.table_fields ?: series_data.data_fields)|split(',') %}
     {% set series = series_data.series %}
     {% set toolType = series_data.tool_type %}
 {% endif %}
