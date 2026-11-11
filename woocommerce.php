@@ -98,6 +98,10 @@ if (is_singular('product')) {
     $related_ids = wc_get_related_products($context['post']->ID, $related_limit);
     $context['related_products'] = Timber::get_posts($related_ids);
 
+    // Only show the Speed and Feed button when the series PDF actually exists.
+    $sf_series = $product->get_attribute('pa_series');
+    $context['has_speed_feed'] = $sf_series !== '' && file_exists(ABSPATH . 'docs/speed_and_feed/' . $sf_series . '_sf.pdf');
+
     $context['is_product_page'] = true;
 
     Timber::render('views/woo/single-product.twig', $context);

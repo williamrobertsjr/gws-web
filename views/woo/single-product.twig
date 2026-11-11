@@ -74,9 +74,11 @@
                                         </p>
                                     {% endif %}
                                 {% endfor %}
+                                {% if has_speed_feed %}
                                 <div class="mt-4">
                                     <a href="/docs/speed_and_feed/{{product.get_attribute('pa_series')}}_sf.pdf" class="btn light-blue" target="_blank">Speed and Feed<i class="fa-regular fa-file-pdf ms-4"></i></a>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                         {% if post.meta('app_icons')|trim is not empty %}

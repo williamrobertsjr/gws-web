@@ -143,6 +143,10 @@ foreach ($series as $code) {
             $attrs[$tax] = gws_sync_tax_attribute($tax, $val, $pos++);
         }
         foreach ($dataFields as $field) {
+            // Shown from the product short description (see inc/products-ajax.php); no attribute.
+            if ($field === 'part_description') {
+                continue;
+            }
             $val = trim((string) ($p[$field] ?? ''));
             // KAPR is NULL in the data for round-insert holders (the shape lives in insert_shape);
             // the catalog shows it as 'Round', so display it that way. Display only - data unchanged.
