@@ -1,4 +1,9 @@
 <?php
+// Canonical list-price table is period-suffixed (see inc/data-download.php).
+function gws_price_table() {
+    return 'master_price_data_' . GWS_PRICE_PERIOD;
+}
+
 function gws_get_part_list_price($part) {
     global $wpdb;
 
@@ -6,11 +11,10 @@ function gws_get_part_list_price($part) {
 
     return $wpdb->get_var(
         $wpdb->prepare(
-            "SELECT LIST_PRICE FROM master_price_data WHERE part = %s LIMIT 1",
+            "SELECT LIST_PRICE FROM `" . gws_price_table() . "` WHERE part = %s LIMIT 1",
             $part
         )
     );
-    error_log("LOOKUP PART: " . $part);
 }
 
 /**
@@ -30,7 +34,7 @@ function gws_get_part_list_prices( array $parts ) {
     $placeholders = implode( ',', array_fill( 0, count( $parts ), '%s' ) );
     $rows = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT part, LIST_PRICE FROM master_price_data WHERE part IN ($placeholders)",
+            "SELECT part, LIST_PRICE FROM `" . gws_price_table() . "` WHERE part IN ($placeholders)",
             $parts
         ),
         ARRAY_A

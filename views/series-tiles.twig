@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     {# Turning series have no brand logo #}
-                    {% if series.tool_type != 'Turning' %}
+                    {% if series.tool_type != 'Turning' and series.family %}
                     <div class="series-tile-brand w-8/12">
                         <img src="{{ site.theme.link }}/images/brands/brand_{{ series.family|lower }}.png" loading="lazy" decoding="async" alt="">
                     </div>

@@ -1,6 +1,4 @@
 <?php 
-error_log("=== Loaded woocommerce.php at the top ===");
-
 if (!class_exists('Timber')) {
     echo 'Timber not activated. Make sure you activate the plugin in <a href="/wp-admin/plugins.php#timber">/wp-admin/plugins.php</a>';
     return;
@@ -59,10 +57,6 @@ if (is_singular('product')) {
     $context['product_img'] = $picture_name && file_exists(get_template_directory() . '/images/catalog_images/' . $picture_name . '_catalog.png')
         ? $img_base . $picture_name . '_catalog.png'
         : $img_base . $product->get_attribute('pa_series') . '_catalog.png';
-    error_log('SKU: ' . $sku);
-    error_log('Picture name: ' . $picture_name);
-    error_log('Product img: ' . $context['product_img']);
-    error_log('File exists: ' . (file_exists(get_template_directory() . '/images/catalog_images/' . $picture_name . '_catalog.png') ? 'yes' : 'no'));
     // Extract product attributes
     $attributes = [];
     foreach ($product->get_attributes() as $attribute_name => $attribute) {
@@ -159,10 +153,9 @@ if (is_singular('product')) {
         $my_query = new WP_Query($args);
         $timber_products = Timber::get_posts($my_query);
 
-        // Attach WC product objects. Resolve SKUs first so the image map and
-        // price lookups can each run once for the whole page instead of once
-        // per product (was: a fresh uncached master_price_data query, plus a
-        // rebuild of the 21k-entry image map, on every single tile).
+        // Attach WC product objects. Resolve SKUs first so the image map is
+        // built once for the whole page instead of once per product (was: a
+        // rebuild of the 21k-entry image map on every single tile).
         $wc_products_by_post = [];
         $skus = [];
         foreach ($timber_products as $post) {
@@ -172,7 +165,6 @@ if (is_singular('product')) {
         }
 
         $sku_image_map = gws_get_sku_image_map();
-        $list_prices = gws_get_part_list_prices(array_values($skus));
 
         $products = [];
         foreach ($timber_products as $post) {
@@ -187,16 +179,12 @@ if (is_singular('product')) {
                 ? $img_base . $picture_name . '_tile.png'
                 : $img_base . $wc_product->get_attribute('pa_series') . '_tile.png';
 
-            // Attach price to the post
-            $post->list_price = $sku ? ($list_prices[$sku] ?? null) : null;
-
             $products[] = $post;
         }
         $context['userRole'] = get_current_user_role();
         $context['products'] = $products;
         $context['category'] = get_term($term_id, 'product_cat');
         $context['title'] = single_term_title('', false);
-        // $context['test_price'] = gws_get_part_list_price('100333');
 
     }
 

@@ -19,9 +19,11 @@
                 
                 <p class="text-xl">{{product_data.subtitle}}</p>
             </div>
+            {% if product_data.family %}
             <div class="w-10/12 md:w-9/12 lg:w-4/12 xl:w-3/12 mt-6">
                 <img src="{{ site.theme.link }}/images/brands/brand_{{product_data.family|lower}}_white.png" alt="">
             </div>
+            {% endif %}
         </div>
 
         <div id="product-attributes" class="flex flex-col lg:flex-row w-full justify-between">

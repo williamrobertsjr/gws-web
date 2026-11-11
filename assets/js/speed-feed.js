@@ -12,13 +12,13 @@ const runFiltersNow = () => {
     const searchTermPart = document.getElementById('search-input-part').value.trim().toLowerCase();
 
     // If part input is empty or too short, clear the part filter so all tiles can show
-    if (searchTermPart.length < 0) {
+    if (searchTermPart.length === 0) {
         partSeries = null;
         forceNoSeries = false; // show all when input is too short/cleared
     }
 
     // If user typed a part number (>=3 chars), call REST API and apply the series filter
-    const shouldFetch = searchTermPart.length >= 0 && !suppressFetchOnce;
+    const shouldFetch = searchTermPart.length > 0 && !suppressFetchOnce;
     if (shouldFetch) {
         const requestedPart = searchTermPart; // capture the value at request time
 

@@ -38,14 +38,6 @@ if ( file_exists($quote_api) ) {
     error_log('[WARNING] Missing gws-quote-api.php');
 }
 
-add_action('init', function() {
-    if (is_user_logged_in() && current_user_can('manage_options')) {
-        $test_part = 'XYZ123'; // Replace with a real part number in your DB
-        $price = gws_get_part_list_price($test_part);
-        error_log("Price for part {$test_part}: " . $price);
-    }
-});
-
 // Shared company pricing-exemption lists, used by both the Rapid Quote JS flags below
 // and inc/discounts.php. Must load first so both call sites see the same values.
 require_once get_template_directory() . '/inc/pricing-exempt-companies.php';
