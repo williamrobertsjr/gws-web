@@ -65,7 +65,7 @@ function gws_sidecart_discounted_price($price_html, $product) {
         return $price_html;
     }
 
-    $regular_price = (float) $product->get_meta('_regular_price', true);
+    $regular_price = (float) $product->get_regular_price();
 
     // Call for Price
     if ( $regular_price <= 0 ) {
@@ -88,7 +88,7 @@ function gws_override_cart_item_price_html($price_html, $cart_item, $cart_item_k
     $product = $cart_item['data'];
     if (! $product instanceof WC_Product) return $price_html;
 
-    $regular_price = $product->get_meta('_regular_price', true);
+    $regular_price = $product->get_regular_price();
 
     if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
         return '<span class="call-for-price">Call for Price</span>';
@@ -106,7 +106,7 @@ function gws_override_cart_item_subtotal_html($subtotal_html, $cart_item, $cart_
     $product = $cart_item['data'];
     if (! $product instanceof WC_Product) return $subtotal_html;
 
-    $regular_price = $product->get_meta('_regular_price', true);
+    $regular_price = $product->get_regular_price();
 
     if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
         return '<span class="call-for-price">Call for Price</span>';
@@ -130,7 +130,7 @@ function gws_modify_cart_item_prices($cart) {
         $product = $cart_item['data'];
         if (! $product instanceof WC_Product) continue;
 
-        $regular_price = $product->get_meta('_regular_price', true);
+        $regular_price = $product->get_regular_price();
 
         // Skip call-for-price products entirely
         if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) continue;
@@ -157,7 +157,7 @@ function gws_tier_price_html( $product ) {
         return '';
     }
 
-    $list = (float) $product->get_meta( '_regular_price', true );
+    $list = (float) $product->get_regular_price();
 
     if ( $list <= 0 ) {
         return '<span class="call-for-price">Call for Price</span>';
@@ -183,7 +183,7 @@ function gws_guest_price_html( $product ) {
         return '';
     }
 
-    $list = (float) $product->get_meta( '_regular_price', true );
+    $list = (float) $product->get_regular_price();
 
     if ( $list <= 0 ) {
         return '<span class="call-for-price">Call for Price</span>';
@@ -256,7 +256,7 @@ function gws_handle_ajax_tier_price_switch() {
     foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
         $product = $cart_item['data'];
         $qty = (int) $cart_item['quantity'];
-        $regular_price = (float) $product->get_meta('_regular_price', true);
+        $regular_price = (float) $product->get_regular_price();
 
         // Check if product has no price (Call for Price)
         if ($regular_price <= 0) {
@@ -286,7 +286,6 @@ function gws_handle_ajax_tier_price_switch() {
     ];
 
     // ADD THIS LINE for testing to log the items being returned in the AJAX response:
-    error_log('GWS AJAX tier switch items: ' . print_r($items, true));
 
     set_transient($cache_key, $response, 300);
     wp_send_json_success($response);
@@ -343,7 +342,7 @@ function gws_apply_series_override($tier, $series, $rate) {
 }
 
 function gws_calculate_discounted_price($tier, WC_Product $product) {
-    $regular_price = (float) $product->get_meta('_regular_price', true);
+    $regular_price = (float) $product->get_regular_price();
     
     // Return 0 for "Call for Price" items
     if ($regular_price <= 0) return 0;
@@ -423,7 +422,7 @@ function gws_handle_ajax_product_price_request() {
         $product = wc_get_product($id);
         if (! $product instanceof WC_Product) continue;
 
-        $regular = (float) $product->get_meta('_regular_price', true);
+        $regular = (float) $product->get_regular_price();
         
         if ($regular <= 0) {
             $results[$id] = [
@@ -448,7 +447,7 @@ function gws_handle_ajax_product_price_request() {
 // Show "Call for Price" on product pages for $0 or unpriced products
 add_filter('woocommerce_get_price_html', 'gws_call_for_price_display', 20, 2);
 function gws_call_for_price_display($price, $product) {
-    $regular_price = $product->get_meta('_regular_price', true);
+    $regular_price = $product->get_regular_price();
     
     if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
         return '<span class="call-for-price">Call for Price</span>';
@@ -460,7 +459,7 @@ function gws_call_for_price_display($price, $product) {
 // Allow "Call for Price" products to be added to cart/quote
 add_filter('woocommerce_is_purchasable', 'gws_allow_no_price_in_quote', 10, 2);
 function gws_allow_no_price_in_quote($purchasable, $product) {
-    $regular_price = $product->get_meta('_regular_price', true);
+    $regular_price = $product->get_regular_price();
 
     if ($regular_price === '' || $regular_price === null || (float)$regular_price <= 0) {
         return true;

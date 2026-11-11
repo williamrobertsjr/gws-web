@@ -47,7 +47,7 @@ if (is_singular('product')) {
     // auto-price-fetch.js via get_discounted_product_prices_by_tier, the same
     // resolver the cart and quote use, keyed off the .price-cell[data-product-id]
     // span in single-product.twig.
-    $list_price = (float) $product->get_meta('_regular_price', true);
+    $list_price = (float) $product->get_regular_price();
     $context['list_price'] = $list_price;
 
     // Resolve product image (product-specific or fall back to series)

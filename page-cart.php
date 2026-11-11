@@ -15,7 +15,7 @@ foreach ( $cart_items as $key => &$item ) {
     $product = $item['data'];
     $quantity = $item['quantity'];
 
-    $original_price = (float) $product->get_meta('_regular_price', true);
+    $original_price = (float) $product->get_regular_price();
     $discounted_price = gws_get_discounted_price_from_product( $product );
     $is_call_for_price = $original_price <= 0;
 

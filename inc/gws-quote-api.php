@@ -231,7 +231,7 @@ function gws_build_quote_table_html($items = [], $totals = [], $test_tools = fal
             $p          = $cart_item['data'];
             $qty        = (int) $cart_item['quantity'];
             $name              = $p ? $p->get_name() : '';
-            $regular_price     = $p ? (float) $p->get_meta('_regular_price', true) : 0.0;
+            $regular_price     = $p ? (float) $p->get_regular_price() : 0.0;
             $is_call_for_price = $regular_price <= 0;
             $line_total        = isset($cart_item['line_total']) ? (float) $cart_item['line_total'] : 0.0;
 
