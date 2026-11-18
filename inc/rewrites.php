@@ -53,6 +53,21 @@ add_action('template_redirect', function () {
   }
 });
 
+// ─────────────────────────────────────────────────────────────
+// Serve /product/<sku> directly instead of 301-ing to /product/<sku>/.
+// Every part number is a WooCommerce product, and bots hit the
+// no-slash form constantly; the redirect doubled each request and
+// booted WordPress just to send it. Yoast's canonical tag still points
+// at the trailing-slash URL, so SEO is unchanged.
+// ─────────────────────────────────────────────────────────────
+add_filter('redirect_canonical', function ($redirect_url, $requested_url) {
+  if (is_singular('product')
+    && untrailingslashit($redirect_url) === untrailingslashit($requested_url)) {
+    return false;
+  }
+  return $redirect_url;
+}, 10, 2);
+
 // Function to modify permalink structure for sub type custom post types
 function tooltype_permalink_structure($post_link, $post, $leavename) {
     if (strpos($post_link, '%tool_type%') === FALSE) return $post_link;
