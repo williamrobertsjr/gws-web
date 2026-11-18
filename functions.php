@@ -110,3 +110,4 @@ require_once get_template_directory() . '/inc/enqueue-scripts.php';
 require_once get_template_directory() . '/inc/bulk-add-to-cart.php';
 require_once get_template_directory() . '/inc/integrations.php';
 require_once get_template_directory() . '/inc/distributor.php';
+require_once get_template_directory() . '/inc/ceramic-tool-holders.php';

@@ -1,0 +1,32 @@
+{# 5 · Applications: six numbered operations with the holders that cover them. #}
+{% import 'partials/ceramic-holders/macros.twig' as ui %}
+
+{% set applications = [
+    {title: 'Profiling', body: 'CRDN, CRGN and CRDC holders use round inserts to cut contours and radii.', holders: 'CRDN · CRGN · CRDC'},
+    {title: 'Turning and profiling', body: 'CDJN and DDJN holders use 55° inserts to cut detailed profiles.', holders: 'CDJN · DDJN'},
+    {title: 'Turning and facing', body: 'DCLN holders use 80° inserts to turn and face with one tool.', holders: 'DCLN'},
+    {title: 'Turning and chamfering', body: 'CSDN and DSDN holders use square inserts at 45° to turn diameters and cut chamfers.', holders: 'CSDN · DSDN'},
+    {title: 'Face turning', body: 'CCKN holders use square negative inserts at 75° to face parts.', holders: 'CCKN'},
+    {title: 'Interrupted cuts', body: 'Dimple lock holders keep the insert seated through scale, holes and keyways.', holders: 'DCLN · DDJN · DSDN -AN'},
+] %}
+
+<section class="bg-black px-4 py-20 md:px-10 lg:py-32">
+    <div class="mx-auto flex max-w-[1504px] flex-col gap-12 lg:gap-14">
+        <div class="flex flex-col gap-5" data-reveal>
+            {{ ui.eyebrow('Common operations') }}
+            {{ ui.heading('Applications') }}
+            {{ ui.slashes() }}
+        </div>
+
+        <ol class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {% for application in applications %}
+                <li data-reveal class="mb-0 flex flex-col gap-3.5 bg-[#2b2b2b] px-7 pb-8 pt-7 border-0 border-t-4 border-light-blue">
+                    <p aria-hidden="true" class="text-[44px] font-black leading-normal text-light-blue">{{ '%02d'|format(loop.index) }}</p>
+                    <h3 class="text-xl font-bold uppercase leading-tight tracking-[0.02em] text-white">{{ application.title }}</h3>
+                    <p class="text-base font-light leading-[1.55] text-[#b9c0c8]">{{ application.body }}</p>
+                    <p class="text-[13px] font-semibold leading-normal tracking-[0.08em] text-pale-blue">{{ application.holders }}</p>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>

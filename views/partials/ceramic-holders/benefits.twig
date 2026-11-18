@@ -1,0 +1,49 @@
+{# 2 · Benefits: why GWS ceramic toolholders, four benefit cards. #}
+{% import 'partials/ceramic-holders/macros.twig' as ui %}
+
+{% set icon_dir = site.theme.link ~ '/assets/img/ceramic-holders/' %}
+{% set benefits = [
+    {
+        icon: 'icon-lock.svg',
+        title: 'Dimple lock clamping',
+        body: 'The DCLN, DDJN, and DSDN -AN holders use dimple lock clamping. It indexes the insert accurately and prevents shifting under high feeds and interrupted cuts.',
+    },
+    {
+        icon: 'icon-coolant.svg',
+        title: 'Coolant through the holder',
+        body: 'The same three -AN holders route coolant through the tool body. You do not need to rig external lines to reach the cut.',
+    },
+    {
+        icon: 'icon-link.svg',
+        title: 'Holder and insert from one source',
+        body: 'Every holder is matched to a GWS ceramic insert, with spare parts available from GWS.',
+    },
+    {
+        icon: 'icon-layers.svg',
+        title: 'Capto, HSK and more on the way',
+        body: 'Capto and HSK configurations are available through the program. Our ceramic specialist can help you pick the right holder for your part.',
+    },
+] %}
+
+<section class="bg-black px-4 py-20 md:px-10 lg:py-32">
+    <div class="mx-auto flex max-w-[1504px] flex-col gap-12 lg:gap-16">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:gap-24" data-reveal>
+            <div class="flex flex-col gap-5 lg:w-[700px] lg:shrink-0">
+                {{ ui.eyebrow('Why GWS ceramic toolholders') }}
+                {{ ui.heading('Built for ceramic', 'machining stability') }}
+                {{ ui.slashes() }}
+            </div>
+            <p class="text-lg font-light leading-[1.6] text-[#b9c0c8] lg:flex-1 lg:text-[19px]">GWS now offers holders built for our ceramic inserts, so you can source the insert, the holder, and the spare parts from one supplier. Ceramic inserts cut at high speeds and need a rigid, accurate seat. Each holder is sized to its insert, with a matched shim and clamp.</p>
+        </div>
+
+        <ul class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+            {% for benefit in benefits %}
+                <li data-reveal class="mb-0 flex flex-col gap-[18px] border-t-[3px] border-light-blue bg-[#2b2b2b] px-7 pb-9 pt-8">
+                    <img src="{{ icon_dir ~ benefit.icon }}" width="36" height="36" alt="" class="h-9 w-9" loading="lazy" decoding="async">
+                    <h3 class="text-xl font-bold leading-tight text-white">{{ benefit.title }}</h3>
+                    <p class="text-base font-light leading-[1.55] text-[#b9c0c8]">{{ benefit.body }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

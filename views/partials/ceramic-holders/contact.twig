@@ -1,0 +1,25 @@
+{# 8 · Contact specialist: intro + Gravity Forms form 47 ("Application Specialist").
+   Anchor #contact-specialist is the target of the "Talk to a specialist" buttons.
+   The form is enqueued in page-ceramic-tool-holders-turning.php and styled by the .cth-form
+   block in style.css (scoped, so other Gravity Forms are unaffected).
+   The hidden "Product" field (parameter name "product") receives the page title (human-readable in notifications). #}
+{% import 'partials/ceramic-holders/macros.twig' as ui %}
+
+<section id="contact-specialist" class="scroll-mt-40 bg-main-bg px-4 py-20 md:px-10 lg:py-32">
+    <div class="mx-auto flex max-w-[1504px] flex-col gap-12 lg:flex-row lg:gap-24">
+        <div data-reveal class="flex flex-col items-start gap-6 lg:w-[560px] lg:shrink-0">
+            {{ ui.eyebrow('Ask GWS') }}
+            {{ ui.heading('Connect with your', 'application specialist', 'text-4xl md:text-5xl lg:text-[56px]') }}
+            <p class="text-lg font-light leading-[1.6] text-[#b9c0c8] lg:text-[19px]">Our application specialists can verify fit for your specific turning application. Fill out the form and we'll connect you.</p>
+            {{ ui.slashes() }}
+            <div class="flex flex-col gap-1.5">
+                <a href="tel:18774978665" class="text-[28px] font-black leading-normal text-white hover:underline">1.877.497.8665</a>
+                <a href="mailto:sales@gwstoolgroup.com" class="text-lg font-medium leading-normal text-pale-blue hover:underline">sales@gwstoolgroup.com</a>
+            </div>
+        </div>
+
+        <div data-reveal class="cth-form min-w-0 flex-1 rounded bg-[#2b2b2b] p-6 md:p-10">
+            {{ function('gravity_form', 47, false, false, false, { product: post.title }, true) }}
+        </div>
+    </div>
+</section>

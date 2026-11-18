@@ -1,0 +1,32 @@
+{# 3 · Clamping systems: one card per holder series (DN, CD, CX). #}
+{% import 'partials/ceramic-holders/macros.twig' as ui %}
+
+<section class="bg-[linear-gradient(47.56deg,#0a2547_13.4%,#1b4f91_86.6%)] px-4 py-20 md:px-10 lg:py-32">
+    <div class="mx-auto flex max-w-[1504px] flex-col gap-12 lg:gap-14">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:gap-24" data-reveal>
+            <div class="flex flex-col gap-5 lg:w-[700px] lg:shrink-0">
+                {{ ui.eyebrow('Clamping systems') }}
+                {{ ui.heading('Three ways', 'to seat the insert') }}
+            </div>
+            <p class="text-lg font-light leading-[1.6] text-pale-blue lg:flex-1 lg:text-[19px]">Each holder series is built around one clamp style, matched to the top form of the ceramic insert it holds.</p>
+        </div>
+
+        <ul class="grid gap-8 lg:grid-cols-3">
+            {% for clamp in cth.clamping_systems %}
+                <li data-reveal class="pl-0 mb-0 flex flex-col overflow-hidden rounded bg-[#0f2f57] shadow-xl">
+                    <div class="flex h-[300px] items-center justify-center bg-[#eef3f9]">
+                        {{ ui.img(clamp.image, 'h-[93%] w-auto object-contain', '190px') }}
+                    </div>
+                    <div class="flex flex-1 flex-col gap-3.5 px-8 pb-9 pt-8">
+                        <p class="text-[13px] font-bold uppercase leading-normal tracking-[0.14em] text-pale-blue">Series {{ clamp.series }}</p>
+                        <h3 class="text-3xl font-black uppercase leading-[1.1] text-white">{{ clamp.name }}</h3>
+                        <p class="text-lg font-light italic leading-[1.4] text-pale-blue">{{ clamp.tagline }}</p>
+                        <p class="text-base font-light leading-[1.55] text-[#b9c0c8]">{{ clamp.description }}</p>
+                        <p class="text-sm font-semibold leading-normal tracking-[0.04em] text-white">{{ clamp.holders|join('  ·  ') }}</p>
+                        <a href="/series-{{ clamp.series }}/" class="self-start text-[15px] font-semibold leading-normal text-pale-blue hover:underline">Shop Series {{ clamp.series }} <span aria-hidden="true">→</span></a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

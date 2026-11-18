@@ -1,0 +1,48 @@
+{% extends "base.twig" %}
+
+{# Ceramic Tool Holders for Turning landing page. Rendered by page-ceramic-tool-holders-turning.php;
+   sections live in views/partials/ceramic-holders/. #}
+
+{% block head %}
+    {# The site loads Inter 200/400/600/900; this design also uses 300, 300 italic, 500 and 700. #}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
+
+    {# Deep links (e.g. #rhombic) are filtered after load; hide the family grid until
+       ceramic-holders-filter.js has applied the filter so the unfiltered grid doesn't flash.
+       The timeout is a safety net. Runs per visitor, so it's safe under the full-page cache. #}
+    <script>
+        (function () {
+            var filters = {{ cth.filters|map(f => f.slug)|json_encode|raw }};
+            if (filters.indexOf(location.hash.slice(1)) !== -1) {
+                document.documentElement.classList.add('cth-deeplink');
+                setTimeout(function () { document.documentElement.classList.remove('cth-deeplink'); }, 4000);
+            }
+        })();
+    </script>
+
+    {# Scroll reveal: html.cth-reveal hides [data-reveal] elements until ceramic-holders-reveal.js
+       shows them. Skipped for reduced motion / no IntersectionObserver, and dropped after 4s if
+       the script never reports ready, so content can't stay hidden. #}
+    <script>
+        (function () {
+            var d = document.documentElement;
+            if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            d.classList.add('cth-reveal');
+            setTimeout(function () { if (!d.hasAttribute('data-cth-reveal-ready')) d.classList.remove('cth-reveal'); }, 4000);
+        })();
+    </script>
+{% endblock %}
+
+{% block content %}
+    {% include 'partials/ceramic-holders/hero.twig' %}
+    {% include 'partials/ceramic-holders/benefits.twig' %}
+    {% include 'partials/ceramic-holders/clamping-systems.twig' %}
+    {% include 'partials/ceramic-holders/product-families.twig' %}
+    {% include 'partials/ceramic-holders/applications.twig' %}
+    {% include 'partials/ceramic-holders/industries.twig' %}
+    {% include 'partials/ceramic-holders/related.twig' %}
+    {% include 'partials/ceramic-holders/contact.twig' %}
+
+    <script src="{{ site.theme.link }}/assets/js/ceramic-holders-filter.js" defer></script>
+    <script src="{{ site.theme.link }}/assets/js/ceramic-holders-reveal.js" defer></script>
+{% endblock %}

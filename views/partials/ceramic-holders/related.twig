@@ -1,0 +1,54 @@
+{# 7 · Related products: ceramic inserts banner, then "Further reading" article cards from the
+   page's further_reading ACF field (hidden when no posts are picked). #}
+{% import 'partials/ceramic-holders/macros.twig' as ui %}
+
+<section class="bg-black px-4 py-20 md:px-10 lg:py-32">
+    <div class="mx-auto flex max-w-[1504px] flex-col gap-12 lg:gap-14">
+        <div data-reveal class="flex flex-col overflow-hidden rounded bg-[linear-gradient(27deg,#0a2547_13.4%,#1b4f91_86.6%)] lg:flex-row">
+            <div class="flex flex-1 flex-col items-start gap-5 p-8 md:p-16">
+                {{ ui.eyebrow('Pair with') }}
+                {{ ui.heading('GWS ceramic', 'inserts', 'text-4xl md:text-[52px]') }}
+                <p class="text-lg font-light italic leading-[1.45] text-pale-blue md:text-xl">Round, rhombic and square inserts sized for these holders.</p>
+                <ul class="flex flex-wrap gap-2" aria-label="Insert grades">
+                    <li class="pl-0 mb-0">{{ ui.chip('6006 · Silicon nitride', 'outline', 'lg') }}</li>
+                    <li class="pl-0 mb-0">{{ ui.chip('6007 · Sialon', 'outline', 'lg') }}</li>
+                </ul>
+                <div class="pt-2">
+                    {{ ui.button('Shop ceramic inserts', '/products/#inserts') }}
+                </div>
+            </div>
+
+            {% if cth.inserts_image %}
+                <div class="relative min-h-[300px] overflow-hidden opacity-90 lg:w-[640px] lg:shrink-0">
+                    {{ ui.img(cth.inserts_image, 'absolute inset-0 h-full w-full origin-[95%_100%] scale-[1.4] object-cover', '(min-width: 1024px) 900px, 140vw') }}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if cth.further_reading is not empty %}
+            <div class="flex flex-col gap-12 pt-6 lg:gap-14">
+                <h2 data-reveal class="text-[28px] font-black uppercase leading-normal text-white">Further reading</h2>
+                <ul class="grid gap-8 lg:grid-cols-2">
+                    {% for article in cth.further_reading %}
+                        {% set category = article.terms('category')|first %}
+                        <li data-reveal class="pl-0 mb-0">
+                            <a href="{{ article.link }}" class="group flex h-full flex-col overflow-hidden rounded bg-[#2b2b2b] sm:flex-row">
+                                <div class="h-[200px] shrink-0 bg-[#3a3a3a] sm:h-auto sm:min-h-[200px] sm:w-[240px]">
+                                    {% if article.thumbnail %}
+                                        <img src="{{ article.thumbnail.src('medium_large') }}" alt="" class="h-full w-full object-cover" loading="lazy" decoding="async">
+                                    {% endif %}
+                                </div>
+                                <div class="flex flex-1 flex-col justify-center gap-3 px-8 py-7">
+                                    <p class="text-xs font-bold uppercase leading-normal tracking-[0.12em] text-pale-blue">{{ category ? category.name : 'Article' }}</p>
+                                    <h3 class="text-xl font-semibold leading-[1.3] text-pale-blue group-hover:underline">{{ article.title }}</h3>
+                                    <p class="text-[15px] font-light leading-normal text-[#b9c0c8]">{{ article.excerpt({words: 22, read_more: false})|striptags }}</p>
+                                    <span class="text-sm font-semibold leading-normal text-white">Read more <span aria-hidden="true">→</span></span>
+                                </div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</section>

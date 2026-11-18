@@ -1,0 +1,53 @@
+{# Shared building blocks for the Ceramic Tool Holders landing page (views/partials/ceramic-holders/).
+   Import with {% import 'partials/ceramic-holders/macros.twig' as ui %}. #}
+
+{# Small uppercase label above a section heading. #}
+{% macro eyebrow(text) %}
+    <p class="text-sm font-bold uppercase leading-normal tracking-[0.14em] text-pale-blue">{{ text }}</p>
+{% endmacro %}
+
+{# Two-tone section heading: line 1 white, line 2 pale blue. size_classes sets the font size. #}
+{% macro heading(line1, line2, size_classes) %}
+    <h2 class="font-black uppercase leading-none {{ size_classes|default('text-4xl md:text-5xl lg:text-6xl') }}">
+        <span class="block text-white">{{ line1 }}</span>
+        {% if line2 %}<span class="block text-pale-blue">{{ line2 }}</span>{% endif %}
+    </h2>
+{% endmacro %}
+
+{# Decorative slash rule used under some headings. #}
+{% macro slashes() %}
+    <p aria-hidden="true" class="overflow-hidden whitespace-nowrap text-base font-light leading-normal tracking-widest text-pale-blue/50">////////////////////////////////////////////////</p>
+{% endmacro %}
+
+{# Spec chip. variant: 'outline' (default), 'solid' (light blue), 'pale' (pale blue, dark text). #}
+{% macro chip(text, variant, size) %}
+    {% set padding = size == 'lg' ? 'px-3 py-1.5' : 'px-2.5 py-[5px]' %}
+    {% if variant == 'solid' %}
+        <span class="inline-block whitespace-nowrap rounded-sm bg-light-blue {{ padding }} text-xs font-medium uppercase leading-normal tracking-[0.06em] text-white">{{ text }}</span>
+    {% elseif variant == 'pale' %}
+        <span class="inline-block whitespace-nowrap rounded-sm bg-pale-blue {{ padding }} text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-dark-blue">{{ text }}</span>
+    {% else %}
+        <span class="inline-block whitespace-nowrap rounded-sm border border-white/35 {{ padding }} text-xs font-medium uppercase leading-normal tracking-[0.06em] text-white">{{ text }}</span>
+    {% endif %}
+{% endmacro %}
+
+{# Call-to-action link styled as a button. variant: 'dark-blue' (default), 'light-blue', 'black'.
+   Hover colors match the site's .btn variants in style.css. #}
+{% macro button(label, href, variant) %}
+    {% if variant == 'light-blue' %}
+        {% set colors = 'bg-light-blue hover:bg-[#6b97cc]' %}
+    {% elseif variant == 'black' %}
+        {% set colors = 'bg-[#111] hover:bg-[#2b2b2b]' %}
+    {% else %}
+        {% set colors = 'bg-dark-blue hover:bg-[#0054a3]' %}
+    {% endif %}
+    <a href="{{ href }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-6 py-3.5 text-[15px] font-semibold capitalize leading-normal text-white transition-colors {{ colors }}">{{ label }}</a>
+{% endmacro %}
+
+{# <img> for an image resolved by gws_cth_upload_image() (url/width/height/srcset/alt). Renders
+   nothing when the image is missing. eager = above-the-fold image (no lazy loading). #}
+{% macro img(image, classes, sizes, eager) %}
+    {% if image %}
+        <img src="{{ image.url|e }}"{% if image.srcset %} srcset="{{ image.srcset|e }}" sizes="{{ sizes|default('100vw') }}"{% endif %}{% if image.width %} width="{{ image.width }}" height="{{ image.height }}"{% endif %} alt="{{ image.alt|e('html_attr') }}" class="{{ classes }}" decoding="async"{% if eager %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
+    {% endif %}
+{% endmacro %}

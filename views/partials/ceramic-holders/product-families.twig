@@ -1,0 +1,33 @@
+{# 4 · Product families: All / Round / Rhombic / Square filter over the holder family cards.
+   Filtering, URL hash state (#round etc.) and deep links are handled by
+   assets/js/ceramic-holders-filter.js. The grid stays invisible while a deep link is applied
+   (html.cth-deeplink, set in page-ceramic-tool-holders-turning.twig) so the unfiltered grid
+   doesn't flash first. #}
+{% import 'partials/ceramic-holders/macros.twig' as ui %}
+
+<section id="product-families" class="scroll-mt-40 bg-main-bg px-4 py-20 md:px-10 lg:py-32" data-cth-families>
+    <div class="mx-auto flex max-w-[1504px] flex-col gap-10 lg:gap-14">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between" data-reveal>
+            <div class="flex flex-col gap-5 lg:w-[800px]">
+                {{ ui.eyebrow(cth.families|length ~ ' holder styles') }}
+                {{ ui.heading('Product', 'families') }}
+            </div>
+
+            <div class="flex flex-wrap gap-2" role="group" aria-label="Filter holder styles by insert shape">
+                {% set filter_btn = 'rounded-sm border border-white/35 px-[22px] py-3 text-sm font-semibold uppercase leading-normal tracking-[0.06em] text-white transition-colors hover:border-white aria-pressed:border-light-blue aria-pressed:bg-light-blue' %}
+                <button type="button" class="{{ filter_btn }}" data-cth-filter="all" aria-pressed="true">All</button>
+                {% for filter in cth.filters %}
+                    <button type="button" class="{{ filter_btn }}" data-cth-filter="{{ filter.slug }}" aria-pressed="false">{{ filter.label }}</button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <p class="sr-only" aria-live="polite" data-cth-status></p>
+
+        <ul class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 [.cth-deeplink_&]:invisible" data-cth-grid>
+            {% for family in cth.families %}
+                {% include 'partials/ceramic-holders/family-card.twig' with {family: family} %}
+            {% endfor %}
+        </ul>
+    </div>
+</section>
