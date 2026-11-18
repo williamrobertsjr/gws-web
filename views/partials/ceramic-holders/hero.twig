@@ -1,6 +1,7 @@
 {# 1 · Hero: headline, spec chips, CTAs, product photo and stat strip.
    Also used on the homepage. Optional variables (all default to the landing page's behaviour):
-   hero_intro (string), hero_show_stats (bool), hero_buttons (list of {label, href, variant}), hero_extra (template included below the copy). #}
+   hero_intro (string), hero_show_stats (bool), hero_buttons (list of {label, href, variant}), hero_extra (template included below the copy),
+   hero_chip (string), hero_headline ([small line, large line]), hero_show_specs (bool). #}
 {% import 'partials/ceramic-holders/macros.twig' as ui %}
 
 {% set hero_show_stats = hero_show_stats is defined ? hero_show_stats : true %}
@@ -8,6 +9,8 @@
     {label: 'View products', href: '#product-families', variant: 'dark-blue'},
     {label: 'Talk to a specialist', href: '#contact-specialist', variant: 'light-blue'},
 ] %}
+{% set hero_show_specs = hero_show_specs is defined ? hero_show_specs : true %}
+{% set hero_headline = hero_headline is defined ? hero_headline : ['Toolholders for', 'Ceramic Turning Inserts'] %}
 {% set stats = [
     {value: '9', label: 'Holder styles'},
     {value: '3', label: 'Clamping systems'},
@@ -22,20 +25,22 @@
     <div class="relative px-4 pb-16 pt-16 md:px-10 lg:pt-[120px]">
         <div class="mx-auto flex max-w-[1504px] flex-col-reverse gap-10 lg:flex-row lg:items-center lg:gap-6">
             <div class="flex min-w-0 flex-col items-start gap-6 lg:max-w-[940px] lg:flex-1">
-                {{ ui.chip('New', 'solid') }}
+                {{ ui.chip(hero_chip is defined ? hero_chip : 'New', 'solid') }}
 
                 <h1 class="flex flex-col gap-1 uppercase">
-                    <span class="text-3xl font-normal leading-[1.1] text-pale-blue md:text-5xl">Toolholders for</span>
-                    <span class="text-5xl font-black leading-[0.98] tracking-[-0.01em] text-white md:text-7xl xl:text-[84px]">Ceramic Turning Inserts</span>
+                    <span class="text-3xl font-normal leading-[1.1] text-pale-blue md:text-5xl">{{ hero_headline[0] }}</span>
+                    <span class="text-5xl font-black leading-[0.98] tracking-[-0.01em] text-white md:text-7xl xl:text-[84px]">{{ hero_headline[1] }}</span>
                 </h1>
 
                 <p class="max-w-[760px] text-xl font-light italic leading-[1.45] text-pale-blue md:text-2xl">{{ hero_intro is defined ? hero_intro : 'Nine holder styles matched to GWS ceramic inserts, with dimple lock and coolant-through options.' }}</p>
 
+                {% if hero_show_specs %}
                 <ul class="flex flex-wrap gap-2" aria-label="Key specifications">
                     {% for spec in ['Ceramic', 'Round · Rhombic · Square', '3 clamping systems', 'Coolant through'] %}
                         <li class="pl-0 mb-0">{{ ui.chip(spec) }}</li>
                     {% endfor %}
                 </ul>
+                {% endif %}
 
                 <div class="flex flex-wrap gap-3 pt-3">
                     {% for button in hero_buttons %}
