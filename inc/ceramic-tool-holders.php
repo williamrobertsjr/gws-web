@@ -76,6 +76,12 @@ function gws_cth_prepare() {
     return $data;
 }
 
+/** Just the hero image (for the homepage, which doesn't need the rest of the page data). */
+function gws_cth_hero_image() {
+    $data = include get_template_directory() . '/inc/data/ceramic-tool-holders-turning.php';
+    return gws_cth_upload_image($data['hero_image'], 'GWS ceramic turning toolholders');
+}
+
 /** Posts chosen in the page's "Further reading" field, in the order picked. */
 function gws_cth_further_reading($post_id) {
     if (!function_exists('get_field')) {

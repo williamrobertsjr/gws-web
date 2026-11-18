@@ -11,5 +11,8 @@ $args = [
 // Set the context variable of posts to use the $args wp_query arguments
 $context['posts'] = Timber::get_posts($args); 
 
+// Hero image for the ceramic holders hero (views/partials/ceramic-holders/hero.twig).
+$context['cth'] = ['hero_image' => gws_cth_hero_image()];
+
 Timber::render('page-home.twig', $context); 
 

@@ -1,5 +1,11 @@
 {% extends 'base.twig' %}
 
+{% block head %}
+    {{ parent() }}
+    {# The ceramic holders hero uses Inter 300/500/700 and 300 italic, which the site doesn't load. #}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 
 {# Images for Hero Background #}
@@ -11,7 +17,15 @@
 
 
 {# {% include "home-hero.twig" %} #}
-{% include "htdr-cf-hero.twig" %}
+{# {% include "htdr-cf-hero.twig" %} #}
+{% include 'partials/ceramic-holders/hero.twig' with {
+    hero_show_stats: false,
+    hero_extra: 'partials/four-ways.twig',
+    hero_intro: 'Dedicated holders designed to maximize ceramic insert performance. Nine holder styles matched to GWS ceramic inserts, with dimple lock and coolant-through options.',
+    hero_buttons: [{label: 'Learn More', href: '/ceramic-tool-holders-turning/', variant: 'dark-blue'}]
+} %}
+{# "Built on Legacy" logo strip (previously the tail of htdr-cf-hero.twig). #}
+{% include 'partials/legacy-brands.twig' %}
 
 <section id="whats-new" class="ps-4 sm:ps-20 py-36">
     

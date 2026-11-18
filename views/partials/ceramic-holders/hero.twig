@@ -1,6 +1,13 @@
-{# 1 · Hero: headline, spec chips, CTAs, product photo and stat strip. #}
+{# 1 · Hero: headline, spec chips, CTAs, product photo and stat strip.
+   Also used on the homepage. Optional variables (all default to the landing page's behaviour):
+   hero_intro (string), hero_show_stats (bool), hero_buttons (list of {label, href, variant}), hero_extra (template included below the copy). #}
 {% import 'partials/ceramic-holders/macros.twig' as ui %}
 
+{% set hero_show_stats = hero_show_stats is defined ? hero_show_stats : true %}
+{% set hero_buttons = hero_buttons is defined ? hero_buttons : [
+    {label: 'View products', href: '#product-families', variant: 'dark-blue'},
+    {label: 'Talk to a specialist', href: '#contact-specialist', variant: 'light-blue'},
+] %}
 {% set stats = [
     {value: '9', label: 'Holder styles'},
     {value: '3', label: 'Clamping systems'},
@@ -22,7 +29,7 @@
                     <span class="text-5xl font-black leading-[0.98] tracking-[-0.01em] text-white md:text-7xl xl:text-[84px]">Ceramic Turning Inserts</span>
                 </h1>
 
-                <p class="max-w-[760px] text-xl font-light italic leading-[1.45] text-pale-blue md:text-2xl">Nine holder styles matched to GWS ceramic inserts, with dimple lock and coolant-through options.</p>
+                <p class="max-w-[760px] text-xl font-light italic leading-[1.45] text-pale-blue md:text-2xl">{{ hero_intro is defined ? hero_intro : 'Nine holder styles matched to GWS ceramic inserts, with dimple lock and coolant-through options.' }}</p>
 
                 <ul class="flex flex-wrap gap-2" aria-label="Key specifications">
                     {% for spec in ['Ceramic', 'Round · Rhombic · Square', '3 clamping systems', 'Coolant through'] %}
@@ -31,8 +38,9 @@
                 </ul>
 
                 <div class="flex flex-wrap gap-3 pt-3">
-                    {{ ui.button('View products', '#product-families') }}
-                    {{ ui.button('Talk to a specialist', '#contact-specialist', 'light-blue') }}
+                    {% for button in hero_buttons %}
+                        {{ ui.button(button.label, button.href, button.variant) }}
+                    {% endfor %}
                 </div>
             </div>
 
@@ -42,8 +50,12 @@
                 </div>
             {% endif %}
         </div>
+        {% if hero_extra is defined %}
+            <div class="mx-auto max-w-[1504px]">{% include hero_extra %}</div>
+        {% endif %}
     </div>
 
+    {% if hero_show_stats %}
     <div class="relative border-t border-pale-blue/20 bg-[#020b18]/60 px-4 pb-10 pt-9 md:px-10">
         <dl class="mx-auto grid max-w-[1504px] grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
             {% for stat in stats %}
@@ -54,4 +66,5 @@
             {% endfor %}
         </dl>
     </div>
+    {% endif %}
 </section>
