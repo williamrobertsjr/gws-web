@@ -68,6 +68,30 @@ add_filter('redirect_canonical', function ($redirect_url, $requested_url) {
   return $redirect_url;
 }, 10, 2);
 
+// ─────────────────────────────────────────────────────────────
+// Legacy bare-SKU URLs: /product?450-103750 and /product/?450-103750.
+// The /product/ page ignores a bare query string and renders the same
+// generic ~130 KB page uncached (~2 s) for every SKU a bot tries. If the
+// string is an existing product slug, 301 to its real page before the
+// template renders. Priority 1 runs before redirect_canonical, so the
+// no-slash form goes straight to the final URL. ?part=… is untouched.
+// ─────────────────────────────────────────────────────────────
+add_action('template_redirect', function () {
+  if (!is_page('product')) return;
+
+  $qs = $_SERVER['QUERY_STRING'] ?? '';
+  if ($qs === '' || strpos($qs, '=') !== false || strpos($qs, '&') !== false) return;
+
+  $slug = sanitize_title(rawurldecode($qs));
+  if ($slug === '' || strlen($slug) > 60) return;
+
+  $product = get_page_by_path($slug, OBJECT, 'product');
+  if ($product && $product->post_status === 'publish') {
+    wp_safe_redirect(get_permalink($product), 301);
+    exit;
+  }
+}, 1);
+
 // Function to modify permalink structure for sub type custom post types
 function tooltype_permalink_structure($post_link, $post, $leavename) {
     if (strpos($post_link, '%tool_type%') === FALSE) return $post_link;
